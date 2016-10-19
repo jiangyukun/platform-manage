@@ -1,0 +1,115 @@
+/*html, body {
+    font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+}*/
+
+.icon-arrow-blue, .icon-close, .icon-more-select, .icon-arrow-desc, .icon-arrow-desc1, .icon-arrow-desc-red, .icon-arrow-desc1-red {
+    background-image: url(../imgs/relicons.png);
+    background-repeat: no-repeat;
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, input, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+.relative {
+    position: relative;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.red {
+    color: red;
+}
+
+.v-center {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar-button {
+    width: 9px;
+    height: 12px;
+    /*background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAUCAYAAADRA14pAAADr0lEQ…floi/Tcxi4KR/FIXeYc9jmFwpw2PwGUgY58NaG1/rX0h9d1DUzJEP0JgAAAABJRU5ErkJggg==) no-repeat;*/
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #f1f1f1;
+    -webkit-border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, .4);
+    border: 1px solid rgba(0, 0, 0, .21);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .2);
+    border: 1px solid rgba(0, 0, 0, .21);
+    -webkit-border-radius: 5px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background-clip: padding-box;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 5px;
+    background-color: rgba(0, 0, 0, .15);
+}
+
+/*----------------------------------------*/
+
+.xx::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+}
+
+.xx::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    /*background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAUCAYAAADRA14pAAADr0lEQ…floi/Tcxi4KR/FIXeYc9jmFwpw2PwGUgY58NaG1/rX0h9d1DUzJEP0JgAAAABJRU5ErkJggg==) no-repeat;*/
+}
+
+.xx::-webkit-scrollbar-corner {
+    background-color: #f1f1f1;
+    -webkit-border-radius: 1px;
+}
+
+.xx::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, .4);
+    border: 1px solid rgba(0, 0, 0, .21);
+}
+
+.xx::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .2);
+    border: 1px solid rgba(0, 0, 0, .21);
+    -webkit-border-radius: 5px;
+}
+
+.xx::-webkit-scrollbar-track:hover {
+    background-clip: padding-box;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.xx::-webkit-scrollbar-track {
+    -webkit-border-radius: 5px;
+    background-color: rgba(0, 0, 0, .15);
+}
+

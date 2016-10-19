@@ -1,0 +1,11 @@
+.form-control.ng-touched.ng-invalid {
+    border-color: #aa1111;
+}
+
+.form-control.ng-invalid-same-password.ng-invalid {
+    border-color: #aa1111;
+}
+
+.form-control.ui-select-toggle.ng-invalid {
+    border-color: #aa1111;
+}

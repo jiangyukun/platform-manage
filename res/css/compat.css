@@ -1,0 +1,10 @@
+.compat .flex-container {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.compat .full-other-height {
+    flex: 1;
+    overflow: auto;
+}
