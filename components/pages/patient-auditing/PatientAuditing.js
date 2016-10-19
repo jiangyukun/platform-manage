@@ -84,7 +84,7 @@ class PatientAuditing extends BasePage {
                     </FilterItem>
                 </QueryFilter>
 
-                <PaginateList ref={c=>this._paginateList = c} getPageList={pageInfo=>this.getPageList(pageInfo)} total={total} fixHead={true}>
+                <PaginateList ref={c=>this._paginateList = c} getPageList={pageInfo=>this.getPageList(pageInfo)} total={total} fixHead={true} fixLeft={true}>
                     <table className="table table-striped table-hover more-than-7column" style={{"minWidth": "4800px"}}>
                         <thead>
                         <tr>

@@ -16,7 +16,8 @@ class PaginateList extends Component {
         this.handleTableScroll = throttle(this.handleTableScroll.bind(this), 20, {leading: true, trailing: true})
         this.state = {
             currentPage: 1,
-            headFixed: false
+            headFixed: false,
+            leftFixed: false
         }
     }
 
@@ -60,18 +61,39 @@ class PaginateList extends Component {
             }
         }
         if (this.props.fixLeft) {
-
+            if (this._tableContainer.scrollLeft > this.firstColumnWidth * 2) {
+                this.setState({leftFixed: true})
+                this._fixLeftContainer.scrollTop = this._tableContainer.scrollTop
+            } else {
+                this.setState({leftFixed: false})
+            }
         }
     }
 
     componentDidMount() {
         events.on(this._tableContainer, 'scroll', this.handleTableScroll)
-        this.headerItems = []
         this.tableWidth = this._table.clientWidth
+        this.tableHeight = this._table.clientHeight
+
+        this.headerItems = []
         let ths = this._table.firstChild.firstChild.childNodes
         for (let i = 0; i < ths.length; i++) {
             let th = ths[i]
             this.headerItems.push({text: th.innerText, width: th.clientWidth})
+        }
+
+        this.getLeftItems()
+    }
+
+    getLeftItems() {
+        this.leftItems = []
+        let leftTopTh = this._table.firstChild.firstChild.firstChild
+        this.leftItems.push({text: leftTopTh.innerText, height: leftTopTh.clientHeight})
+
+        let trs = this._table.lastChild.childNodes
+        for (let i = 0; i < trs.length; i++) {
+            let th = trs[i].firstChild
+            this.leftItems.push({text: th.innerText, height: th.clientHeight})
         }
     }
 
@@ -86,30 +108,20 @@ class PaginateList extends Component {
     }
 
     render() {
-        /* - - - - - - - - - - - - - - - - - - - - - - -  */
-
         this.pageTotal = parseInt((this.props.total + pageSize - 1) / pageSize)
         this.pageIndexs = calculatePageIndex(this.pageTotal, this.state.currentPage)
 
         return (
             <div className="paginate-list">
                 <div className="table relative">
-                    {
-                        this.props.total == 0 && <span className="no-list-data">
-                            暂无数据
-                        </span>
-                    }
+                    {this.props.total == 0 && <span className="no-list-data">暂无数据</span>}
 
                     {
                         this.props.fixHead == true && <div className="js-fix-header-container" ref={c=>this._fixHeadContainer = c}>
                             <div className="fix-header" style={{display: this.state.headFixed == true ? 'block' : 'none', width: this.tableWidth}}>
                                 {
                                     this.headerItems && this.headerItems.map((item, index)=> {
-                                        return (
-                                            <div key={index} className="fix-header-item" style={{width: item.width}}>
-                                                {item.text}
-                                            </div>
-                                        )
+                                        return <div key={index} className="fix-header-item" style={{width: item.width}}>{item.text}</div>
                                     })
                                 }
                             </div>
@@ -117,8 +129,8 @@ class PaginateList extends Component {
                     }
 
                     {
-                        this.props.fixLeft && <div className="js-fix-left-container">
-                            <div className="fix-left">
+                        this.props.fixLeft && <div className="js-fix-left-container" ref={c=>this._fixLeftContainer = c}>
+                            <div className="fix-left" style={{display: this.state.leftFixed == true ? 'block' : 'none', height: this.tableHeight}}>
                                 {
                                     this.leftItems && this.leftItems.map((item, index)=> {
                                         return (
