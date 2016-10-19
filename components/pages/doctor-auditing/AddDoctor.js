@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Modal, Button} from 'react-bootstrap'
 
 import Select1 from '../../core/Select1'
+import InputRequired from '../../core/InputRequired'
 
 class AddDoctor extends Component {
     constructor(props) {
@@ -24,9 +25,7 @@ class AddDoctor extends Component {
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={()=> {
-                this.close()
-            }}>
+            <Modal show={this.state.active} onHide={()=> this.close()}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>注册医生</Modal.Title>
                 </Modal.Header>
@@ -37,8 +36,7 @@ class AddDoctor extends Component {
                                 <label className="mt-5">医生姓名<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input required ng-model="addDoctor.doctorName" type="text" className="form-control"
-                                       placeholder="请输入姓名"/>
+                                <InputRequired ng-model="addDoctor.doctorName" type="text" className="form-control" placeholder="请输入姓名"/>
                             </div>
                         </div>
 
@@ -85,8 +83,7 @@ class AddDoctor extends Component {
                                 <label className="mt-5">手机号码<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input required type="text" ng-model="addDoctor.mobile" className="form-control"
-                                       placeholder="请输入手机号码"/>
+                                <InputRequired type="text" ng-model="addDoctor.mobile" className="form-control" placeholder="请输入手机号码"/>
                             </div>
                         </div>
 
@@ -95,8 +92,7 @@ class AddDoctor extends Component {
                                 <label className="mt-5">密码<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input required type="text" ng-model="addDoctor.password" className="form-control"
-                                       placeholder="请输入6-20位密码"/>
+                                <InputRequired type="text" ng-model="addDoctor.password" className="form-control" placeholder="请输入6-20位密码"/>
                             </div>
                         </div>
 
@@ -109,9 +105,7 @@ class AddDoctor extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="center-block w-100">
-                                        <button className="btn btn-default btn-block" ngf-select
-                                                ng-model="addDoctor.headImageFile">头像上传
-                                        </button>
+                                        <button className="btn btn-default btn-block" ngf-select ng-model="addDoctor.headImageFile">头像上传</button>
                                     </div>
                                 </div>
                             </div>

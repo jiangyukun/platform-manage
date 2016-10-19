@@ -16,6 +16,7 @@ export default class Select1 extends Component {
             maxLength: select1.init,
             searchKey: '',
             selectIndex: -1,
+            touched: false,
             touchIndex: -1
         }
     }
@@ -25,7 +26,7 @@ export default class Select1 extends Component {
     }
 
     close() {
-        this.setState({active: false})
+        this.setState({active: false, touched: true})
     }
 
     open() {
@@ -149,10 +150,10 @@ export default class Select1 extends Component {
         }
 
         return (
-            <div ref={c=>this._container = c} onClick={e=>this.activeOpenFlag()} className="select1-container"
+            <div ref={c=>this._container = c} onClick={e=>this.activeOpenFlag(e)} className="select1-container"
                  tabIndex="-1">
-                <div ref={c=>this._select = c} onClick={e=>this.toggle()}
-                     className={classnames('selected-item', {'open': this.state.active})}>
+                <div onClick={e=>this.toggle()}
+                     className={classnames('selected-item', {'open': this.state.active}, {'invalid': this.props.required && this.state.touched && !this.state.value})}>
                     <span className="select-item-text">{selectText}</span>
                     <span className="dropdown"><b></b></span>
                 </div>
