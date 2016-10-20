@@ -1,7 +1,6 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
@@ -12,11 +11,13 @@ import AppContent from './AppContent'
 import Message from './Message'
 import Settings from './Settings'
 
-
 class App extends Component {
     constructor(props) {
         super(props)
+    }
 
+    openSettings() {
+        this._settings.open()
     }
 
     render() {
@@ -36,13 +37,13 @@ class App extends Component {
 
         return (
             <div className={getClassName()}>
-                <Header app={this.props.app}/>
+                <Header openSettings={()=>this.openSettings()}/>
                 <Aside/>
                 <AppContent>
                     {this.props.children}
                 </AppContent>
                 <Message/>
-                <Settings/>
+                <Settings ref={c=>this._settings = c}/>
             </div>
         )
     }

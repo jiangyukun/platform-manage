@@ -3,16 +3,46 @@
  */
 import React, {Component} from 'react'
 import classnames from 'classnames'
+import {events} from 'dom-helpers'
 
 export default class Settings extends Component {
     constructor(props) {
         super(props)
+        this.handleWindowClick = this.handleWindowClick.bind(this)
+        this.handleContainerClick = this.handleContainerClick.bind(this)
         this.state = {active: false}
+    }
+
+    open() {
+        this.flag = true
+        this.setState({active: true})
+    }
+
+    handleWindowClick() {
+        if (this.flag) {
+            this.flag = false
+        } else {
+            this.setState({active: false})
+        }
+    }
+
+    handleContainerClick(event) {
+        event.stopPropagation()
+    }
+
+    componentDidMount() {
+        events.on(document, 'click', this.handleWindowClick)
+        events.on(this._container, 'click', this.handleContainerClick)
+    }
+
+    componentWillUnmount() {
+        events.off(document, 'click', this.handleWindowClick)
+        events.off(this._container, 'click', this.handleContainerClick)
     }
 
     render() {
         return (
-            <div className={classnames('settings', 'panel', 'panel-default', {'active': this.state.active})}>
+            <div ref={c=>this._container = c} className={classnames('settings', 'panel', 'panel-default', {'active': this.state.active})}>
                 <div className="panel-heading">
                     设置
                 </div>

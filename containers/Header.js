@@ -22,10 +22,6 @@ class Header extends Component {
         this.props.toggleMessagePanel()
     }
 
-    activeSettings() {
-
-    }
-
     render() {
         let asideFolded = this.props.app.settings.asideFolded
 
@@ -68,7 +64,7 @@ class Header extends Component {
                                 <span className="hidden-sm hidden-md">管理员</span>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-menu animated fadeInRight w">
-                                <MenuItem onClick={e=>this.activeSettings()}>
+                                <MenuItem onClick={e=>this.props.openSettings()}>
                                     <span>设置</span>
                                 </MenuItem>
                                 <MenuItem className="divider"></MenuItem>
