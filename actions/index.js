@@ -1,6 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/16.
  */
+
 export function fetchDoctorList(option) {
     let {start, length} = option
     return dispatch=> {
@@ -11,7 +12,6 @@ export function fetchDoctorList(option) {
         })
     }
 }
-
 
 export function fetchPatientList(option) {
     let {start, length} = option

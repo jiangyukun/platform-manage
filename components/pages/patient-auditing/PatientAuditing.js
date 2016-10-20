@@ -73,7 +73,6 @@ class PatientAuditing extends BasePage {
             <div className="app-function-page">
                 <EditPatient ref={c=>this._editPatient = c}/>
                 <QueryFilter ref={c=>this._queryFilter = c} filter={filterCondition=>this.filter(filterCondition)} className="big-label ">
-                    <button className="btn btn-primary mr-20" onClick={e=>this.addDoctor()}>注册</button>
                     <button className="btn btn-primary mr-20" onClick={e=>this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
                     <FilterItem className="small-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="small-filter-item" item={this.props.positionList}/>

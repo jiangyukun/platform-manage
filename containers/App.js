@@ -6,13 +6,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 
-import Header from '../components/Header'
-import Aside from '../components/Aside'
-import AppContent from '../components/AppContent'
-import Message from '../components/Message'
-import Settings from '../components/Settings'
+import Header from './Header'
+import Aside from './Aside'
+import AppContent from './AppContent'
+import Message from './Message'
+import Settings from './Settings'
+
 
 class App extends Component {
+    constructor(props) {
+        super(props)
+
+    }
+
     render() {
 
         let app = this.props.app

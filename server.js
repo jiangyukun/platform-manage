@@ -5,7 +5,7 @@ var config = require('./webpack.config')
 
 var express = require('express')
 
-var configController = require('./controller')
+var configController = require('./z-controller')
 
 var app = new express()
 var port = 3000
