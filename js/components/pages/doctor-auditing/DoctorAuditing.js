@@ -60,11 +60,12 @@ class DoctorAuditing extends BasePage {
 
     }
 
-    lookPicture(url) {
-        this.previewContainer = document.createElement('div')
-        document.body.appendChild(this.previewContainer)
-        render(<ImagePreview ref={c=>this._imagePreview = c} url={url}/>, this.previewContainer)
+    lookDoctorPhoto() {
         this._imagePreview.open()
+    }
+
+    lookDoctorPracticingPhoto() {
+        this._imagePreview1.open()
     }
 
     editMark(doctor) {
@@ -141,7 +142,10 @@ class DoctorAuditing extends BasePage {
                                         <td>{
                                             doctor['doctor_Photo'] && (
                                                 <div className="table-cell-look">
-                                                    <a onClick={e=>this.lookPicture(doctor['doctor_Photo'])}>查看</a>
+                                                    <a onClick={e=>this.lookDoctorPhoto(doctor['doctor_Photo'])}>
+                                                        查看
+                                                        <ImagePreview ref={c=>this._imagePreview = c} url={doctor['doctor_Photo']}/>
+                                                    </a>
                                                 </div>
                                             )
                                         }</td>
@@ -149,7 +153,10 @@ class DoctorAuditing extends BasePage {
                                             {
                                                 doctor['doctor_Practicing_Photo'] && (
                                                     <div className="table-cell-look">
-                                                        <a onClick={e=>this.lookPicture(doctor['doctor_Practicing_Photo'])}>查看</a>
+                                                        <a onClick={e=>this.lookDoctorPracticingPhoto(doctor['doctor_Practicing_Photo'])}>
+                                                            查看
+                                                            <ImagePreview ref={c=>this._imagePreview1 = c} url={doctor['doctor_Practicing_Photo']}/>
+                                                        </a>
                                                     </div>
                                                 )
                                             }

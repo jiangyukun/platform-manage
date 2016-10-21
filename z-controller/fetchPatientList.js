@@ -14,9 +14,9 @@ module.exports = function (app) {
             result.push({
                 id: start + '--' + length,
                 patient_Phone: start * length + i,
-                patient_Name: 'xxsg',
-                hospital_Name: '',
-                visit_Doctor: '',
+                patient_Name: '奇偶v',
+                hospital_Name: '浙江医院',
+                visit_Doctor: '招西瓜',
                 infection_Doctor: '',
                 obstetrics_Doctor: '',
                 pediatrics_Doctor : '',
