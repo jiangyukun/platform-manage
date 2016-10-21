@@ -18,12 +18,8 @@ module.exports = {
     ],
     module: {
         loaders: [
-            {
-                test: /\.js$/,
-                loaders: ['babel'],
-                exclude: /node_modules/,
-                include: __dirname
-            },
+            {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
+            {test: /\.less$/, exclude: /node_modules/, loader: 'style!css!less'},
             {test: /\.scss$/, exclude: /node_modules/, loader: 'style!css!autoprefixer!sass?sourceMap'},
             {test: /\.(jpg|png)$/, loader: "url?limit=8192"}
         ]

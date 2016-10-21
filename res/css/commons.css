@@ -3,7 +3,7 @@
 }*/
 
 .icon-arrow-blue, .icon-close, .icon-more-select, .icon-arrow-desc, .icon-arrow-desc1, .icon-arrow-desc-red, .icon-arrow-desc1-red {
-    background-image: url(../imgs/relicons.png);
+    background-image: url(../../img/relicons.png);
     background-repeat: no-repeat;
 }
 
@@ -72,44 +72,3 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     -webkit-border-radius: 5px;
     background-color: rgba(0, 0, 0, .15);
 }
-
-/*----------------------------------------*/
-
-.xx::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    box-sizing: border-box;
-}
-
-.xx::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-    /*background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAUCAYAAADRA14pAAADr0lEQ…floi/Tcxi4KR/FIXeYc9jmFwpw2PwGUgY58NaG1/rX0h9d1DUzJEP0JgAAAABJRU5ErkJggg==) no-repeat;*/
-}
-
-.xx::-webkit-scrollbar-corner {
-    background-color: #f1f1f1;
-    -webkit-border-radius: 1px;
-}
-
-.xx::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, .4);
-    border: 1px solid rgba(0, 0, 0, .21);
-}
-
-.xx::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, .2);
-    border: 1px solid rgba(0, 0, 0, .21);
-    -webkit-border-radius: 5px;
-}
-
-.xx::-webkit-scrollbar-track:hover {
-    background-clip: padding-box;
-    background-color: rgba(0, 0, 0, .3);
-}
-
-.xx::-webkit-scrollbar-track {
-    -webkit-border-radius: 5px;
-    background-color: rgba(0, 0, 0, .15);
-}
-

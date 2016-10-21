@@ -2,6 +2,7 @@
  * Created by jiangyu2016 on 16/10/15.
  */
 import React, {Component} from 'react'
+import {render} from 'react-dom'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
@@ -13,8 +14,9 @@ import PaginateList from '../../core/PaginateList'
 import SortBy from '../../core/paginate-list/SortBy'
 import SelectStartEndDate from '../../core/query-filter/custom/SelectStartEndDate'
 
-import {fetchDoctorList} from '../../../actions'
 import AddDoctor from './AddDoctor'
+import ImagePreview from '../../core/ImagePreview'
+import {fetchDoctorList} from '../../../actions'
 
 class DoctorAuditing extends BasePage {
 
@@ -59,7 +61,10 @@ class DoctorAuditing extends BasePage {
     }
 
     lookPicture(url) {
-
+        this.previewContainer = document.createElement('div')
+        document.body.appendChild(this.previewContainer)
+        render(<ImagePreview ref={c=>this._imagePreview = c} url={url}/>, this.previewContainer)
+        this._imagePreview.open()
     }
 
     editMark(doctor) {
@@ -73,34 +78,14 @@ class DoctorAuditing extends BasePage {
     render() {
         let {doctorList, total} = this.props.doctorListInfo
 
-        function showDoctorPhoto(doctor) {
-            if (doctor['doctor_Photo']) {
-                return (
-                    <div className="table-cell-look">
-                        <a ng-click={this.lookPicture(doctor['doctor_Photo'])}>查看</a>
-                    </div>
-                )
-            }
-            return null
-        }
-
-        function showDoctorPracticingPhoto(doctor) {
-            if (doctor['doctor_Practicing_Photo']) {
-                return (
-                    <div className="table-cell-look">
-                        <a onClick={this.lookPicture(doctor['doctor_Practicing_Photo'])}>查看</a>
-                    </div>
-                )
-            }
-            return null
-        }
-
         return (
             <div className="app-function-page">
-                <AddDoctor ref={c=>this._addDoctor = c}/>
-                <QueryFilter ref={c=>this._queryFilter = c} filter={filterCondition=>this.filter(filterCondition)}
-                             className="big-label ">
-                    <button className="btn btn-primary mr-20" onClick={e=>this.addDoctor()}>注册</button>
+
+                <QueryFilter ref={c=>this._queryFilter = c} filter={filterCondition=>this.filter(filterCondition)} className="big-label ">
+                    <button className="btn btn-primary mr-20" onClick={e=>this.addDoctor()}>
+                        注册
+                        <AddDoctor ref={c=>this._addDoctor = c}/>
+                    </button>
                     <button className="btn btn-primary mr-20"
                             onClick={e=>this.editDoctor()}
                             disabled={this.state.currentIndex == -1}>查看
@@ -127,11 +112,15 @@ class DoctorAuditing extends BasePage {
                             <th className="th-left pl-15" width="120">职称</th>
                             <th className="th-left pl-15" width="120">个人照片</th>
                             <th className="th-left pl-15" width="120">持证照片</th>
-                            <th className="th-left pl-15" width="180" sort-by="doctor_Practicing_Number">执业证编号</th>
+                            <th className="th-left pl-15" width="180">
+                                <SortBy by="doctor_Practicing_Number">执业证编号</SortBy>
+                            </th>
                             <th className="th-left pl-15" width="150">专长</th>
                             <th className="th-left pl-15" width="120">审核状态</th>
                             <th className="th-left pl-15" width="120">备注</th>
-                            <th className="th-left pl-15" width="180" sort-by="doctor_Info_Creat_Time">创建时间</th>
+                            <th className="th-left pl-15" width="180">
+                                <SortBy by="doctor_Info_Creat_Time">创建时间</SortBy>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -142,22 +131,36 @@ class DoctorAuditing extends BasePage {
                                     <tr key={index}
                                         className={classnames('h-50', {'selected': this.state['currentIndex'] == index})}
                                         onClick={e=>this.activeItem(doctor, index)}
-                                        onDblClick={e=>this.editDoctor(doctor)}>
+                                        onDoubleClick={e=>this.editDoctor(doctor)}>
                                         <td>{doctor['phone']}</td>
                                         <td>{doctor['doctor_Name']}</td>
                                         <td>{doctor['hospital_Id']}</td>
                                         <td>{doctor['department_Id']}</td>
                                         <td>{doctor['title_Id']}</td>
 
-                                        <td>{showDoctorPhoto(doctor)}</td>
-                                        <td>{showDoctorPracticingPhoto(doctor)}</td>
+                                        <td>{
+                                            doctor['doctor_Photo'] && (
+                                                <div className="table-cell-look">
+                                                    <a onClick={e=>this.lookPicture(doctor['doctor_Photo'])}>查看</a>
+                                                </div>
+                                            )
+                                        }</td>
+                                        <td>
+                                            {
+                                                doctor['doctor_Practicing_Photo'] && (
+                                                    <div className="table-cell-look">
+                                                        <a onClick={e=>this.lookPicture(doctor['doctor_Practicing_Photo'])}>查看</a>
+                                                    </div>
+                                                )
+                                            }
+                                        </td>
                                         <td>{doctor['doctor_Practicing_Number']}</td>
                                         <td>{doctor['doctor_Major']}</td>
                                         <td>{doctor['doctor_Is_Checked']}</td>
 
                                         <td>
                                             {doctor['doctor_Info_Remark']}
-                                            <div><i className="fa fa-edit" onClick={this.editMark(doctor)}></i></div>
+                                            <div><i className="fa fa-edit" onClick={e=>this.editMark(doctor)}></i></div>
                                         </td>
                                         <td>{doctor['doctor_Info_Creat_Time']}</td>
                                     </tr>

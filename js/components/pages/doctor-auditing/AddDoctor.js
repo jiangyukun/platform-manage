@@ -30,7 +30,7 @@ class AddDoctor extends Component {
                     <Modal.Title>注册医生</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <section className="container-fluid" ng-form="addDoctor.form">
+                    <section className="container-fluid">
                         <div className="row">
                             <div className="col-xs-3">
                                 <label className="mt-5">医生姓名<span className="red">*</span>：</label>

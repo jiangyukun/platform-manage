@@ -8,7 +8,6 @@ module.exports = function (app) {
         var start = req.params.start;
         var length = req.params.length;
 
-
         var result = [];
         for (var i = 0; i < length; i++) {
             result.push({
@@ -18,8 +17,8 @@ module.exports = function (app) {
                 hospital_Id: 'abc',
                 department_Id: 'ddd',
                 title_Id: 'sdf',
-                doctor_Photo: '',
-                doctor_Practicing_Photo: '',
+                doctor_Photo: 'http://mobi.vongihealth.com:85/Shell/pictures/15397110826/1472178766522.png',
+                doctor_Practicing_Photo: 'http://mobi.vongihealth.com:85/Shell/pictures/15397110826/1472178769455.png',
                 doctor_Practicing_Number: '3308022239248238',
                 doctor_Major: 'english',
                 doctor_Is_Checked: '0',
