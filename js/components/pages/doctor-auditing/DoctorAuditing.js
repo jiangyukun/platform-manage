@@ -13,9 +13,10 @@ import FilterItem from '../../core/query-filter/FilterItem'
 import PaginateList from '../../core/PaginateList'
 import SortBy from '../../core/paginate-list/SortBy'
 import SelectStartEndDate from '../../core/query-filter/custom/SelectStartEndDate'
+import ImagePreview from '../../core/ImagePreview'
 
 import AddDoctor from './AddDoctor'
-import ImagePreview from '../../core/ImagePreview'
+import EditDoctorDialog from './EditDoctorDialog'
 import {fetchDoctorList} from '../../../actions'
 
 class DoctorAuditing extends BasePage {
@@ -57,7 +58,10 @@ class DoctorAuditing extends BasePage {
     }
 
     editDoctor(doctor) {
-
+        if (!doctor) {
+            doctor = this.props.doctorListInfo.doctorList[this.state.currentIndex]
+        }
+        this.editDoctorDialog.open(doctor)
     }
 
     lookDoctorPhoto() {
@@ -89,7 +93,9 @@ class DoctorAuditing extends BasePage {
                     </button>
                     <button className="btn btn-primary mr-20"
                             onClick={e=>this.editDoctor()}
-                            disabled={this.state.currentIndex == -1}>查看
+                            disabled={this.state.currentIndex == -1}>
+                        查看
+                        <EditDoctorDialog ref={c=>this.editDoctorDialog = c}/>
                     </button>
                     <FilterItem className="small-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="small-filter-item" item={this.props.positionList}/>

@@ -5,6 +5,8 @@ import {Modal, Button} from 'react-bootstrap'
 import Select1 from '../../core/Select1'
 import InputRequired from '../../core/InputRequired'
 
+import {addNewDoctor} from '../../../actions/doctorAuditing'
+
 class AddDoctor extends Component {
     constructor(props) {
         super(props)
@@ -20,7 +22,7 @@ class AddDoctor extends Component {
     }
 
     addNewDoctor() {
-
+        this.props.addNewDoctor()
     }
 
     render() {
@@ -131,7 +133,7 @@ class AddDoctor extends Component {
                     <div className="col-xs-12">
                         <input type="button" className="btn btn-success btn-block"
                                disabled={this.state.invalid}
-                               onClick={e=>this.addNewDoctor()} value="确定注册"/>
+                               onClick={e=>this.props.addNewDoctor()} value="确定注册"/>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -145,4 +147,4 @@ function mapStateToProps(state, props) {
     }
 }
 
-export default connect(mapStateToProps, null, null, {withRef: true})(AddDoctor)
+export default connect(mapStateToProps, {addNewDoctor}, null, {withRef: true})(AddDoctor)

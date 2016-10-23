@@ -5,6 +5,8 @@ import {Modal, Button} from 'react-bootstrap'
 import Select1 from '../../core/Select1'
 import InputRequired from '../../core/InputRequired'
 
+import DatePicker from '../../core/datepicker/DatePicker'
+
 class EditPatientDialog extends Component {
     constructor(props) {
         super(props)
@@ -51,6 +53,7 @@ class EditPatientDialog extends Component {
                                 <label className="mt-5">出生日期：</label>
                             </div>
                             <div className="col-xs-6">
+                                <DatePicker show={true}/>
                                 <input ng-model="editPatientCtrl.birthday" type="text" className="form-control" placeholder="请选择日期"
                                        date-picker=""/>
                             </div>
