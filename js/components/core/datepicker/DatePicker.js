@@ -2,6 +2,8 @@
  * Created by jiangyu2016 on 2016/10/23.
  */
 import React, {Component} from 'react'
+import {findDOMNode} from 'react-dom'
+import {events} from 'dom-helpers'
 
 import SelectYear from './SelectYear'
 import SelectMonth from './SelectMonth'
@@ -10,6 +12,9 @@ import SelectDay from './SelectDay'
 export default  class DatePicker extends Component {
     constructor() {
         super()
+        this.handleContainerClick = this.handleContainerClick.bind(this)
+        this.handleWindowClick = this.handleWindowClick.bind(this)
+        this.flag = true
         this.state = {
             showYear: true,
             showMonth: false,
@@ -57,8 +62,31 @@ export default  class DatePicker extends Component {
         this.props.close()
     }
 
+    handleContainerClick(event) {
+        this.flag = true
+    }
+
+    handleWindowClick(event) {
+        if (this.flag) {
+            this.flag = false
+            return
+        }
+        this.props.close()
+    }
+
     componentWillReceiveProps(nextProps) {
+        this.flag = true
         this.setState({showYear: true, showMonth: false, showDay: false})
+    }
+
+    componentDidMount() {
+        events.on(findDOMNode(this), 'click', this.handleContainerClick)
+        events.on(document, 'click', this.handleWindowClick)
+    }
+
+    componentWillUnmount() {
+        events.off(findDOMNode(this), 'click', this.handleContainerClick)
+        events.off(document, 'click', this.handleWindowClick)
     }
 
     render() {
@@ -73,21 +101,24 @@ export default  class DatePicker extends Component {
             return result
         }
 
-        return this.props.show && (
-                <div className="date-picker">
-                    <div className="dir-container clearfix">
-                        <div className="prev" onClick={e=>this.prev()}>
-                            <i className="fa fa-lg fa-angle-left"></i>
+        return (
+            <div className="date-picker-container">
+                {this.props.show && (
+                    <div className="date-picker">
+                        <div className="dir-container clearfix">
+                            <div className="prev" onClick={e=>this.prev()}>
+                                <i className="fa fa-lg fa-angle-left"></i>
+                            </div>
+                            <span className="current-select">{showCurrentSelect()}</span>
+                            <div className="next" onClick={e=>this.next()}>
+                                <i className="fa fa-lg fa-angle-right"></i>
+                            </div>
                         </div>
-                        <span className="current-select">{showCurrentSelect()}</span>
-                        <div className="next" onClick={e=>this.next()}>
-                            <i className="fa fa-lg fa-angle-right"></i>
-                        </div>
+                        <SelectYear show={this.state.showYear} select={year=>this.selectYear(year)} ref={c=>this.year = c}/>
+                        <SelectMonth show={this.state.showMonth} select={month=>this.selectMonth(month)} ref={c=>this.month = c}/>
+                        <SelectDay show={this.state.showDay} select={day=>this.selectDay(day)} ref={c=>this.day = c}/>
                     </div>
-                    <SelectYear show={this.state.showYear} select={year=>this.selectYear(year)} ref={c=>this.year = c}/>
-                    <SelectMonth show={this.state.showMonth} select={month=>this.selectMonth(month)} ref={c=>this.month = c}/>
-                    <SelectDay show={this.state.showDay} select={day=>this.selectDay(day)} ref={c=>this.day = c}/>
-                </div>
-            )
+                )}
+            </div>)
     }
 }
