@@ -18,7 +18,61 @@
                 border-right: 1px solid #aaa;
                 border-bottom: 1px solid #aaa;
             }
+        }
+    }
 
+    .dir-container {
+        text-align: center;
+        .current-select {
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .prev {
+            float: left;
+            padding: 7px;
+            cursor: pointer;
+        }
+        .next {
+            float: right;
+            padding: 7px;
+            cursor: pointer;
+        }
+    }
+
+    .month-container {
+        border-top: 1px solid #aaa;
+        border-left: 1px solid #aaa;
+        .month-row {
+            .month {
+                width: 32%;
+                padding: 15px;
+                cursor: pointer;
+                display: inline-block;
+                border-right: 1px solid #aaa;
+                border-bottom: 1px solid #aaa;
+            }
+        }
+    }
+
+    .day-container {
+        border-top: 1px solid #aaa;
+        border-left: 1px solid #aaa;
+        .day-row {
+            .day {
+                width: 14%;
+                padding: 15px;
+                cursor: pointer;
+                display: inline-block;
+                border-right: 1px solid #aaa;
+                border-bottom: 1px solid #aaa;
+            }
+        }
+
+        .one-to-seven {
+            .monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday {
+                display: inline-block;
+                width: 14%;
+            }
         }
     }
 }

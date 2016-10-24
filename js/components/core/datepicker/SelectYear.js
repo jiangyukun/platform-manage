@@ -11,9 +11,16 @@ export default class SelectYear extends Component {
         }
     }
 
+    prev() {
+        this.setState({year: this.state.year - 10})
+    }
+
+    next() {
+        this.setState({year: this.state.year + 10})
+    }
+
     render() {
         let startYear = this.state.year - (this.state.year % 10)
-        let endYear = startYear + 10
 
         var showYear = () => {
             let years = []
@@ -25,7 +32,6 @@ export default class SelectYear extends Component {
                     </ul>
                 )
                 years.push(yearRow)
-
             }
             return years
         }
@@ -35,7 +41,7 @@ export default class SelectYear extends Component {
             for (let i = 0; i < 4; i++) {
                 if (start + i < 10) {
                     yearRow.push((
-                        <li key={i} className="year">{startYear + start + i}</li>
+                        <li key={i} className="year" onClick={e=>this.props.select(startYear + start + i)}>{startYear + start + i}</li>
                     ))
                 }
             }

@@ -10,7 +10,11 @@ import DatePicker from '../../core/datepicker/DatePicker'
 class EditPatientDialog extends Component {
     constructor(props) {
         super(props)
-        this.state = {active: false, invalid: true}
+        this.state = {
+            active: false,
+            invalid: true,
+            datePicker: false
+        }
     }
 
     open() {
@@ -18,7 +22,7 @@ class EditPatientDialog extends Component {
     }
 
     close() {
-        this.setState({active: false})
+        this.setState({active: false, datePicker: false})
     }
 
     render() {
@@ -53,9 +57,8 @@ class EditPatientDialog extends Component {
                                 <label className="mt-5">出生日期：</label>
                             </div>
                             <div className="col-xs-6">
-                                <DatePicker show={true}/>
-                                <input ng-model="editPatientCtrl.birthday" type="text" className="form-control" placeholder="请选择日期"
-                                       date-picker=""/>
+                                <DatePicker show={this.state.datePicker} close={()=>this.setState({datePicker: false})}/>
+                                <input onFocus={e=>this.setState({datePicker: true})} ng-model="birthday" type="text" className="form-control" placeholder="请选择日期"/>
                             </div>
                         </div>
 
