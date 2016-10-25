@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react'
 import {findDOMNode} from 'react-dom'
+import {Modal} from 'react-overlays'
 import {events} from 'dom-helpers'
 
 import SelectYear from './SelectYear'
@@ -80,12 +81,16 @@ export default  class DatePicker extends Component {
     }
 
     componentDidMount() {
-        events.on(findDOMNode(this), 'click', this.handleContainerClick)
+        let node = findDOMNode(this)
+        if (!node) return
+        events.on(node, 'click', this.handleContainerClick)
         events.on(document, 'click', this.handleWindowClick)
     }
 
     componentWillUnmount() {
-        events.off(findDOMNode(this), 'click', this.handleContainerClick)
+        let node = findDOMNode(this)
+        if (!node) return
+        events.off(node, 'click', this.handleContainerClick)
         events.off(document, 'click', this.handleWindowClick)
     }
 
@@ -102,23 +107,22 @@ export default  class DatePicker extends Component {
         }
 
         return (
-            <div className="date-picker-container">
-                {this.props.show && (
-                    <div className="date-picker">
-                        <div className="dir-container clearfix">
-                            <div className="prev" onClick={e=>this.prev()}>
-                                <i className="fa fa-lg fa-angle-left"></i>
-                            </div>
-                            <span className="current-select">{showCurrentSelect()}</span>
-                            <div className="next" onClick={e=>this.next()}>
-                                <i className="fa fa-lg fa-angle-right"></i>
-                            </div>
+            <Modal show={this.props.show}>
+                <div className="date-picker">
+                    <div className="dir-container clearfix">
+                        <div className="prev" onClick={e=>this.prev()}>
+                            <i className="fa fa-lg fa-angle-left"></i>
                         </div>
-                        <SelectYear show={this.state.showYear} select={year=>this.selectYear(year)} ref={c=>this.year = c}/>
-                        <SelectMonth show={this.state.showMonth} select={month=>this.selectMonth(month)} ref={c=>this.month = c}/>
-                        <SelectDay show={this.state.showDay} select={day=>this.selectDay(day)} ref={c=>this.day = c}/>
+                        <span className="current-select">{showCurrentSelect()}</span>
+                        <div className="next" onClick={e=>this.next()}>
+                            <i className="fa fa-lg fa-angle-right"></i>
+                        </div>
                     </div>
-                )}
-            </div>)
+                    <SelectYear show={this.state.showYear} select={year=>this.selectYear(year)} ref={c=>this.year = c}/>
+                    <SelectMonth show={this.state.showMonth} select={month=>this.selectMonth(month)} ref={c=>this.month = c}/>
+                    <SelectDay show={this.state.showDay} select={day=>this.selectDay(day)} ref={c=>this.day = c}/>
+                </div>
+            </Modal>
+        )
     }
 }

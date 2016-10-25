@@ -27,7 +27,7 @@ class EditPatientDialog extends Component {
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={()=> this.close()}>
+            <Modal show={this.state.active} onHide={()=> this.close()} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>查看患者</Modal.Title>
                 </Modal.Header>

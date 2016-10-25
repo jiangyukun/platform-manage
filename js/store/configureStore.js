@@ -4,11 +4,11 @@
 
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
+import {routerReducer as routing} from 'react-router-redux'
 
 import * as reducers from '../reducers/'
 
-
-const allReducers = combineReducers(reducers)
+const allReducers = combineReducers({...reducers, routing})
 
 export default function configureStore() {
     return createStore(allReducers, {
