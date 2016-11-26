@@ -2,24 +2,35 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    // devtool: 'cheap-module-eval-source-map',
     entry: [
-        'webpack-hot-middleware/client',
+        'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',
         './index'
     ],
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        progress: true,
+        port: 3000
+    },
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/static/'
+        publicPath: 'http://localhost:3000/static/'
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"development"'
+        }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     module: {
         loaders: [
             {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
-            {test: /\.less$/, exclude: /node_modules/, loader: 'style!css!less'},
+            {test: /\.less$/, exclude: /node_modules/, loader: 'style!css!autoprefixer!less'},
             {test: /\.scss$/, exclude: /node_modules/, loader: 'style!css!autoprefixer!sass?sourceMap'},
             {test: /\.(jpg|png)$/, loader: "url?limit=8192"}
         ]

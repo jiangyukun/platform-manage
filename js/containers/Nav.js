@@ -8,14 +8,14 @@ import {Link} from 'react-router'
 export default class Nav extends Component {
     render() {
         return (
-            <nav ui-nav className="navi">
+            <nav className="navi">
                 <ul className="nav">
                     <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
                         <span>导航</span>
                     </li>
 
                     <li>
-                        <Link className="auto" activeClassName="active" to="/app/patient-auditing">
+                        <Link className="auto active" activeClassName="active" to="/app/patient-auditing">
                             <i className="fa fa-wheelchair icon text-primary-dker"></i>
                             <span className="font-bold">病人审核</span>
                         </Link>

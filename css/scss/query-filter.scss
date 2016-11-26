@@ -154,6 +154,7 @@
                 padding: 0 5px;
                 height: 27px;
                 margin-left: 10px;
+                margin-bottom: 7px;
             }
 
             a.select-result.invalidate {
@@ -268,12 +269,18 @@
         min-width: 420px;
     }
 
-    .big-label .group-select-more .filter-item-label label {
+    .big-filter-item {
+        display: inline-flex;
+        width: 60%;
+        min-width: 800px;
+    }
+
+    &.big-label .group-select-more .filter-item-label label {
         width: 85px;
         display: block;
     }
 
-    .ex-big-label .group-select-more .filter-item-label label {
+    &.ex-big-label .group-select-more .filter-item-label label {
         width: 110px;
         display: block;
     }
@@ -362,4 +369,29 @@
         }
     }
 
+    .select1-container {
+        margin-top: -2px;
+
+        &.selected .selected-item {
+            border-color: #2b77e5;
+        }
+
+        .selected-item {
+            height: 22px;
+        }
+
+        .all-select-items {
+            top: 22px;
+            .search {
+                font-size: 12px;
+            }
+            .no-match-result {
+                font-size: 12px;
+            }
+        }
+
+        .selected-item .select-item-text {
+            padding: 2px 0 0 10px;
+        }
+    }
 }

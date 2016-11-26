@@ -10,6 +10,7 @@ import Aside from './Aside'
 import AppContent from './AppContent'
 import Message from './Message'
 import Settings from './Settings'
+import {fetchHospitalList} from '../actions/hospital'
 
 class App extends Component {
     constructor(props) {
@@ -18,6 +19,10 @@ class App extends Component {
 
     openSettings() {
         this._settings.open()
+    }
+
+    componentDidMount() {
+        this.props.fetchHospitalList()
     }
 
     render() {
@@ -37,13 +42,13 @@ class App extends Component {
 
         return (
             <div className={getClassName()}>
-                <Header openSettings={()=>this.openSettings()}/>
+                <Header openSettings={() => this.openSettings()}/>
                 <Aside/>
                 <AppContent>
                     {this.props.children}
                 </AppContent>
                 <Message/>
-                <Settings ref={c=>this._settings = c}/>
+                <Settings ref={c => this._settings = c}/>
             </div>
         )
     }
@@ -55,4 +60,4 @@ function mapStateToProps(state, props) {
     }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, {fetchHospitalList})(App)

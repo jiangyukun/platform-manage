@@ -1,0 +1,19 @@
+import {fromJS} from 'immutable'
+
+export function hospitalList(state, action) {
+    const iState = fromJS(state)
+    return nextState()
+
+    function nextState() {
+        let nextIState = iState
+        switch (action.type) {
+
+        }
+        if (nextIState == iState) {
+            return state
+        }
+        return nextIState.toJS()
+    }
+
+//
+}

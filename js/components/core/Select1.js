@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
 import {events} from 'dom-helpers'
@@ -35,7 +35,12 @@ export default class Select1 extends Component {
 
     select(option, index) {
         this.setState({value: option.value, selectIndex: index})
+        this.props.onSelect(option)
         this.close()
+    }
+
+    reset() {
+        this.setState({value: ''})
     }
 
     touch(index) {
@@ -113,17 +118,17 @@ export default class Select1 extends Component {
 
     render() {
         let selectText = '请选择'
-        this.props.selectItems.forEach(selectItem=> {
+        this.props.selectItems.forEach(selectItem => {
             if (selectItem.value == this.state.value) {
                 selectText = selectItem.text
             }
         })
         let showMore = false, noMatch = true
 
-        let showSelectItems = ()=> {
+        let showSelectItems = () => {
             let currentCount = 0, filterTotalCount = 0
             try {
-                return this.props.selectItems.map((option, index)=> {
+                return this.props.selectItems.map((option, index) => {
                     if (option.text.indexOf(this.state.searchKey) != -1) {
                         noMatch = false
                         filterTotalCount++
@@ -132,8 +137,8 @@ export default class Select1 extends Component {
                             return (
                                 <li key={index}
                                     className={classnames('select-item', {'selected': index == this.state.selectIndex}, {'last-touched': index == this.state.touchIndex})}
-                                    onClick={e=>this.select(option, index)}
-                                    onMouseEnter={e=>this.touch(index)}>
+                                    onClick={e => this.select(option, index)}
+                                    onMouseEnter={e => this.touch(index)}>
                                     {option.text}
                                 </li>
                             )
@@ -150,9 +155,9 @@ export default class Select1 extends Component {
         }
 
         return (
-            <div ref={c=>this._container = c} onClick={e=>this.activeOpenFlag(e)} className="select1-container"
+            <div ref={c => this._container = c} onClick={e => this.activeOpenFlag(e)} className="select1-container"
                  tabIndex="-1">
-                <div onClick={e=>this.toggle()}
+                <div onClick={e => this.toggle()}
                      className={classnames('selected-item', {'open': this.state.active}, {'invalid': this.props.required && this.state.touched && !this.state.value})}>
                     <span className="select-item-text">{selectText}</span>
                     <span className="dropdown"><b></b></span>
@@ -163,7 +168,7 @@ export default class Select1 extends Component {
                         <div className="all-select-items">
                             {
                                 this.props.selectItems.length > 10 && (
-                                    <input value={this.state.searchKey} className="search" onChange={e=>this.search(e)}
+                                    <input value={this.state.searchKey} className="search" onChange={e => this.search(e)}
                                            placeholder="请输入查询条件"/>
                                 )
                             }
@@ -172,7 +177,7 @@ export default class Select1 extends Component {
                             </ul>
                             {
                                 showMore && (
-                                    <div className="show-more" onClick={e=>this.showMoreItems()}>
+                                    <div className="show-more" onClick={e => this.showMoreItems()}>
                                         <span>加载更多...</span>
                                     </div>
                                 )
@@ -191,4 +196,15 @@ export default class Select1 extends Component {
             </div>
         )
     }
+}
+
+Select1.defaultProps = {
+    selectItems: [],
+    onSelect: function () {
+    }
+}
+
+Select1.propTypes = {
+    selectItems: PropTypes.array,
+    onSelect: PropTypes.func
 }
