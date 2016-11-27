@@ -1,20 +1,15 @@
 /**
- * Created by jiangyu2016 on 16/10/15.
+ * Created by jiangyukun on 2016/11/27.
  */
 import React, {Component, PropTypes} from 'react'
 import DatePicker from 'antd/lib/date-picker'
-import 'antd/dist/antd.css'
 import classnames  from 'classnames'
 
-class SelectStartEndDate extends Component {
+class SubDateSelect extends Component {
     constructor(props, context) {
         super(props)
-        this.startDate = null
-        this.endDate = null
-        this.state = {
-            selected: false
-        }
-        context.addCustomItem(this)
+        this.state = {active: false}
+        context.addSubItem(this)
     }
 
     onStartDateChange(moment) {
@@ -43,22 +38,29 @@ class SelectStartEndDate extends Component {
                 errorTip = '开始时间不能大于结束时间！'
             }
         }
-        this.setState({selected: true})
-        this.context.select({
+        this.context.selectSubItem({
             value: (this.startDate || '') + ',' + (this.endDate || ''),
             text: text,
             errorTip: errorTip
         }, 'custom')
     }
 
+    onChange(typeItem) {
+        if (typeItem.value) {
+            this.setState({active: true})
+        } else {
+            this.setState({active: false})
+        }
+    }
+
     reset() {
-        // this._startDate.clear()
-        this.setState({selected: false})
+        this.setState({active: false})
     }
 
     render() {
         return (
-            <div className={classnames('custom-item-wrap', {selected: this.state.selected})}>
+            <div className={classnames('custom-item-wrap', {'hidden': !this.state.active})}>
+
                 <DatePicker ref={c => this._startDate = c}
                             placeholder="开始时间"
                             size="small"
@@ -79,9 +81,9 @@ class SelectStartEndDate extends Component {
     }
 }
 
-SelectStartEndDate.contextTypes = {
-    select: PropTypes.func,
-    addCustomItem: PropTypes.func
+SubDateSelect.contextTypes = {
+    selectSubItem: PropTypes.func,
+    addSubItem: PropTypes.func
 }
 
-export default SelectStartEndDate
+export default SubDateSelect

@@ -28,6 +28,13 @@
   },
   "plugins": [
     [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ],
+    [
       "transform-es2015-template-literals",
       {
         "loose": true

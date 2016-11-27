@@ -46,8 +46,7 @@ class PaginateList extends Component {
 
     toPage(page) {
         if (this.state.currentPage != page) {
-            this.setState({currentPage: page})
-            this.props.getPageList()
+            this.setState({currentPage: page}, () => this.props.getPageList())
         }
     }
 
@@ -114,7 +113,7 @@ class PaginateList extends Component {
 
     getChildContext() {
         return {
-            sort: order=> this.sort(order)
+            sort: order => this.sort(order)
         }
     }
 
@@ -129,10 +128,10 @@ class PaginateList extends Component {
 
                     {
                         this.props.fixHead == true && (
-                            <div className="js-fix-header-container" ref={c=>this._fixHeadContainer = c}>
+                            <div className="js-fix-header-container" ref={c => this._fixHeadContainer = c}>
                                 <div className="fix-header" style={{display: this.state.headFixed == true ? 'block' : 'none', width: this.tableWidth}}>
                                     {
-                                        this.headerItems && this.headerItems.map((item, index)=> {
+                                        this.headerItems && this.headerItems.map((item, index) => {
                                             return <div key={index} className="fix-header-item" style={{width: item.width}}>{item.text}</div>
                                         })
                                     }
@@ -143,10 +142,10 @@ class PaginateList extends Component {
 
                     {
                         this.props.fixLeft && (
-                            <div className="js-fix-left-container" ref={c=>this._fixLeftContainer = c}>
+                            <div className="js-fix-left-container" ref={c => this._fixLeftContainer = c}>
                                 <div className="fix-left" style={{display: this.state.leftFixed == true ? 'block' : 'none', width: this.firstColumnWidth}}>
                                     {
-                                        this.leftItems && this.leftItems.map((item, index)=> {
+                                        this.leftItems && this.leftItems.map((item, index) => {
                                             return <div key={index} className="fix-left-item" style={{height: item.height}}>{item.text}</div>
                                         })
                                     }
@@ -155,8 +154,8 @@ class PaginateList extends Component {
                         )
                     }
 
-                    <div className="js-table-container" ref={c=>this._tableContainer = c}>
-                        {cloneElement(this.props.children, {ref: c=>this._table = c})}
+                    <div className="js-table-container" ref={c => this._tableContainer = c}>
+                        {cloneElement(this.props.children, {ref: c => this._table = c})}
                     </div>
                 </div>
 
@@ -167,21 +166,21 @@ class PaginateList extends Component {
                         </div>
                         <nav className="list-nav-button">
                             <ul className="pagination">
-                                <li className={classnames({'disabled': this.state.currentPage == 1})} onClick={e=>this.beforePage()}>
+                                <li className={classnames({'disabled': this.state.currentPage == 1})} onClick={e => this.beforePage()}>
                                     <a aria-label="Previous">上一页</a>
                                 </li>
 
                                 {
-                                    this.pageIndexs.map(page=> {
+                                    this.pageIndexs.map(page => {
                                         return (
                                             <li key={page} className={classnames({'active': this.state.currentPage == page})}>
-                                                <a onClick={e=>this.toPage(page)}>{page}</a>
+                                                <a onClick={e => this.toPage(page)}>{page}</a>
                                             </li>
                                         )
                                     })
                                 }
 
-                                <li className={classnames({'disabled': this.state.currentPage == this.pageTotal})} onClick={e=>this.nextPage()}>
+                                <li className={classnames({'disabled': this.state.currentPage == this.pageTotal})} onClick={e => this.nextPage()}>
                                     <a aria-label="Next">下一页</a>
                                 </li>
                             </ul>

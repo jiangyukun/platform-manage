@@ -48,6 +48,39 @@
             border: 1px solid #dedede;
             background-color: #fff;
             overflow: hidden;
+            input {
+                height: 31px;
+                width: 205px;
+                border: none;
+                float: left;
+                color: #999;
+            }
+        }
+
+        .group-input2 {
+            float: left;
+            .search-label {
+                float: left;
+                margin-top: 8px;
+                margin-right: 4px;
+                font-size: 12px;
+            }
+            .group-input {
+                float: left;
+                height: 31px;
+                width: 220px;
+                padding: 0 10px;
+                border: 1px solid #dedede;
+                background-color: #fff;
+                overflow: hidden;
+                input {
+                    height: 31px;
+                    width: 175px;
+                    border: none;
+                    float: left;
+                    color: #999;
+                }
+            }
         }
     }
 
@@ -197,14 +230,6 @@
 
     }
 
-    .group-search .group-input input {
-        height: 31px;
-        width: 205px;
-        border: none;
-        float: left;
-        color: #999;
-    }
-
     .icon-search-btn {
         background-position: 0 -1638px;
         height: 18px;
@@ -315,7 +340,7 @@
         width: 90px;
     }
 
-    .small-filter-item .select-month {
+    .select-month {
         width: 90px;
     }
 
@@ -352,25 +377,13 @@
     .select1-container {
         margin-top: -2px;
 
-        &.selected .selected-item {
-            border-color: #2b77e5;
+        .dropdown {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 16px;
         }
-
-        .selected-item {
-            height: 22px;
-        }
-
-        .all-select-items {
-            top: 22px;
-        }
-
-        .selected-item .select-item-text {
-            padding: 2px 0 0 10px;
-        }
-    }
-
-    .select1-container {
-        margin-top: -2px;
 
         &.selected .selected-item {
             border-color: #2b77e5;

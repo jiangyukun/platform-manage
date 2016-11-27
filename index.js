@@ -10,6 +10,8 @@ import Root from './js/containers/root/Root'
 import './css/less/app.less'
 import './css/scss/app.scss'
 
+
+
 const store = configureStore()
 const history = syncHistoryWithStore(hashHistory, store)
 

@@ -36,39 +36,17 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 }
 
 ::-webkit-scrollbar {
-    width: 9px;
-    height: 9px;
-    box-sizing: border-box;
-}
-
-::-webkit-scrollbar-button {
-    width: 9px;
-    height: 12px;
-    /*background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAUCAYAAADRA14pAAADr0lEQ…floi/Tcxi4KR/FIXeYc9jmFwpw2PwGUgY58NaG1/rX0h9d1DUzJEP0JgAAAABJRU5ErkJggg==) no-repeat;*/
-}
-
-::-webkit-scrollbar-corner {
-    background-color: #f1f1f1;
-    -webkit-border-radius: 1px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, .4);
-    border: 1px solid rgba(0, 0, 0, .21);
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, .2);
-    border: 1px solid rgba(0, 0, 0, .21);
-    -webkit-border-radius: 5px;
-}
-
-::-webkit-scrollbar-track:hover {
-    background-clip: padding-box;
-    background-color: rgba(0, 0, 0, .3);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: rgba(200, 200, 200, 0.75);
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-border-radius: 5px;
-    background-color: rgba(0, 0, 0, .15);
+    background-color: transparent;
 }

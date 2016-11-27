@@ -1,16 +1,25 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-import React, {Component, cloneElement} from 'react'
+import React, {Component, cloneElement, PropTypes} from 'react'
 import classnames from 'classnames'
 
 import FilterItem from './query-filter/FilterItem'
 
-export default class QueryFilter extends Component {
+class QueryFilter extends Component {
 
     constructor() {
         super()
+        this.removeFilterItem = this.removeFilterItem.bind(this)
+        this.updateFilterItem = this.updateFilterItem.bind(this)
         this.state = {searchKey: '', more: false, filterConditions: []}
+    }
+
+    getChildContext() {
+        return {
+            removeFilterItem: this.removeFilterItem,
+            updateFilterItem: this.updateFilterItem
+        }
     }
 
     getFilterConditions() {
@@ -57,6 +66,17 @@ export default class QueryFilter extends Component {
         })
     }
 
+    getSearchToolbar() {
+        return (
+            <div className="group-input">
+                <form>
+                    <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
+                    <button className="icon-search-btn" onClick={e => this.filter()}></button>
+                </form>
+            </div>
+        )
+    }
+
     render() {
         let buttons = this.props.children.map(child => {
             if (child.type == 'button') {
@@ -66,11 +86,7 @@ export default class QueryFilter extends Component {
 
         let filterItems = this.props.children.map((child, index) => {
             if (child.type == FilterItem) {
-                return cloneElement(child, {
-                    key: index,
-                    updateFilterItem: (...args) => this.updateFilterItem(...args),
-                    removeFilterItem: (...args) => this.removeFilterItem(...args)
-                })
+                return child
             }
         })
 
@@ -103,12 +119,7 @@ export default class QueryFilter extends Component {
                         {buttons}
                     </div>
                     <div className="group-search">
-                        <div className="group-input">
-                            <form>
-                                <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
-                                <button className="icon-search-btn" onClick={e => this.filter()}></button>
-                            </form>
-                        </div>
+                        {this.getSearchToolbar()}
                         <div className={classnames('group-select-btn', {'selected': this.state.more})}
                              onClick={e => this.toggleMoreState()}>
                             <a>
@@ -149,3 +160,10 @@ export default class QueryFilter extends Component {
         )
     }
 }
+
+QueryFilter.childContextTypes = {
+    removeFilterItem: PropTypes.func,
+    updateFilterItem: PropTypes.func
+}
+
+export default QueryFilter

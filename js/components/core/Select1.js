@@ -40,7 +40,7 @@ export default class Select1 extends Component {
     }
 
     reset() {
-        this.setState({value: ''})
+        this.setState({value: '', selectIndex: -1})
     }
 
     touch(index) {
