@@ -8,8 +8,9 @@ export function handleFilterCondition(queryConditions, options, typeCode, option
         if (filterCondition.typeCode == typeCode) {
             if (useText) {
                 options[optionName] = filterCondition.typeItem.text
+            } else {
+                options[optionName] = filterCondition.typeItem.value
             }
-            options[optionName] = filterCondition.typeItem.value
         }
     }
 }

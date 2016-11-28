@@ -6,11 +6,11 @@ import DatePicker from 'antd/lib/date-picker'
 import 'antd/dist/antd.css'
 import classnames  from 'classnames'
 
-class SelectStartEndDate extends Component {
+class CustomDateRange extends Component {
     constructor(props, context) {
         super(props)
-        this.startDate = null
-        this.endDate = null
+        this.startValue = null
+        this.endValue = null
         this.state = {
             selected: false
         }
@@ -18,70 +18,74 @@ class SelectStartEndDate extends Component {
     }
 
     onStartDateChange(moment) {
-        this.startDate = moment.format('YYYY-MM-DD')
+        this.startValue = moment
         this.switchToSelectState()
     }
 
     onEndDateChange(moment) {
-        this.endDate = moment.format('YYYY-MM-DD')
+        this.endValue = moment
         this.switchToSelectState()
     }
 
     switchToSelectState() {
-        let errorTip = ''
-        let text = ''
-        if (!this.startDate && !this.endDate) {
+        if (!this.startValue && !this.endValue) {
             return
         }
-        if (!this.startDate) {
-            text = this.endDate + ' 之前'
-        } else if (!this.endDate) {
-            text = this.startDate + ' 之后'
+        let errorTip = ''
+        let text = ''
+        let startText = this.startValue && this.startValue.format('YYYY-MM-DD')
+        let endText = this.endValue && this.endValue.format('YYYY-MM-DD')
+
+        if (!startText) {
+            text = endText + ' 之前'
+        } else if (!endText) {
+            text = startText + ' 之后'
         } else {
-            text = this.startDate + ' 到 ' + this.endDate
-            if (this.startDate > this.endDate) {
+            text = startText + ' 到 ' + endText
+            if (startText > endText) {
                 errorTip = '开始时间不能大于结束时间！'
             }
         }
         this.setState({selected: true})
         this.context.select({
-            value: (this.startDate || '') + ',' + (this.endDate || ''),
+            value: (startText || '') + ',' + (endText || ''),
             text: text,
             errorTip: errorTip
-        }, 'custom')
+        })
     }
 
     reset() {
-        // this._startDate.clear()
+        this.startValue = null
+        this.endValue = null
         this.setState({selected: false})
     }
 
     render() {
         return (
             <div className={classnames('custom-item-wrap', {selected: this.state.selected})}>
-                <DatePicker ref={c => this._startDate = c}
+                <DatePicker inputPrefixCls="my-input"
                             placeholder="开始时间"
                             size="small"
                             format="YYYY-MM-DD"
-                            allowClear={true}
+                            value={this.startValue}
                             onChange={e => this.onStartDateChange(e)}/>
 
                 -
 
-                <DatePicker ref={c => this._endDate = c}
+                <DatePicker inputPrefixCls="my-input"
                             placeholder="结束时间"
                             size="small"
                             format="YYYY-MM-DD"
-                            allowClear={true}
+                            value={this.endValue}
                             onChange={e => this.onEndDateChange(e)}/>
             </div>
         )
     }
 }
 
-SelectStartEndDate.contextTypes = {
+CustomDateRange.contextTypes = {
     select: PropTypes.func,
     addCustomItem: PropTypes.func
 }
 
-export default SelectStartEndDate
+export default CustomDateRange

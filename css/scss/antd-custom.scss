@@ -1,0 +1,30 @@
+/**
+ * Created by jiangyukun on 2016/11/28.
+ */
+
+.my-input-sm {
+    padding: 1px 7px;
+    height: 22px;
+    border-radius: 2px;
+}
+
+.my-input {
+    position: relative;
+    display: inline-block;
+    padding: 2px 7px;
+    width: 100px;
+    height: 24px;
+    cursor: text;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #666;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    -webkit-transition: border 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    &:hover {
+        border-color: #40a5ed;
+    }
+}

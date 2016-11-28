@@ -6,14 +6,14 @@ import React, {Component} from 'react'
 import {Provider} from 'react-redux'
 
 import App from '../App'
-import PatientAuditing from '../pages/patient-auditing/PatientAuditing'
+import NodeAuditing from '../pages/node-auditing/NodeAuditing'
 
 export default class Root extends Component {
     render() {
         return (
             <Provider store={this.props.store}>
                 <App>
-                    <PatientAuditing />
+                    <NodeAuditing />
                 </App>
             </Provider>
         )

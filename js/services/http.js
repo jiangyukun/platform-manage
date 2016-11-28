@@ -1,19 +1,22 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
-export default function http(url, info) {
+export default function http(url, option) {
     //http://admin.vongihealth.com:85
     url = '/backend' + url
-    info = info || {}
-    info = {
-        ...info,
+    option = option || {}
+    let param = option.body
+    if (param && param.length) {
+        param.limit = param.length
+    }
+    option = {
+        ...option,
         credentials: 'include',
-        // mode: 'no-cors',
         headers: {
-            'Accept': 'application/json',
+            'Accept': 'application/json;charset=utf-8',
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(info.body),
+        body: JSON.stringify(option.body),
     }
-    return fetch(url, info)
+    return fetch(url, option)
 }

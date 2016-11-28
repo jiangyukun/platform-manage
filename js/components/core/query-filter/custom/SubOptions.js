@@ -19,7 +19,7 @@ class SubOptions extends Component {
         });
         this.context.selectSubItem({
             value: value,
-            text: '，结果为：' + match.text,
+            text: `，：${this.props.title}` + match.text,
         })
     }
 
@@ -40,7 +40,7 @@ class SubOptions extends Component {
     render() {
         return (
             <div className={classnames('custom-item-wrap', {'hidden': !this.state.active})}>
-                结果为：
+                {this.props.title}：
                 <span style={{width: '150px', display: 'inline-block'}}>
                     <Select1 ref={c => this._select1 = c} selectItems={this.props.options} onSelect={this.selectOption}/>
                 </span>

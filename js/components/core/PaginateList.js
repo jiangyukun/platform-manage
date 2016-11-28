@@ -23,7 +23,7 @@ class PaginateList extends Component {
 
     getPageInfo() {
         return {
-            start: this.state.currentPage,
+            start: this.state.currentPage - 1,
             length: pageSize
         }
     }
@@ -167,7 +167,7 @@ class PaginateList extends Component {
                         <nav className="list-nav-button">
                             <ul className="pagination">
                                 <li className={classnames({'disabled': this.state.currentPage == 1})} onClick={e => this.beforePage()}>
-                                    <a aria-label="Previous">上一页</a>
+                                    <a>上一页</a>
                                 </li>
 
                                 {
@@ -181,7 +181,7 @@ class PaginateList extends Component {
                                 }
 
                                 <li className={classnames({'disabled': this.state.currentPage == this.pageTotal})} onClick={e => this.nextPage()}>
-                                    <a aria-label="Next">下一页</a>
+                                    <a>下一页</a>
                                 </li>
                             </ul>
                         </nav>

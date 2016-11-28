@@ -1,5 +1,6 @@
 .query-filter {
     font-size: 12px;
+    z-index: 12;
 
     &.hide-search-input .group-input {
         visibility: hidden;

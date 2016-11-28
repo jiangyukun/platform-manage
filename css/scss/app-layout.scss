@@ -358,3 +358,8 @@ table .table-cell-look a:hover {
 .w100 {
     width: 100%;
 }
+
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}

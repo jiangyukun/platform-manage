@@ -8,7 +8,7 @@ import {merge} from 'lodash'
 
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
-import SelectStartEndDate from '../../../components/core/query-filter/custom/SelectStartEndDate'
+import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
 import SubDateSelect from '../../../components/core/query-filter/custom/SubDateSelect'
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
@@ -24,15 +24,15 @@ import {fetchPatientList} from '../../../actions'
 class PatientAuditing extends Component {
     constructor(props) {
         super(props)
-        this.state = {open1: false, open2: false, currentIndex: -1}
+        this.state = {open1: false, open2: false, currentIndex: -1, loading: false}
     }
 
     fetch() {
-        this.setState({currentIndex: -1})
+        this.setState({loading: true, currentIndex: -1})
         this.filterConditions = this._queryFilter.getFilterConditions()
         this.pageInfo = this._paginateList.getPageInfo()
 
-        console.log(merge({}, this.pageInfo, this.handleFilterConditions()))
+        // console.log(merge({}, this.pageInfo, this.handleFilterConditions()))
 
         this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions()))
     }
@@ -59,7 +59,7 @@ class PatientAuditing extends Component {
             .getCondition()
     }
 
-    activeItem(patient, index) {
+    activeItem(index) {
         this.setState({currentIndex: index})
     }
 
@@ -95,10 +95,10 @@ class PatientAuditing extends Component {
                     <FilterItem className="middle-filter-item" item={this.props.isPregnant12To14AcceptedVisit}/>
                     <FilterItem className="middle-filter-item" item={this.props.isBaby8MonthAcceptedVisit}/>
                     <FilterItem className="big-filter-item" item={this.props.checkResultFilterList}>
-                        <SubOptions options={this.props.resultList}/>
+                        <SubOptions options={this.props.resultList} title="结果为"/>
                     </FilterItem>
                     <FilterItem className="big-filter-item" item={this.props.register}>
-                        <SelectStartEndDate/>
+                        <CustomDateRange/>
                     </FilterItem>
                 </NodeAuditingQueryFilter>
 
@@ -208,7 +208,7 @@ class PatientAuditing extends Component {
                             list.map((patient, index) => {
                                 return (
                                     <tr key={index}
-                                        onClick={e => this.activeItem(patient, index)}
+                                        onClick={e => this.activeItem(index)}
                                         onDoubleClick={e => this.editPatient(patient)}
                                         className={classnames({'selected': this.state.currentIndex == index})}>
 
@@ -246,7 +246,7 @@ class PatientAuditing extends Component {
                                             <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '1')"></i>
                                         </td>
 
-                                        <td className="w-120">
+                                        <td className="w-150">
                                             <div>肝功能</div>
                                             <div>HBV-DNA</div>
                                             <div>乙肝五项定性</div>
@@ -484,7 +484,13 @@ function mapStateToProps(state, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, {fetchPatientList})(PatientAuditing)
+function mapActionToProps(dispatch, props) {
+    return {
+        fetchPatientList: fetchPatientList(dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapActionToProps)(PatientAuditing)
 
 
 class NodeAuditingQueryFilter extends QueryFilter {

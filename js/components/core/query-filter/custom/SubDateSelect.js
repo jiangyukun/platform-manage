@@ -8,41 +8,47 @@ import classnames  from 'classnames'
 class SubDateSelect extends Component {
     constructor(props, context) {
         super(props)
+        this.startValue = null
+        this.endValue = null
         this.state = {active: false}
         context.addSubItem(this)
     }
 
     onStartDateChange(moment) {
-        this.startDate = moment.format('YYYY-MM-DD')
+        this.startValue = moment
         this.switchToSelectState()
     }
 
     onEndDateChange(moment) {
-        this.endDate = moment.format('YYYY-MM-DD')
+        this.endValue = moment
         this.switchToSelectState()
     }
 
     switchToSelectState() {
-        let errorTip = ''
-        let text = ''
-        if (!this.startDate && !this.endDate) {
+        if (!this.startValue && !this.endValue) {
             return
         }
-        if (!this.startDate) {
-            text = this.endDate + ' 之前'
-        } else if (!this.endDate) {
-            text = this.startDate + ' 之后'
+        let errorTip = ''
+        let text = ''
+        let startText = this.startValue && this.startValue.format('YYYY-MM-DD')
+        let endText = this.endValue && this.endValue.format('YYYY-MM-DD')
+
+        if (!startText) {
+            text = endText + ' 之前'
+        } else if (!endText) {
+            text = startText + ' 之后'
         } else {
-            text = this.startDate + ' 到 ' + this.endDate
-            if (this.startDate > this.endDate) {
+            text = startText + ' 到 ' + endText
+            if (startText > endText) {
                 errorTip = '开始时间不能大于结束时间！'
             }
         }
+        this.setState({selected: true})
         this.context.selectSubItem({
-            value: (this.startDate || '') + ',' + (this.endDate || ''),
+            value: '， ' + (startText || '') + ',' + (endText || ''),
             text: text,
             errorTip: errorTip
-        }, 'custom')
+        })
     }
 
     onChange(typeItem) {
@@ -51,9 +57,13 @@ class SubDateSelect extends Component {
         } else {
             this.setState({active: false})
         }
+        this.startValue = null
+        this.endValue = null
     }
 
     reset() {
+        this.startValue = null
+        this.endValue = null
         this.setState({active: false})
     }
 
@@ -61,20 +71,20 @@ class SubDateSelect extends Component {
         return (
             <div className={classnames('custom-item-wrap', {'hidden': !this.state.active})}>
 
-                <DatePicker ref={c => this._startDate = c}
+                <DatePicker inputPrefixCls="my-input"
                             placeholder="开始时间"
                             size="small"
                             format="YYYY-MM-DD"
-                            allowClear={true}
+                            value={this.startValue}
                             onChange={e => this.onStartDateChange(e)}/>
 
                 -
 
-                <DatePicker ref={c => this._endDate = c}
+                <DatePicker inputPrefixCls="my-input"
                             placeholder="结束时间"
                             size="small"
                             format="YYYY-MM-DD"
-                            allowClear={true}
+                            value={this.endValue}
                             onChange={e => this.onEndDateChange(e)}/>
             </div>
         )
