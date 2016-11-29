@@ -8,19 +8,18 @@ import classnames from 'classnames'
 import {merge} from 'lodash'
 
 import BasePage from '../base/BasePage'
-import QueryFilter from '../../core/QueryFilter'
-import FilterItem from '../../core/query-filter/FilterItem'
-import PaginateList from '../../core/PaginateList'
-import SortBy from '../../core/paginate-list/SortBy'
-import SelectStartEndDate from '../../core/query-filter/custom/SelectStartEndDate'
-import ImagePreview from '../../core/ImagePreview'
+import QueryFilter from '../../../components/core/QueryFilter'
+import FilterItem from '../../../components/core/query-filter/FilterItem'
+import PaginateList from '../../../components/core/PaginateList'
+import SortBy from '../../../components/core/paginate-list/SortBy'
+import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
+import ImagePreview from '../../../components/core/ImagePreview'
 
 import AddDoctor from './AddDoctor'
 import EditDoctorDialog from './EditDoctorDialog'
-import {fetchDoctorList} from '../../../actions'
+import {fetchDoctorList} from '../../../actions/app'
 
 class DoctorAuditing extends BasePage {
-
     constructor(props) {
         super(props)
         this.state = {currentIndex: -1}
@@ -86,27 +85,27 @@ class DoctorAuditing extends BasePage {
         return (
             <div className="app-function-page">
 
-                <QueryFilter ref={c=>this._queryFilter = c} filter={filterCondition=>this.filter(filterCondition)} className="big-label ">
-                    <button className="btn btn-primary mr-20" onClick={e=>this.addDoctor()}>
+                <QueryFilter ref={c => this._queryFilter = c} filter={filterCondition => this.filter(filterCondition)} className="big-label ">
+                    <button className="btn btn-primary mr-20" onClick={e => this.addDoctor()}>
                         注册
-                        <AddDoctor ref={c=>this._addDoctor = c}/>
+                        <AddDoctor ref={c => this._addDoctor = c}/>
                     </button>
                     <button className="btn btn-primary mr-20"
-                            onClick={e=>this.editDoctor()}
+                            onClick={e => this.editDoctor()}
                             disabled={this.state.currentIndex == -1}>
                         查看
-                        <EditDoctorDialog ref={c=>this.editDoctorDialog = c}/>
+                        <EditDoctorDialog ref={c => this.editDoctorDialog = c}/>
                     </button>
                     <FilterItem className="small-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="small-filter-item" item={this.props.positionList}/>
                     <FilterItem className="small-filter-item" item={this.props.departmentList}/>
                     <FilterItem className="small-filter-item" item={this.props.auditingStateList}/>
                     <FilterItem className="small-filter-item" item={this.props.createTime}>
-                        <SelectStartEndDate/>
+                        <CustomDateRange/>
                     </FilterItem>
                 </QueryFilter>
 
-                <PaginateList ref={c=>this._paginateList = c} getPageList={pageInfo=>this.getPageList(pageInfo)} total={total} fixHead={true}>
+                <PaginateList ref={c => this._paginateList = c} getPageList={pageInfo => this.getPageList(pageInfo)} total={total} fixHead={true}>
                     <table className="table table-striped table-hover" style={{'minWidth': '1200px'}}>
                         <thead>
                         <tr>
@@ -133,12 +132,12 @@ class DoctorAuditing extends BasePage {
                         <tbody>
 
                         {
-                            doctorList.map((doctor, index)=> {
+                            doctorList.map((doctor, index) => {
                                 return (
                                     <tr key={index}
                                         className={classnames('h-50', {'selected': this.state['currentIndex'] == index})}
-                                        onClick={e=>this.activeItem(doctor, index)}
-                                        onDoubleClick={e=>this.editDoctor(doctor)}>
+                                        onClick={e => this.activeItem(doctor, index)}
+                                        onDoubleClick={e => this.editDoctor(doctor)}>
                                         <td>{doctor['phone']}</td>
                                         <td>{doctor['doctor_Name']}</td>
                                         <td>{doctor['hospital_Id']}</td>
@@ -148,9 +147,9 @@ class DoctorAuditing extends BasePage {
                                         <td>{
                                             doctor['doctor_Photo'] && (
                                                 <div className="table-cell-look">
-                                                    <a onClick={e=>this.lookDoctorPhoto(doctor['doctor_Photo'])}>
+                                                    <a onClick={e => this.lookDoctorPhoto(doctor['doctor_Photo'])}>
                                                         查看
-                                                        <ImagePreview ref={c=>this._imagePreview = c} url={doctor['doctor_Photo']}/>
+                                                        <ImagePreview ref={c => this._imagePreview = c} url={doctor['doctor_Photo']}/>
                                                     </a>
                                                 </div>
                                             )
@@ -159,9 +158,9 @@ class DoctorAuditing extends BasePage {
                                             {
                                                 doctor['doctor_Practicing_Photo'] && (
                                                     <div className="table-cell-look">
-                                                        <a onClick={e=>this.lookDoctorPracticingPhoto(doctor['doctor_Practicing_Photo'])}>
+                                                        <a onClick={e => this.lookDoctorPracticingPhoto(doctor['doctor_Practicing_Photo'])}>
                                                             查看
-                                                            <ImagePreview ref={c=>this._imagePreview1 = c} url={doctor['doctor_Practicing_Photo']}/>
+                                                            <ImagePreview ref={c => this._imagePreview1 = c} url={doctor['doctor_Practicing_Photo']}/>
                                                         </a>
                                                     </div>
                                                 )
@@ -173,7 +172,7 @@ class DoctorAuditing extends BasePage {
 
                                         <td>
                                             {doctor['doctor_Info_Remark']}
-                                            <div><i className="fa fa-edit" onClick={e=>this.editMark(doctor)}></i></div>
+                                            <div><i className="fa fa-edit" onClick={e => this.editMark(doctor)}></i></div>
                                         </td>
                                         <td>{doctor['doctor_Info_Creat_Time']}</td>
                                     </tr>

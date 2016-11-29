@@ -3,31 +3,33 @@
  */
 import React, {Component, cloneElement, PropTypes} from 'react'
 import classnames from 'classnames'
+import {merge} from  'lodash'
 
 import FilterItem from './query-filter/FilterItem'
 
 class QueryFilter extends Component {
-
     constructor() {
         super()
         this.removeFilterItem = this.removeFilterItem.bind(this)
         this.updateFilterItem = this.updateFilterItem.bind(this)
-        this.state = {searchKey: '', more: false, filterConditions: []}
+        this.searchKey = ''
+        this.state = {more: false, filterConditions: []}
     }
 
-    getChildContext() {
-        return {
-            removeFilterItem: this.removeFilterItem,
-            updateFilterItem: this.updateFilterItem
-        }
-    }
-
-    getFilterConditions() {
+    getFilterCondition() {
         return this.state.filterConditions
     }
 
-    searchKeyChange(e) {
+    getSearchCondition() {
+        return {searchKey: this.searchKey}
+    }
 
+    getAllConditions() {
+        return merge({}, {filters: this.getFilterCondition()}, this.getSearchCondition())
+    }
+
+    searchKeyChange(e) {
+        this.searchKey = e.target.value
     }
 
     toggleMoreState() {
@@ -62,7 +64,7 @@ class QueryFilter extends Component {
 
     filter() {
         this.props.filter({
-            searchKey: this.state.searchKey
+            searchKey: this.searchKey
         })
     }
 
@@ -75,6 +77,13 @@ class QueryFilter extends Component {
                 </form>
             </div>
         )
+    }
+
+    getChildContext() {
+        return {
+            removeFilterItem: this.removeFilterItem,
+            updateFilterItem: this.updateFilterItem
+        }
     }
 
     render() {

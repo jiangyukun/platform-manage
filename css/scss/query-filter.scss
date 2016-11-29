@@ -347,13 +347,12 @@
 
     .custom-item-wrap {
         float: left;
-        padding: 2px 4px;
-        margin-top: -2px;
-    }
-
-    .custom-item-wrap.selected {
-        border: 1px solid #2b77e5;
-        margin-top: -4px;
+        //margin-top: -2px;
+        &.selected {
+            border: 1px solid #2b77e5;
+            border-radius: 2px;
+            margin-top: -4px;
+        }
     }
 
     .custom-text-search {

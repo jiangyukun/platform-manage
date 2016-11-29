@@ -155,7 +155,14 @@ class PaginateList extends Component {
                     }
 
                     <div className="js-table-container" ref={c => this._tableContainer = c}>
-                        {cloneElement(this.props.children, {ref: c => this._table = c})}
+                        {
+                            this.props.children.map((child, index) => {
+                                if (child.type == 'table') {
+                                    return cloneElement(child, {key: index, ref: c => this._table = c})
+                                }
+                                return child
+                            })
+                        }
                     </div>
                 </div>
 

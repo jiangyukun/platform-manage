@@ -6,20 +6,22 @@ import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
 
-import QueryFilter from '../../../components/core/QueryFilter'
+import NodeAuditingQueryFilter from './NodeAuditingQueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
 import SubDateSelect from '../../../components/core/query-filter/custom/SubDateSelect'
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
-import Form from '../../../components/element/Form'
+
+import Loading from '../../../components/ui/Loading'
 import EditPatient from './EditPatient'
 
 import constants from '../../../core/constants'
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
-import {ConditionResolver} from '../../../core/busHelper'
+import {ConditionResolver, getFilterConditionValue} from '../../../core/busHelper'
+import {getVisitCardState} from '../../../core/formatBusData'
 
-import {fetchPatientList} from '../../../actions'
+import {fetchPatientList} from '../../../actions/node-auditing'
 
 class PatientAuditing extends Component {
     constructor(props) {
@@ -29,12 +31,11 @@ class PatientAuditing extends Component {
 
     fetch() {
         this.setState({loading: true, currentIndex: -1})
-        this.filterConditions = this._queryFilter.getFilterConditions()
+        this.allConditions = this._queryFilter.getAllConditions()
         this.pageInfo = this._paginateList.getPageInfo()
-
-        // console.log(merge({}, this.pageInfo, this.handleFilterConditions()))
-
-        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions()))
+        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions())).then(() => {
+            this.setState({loading: false})
+        })
     }
 
     filter() {
@@ -46,7 +47,7 @@ class PatientAuditing extends Component {
     }
 
     handleFilterConditions() {
-        return new ConditionResolver(this.filterConditions)
+        let options = new ConditionResolver(this.allConditions.filters)
             .resolve('hospital', 'hsp_Name', true)
             .resolve('auditingState', 'check_Status')
             .resolve('visitCard', 'status')
@@ -54,9 +55,37 @@ class PatientAuditing extends Component {
             .resolve('isBaby8MonthAcceptedVisit', 'visit_5_Accept_Visit', true)
             .resolve('checkResultFilter', 'visit_Type')
             .resolve('result', 'visit_Result_Type')
-            .resolve('register', 'registration_Begin_Time')
-            // .resolve('', '')
+            .resolveDate('register', 'registration_Begin_Time', 'registration_End_Time')
             .getCondition()
+
+        let value = getFilterConditionValue(this.allConditions.filters, 'nodeFilter')
+        if (value) {
+            if (typeof value != 'object') {
+                options['note_Type'] = value
+            } else {
+                options['note_Type'] = value.main
+                let customValue = value.custom
+                options['note_Begin_Time'] = customValue.startValue
+                options['note_End_Time'] = customValue.endValue
+            }
+        }
+        value = getFilterConditionValue(this.allConditions.filters, 'checkResultFilter')
+        if (value) {
+            if (typeof value != 'object') {
+                options['visit_Type'] = value
+            } else {
+                options['visit_Type'] = value.main
+                options['visit_Result_Type'] = value.custom
+            }
+        }
+
+        if (this.allConditions.searchKey1) {
+            options['doctor_key_Words'] = this.allConditions.searchKey1
+        }
+        if (this.allConditions.searchKey2) {
+            options['key_Words'] = this.allConditions.searchKey2
+        }
+        return options
     }
 
     activeItem(index) {
@@ -65,10 +94,6 @@ class PatientAuditing extends Component {
 
     editPatient(patient) {
         this._editPatient.open()
-    }
-
-    lookPicture(url) {
-
     }
 
     editMark(patient) {
@@ -103,6 +128,7 @@ class PatientAuditing extends Component {
                 </NodeAuditingQueryFilter>
 
                 <PaginateList ref={c => this._paginateList = c} getPageList={pageInfo => this.getPageList(pageInfo)} total={total} fixHead={true} fixLeft={true}>
+                    {this.state.loading && <Loading/>}
                     <table className="table table-striped table-hover more-than-7column" style={{"minWidth": "5500px"}}>
                         <thead>
                         <tr>
@@ -234,7 +260,7 @@ class PatientAuditing extends Component {
                                         {this.state.open2 && <td className="w-120">{patient['device_Model']}</td>}
 
                                         <td className="w-120">
-                                            {patient['visit_card_status']}
+                                            {getVisitCardState(patient['visit_card_status'])}
                                             <i className="fa fa-edit" ng-click="nodepatientCtrl.editVisitCardState(patient)"></i>
                                         </td>
                                         <td className="w-120">
@@ -491,38 +517,3 @@ function mapActionToProps(dispatch, props) {
 }
 
 export default connect(mapStateToProps, mapActionToProps)(PatientAuditing)
-
-
-class NodeAuditingQueryFilter extends QueryFilter {
-    searchKey1Change(event) {
-
-    }
-
-    searchKey2Change(event) {
-
-    }
-
-    getSearchToolbar() {
-        return (
-            <div className="group-input2">
-                <label className="search-label">医生:</label>
-                <div className="group-input" style={{'marginRight': '10px'}}>
-                    <Form>
-                        <input type="text" placeholder="输入手机号码查询" onChange={e => this.searchKey1Change(e)}/>
-                        <button className="icon-search-btn" onClick={e => this.filter()}></button>
-                    </Form>
-                </div>
-
-                <label className="search-label">患者:</label>
-                <div className="group-input">
-                    <Form>
-                        <input type="text" placeholder="输入手机号码，编号查询" onChange={e => this.searchKey2Change(e)}/>
-                        <button className="icon-search-btn" onClick={e => this.filter()}></button>
-                    </Form>
-                </div>
-
-            </div>
-        )
-    }
-
-}

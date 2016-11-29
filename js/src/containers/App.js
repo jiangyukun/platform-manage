@@ -13,10 +13,6 @@ import Settings from './Settings'
 import {fetchHospitalList} from '../actions/hospital'
 
 class App extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     openSettings() {
         this._settings.open()
     }

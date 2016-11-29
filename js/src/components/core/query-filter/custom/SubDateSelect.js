@@ -45,7 +45,10 @@ class SubDateSelect extends Component {
         }
         this.setState({selected: true})
         this.context.selectSubItem({
-            value: '， ' + (startText || '') + ',' + (endText || ''),
+            value: {
+                startValue: startText,
+                endValue: endText
+            },
             text: text,
             errorTip: errorTip
         })

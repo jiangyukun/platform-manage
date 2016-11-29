@@ -4,13 +4,11 @@ import {Router, hashHistory} from 'react-router'
 import {render} from 'react-dom'
 import {syncHistoryWithStore} from 'react-router-redux'
 
-import configureStore from './js/store/configureStore'
-import Root from './js/containers/root/Root'
+import configureStore from './js/src/store/configureStore'
+import Root from './js/src/containers/root/Root'
 
-import './css/less/app.less'
-import './css/scss/app.scss'
-
-
+import './css/less/index.less'
+import './css/scss/index.scss'
 
 const store = configureStore()
 const history = syncHistoryWithStore(hashHistory, store)

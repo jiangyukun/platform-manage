@@ -155,7 +155,9 @@ export default class Select1 extends Component {
         }
 
         return (
-            <div ref={c => this._container = c} onClick={e => this.activeOpenFlag(e)} className="select1-container"
+            <div ref={c => this._container = c}
+                 className={classnames('select1-container', this.props.className)}
+                 onClick={e => this.activeOpenFlag(e)}
                  tabIndex="-1">
                 <div onClick={e => this.toggle()}
                      className={classnames('selected-item', {'open': this.state.active}, {'invalid': this.props.required && this.state.touched && !this.state.value})}>

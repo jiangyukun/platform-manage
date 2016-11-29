@@ -117,7 +117,10 @@ class FilterItem extends Component {
         let showItemTotal = () => {
             return (
                 <li className="select-option-container filter-item-single">
-                    <Select1 ref={c => this._select1 = c} selectItems={this.props.item.typeItemList} onSelect={option => this.select(option)}/>
+                    <Select1 ref={c => this._select1 = c}
+                             className={classnames({'selected': this.state.selected != ''})}
+                             selectItems={this.props.item.typeItemList}
+                             onSelect={option => this.select(option)}/>
                 </li>
             )
         }
