@@ -18,5 +18,6 @@ export default function http(url, option) {
         },
         body: JSON.stringify(option.body),
     }
+
     return fetch(url, option)
 }

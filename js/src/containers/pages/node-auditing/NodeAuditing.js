@@ -13,7 +13,6 @@ import SubDateSelect from '../../../components/core/query-filter/custom/SubDateS
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
 
-import Loading from '../../../components/ui/Loading'
 import EditPatient from './EditPatient'
 
 import constants from '../../../core/constants'
@@ -23,27 +22,21 @@ import {getVisitCardState} from '../../../core/formatBusData'
 
 import {fetchPatientList} from '../../../actions/node-auditing'
 
-class PatientAuditing extends Component {
+class NodeAuditing extends Component {
     constructor(props) {
         super(props)
         this.state = {open1: false, open2: false, currentIndex: -1, loading: false}
     }
 
-    fetch() {
+    beginFetch() {
+        this._paginateList.beginFetch()
+    }
+
+    doFetch() {
         this.setState({loading: true, currentIndex: -1})
         this.allConditions = this._queryFilter.getAllConditions()
         this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions())).then(() => {
-            this.setState({loading: false})
-        })
-    }
-
-    filter() {
-        this.fetch()
-    }
-
-    getPageList() {
-        this.fetch()
+        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions())).then(() => this.setState({loading: false}))
     }
 
     handleFilterConditions() {
@@ -92,7 +85,7 @@ class PatientAuditing extends Component {
         this.setState({currentIndex: index})
     }
 
-    editPatient(patient) {
+    editPatient() {
         this._editPatient.open()
     }
 
@@ -101,7 +94,7 @@ class PatientAuditing extends Component {
     }
 
     componentDidMount() {
-        this.fetch()
+        this.beginFetch()
     }
 
     render() {
@@ -109,7 +102,7 @@ class PatientAuditing extends Component {
         return (
             <div className="app-function-page">
                 <EditPatient ref={c => this._editPatient = c}/>
-                <NodeAuditingQueryFilter ref={c => this._queryFilter = c} filter={filterCondition => this.filter(filterCondition)} className="ex-big-label ">
+                <NodeAuditingQueryFilter ref={c => this._queryFilter = c} beginFilter={filterCondition => this.beginFetch()} className="ex-big-label ">
                     <button className="btn btn-primary mr-20" onClick={e => this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="middle-filter-item" item={this.props.auditingStateList}/>
@@ -127,8 +120,10 @@ class PatientAuditing extends Component {
                     </FilterItem>
                 </NodeAuditingQueryFilter>
 
-                <PaginateList ref={c => this._paginateList = c} getPageList={pageInfo => this.getPageList(pageInfo)} total={total} fixHead={true} fixLeft={true}>
-                    {this.state.loading && <Loading/>}
+                <PaginateList ref={c => this._paginateList = c} loading={this.state.loading}
+                              beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
+                              total={total} fixHead={true} fixLeft={true}>
+
                     <table className="table table-striped table-hover more-than-7column" style={{"minWidth": "5500px"}}>
                         <thead>
                         <tr>
@@ -261,15 +256,15 @@ class PatientAuditing extends Component {
 
                                         <td className="w-120">
                                             {getVisitCardState(patient['visit_card_status'])}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editVisitCardState(patient)"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editVisitCardState(patient)"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['is_First_Complete_Visit']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '1')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '1')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['first_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '1')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '1')"></i>
                                         </td>
 
                                         <td className="w-150">
@@ -297,11 +292,11 @@ class PatientAuditing extends Component {
                                         <td className="w-120">{patient['pregnant_14_Weeks_Date']}</td>
                                         <td className="w-120">
                                             {patient['is_Pregnant_14_Weeks_Complete_Visit']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '2')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '2')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_14_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '2')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '2')"></i>
                                         </td>
 
                                         {/*访视2*/}
@@ -319,21 +314,21 @@ class PatientAuditing extends Component {
                                         <td className="w-120">{patient['pregnant_26_Weeks_Date']}</td>
                                         <td className="w-120">
                                             {patient['is_Pregnant_26_Weeks_Complete_Visit']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '3')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '3')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_26_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '3')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '3')"></i>
                                         </td>
                                         <td className="w-120">{patient['pregnant_33_Weeks_Date']}</td>
                                         <td className="w-120">
                                             {patient['is_Pregnant_33_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '4')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '4')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_33_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '4')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '4')"></i>
                                         </td>
 
 
@@ -352,11 +347,11 @@ class PatientAuditing extends Component {
                                         <td className="w-120">
                                             {patient['is_Pregnant_41_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '5')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '5')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_41_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '5')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '5')"></i>
                                         </td>
 
 
@@ -376,22 +371,22 @@ class PatientAuditing extends Component {
                                         <td className="w-120">
                                             {patient['is_Pregnant_46_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '6')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '6')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_46_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '6')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '6')"></i>
                                         </td>
                                         <td className="w-120">{patient['postpartum_10_Weeks_Date']}</td>
                                         <td className="w-120">{patient['pregnant_50_Weeks_Date']}</td>
                                         <td className="w-120">
                                             {patient['is_Pregnant_50_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '7')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '7')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_50_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '7')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '7')"></i>
                                         </td>
 
 
@@ -413,12 +408,12 @@ class PatientAuditing extends Component {
                                         <td className="w-120">
                                             {patient['is_Pregnant_72_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '8')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '8')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_72_Weeks_Contact_Remark']}
                                             <div>
-                                                <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '8')"></i>
+                                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '8')"></i>
                                             </div>
                                         </td>
                                         <td className="w-120">{patient['postpartum_9_Months_Date']}</td>
@@ -426,11 +421,11 @@ class PatientAuditing extends Component {
                                         <td className="w-120">
                                             {patient['is_Pregnant_76_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '9')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '9')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_76_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '9')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '9')"></i>
                                         </td>
 
                                         <td className="w-120">{patient['postpartum_10_Months_Date']}</td>
@@ -438,11 +433,11 @@ class PatientAuditing extends Component {
                                         <td className="w-120">
                                             {patient['is_Pregnant_80_Weeks_Complete_Visit']}
                                             <i className="fa fa-edit"
-                                               ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '10')"></i>
+                                               data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '10')"></i>
                                         </td>
                                         <td className="w-120">
                                             {patient['pregnant_80_Weeks_Contact_Remark']}
-                                            <i className="fa fa-edit" ng-click="nodepatientCtrl.editMark(patient, '10')"></i>
+                                            <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '10')"></i>
                                         </td>
 
                                     </tr>
@@ -506,7 +501,7 @@ function mapStateToProps(state, ownProps) {
             {value: 13, text: '产后10月第一天'},
             {value: 14, text: '产后80周第一天'},
         ]),
-        register: getFilterItem('register', '注册日期', getStartEndDate()),
+        register: getFilterItem('register', '注册日期', getStartEndDate())
     }
 }
 
@@ -516,4 +511,4 @@ function mapActionToProps(dispatch, props) {
     }
 }
 
-export default connect(mapStateToProps, mapActionToProps)(PatientAuditing)
+export default connect(mapStateToProps, mapActionToProps)(NodeAuditing)

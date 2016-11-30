@@ -11,14 +11,8 @@
   },
   "keywords": [
     "react",
-    "reactjs",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack",
-    "flux"
+    "redux",
+    "webpack"
   ],
   "license": "MIT",
   "bugs": {
@@ -37,9 +31,10 @@
     "lodash": "^4.16.4",
     "moment": "^2.17.0",
     "node-sass": "^3.10.1",
-    "react": "^0.14.8",
+    "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
     "react-bootstrap": "^0.30.5",
-    "react-dom": "^0.14.7",
+    "react-dom": "^15.4.1",
     "react-overlays": "^0.6.10",
     "react-redux": "^4.2.1",
     "react-router": "^2.8.1",
@@ -95,6 +90,7 @@
     "mocha": "^2.5.3",
     "webpack": "^1.9.11",
     "webpack-dev-middleware": "^1.2.0",
+    "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.9.1"
   }
 }

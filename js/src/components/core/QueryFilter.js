@@ -63,9 +63,7 @@ class QueryFilter extends Component {
     }
 
     filter() {
-        this.props.filter({
-            searchKey: this.searchKey
-        })
+        this.props.beginFilter()
     }
 
     getSearchToolbar() {
@@ -168,6 +166,11 @@ class QueryFilter extends Component {
             </div>
         )
     }
+}
+
+QueryFilter.propTypes = {
+    className: PropTypes.string,
+    beginFilter: PropTypes.func
 }
 
 QueryFilter.childContextTypes = {

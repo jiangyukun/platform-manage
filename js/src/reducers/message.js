@@ -1,10 +1,40 @@
 /**
  * Created by jiangyukun on 2016/10/20.
  */
+import {fromJS, List} from 'immutable'
 
-export function message(state = {count: 0, unreadTotal: 0, messageList: []}, action) {
-    if (action.type == 'REQUEST_MESSAGE_SUCCESS') {
-        return action.messageListInfo
+const defaultState = {count: 0, unreadTotal: 0, messageList: []}
+
+export function message(state = defaultState, action) {
+    const iState = fromJS(state)
+
+    return nextState()
+
+    function nextState() {
+        let nextIState = iState
+        switch (action.type) {
+            case 'REQUEST_MESSAGE_SUCCESS':
+                nextIState = requestMessageSuccess()
+                break
+
+            default:
+                break
+        }
+
+        if (nextIState == iState) {
+            return state
+        }
+        return nextIState.toJS()
     }
-    return state
+
+    //--------------------------------------------
+
+    function requestMessageSuccess() {
+        let {count, unreadTotal, messageList} = action.messageListInfo
+        return iState
+            .set('count', count)
+            .set('unreadTotal', unreadTotal)
+            .update('messageList', list => list.concat(List(messageList)))
+    }
+
 }

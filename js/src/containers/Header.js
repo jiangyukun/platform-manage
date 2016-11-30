@@ -28,10 +28,10 @@ class Header extends Component {
         return (
             <div className="app-header navbar">
                 <div className="navbar-header bg-black">
-                    <button className="pull-right visible-xs dk" ui-toggle-className="show" data-target=".navbar-collapse">
+                    <button className="pull-right visible-xs dk" >
                         <i className="glyphicon glyphicon-cog"></i>
                     </button>
-                    <button className="pull-right visible-xs" ui-toggle-className="off-screen" data-target=".app-aside" ui-scroll="app">
+                    <button className="pull-right visible-xs">
                         <i className="glyphicon glyphicon-align-justify"></i>
                     </button>
                     <a href="#/" className="navbar-brand text-lt">

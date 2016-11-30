@@ -49,21 +49,21 @@ export default class Settings extends Component {
                 <div className="panel-body">
                     <div className="m-b-sm">
                         <label className="i-switch bg-info pull-right">
-                            <input type="checkbox" ng-model="app.settings.headerFixed"/>
+                            <input type="checkbox" data-ng-model="app.settings.headerFixed"/>
                             <i></i>
                         </label>
                         固定头部
                     </div>
                     <div className="m-b-sm">
                         <label className="i-switch bg-info pull-right">
-                            <input type="checkbox" ng-model="app.settings.asideFixed"/>
+                            <input type="checkbox" data-ng-model="app.settings.asideFixed"/>
                             <i></i>
                         </label>
                         固定导航
                     </div>
                     <div className="m-b-sm">
                         <label className="i-switch bg-info pull-right">
-                            <input type="checkbox" ng-model="app.settings.asideFolded"/>
+                            <input type="checkbox" data-ng-model="app.settings.asideFolded"/>
                             <i></i>
                         </label>
                         折叠导航
@@ -73,8 +73,8 @@ export default class Settings extends Component {
                 <div className="wrapper b-t b-light bg-light lter r-b">
                     <div className="row row-sm">
                         <div className="col-xs-6">
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" name="a" ng-model="app.settings.themeID" value="1"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" name="a" data-ng-model="app.settings.themeID" value="1"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -85,8 +85,8 @@ export default class Settings extends Component {
                                 </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" name="a" ng-model="app.settings.themeID" value="13"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" name="a" data-ng-model="app.settings.themeID" value="13"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -97,8 +97,8 @@ export default class Settings extends Component {
                                 </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="2"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="2"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -109,8 +109,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="3"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="3"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -121,8 +121,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="4"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="4"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -133,8 +133,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="5"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="5"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -145,8 +145,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="6"/>
+                            <label className="i-checks block" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="6"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -158,8 +158,8 @@ export default class Settings extends Component {
                             </label>
                         </div>
                         <div className="col-xs-6">
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="7"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="7"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -170,8 +170,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" name="a" ng-model="app.settings.themeID" value="14"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" name="a" data-ng-model="app.settings.themeID" value="14"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -182,8 +182,8 @@ export default class Settings extends Component {
                                   </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="8"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="8"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                 <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                   <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -194,8 +194,8 @@ export default class Settings extends Component {
                               </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="9"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="9"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                 <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                   <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -206,8 +206,8 @@ export default class Settings extends Component {
                               </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="10"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="10"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                 <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                   <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -218,8 +218,8 @@ export default class Settings extends Component {
                               </span>
                             </label>
 
-                            <label className="i-checks block m-b" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="11"/>
+                            <label className="i-checks block m-b" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="11"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                 <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                   <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>
@@ -230,8 +230,8 @@ export default class Settings extends Component {
                               </span>
                             </label>
 
-                            <label className="i-checks block" ng-click="">
-                                <input type="radio" ng-model="app.settings.themeID" value="12"/>
+                            <label className="i-checks block" data-ng-click="">
+                                <input type="radio" data-ng-model="app.settings.themeID" value="12"/>
                                 <span className="block bg-light clearfix pos-rlt">
                                     <span className="active pos-abt w-full h-full bg-black-opacity text-center">
                                       <i className="glyphicon glyphicon-ok text-white m-t-xs"></i>

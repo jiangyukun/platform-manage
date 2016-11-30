@@ -1,6 +1,7 @@
 /**
  * Created by jiangyukun on 2016/11/29.
  */
+import http from '../services/http'
 
 export function fetchDoctorList(option) {
     let {start, length} = option

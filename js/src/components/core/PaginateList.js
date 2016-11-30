@@ -7,6 +7,7 @@ import {events} from 'dom-helpers'
 import classnames from 'classnames'
 import {throttle} from 'lodash'
 
+import Loading from '../ui/Loading'
 import {pageSize} from '../../common/constants'
 import {calculatePageIndex} from '../../utils'
 
@@ -15,16 +16,22 @@ class PaginateList extends Component {
         super(props)
         this.handleTableScroll = throttle(this.handleTableScroll.bind(this), 20, {leading: true, trailing: true})
         this.state = {
+            draw: 1,
             currentPage: 1,
             headFixed: false,
             leftFixed: false
         }
     }
 
+    beginFetch() {
+        this.setState({draw: this.state.draw + 1}, () => this.props.doFetch())
+    }
+
     getPageInfo() {
         return {
             start: this.state.currentPage - 1,
-            length: pageSize
+            length: pageSize,
+            draw: this.state.draw
         }
     }
 
@@ -46,7 +53,7 @@ class PaginateList extends Component {
 
     toPage(page) {
         if (this.state.currentPage != page) {
-            this.setState({currentPage: page}, () => this.props.getPageList())
+            this.setState({currentPage: page}, () => this.props.beginFetch())
         }
     }
 
@@ -96,10 +103,11 @@ class PaginateList extends Component {
 
     componentDidMount() {
         events.on(this._tableContainer, 'scroll', this.handleTableScroll)
-
     }
 
     componentDidUpdate() {
+        if (!this._table) return
+
         this.tableWidth = this._table.clientWidth
         this.tableHeight = this._table.clientHeight
 
@@ -120,6 +128,21 @@ class PaginateList extends Component {
     render() {
         this.pageTotal = parseInt((this.props.total + pageSize - 1) / pageSize)
         this.pageIndexs = calculatePageIndex(this.pageTotal, this.state.currentPage)
+
+        let showChildren = () => {
+            if (!this.props.children) return
+
+            let {children} = this.props
+            if (!(children instanceof Array)) {
+                children = [children]
+            }
+            return children.map((child, index) => {
+                if (child.type == 'table') {
+                    return cloneElement(child, {key: index, ref: c => this._table = c})
+                }
+                return child
+            })
+        }
 
         return (
             <div className="paginate-list">
@@ -155,14 +178,8 @@ class PaginateList extends Component {
                     }
 
                     <div className="js-table-container" ref={c => this._tableContainer = c}>
-                        {
-                            this.props.children.map((child, index) => {
-                                if (child.type == 'table') {
-                                    return cloneElement(child, {key: index, ref: c => this._table = c})
-                                }
-                                return child
-                            })
-                        }
+                        {this.props.loading && <Loading/>}
+                        {showChildren()}
                     </div>
                 </div>
 
@@ -197,6 +214,15 @@ class PaginateList extends Component {
             </div>
         )
     }
+}
+
+PaginateList.propTypes = {
+    total: PropTypes.number,
+    fixHead: PropTypes.bool,
+    fixLeft: PropTypes.bool,
+    loading: PropTypes.bool,
+    beginFetch: PropTypes.func,
+    doFetch: PropTypes.func
 }
 
 PaginateList.childContextTypes = {

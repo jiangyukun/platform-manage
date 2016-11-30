@@ -14,60 +14,170 @@ export default class Nav extends Component {
                         <span>导航</span>
                     </li>
 
-                    <li>
-                        <Link className="auto active" activeClassName="active" to="/app/patient-auditing">
+                    {/*患者管理*/}
+                    <li className="active">
+                        <a className="auto">
+                        <span className="pull-right text-muted">
+                            <i className="fa fa-fw fa-angle-right text"></i>
+                            <i className="fa fa-fw fa-angle-down text-active"></i>
+                        </span>
                             <i className="fa fa-wheelchair icon text-primary-dker"></i>
-                            <span className="font-bold">病人审核</span>
-                        </Link>
+                            <span>患者管理</span>
+                        </a>
+                        <ul className="nav nav-sub dk">
+                            <li className="nav-sub-header">
+                                <a href>
+                                    <span>患者管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <Link to="/app/node-auditing">
+                                    <span>病人审核</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/app/patient-edit">
+                                    <span>病人修改</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/app/laboratory-sheet">
+                                    <span>化验单查看</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <Link className="auto" activeClassName="active" to="/app/patient-edit">
+                    {/*APP管理*/}
+                    <li className="active">
+                        <a className="auto">
+                        <span className="pull-right text-muted">
+                            <i className="fa fa-fw fa-angle-right text"></i>
+                            <i className="fa fa-fw fa-angle-down text-active"></i>
+                        </span>
                             <i className="fa fa-wheelchair-alt icon text-primary-dker"></i>
-                            <span className="font-bold">病人修改</span>
-                        </Link>
+                            <span>APP管理</span>
+                        </a>
+                        <ul className="nav nav-sub dk">
+                            <li className="nav-sub-header">
+                                <Link to="/app">
+                                    <span>APP管理</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="app.slider-config">
+                                    <span>轮播图管理</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="app.knowledge-base">
+                                    <span>知识库维护</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="app/">
+                                    <span>群组维护</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <Link className="auto" activeClassName="active" to="/app/laboratory-sheet">
+                    {/*医生管理*/}
+                    <li className="active">
+                        <a className="auto">
+                        <span className="pull-right text-muted">
+                            <i className="fa fa-fw fa-angle-right text"></i>
+                            <i className="fa fa-fw fa-angle-down text-active"></i>
+                        </span>
                             <i className="glyphicon glyphicon-file icon text-primary-dker"></i>
-                            <span className="font-bold">化验单查看</span>
-                        </Link>
+                            <span>医生管理</span>
+                        </a>
+                        <ul className="nav nav-sub dk">
+                            <li className="nav-sub-header">
+                                <Link to="/app">
+                                    <span>医生管理</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/app/doctor-auditing">
+                                    <span>医生管理</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/app/hospital-manage">
+                                    <span>医院管理</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>
-                        <Link className="auto" activeClassName="active" to="/app/doctor-auditing">
-                            <i className="fa fa-fire icon text-info-dker"></i>
-                            <span className="font-bold">医生审核</span>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link className="auto" activeClassName="active" to="/app/slider-config">
-                            <i className="fa fa-columns icon text-info-lter"></i>
-                            <span className="font-bold">轮播图维护</span>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link className="auto" activeClassName="active" to="/app/knowledge-base">
-                            <i className="fa fa-file-text icon text-info-lter"></i>
-                            <span className="font-bold">知识库维护</span>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link href="../chat-system/chat.html" target="_blank">
+                        <a href="../chat-system-new/chat.html" target="_blank">
                             <i className="glyphicon glyphicon-comment icon text-success"></i>
-                            <span className="font-bold">聊天系统</span>
-                        </Link>
+                            <span>聊天系统</span>
+                        </a>
                     </li>
 
-                    <li>
-                        <Link className="auto" activeClassName="active" to="/app/score-statistics">
+                    {/*报表统计*/}
+                    <li className="active">
+                        <a href className="auto">
+                        <span className="pull-right text-muted">
+                            <i className="fa fa-fw fa-angle-right text"></i>
+                            <i className="fa fa-fw fa-angle-down text-active"></i>
+                        </span>
                             <i className="glyphicon glyphicon-list icon text-success"></i>
-                            <span className="font-bold">评分统计</span>
-                        </Link>
+                            <span>报表统计</span>
+                        </a>
+                        <ul className="nav nav-sub dk">
+                            <li className="nav-sub-header">
+                                <a href>
+                                    <span>报表统计</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a >
+                                    <span>用户统计</span>
+                                </a>
+                            </li>
+                            <li>
+                                <Link >
+                                    <span>入组情况统计</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link >
+                                    <span>聊天记录报表</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="app.score-statistics">
+                                    <span>在线医生评分</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className="active">
+                        <a href className="auto">
+                        <span className="pull-right text-muted">
+                            <i className="fa fa-fw fa-angle-right text"></i>
+                            <i className="fa fa-fw fa-angle-down text-active"></i>
+                        </span>
+                            <i className="glyphicon glyphicon-user icon text-success"></i>
+                            <span>后台管理</span>
+                        </a>
+                        <ul className="nav nav-sub dk">
+                            <li className="nav-sub-header">
+                                <a href>
+                                    <span>后台管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a >
+                                    <span>后台账号管理</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </nav>

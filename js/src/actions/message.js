@@ -10,10 +10,11 @@ export function fetchMessageInfo(option) {
             // console.log(result);
             let count = result.data['totalCount']
             let unreadTotal = result.data['unReadCount']
-            let messageList = result.data.list.map(message=> {
+            let messageList = result.data.list.map(message => {
                 return {
                     id: message['assay_Id'],
                     name: message['patient_Name'],
+                    url: message['url'],
                     mobile: message['patient_Phone'],
                     uploader: message['assay_Upload_Person'],
                     uploadDate: message['assay_Upload_Time']

@@ -3,14 +3,17 @@
  */
 
 import React, {Component} from 'react'
+import classnames from 'classnames'
+import {connect} from 'react-redux'
 
-export default class AppContent extends Component {
+class AppContent extends Component {
 
     render() {
+        let show = !this.props.app.settings.asideMessage
         return (
-            <div className="app-content">
-                <div ui-butterbar></div>
-                <a href className="off-screen-toggle hide" ui-toggle-class="off-screen" data-target=".app-aside"></a>
+            <div className={classnames('app-content', {'open-message': show}, {'close-message': !show})}>
+                <div></div>
+                <a href className="off-screen-toggle hide"></a>
                 <div className="app-content-body fade-in-up">
                     {this.props.children}
                 </div>
@@ -18,3 +21,11 @@ export default class AppContent extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        app: state.app
+    }
+}
+
+export default connect(mapStateToProps)(AppContent)
