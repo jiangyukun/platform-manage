@@ -1,0 +1,8 @@
+/**
+ * Created by jiangyukun on 2016/12/1.
+ */
+
+export const FETCH_HOSPITAL_MANAGE_LIST = 'FETCH_HOSPITAL_MANAGE_LIST'
+export const FETCH_PROVINCE_LIST = 'FETCH_PROVINCE_LIST'
+export const FETCH_CITY_LIST = 'FETCH_CITY_LIST'
+export const UPDATE_VISIT_CARD = 'UPDATE_VISIT_CARD'

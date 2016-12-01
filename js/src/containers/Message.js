@@ -5,10 +5,11 @@ import React, {Component} from 'react'
 import CssTransitionGroup from 'react-addons-css-transition-group'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
+import {Modal, notification} from 'antd'
 
 import ImagePreview from '../components/core/ImagePreview'
-
-import {fetchMessageInfo} from '../actions/message'
+import constants from '../core/constants'
+import {fetchMessageInfo, markMessageState} from '../actions/message'
 import {closeMessagePanel} from '../actions/header'
 
 class Message extends Component {
@@ -17,6 +18,7 @@ class Message extends Component {
 
         this.loadedMessageCount = 0
         this.start = 0
+        this.state = {visible: false}
         this.fetch()
     }
 
@@ -32,12 +34,34 @@ class Message extends Component {
         this._imagePreview.open(msg.url)
     }
 
-    markUnRead() {
-
+    markUnRead(msg) {
+        const {markMessageState} = this.props
+        Modal.confirm({
+            title: '提示',
+            content: '确定标为未读吗？',
+            onOk() {
+                markMessageState(msg['id'], constants.messageState.unread).then(() => {
+                    notification.success({message: '提示', description: '标为未读成功！'})
+                }, () => {
+                    notification.error({message: '提示', description: '标为未读失败！'})
+                })
+            }
+        })
     }
 
-    markHasRead() {
-
+    markHasRead(msg) {
+        const {markMessageState} = this.props
+        Modal.confirm({
+            title: '提示',
+            content: '确定标为已读吗？',
+            onOk() {
+                markMessageState(msg['id'], constants.messageState.read).then(() => {
+                    notification.success({message: '提示', description: '标为已读成功！'})
+                }, () => {
+                    notification.error({message: '提示', description: '标为已读失败！'})
+                })
+            }
+        })
     }
 
     loadMoreMessage() {
@@ -60,12 +84,12 @@ class Message extends Component {
                                         {
                                             this.props.message.messageList.map(msg => {
                                                 return (
-                                                    <li key={msg.id} className={classnames('message-item', {'unread': msg.readState == '2'})}>
+                                                    <li key={msg.id} className={classnames('message-item', {'unread': msg.messageState == constants.messageState.unread})}>
                                                         <div>
                                                             新化验单
                                                             {
                                                                 msg.readState == '2' && (
-                                                                    <div className={classnames('message-state', 'pull-right', {'unread': msg.readState == '2'})}>
+                                                                    <div className={classnames('message-state pull-right', {'unread': msg.messageState == constants.messageState.unread})}>
                                                                         {msg.readState}
                                                                     </div>
                                                                 )
@@ -108,4 +132,12 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {closeMessagePanel, fetchMessageInfo})(Message)
+function mapActionToProps(dispatch, ownProps) {
+    return {
+        markMessageState: markMessageState(dispatch),
+        closeMessagePanel: () => dispatch(closeMessagePanel()),
+        fetchMessageInfo: fetchMessageInfo(dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapActionToProps)(Message)

@@ -5,6 +5,7 @@
 export * from './app'
 export * from './message'
 export * from './hospital'
+export * from './pages/hospitalManage'
 
 export function doctorListInfo(state = {total: 0, doctorList: []}, action) {
 
@@ -27,4 +28,3 @@ export function patientListInfo(state = {total: 0, list: []}, action) {
 
     return state
 }
-

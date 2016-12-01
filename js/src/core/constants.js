@@ -11,5 +11,9 @@ export default {
         auditingPass: 2,
         auditingUnPass: 3,
         auditingUnKnow: 4
+    },
+    messageState: {
+        read: 1,
+        unread: 2
     }
 }

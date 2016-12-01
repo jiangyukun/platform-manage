@@ -4,6 +4,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
+import moment from 'moment'
 import classnames from 'classnames'
 
 
@@ -15,7 +16,7 @@ import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
 
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
-import {fetchHospitalList} from '../../../actions/hospitalManage'
+import {fetchHospitalList} from '../../../actions/pages/hospitalManage'
 
 class HospitalManage extends Component {
     constructor() {
@@ -50,8 +51,8 @@ class HospitalManage extends Component {
                     </FilterItem>
                 </QueryFilter>
 
-                <PaginateList ref={c => this._paginateList = c}>
-                    <table className="table table-striped table-hover more-than-7column">
+                <PaginateList ref={c => this._paginateList = c} total={this.props.count}>
+                    <table className="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>医院名称</th>
@@ -63,6 +64,23 @@ class HospitalManage extends Component {
                             <th>创建时间</th>
                         </tr>
                         </thead>
+                        <tbody>
+                        {
+                            this.props.list.map((hospital, index) => {
+                                return (
+                                    <tr key={index} style={{height: '50px'}}>
+                                        <td>{hospital['hospital_Name']}</td>
+                                        <td>{hospital['province']}</td>
+                                        <td>{hospital['city']}</td>
+                                        <td>{hospital['city']}</td>
+                                        <td>{hospital['hospital_Name']}</td>
+                                        <td>{hospital['hospital_In_Project']}</td>
+                                        <td>{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        </tbody>
                     </table>
                 </PaginateList>
             </div>
@@ -71,13 +89,16 @@ class HospitalManage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+    let {count, list} = state['hospitalManageList']
     return {
+        count,
+        list,
         hospitalList: {
             typeCode: 'hospital',
             typeText: '医院',
             typeItemList: state.hospitalList
         },
-        register: getFilterItem('register', '创建日期', getStartEndDate()),
+        register: getFilterItem('register', '创建日期', getStartEndDate())
     }
 }
 
