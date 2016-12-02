@@ -4,7 +4,7 @@
 import constants  from '../../../../core/constants'
 import {getFilterItem, getStartEndDate} from '../../../../core/utils'
 
-export default function mapStateToProps(state, ownProps) {
+export default function mapStateToProps(state) {
     let {auditingState} = constants
     return {
         patientListInfo: state.patientListInfo,
@@ -16,8 +16,7 @@ export default function mapStateToProps(state, ownProps) {
         auditingStateList: getFilterItem('auditingState', '审核状态', [
             {value: auditingState.auditing, text: '审核中'},
             {value: auditingState.auditingPass, text: '审核通过'},
-            {value: auditingState.auditingUnPass, text: '审核不通过'},
-            {value: auditingState.auditingUnKnow, text: '未填写'}
+            {value: auditingState.auditingUnPass, text: '审核不通过'}
         ]),
         visitCardList: getFilterItem('visitCard', '随访卡', [{value: '1', text: '是'}, {value: '2', text: '否'}, {value: '3', text: '未知'}]),
         isPregnant12To14AcceptedVisit: getFilterItem('isPregnant12To14AcceptedVisit', '孕24-32周是否接受随访'),

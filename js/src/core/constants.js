@@ -9,8 +9,7 @@ export default {
     auditingState: {
         auditing: 1, //审核中
         auditingPass: 2,
-        auditingUnPass: 3,
-        auditingUnKnow: 4
+        auditingUnPass: 3
     },
     messageState: {
         read: 1,

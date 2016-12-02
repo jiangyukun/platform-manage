@@ -44,11 +44,11 @@ class Body extends Component {
                             </td>
                             <td className="w-120">
                                 {patient['is_First_Complete_Visit']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '1')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 1)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['first_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '1')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 1)}></i>
                             </td>
 
                             <td className="w-150">
@@ -76,11 +76,11 @@ class Body extends Component {
                             <td className="w-120">{patient['pregnant_14_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_14_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '2')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 2)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_14_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '2')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 2)}></i>
                             </td>
 
                             {/*访视2*/}
@@ -98,21 +98,20 @@ class Body extends Component {
                             <td className="w-120">{patient['pregnant_26_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_26_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '3')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 3)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_26_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '3')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 3)}></i>
                             </td>
                             <td className="w-120">{patient['pregnant_33_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_33_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '4')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 4)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_33_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '4')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 4)}></i>
                             </td>
 
 
@@ -130,12 +129,11 @@ class Body extends Component {
                             <td className="w-120">{patient['pregnant_41_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_41_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '5')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 5)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_41_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '5')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 5)}></i>
                             </td>
 
 
@@ -154,23 +152,21 @@ class Body extends Component {
                             <td className="w-120">{patient['pregnant_46_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_46_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '6')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 6)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_46_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '6')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 6)}></i>
                             </td>
                             <td className="w-120">{patient['postpartum_10_Weeks_Date']}</td>
                             <td className="w-120">{patient['pregnant_50_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_50_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '7')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 7)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_50_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '7')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 7)}></i>
                             </td>
 
 
@@ -191,37 +187,34 @@ class Body extends Component {
                             <td className="w-120">{patient['pregnant_72_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_72_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '8')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 8)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_72_Weeks_Contact_Remark']}
                                 <div>
-                                    <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '8')"></i>
+                                    <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 8)}></i>
                                 </div>
                             </td>
                             <td className="w-120">{patient['postpartum_9_Months_Date']}</td>
                             <td className="w-120">{patient['pregnant_76_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_76_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '9')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 9)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_76_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '9')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 9)}></i>
                             </td>
 
                             <td className="w-120">{patient['postpartum_10_Months_Date']}</td>
                             <td className="w-120">{patient['pregnant_80_Weeks_Date']}</td>
                             <td className="w-120">
                                 {patient['is_Pregnant_80_Weeks_Complete_Visit']}
-                                <i className="fa fa-edit"
-                                   data-ng-click="nodepatientCtrl.editIsCompleteVisit(patient, '10')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openIsCompleteVisitDialog(patient, 10)}></i>
                             </td>
                             <td className="w-120">
                                 {patient['pregnant_80_Weeks_Contact_Remark']}
-                                <i className="fa fa-edit" data-ng-click="nodepatientCtrl.editMark(patient, '10')"></i>
+                                <i className="fa fa-edit" onClick={e => this.props.openEditRemarkDialog(patient, 10)}></i>
                             </td>
 
                         </tr>
@@ -239,7 +232,9 @@ Body.propTypes = {
     open1: PropTypes.bool,
     open2: PropTypes.bool,
     selectItem: PropTypes.func,
-    openVisitCardDialog: PropTypes.func
+    openVisitCardDialog: PropTypes.func,
+    openEditRemarkDialog: PropTypes.func,
+    openIsCompleteVisitDialog: PropTypes.func
 }
 
 export default Body

@@ -3,7 +3,6 @@
  */
 import React, {Component, PropTypes} from 'react'
 import DatePicker from 'antd/lib/date-picker'
-import 'antd/dist/antd.css'
 import classnames  from 'classnames'
 
 class CustomDateRange extends Component {

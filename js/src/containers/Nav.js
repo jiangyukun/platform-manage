@@ -26,7 +26,7 @@ export default class Nav extends Component {
                         </a>
                         <ul className="nav nav-sub dk">
                             <li className="nav-sub-header">
-                                <a href>
+                                <a>
                                     <span>患者管理</span>
                                 </a>
                             </li>
@@ -41,9 +41,9 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/app/laboratory-sheet">
+                                <a href="../platform/home.html#/app/laboratory-sheet">
                                     <span>化验单查看</span>
-                                </Link>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -60,24 +60,24 @@ export default class Nav extends Component {
                         </a>
                         <ul className="nav nav-sub dk">
                             <li className="nav-sub-header">
-                                <Link to="/app">
+                                <a>
                                     <span>APP管理</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
-                                <Link to="app.slider-config">
+                                <a href="../platform/home.html#/app/slider-config">
                                     <span>轮播图管理</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
-                                <Link to="app.knowledge-base">
+                                <a href="../platform/home.html#/app/knowledge-base">
                                     <span>知识库维护</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
-                                <Link to="app/">
+                                <a>
                                     <span>群组维护</span>
-                                </Link>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -99,9 +99,9 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/app/doctor-auditing">
+                                <a href="../platform/home.html#/app/doctor-auditing">
                                     <span>医生管理</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
                                 <Link to="/app/hospital-manage">
@@ -150,7 +150,7 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <a href="app.score-statistics">
+                                <a href="../platform/home.html#/app.score-statistics">
                                     <span>在线医生评分</span>
                                 </a>
                             </li>

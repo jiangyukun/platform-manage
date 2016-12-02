@@ -2,7 +2,7 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'antd'
+import Modal from 'antd/lib/modal'
 
 class EditVisitCard extends Component {
     constructor() {
@@ -12,9 +12,8 @@ class EditVisitCard extends Component {
     }
 
     open(patient) {
-        console.log(patient);
         this.patient = patient
-        this.setState({show: true, value: patient['visit_card_status'], id: patient['patient_Id']})
+        this.setState({id: patient['patient_Id'], value: patient['visit_card_status'], show: true})
     }
 
     handleSelectChange(event) {

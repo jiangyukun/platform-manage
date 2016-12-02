@@ -4,7 +4,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
-import {notification} from 'antd'
+import notification from 'antd/lib/notification'
 
 import NodeAuditingQueryFilter from './NodeAuditingQueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
@@ -16,11 +16,13 @@ import PaginateList from '../../../components/core/PaginateList'
 import Header from './table/Header'
 import Body from './table/Body'
 import EditVisitCard from './edit/EditVisitCard'
+import EditRemark from './edit/EditRemark'
+import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
 import EditPatient from './EditPatient'
 import mapStateToProps from './data/mapStateToProps'
 import {ConditionResolver, getFilterConditionValue} from '../../../core/busHelper'
 
-import {fetchPatientList, editVisitCardState} from '../../../actions/pages/node-auditing'
+import {fetchPatientList, editVisitCardState, editRemark, editIsCompleteVisit} from '../../../actions/pages/node-auditing'
 
 class NodeAuditing extends Component {
     constructor(props) {
@@ -93,6 +95,22 @@ class NodeAuditing extends Component {
         })
     }
 
+    editRemark(id, remarkType, remark) {
+        this.props.editRemark(id, remarkType, remark).then(() => {
+            notification.success({message: '提示', description: '更新备注成功！'})
+        }, () => {
+            notification.error({message: '提示', description: '更新备注失败！'})
+        })
+    }
+
+    editIsCompleteVisit(id, completeVisitType, completeVisitState) {
+        this.props.editIsCompleteVisit(id, completeVisitType, completeVisitState).then(() => {
+            notification.success({message: '提示', description: '更新是否完成随访成功！'})
+        }, () => {
+            notification.error({message: '提示', description: '更新是否完成随访失败！'})
+        })
+    }
+
     componentDidMount() {
         this.beginFetch()
     }
@@ -102,7 +120,9 @@ class NodeAuditing extends Component {
         return (
             <div className="app-function-page">
                 <EditPatient ref={c => this._editPatient = c}/>
-                <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(id, state) => this.editVisitCard(id, state)}/>
+                <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
+                <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
+                <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
                 <NodeAuditingQueryFilter ref={c => this._queryFilter = c} beginFilter={filterCondition => this.beginFetch()} className="ex-big-label ">
                     <button className="btn btn-primary mr-20" onClick={e => this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
@@ -133,8 +153,10 @@ class NodeAuditing extends Component {
                               open1={this.state.open1}
                               open2={this.state.open2}
                               currentIndex={this.state.currentIndex}
-                              selectItem={index => this.activeItem(index)}
-                              openVisitCardDialog={patient => this._editVisitCard.open(patient)}/>
+                              selectItem={this.activeItem.bind(this)}
+                              openVisitCardDialog={(...arg) => this._editVisitCard.open(...arg)}
+                              openEditRemarkDialog={(...arg) => this._editRemark.open(...arg)}
+                              openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}/>
                     </table>
                 </PaginateList>
             </div>
@@ -142,10 +164,12 @@ class NodeAuditing extends Component {
     }
 }
 
-function mapActionToProps(dispatch, props) {
+function mapActionToProps(dispatch) {
     return {
         fetchPatientList: fetchPatientList(dispatch),
-        editVisitCardState: editVisitCardState(dispatch)
+        editVisitCardState: editVisitCardState(dispatch),
+        editRemark: editRemark(dispatch),
+        editIsCompleteVisit: editIsCompleteVisit(dispatch)
     }
 }
 

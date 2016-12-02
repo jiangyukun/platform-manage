@@ -16,7 +16,8 @@ import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
 
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
-import {fetchHospitalList} from '../../../actions/pages/hospitalManage'
+import {getYesOrNoText} from '../../../core/formatBusData'
+import {fetchHospitalList} from '../../../actions/pages/hospital-manage'
 
 class HospitalManage extends Component {
     constructor() {
@@ -51,7 +52,7 @@ class HospitalManage extends Component {
                     </FilterItem>
                 </QueryFilter>
 
-                <PaginateList ref={c => this._paginateList = c} total={this.props.count}>
+                <PaginateList ref={c => this._paginateList = c} total={this.props.total}>
                     <table className="table table-striped table-hover">
                         <thead>
                         <tr>
@@ -72,9 +73,9 @@ class HospitalManage extends Component {
                                         <td>{hospital['hospital_Name']}</td>
                                         <td>{hospital['province']}</td>
                                         <td>{hospital['city']}</td>
-                                        <td>{hospital['city']}</td>
-                                        <td>{hospital['hospital_Name']}</td>
-                                        <td>{hospital['hospital_In_Project']}</td>
+                                        <td>{hospital['cityCode']}</td>
+                                        <td>{hospital['hospitalSerialNumber']}</td>
+                                        <td>{getYesOrNoText(hospital['hospital_In_Project'])}</td>
                                         <td>{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</td>
                                     </tr>
                                 )
@@ -88,10 +89,10 @@ class HospitalManage extends Component {
     }
 }
 
-function mapStateToProps(state, ownProps) {
-    let {count, list} = state['hospitalManageList']
+function mapStateToProps(state) {
+    let {total, list} = state['hospitalManageList']
     return {
-        count,
+        total,
         list,
         hospitalList: {
             typeCode: 'hospital',
@@ -102,7 +103,7 @@ function mapStateToProps(state, ownProps) {
     }
 }
 
-function mapActionToProps(dispatch, ownProps) {
+function mapActionToProps(dispatch) {
     return {
         fetchHospitalList: fetchHospitalList(dispatch)
     }
