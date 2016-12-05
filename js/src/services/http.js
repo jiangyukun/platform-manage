@@ -3,7 +3,9 @@
  */
 
 function preHandle(url, option) {
-    url = '/backend' + url
+    if (process.env.NODE_ENV == 'production') {
+        url = '/backend' + url
+    }
     option = option || {}
 
     let param = option.body

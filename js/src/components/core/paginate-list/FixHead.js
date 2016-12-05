@@ -10,7 +10,7 @@ class FixHead extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this._fixHeadContainer.scrollLeft = nextProps.scrollLeft
+        // this._fixHeadContainer.scrollLeft = nextProps.scrollLeft
     }
 
     componentDidUpdate() {

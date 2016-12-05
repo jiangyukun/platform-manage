@@ -2,6 +2,7 @@ var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
 var config = require('./webpack.config')
+var bodyParser = require('body-parser')
 
 var express = require('express')
 
@@ -11,6 +12,8 @@ var app = new express()
 var port = 3000
 
 var compiler = webpack(config)
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json({limit: '1mb'}))
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}))
 app.use(webpackHotMiddleware(compiler))
 

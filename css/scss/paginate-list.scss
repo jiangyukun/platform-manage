@@ -259,7 +259,7 @@
     }
 
     .fix-left {
-        display: none;
+        float: left;
     }
 
     .fix-header-item {
@@ -287,8 +287,7 @@
     }
 
     .fix-left-item {
-        padding-top: 9px;
-        padding-left: 15px;
+        padding: 9px 15px;
         color: white;
     }
 }

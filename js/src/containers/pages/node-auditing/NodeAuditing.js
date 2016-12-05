@@ -160,7 +160,7 @@ class NodeAuditing extends Component {
                               beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
                               total={total}>
 
-                    <SmartList className="paginate-list-data-container" width={listWidth} fixHead={true} fixLeft={true}>
+                    <SmartList className="paginate-list-data-container" width={listWidth} fixHead={true} fixLeft={[1, 2]}>
                         <HeadContainer>
                             <Head open1={this.state.open1}
                                   open2={this.state.open2}

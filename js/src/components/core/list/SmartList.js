@@ -3,18 +3,20 @@
  * Created by jiangyukun on 2016/12/5.
  */
 import React, {Component, PropTypes, cloneElement} from 'react'
+import {findDOMNode} from 'react-dom'
 import {events} from 'dom-helpers'
 import {throttle} from 'lodash'
 
 import HeadContainer from './HeadContainer'
 import BodyContainer from './BodyContainer'
 import FixHead from '../paginate-list/FixHead'
+import FixLeftContainer from '../paginate-list/FixLeftContainer'
 import FixLeft from '../paginate-list/FixLeft'
 
 class SmartList extends Component {
     constructor() {
         super()
-        this.handleTableScroll = throttle(this.handleTableScroll.bind(this), 20, {leading: true, trailing: true})
+        this.handleTableScroll = throttle(this.handleTableScroll.bind(this), 10, {leading: true, trailing: true})
         this.state = {
             showHead: false,
             showLeft: false,
@@ -25,14 +27,14 @@ class SmartList extends Component {
 
     handleTableScroll() {
         if (this.props.fixHead) {
-            if (this._tableContainer.scrollTop > 5) {
+            if (this._tableContainer.scrollTop > 0) {
                 this.setState({showHead: true, scrollLeft: this._tableContainer.scrollLeft})
             } else {
                 this.setState({showHead: false})
             }
         }
         if (this.props.fixLeft) {
-            if (this._tableContainer.scrollLeft > this.firstColumnWidth) {
+            if (this._tableContainer.scrollLeft > 0) {
                 this.setState({showLeft: true, scrollTop: this._tableContainer.scrollTop})
             } else {
                 this.setState({showLeft: false})
@@ -41,17 +43,27 @@ class SmartList extends Component {
     }
 
     getLeftItems() {
-        this.leftItems = []
+        let leftIndexes = [1]
+        if (this.props.fixLeft instanceof Array) {
+            leftIndexes = this.props.fixLeft
+        }
+        return leftIndexes.map(leftIndex => this._getLeftItem(leftIndex))
+    }
 
-        /*let leftTopTh = this._table.firstChild.firstChild.firstChild
+    _getLeftItem(index) {
+        let leftItem = []
 
-         this.leftItems.push({text: leftTopTh.innerText, height: leftTopTh.clientHeight})
+        let head = findDOMNode(this._head)
+        let body = findDOMNode(this._body)
 
-         let trs = this._table.lastChild.childNodes
-         for (let i = 0; i < trs.length; i++) {
-         let th = trs[i].firstChild
-         this.leftItems.push({text: th.innerText, height: th.clientHeight})
-         }*/
+        leftItem.push({text: head.childNodes[index].innerText, height: head.clientHeight})
+
+        let listItems = body.childNodes
+        for (let i = 0; i < listItems.length; i++) {
+            let item = listItems[i]
+            leftItem.push({text: item.childNodes[index].innerText, height: item.clientHeight})
+        }
+        return leftItem
     }
 
     componentDidMount() {
@@ -59,12 +71,10 @@ class SmartList extends Component {
     }
 
     componentDidUpdate() {
-        if (!this._table) return
+        if (!this._head || !this._body) return
 
-        this.tableWidth = this._table.clientWidth
-        this.tableHeight = this._table.clientHeight
-
-        this.getLeftItems()
+        this.leftItems = this.getLeftItems()
+        console.log(this.leftItems)
     }
 
     componentWillUnmount() {
@@ -72,17 +82,15 @@ class SmartList extends Component {
     }
 
     render() {
-        let getChildren = () => {
-            return this.props.children.map((child, index) => {
-                if (child.type == HeadContainer) {
-                    this.clonedHeadComponent = cloneElement(child, {key: index + '_clone', ref: c => this._head = c})
-                    return cloneElement(child, {key: index, ref: c => this._head = c})
-                }
-                if (child.type == BodyContainer) {
-                    return cloneElement(child, {key: index, ref: c => this._body = c})
-                }
-            })
-        }
+        let children = this.props.children.map((child, index) => {
+            if (child.type == HeadContainer) {
+                this.clonedHeadComponent = cloneElement(child.props.children, {key: index + '_clone', ref: c => this._head = c})
+                return cloneElement(child, {key: index, ref: c => this._head = c})
+            }
+            if (child.type == BodyContainer) {
+                return cloneElement(child, {key: index, ref: c => this._body = c})
+            }
+        })
 
         return (
             <div className="table relative">
@@ -92,11 +100,21 @@ class SmartList extends Component {
                 {this.state.showHead && <FixHead width={this.props.width}
                                                  scrollLeft={this.state.scrollLeft}
                                                  component={this.clonedHeadComponent}/>}
-                {this.state.showLeft && <FixLeft leftItems={this.leftItems}/>}
+                {
+                    this.state.showLeft && (
+                        <FixLeftContainer scrollTop={this.state.scrollTop}>
+                            {
+                                this.leftItems.map((leftItem, index) => {
+                                    return <FixLeft key={index} leftItem={leftItem}/>
+                                })
+                            }
+                        </FixLeftContainer>
+                    )
+                }
 
                 <div className="js-table-container" ref={c => this._tableContainer = c}>
                     <div className={this.props.className} style={{width: this.props.width + 'px'}}>
-                        {getChildren()}
+                        {children}
                     </div>
                 </div>
             </div>
@@ -109,7 +127,7 @@ SmartList.propTypes = {
     total: PropTypes.number,
     width: PropTypes.number,
     fixHead: PropTypes.bool,
-    fixLeft: PropTypes.bool
+    fixLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array])
 }
 
 export default SmartList

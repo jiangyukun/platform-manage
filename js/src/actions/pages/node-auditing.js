@@ -7,8 +7,9 @@ import * as phase from '../../constants/PhaseConstant'
 import {toRemarkTypeRequestKey, toCompleteVisitTypeRequestKey} from '../../core/pages/nodeAuditingHelper'
 
 export let fetchPatientList = dispatch => option => {
+    let url = '/web/patient/check/list/'
     return new Promise((resolve, reject) => {
-        http('/web/patient/check/list/', {
+        http(url, {
             method: 'POST',
             body: option
         }).then(response => response.json()).then((patientListInfo) => {
