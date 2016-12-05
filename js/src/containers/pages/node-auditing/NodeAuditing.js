@@ -12,8 +12,11 @@ import CustomDateRange from '../../../components/core/query-filter/custom/Custom
 import SubDateSelect from '../../../components/core/query-filter/custom/SubDateSelect'
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
+import SmartList from '../../../components/core/list/SmartList'
+import HeadContainer from '../../../components/core/list/HeadContainer'
+import BodyContainer from '../../../components/core/list/BodyContainer'
 
-import Header from './table/Header'
+import Head from './table/Head'
 import Body from './table/Body'
 import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
@@ -111,12 +114,24 @@ class NodeAuditing extends Component {
         })
     }
 
+    updateOpenFlag(openState) {
+        this.setState(openState)
+    }
+
     componentDidMount() {
         this.beginFetch()
     }
 
     render() {
         let {total, list} = this.props.patientListInfo
+        let listWidth = 6800
+        if (this.state.open1) {
+            listWidth += 360
+        }
+        if (this.state.open2) {
+            listWidth += 480
+        }
+
         return (
             <div className="app-function-page">
                 <EditPatient ref={c => this._editPatient = c}/>
@@ -143,21 +158,25 @@ class NodeAuditing extends Component {
 
                 <PaginateList ref={c => this._paginateList = c} loading={this.state.loading}
                               beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
-                              total={total} fixHead={true} fixLeft={true}>
+                              total={total}>
 
-                    <table className="table table-striped table-hover more-than-7column" style={{"minWidth": "5500px"}}>
-                        <Header open1={this.state.open1}
-                                open2={this.state.open2}
-                                updateOpenFlag={openFlag => this.setState(openFlag)}/>
-                        <Body list={list}
-                              open1={this.state.open1}
-                              open2={this.state.open2}
-                              currentIndex={this.state.currentIndex}
-                              selectItem={this.activeItem.bind(this)}
-                              openVisitCardDialog={(...arg) => this._editVisitCard.open(...arg)}
-                              openEditRemarkDialog={(...arg) => this._editRemark.open(...arg)}
-                              openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}/>
-                    </table>
+                    <SmartList className="paginate-list-data-container" width={listWidth} fixHead={true} fixLeft={true}>
+                        <HeadContainer>
+                            <Head open1={this.state.open1}
+                                  open2={this.state.open2}
+                                  updateOpenFlag={openFlag => this.updateOpenFlag(openFlag)}/>
+                        </HeadContainer>
+                        <BodyContainer>
+                            <Body list={list}
+                                  open1={this.state.open1}
+                                  open2={this.state.open2}
+                                  currentIndex={this.state.currentIndex}
+                                  selectItem={this.activeItem.bind(this)}
+                                  openVisitCardDialog={(...arg) => this._editVisitCard.open(...arg)}
+                                  openEditRemarkDialog={(...arg) => this._editRemark.open(...arg)}
+                                  openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}/>
+                        </BodyContainer>
+                    </SmartList>
                 </PaginateList>
             </div>
         )

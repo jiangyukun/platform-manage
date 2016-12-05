@@ -1,295 +1,315 @@
 
 .paginate-list {
-  display: -webkit-flex;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow: hidden;
-  font-size: 12px;
-
-  & > .table {
     display: -webkit-flex;
     display: flex;
     flex: 1;
-    overflow: auto;
-    margin-bottom: 0;
     flex-direction: column;
-  }
-
-  .js-table-container {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  th li, th ul {
-    list-style-type: none;
-  }
-
-  thead tr th.th-left {
-    background-color: #b9def0;
-    line-height: 39px;
-    font-weight: 200;
-    position: relative;
-    padding: 0 0 0 15px;
-  }
-
-  th.th-left.pl-15 {
-    padding-left: 15px;
-  }
-
-  .group-ff {
-    position: relative;
-    height: 39px;
-  }
-
-  th .group-desc a {
-    float: left;
-    color: #666;
-  }
-
-  th .group-desc ul {
-    display: none;
-  }
-
-  th .group-desc i {
-    display: block;
-    float: left;
-    margin: 14px 0 0 5px;
-  }
-
-  .icon-more-select {
-    background-position: 0 -988px;
-    height: 12px;
-    width: 13px;
-  }
-
-  th .group-desc ul li {
-    cursor: pointer;
-    clear: both;
-  }
-
-  .th-left > .selected .group-desc {
-    padding: 0 10px;
-    top: 0;
-    left: -11px;
-    position: absolute;
-    border: 1px solid #bbc8e2;
-    background-color: #fff;
-  }
-
-  .th-left > .selected .group-desc .icon-more-select, .icon-more-select-block {
-    background-position: 0 -976px;
-    height: 12px;
-    width: 13px;
-  }
-
-  .th-left > .selected .group-desc ul {
-    display: block;
-    clear: both;
-  }
-
-  th .group-desc a {
-    float: left;
-    /*display: #000;*/
-    color: #666;
-  }
-
-  .arrow {
-    position: static;
-    border-style: none;
-  }
-
-  .icon-arrow-desc {
-    background-position: 0 -35px;
-    height: 10px;
-    width: 7px;
-  }
-
-  .icon-arrow-desc1 {
-    background-position: 0 -55px;
-    height: 10px;
-    width: 7px;
-  }
-
-  th .group-desc a:hover {
-    color: #2b77e5;
-  }
-
-  th.th-select1 a.link, th.th-select1 a.link:hover {
-    color: red;
-  }
-
-  .icon-arrow-desc-red {
-    background-position: 0 -25px;
-    height: 10px;
-    width: 7px;
-  }
-
-  th.th-select1 .group-desc i.arrow {
-    display: block;
-  }
-
-  .icon-arrow-desc1-red {
-    background-position: 0 -45px;
-    height: 10px;
-    width: 7px;
-  }
-
-  .fix-header-list {
-    flex: 1;
-    flex-direction: column;
-    display: flex;
-    display: -webkit-flex;
-    overflow: auto;
-  }
-
-  .fix-header-list .list-header, .fix-header-list .list-item {
-    width: 100%;
-  }
-
-  .fix-header-list .list-item-wrap {
-    flex: 1;
-    overflow: auto;
-    position: relative;
-  }
-
-  .fix-header-list .list-item-wrap ul {
-    width: 4800px;
-    padding: 5px 11px;
-  }
-
-  .fix-header-list .list-item-wrap ul {
-    border-bottom: 1px solid #ddd;
-  }
-
-  .fix-header-list li {
-    display: inline-block;
-  }
-
-  .fix-header-list .list-header {
-    width: 4800px;
-
-  }
-
-  .fix-header-list .list-item li {
-    vertical-align: middle;
     overflow: hidden;
-  }
+    font-size: 12px;
 
-  .fix-header-list .list-item.selected {
-    background-color: rgba(46, 213, 86, 0.5);
-  }
+    & > .table {
+        display: -webkit-flex;
+        display: flex;
+        flex: 1;
+        overflow: auto;
+        margin-bottom: 0;
+        flex-direction: column;
+    }
 
-  .scroll-bar-container {
-    overflow: auto;
-  }
+    .js-table-container {
+        position: relative;
+        width: 100%;
+        flex: 1;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+    }
 
-  .scroll-bar-container.vertical {
-    height: 100%;
-  }
+    th li, th ul {
+        list-style-type: none;
+    }
 
-  .scroll-bar.horizontal {
-    height: 1px;
-  }
+    thead tr th.th-left {
+        background-color: #b9def0;
+        line-height: 39px;
+        font-weight: 200;
+        position: relative;
+        padding: 0 0 0 15px;
+    }
 
-  .scroll-bar.vertical {
-    width: 10px;
-  }
+    th.th-left.pl-15 {
+        padding-left: 15px;
+    }
 
-  .scroll-bar-vertical-wrap {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }
+    .group-ff {
+        position: relative;
+        height: 39px;
+    }
 
-  .no-list-data {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -20px;
-    margin-left: -40px;
-    font-size: 20px;
-  }
+    th .group-desc a {
+        float: left;
+        color: #666;
+    }
 
-  .list-info {
-    border-top: 1px solid #ddd;
-    padding-top: 5px;
-    margin-top: 5px;
-    margin-left: 10px;
-    display: -webkit-flex;
-    display: flex;
-  }
+    th .group-desc ul {
+        display: none;
+    }
 
-  .list-count-info {
-    margin-top: 5px;
-  }
+    th .group-desc i {
+        display: block;
+        float: left;
+        margin: 14px 0 0 5px;
+    }
 
-  .list-nav-button {
-    margin-left: 50px;
-    flex: 1;
-  }
+    .icon-more-select {
+        background-position: 0 -988px;
+        height: 12px;
+        width: 13px;
+    }
 
-  .auto-position {
-    padding: 11px 15px;
-    background-color: #b9def0;
-    overflow: hidden;
-  }
+    th .group-desc ul li {
+        cursor: pointer;
+        clear: both;
+    }
 
-  .paginate-list .table-head {
+    .th-left > .selected .group-desc {
+        padding: 0 10px;
+        top: 0;
+        left: -11px;
+        position: absolute;
+        border: 1px solid #bbc8e2;
+        background-color: #fff;
+    }
 
-    background-color: #b9def0;
-  }
+    .th-left > .selected .group-desc .icon-more-select, .icon-more-select-block {
+        background-position: 0 -976px;
+        height: 12px;
+        width: 13px;
+    }
 
-  .table {
-    margin-bottom: 0;
-  }
+    .th-left > .selected .group-desc ul {
+        display: block;
+        clear: both;
+    }
 
-  .table i.fa.fa-edit {
-    cursor: pointer;
-  }
+    th .group-desc a {
+        float: left;
+        /*display: #000;*/
+        color: #666;
+    }
 
-  .fix-header {
-    background-color: #b9def0;
-    overflow: hidden;
-    display: none;
-  }
+    .arrow {
+        position: static;
+        border-style: none;
+    }
 
-  .fix-left {
-    display: none;
-  }
+    .icon-arrow-desc {
+        background-position: 0 -35px;
+        height: 10px;
+        width: 7px;
+    }
 
-  .fix-header-item {
-    padding: 9px 0 9px 15px;
-    float: left;
-  }
+    .icon-arrow-desc1 {
+        background-position: 0 -55px;
+        height: 10px;
+        width: 7px;
+    }
 
-  .js-fix-header-container {
-    left: 0;
-    right: 10px;
-    overflow: hidden;
-    position: absolute;
-    z-index: 11;
-    top: 0;
-  }
+    th .group-desc a:hover {
+        color: #2b77e5;
+    }
 
-  .js-fix-left-container {
-    background: rgba(50, 100, 100, 0.75);
-    overflow: hidden;
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    bottom: 10px;
-  }
+    th.th-select1 a.link, th.th-select1 a.link:hover {
+        color: red;
+    }
 
-  .fix-left-item {
-    padding-top: 9px;
-    padding-left: 15px;
-    color: white;
-  }
+    .icon-arrow-desc-red {
+        background-position: 0 -25px;
+        height: 10px;
+        width: 7px;
+    }
+
+    th.th-select1 .group-desc i.arrow {
+        display: block;
+    }
+
+    .icon-arrow-desc1-red {
+        background-position: 0 -45px;
+        height: 10px;
+        width: 7px;
+    }
+
+    .fix-header-list {
+        flex: 1;
+        flex-direction: column;
+        display: flex;
+        display: -webkit-flex;
+        overflow: auto;
+    }
+
+    .fix-header-list .list-header, .fix-header-list .list-item {
+        width: 100%;
+    }
+
+    .fix-header-list .list-item-wrap {
+        flex: 1;
+        overflow: auto;
+        position: relative;
+    }
+
+    .fix-header-list .list-item-wrap ul {
+        width: 4800px;
+        padding: 5px 11px;
+    }
+
+    .fix-header-list .list-item-wrap ul {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .fix-header-list li {
+        display: inline-block;
+    }
+
+    .fix-header-list .list-header {
+        width: 4800px;
+
+    }
+
+    .fix-header-list .list-item li {
+        vertical-align: middle;
+        overflow: hidden;
+    }
+
+    .fix-header-list .list-item.selected {
+        background-color: rgba(46, 213, 86, 0.5);
+    }
+
+    .scroll-bar-container {
+        overflow: auto;
+    }
+
+    .scroll-bar-container.vertical {
+        height: 100%;
+    }
+
+    .scroll-bar.horizontal {
+        height: 1px;
+    }
+
+    .scroll-bar.vertical {
+        width: 10px;
+    }
+
+    .scroll-bar-vertical-wrap {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .no-list-data {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -20px;
+        margin-left: -40px;
+        font-size: 20px;
+    }
+
+    .list-info {
+        border-top: 1px solid #ddd;
+        padding-top: 5px;
+        margin-top: 5px;
+        margin-left: 10px;
+        display: -webkit-flex;
+        display: flex;
+    }
+
+    .list-count-info {
+        margin-top: 5px;
+    }
+
+    .list-nav-button {
+        margin-left: 50px;
+        flex: 1;
+    }
+
+    .auto-position {
+        padding: 11px 15px;
+        background-color: #b9def0;
+        overflow: hidden;
+    }
+
+    .paginate-list .table-head {
+
+        background-color: #b9def0;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table i.fa.fa-edit {
+        cursor: pointer;
+    }
+
+    .fix-header {
+        background-color: #b9def0;
+        overflow: hidden;
+    }
+
+    .fix-left {
+        display: none;
+    }
+
+    .fix-header-item {
+        padding: 9px 0 9px 15px;
+        float: left;
+    }
+
+    .js-fix-header-container {
+        left: 0;
+        right: 10px;
+        overflow: hidden;
+        position: absolute;
+        z-index: 11;
+        top: 0;
+    }
+
+    .js-fix-left-container {
+        background: rgba(50, 100, 100, 0.75);
+        overflow: hidden;
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        bottom: 10px;
+    }
+
+    .fix-left-item {
+        padding-top: 9px;
+        padding-left: 15px;
+        color: white;
+    }
+}
+
+.paginate-list {
+    .list-header {
+        padding: 10px 15px;
+        background-color: #b9def0;
+        .list-header-item {
+            float: left;
+        }
+    }
+
+    .list {
+        .list-item {
+            vertical-align: middle;
+            padding: 10px 0 10px 15px;
+            float: left;
+        }
+        &.selected {
+            background-color: rgba(46, 213, 86, 0.5);
+        }
+    }
 }

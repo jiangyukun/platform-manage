@@ -44,7 +44,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background-color: rgba(200, 200, 200, 0.75);
+    background-color: rgba(200, 200, 200, 0.9);
 }
 
 ::-webkit-scrollbar-track {

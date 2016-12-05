@@ -67,8 +67,16 @@
     width: 120px;
 }
 
+.w-140 {
+    width: 140px;
+}
+
 .w-150 {
     width: 150px;
+}
+
+.w-175 {
+    width: 175px;
 }
 
 .w-300 {
@@ -179,10 +187,6 @@ pre {
     overflow: auto;
     margin-bottom: 10px;
     text-align: center;
-}
-
-.full-screen-preview img {
-    max-width: 100%;
 }
 
 table .table-cell-look a {
@@ -368,4 +372,15 @@ table .table-cell-look a:hover {
 
 .table > tbody > tr > td {
     vertical-align: middle;
+}
+
+.toolbar-btn.btn {
+    font-size: 12px;
+    color: #777;
+    margin-right: 7px;
+}
+
+.btn.toolbar-btn.reset {
+    background-color: #9acfea;
+    color: #8a6d3b;
 }
