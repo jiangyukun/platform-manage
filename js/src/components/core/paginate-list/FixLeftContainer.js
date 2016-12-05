@@ -9,8 +9,20 @@ class FixLeftContainer extends Component {
     }
 
     render() {
+        console.log(this.props.leftHeadItems)
         return (
-            <div className="js-fix-left-container" ref={c => this._fixLeftContainer = c}>
+            <div className="fix-left-container" ref={c => this._fixLeftContainer = c}>
+                <div className="fix-left-head">
+                    {
+                        this.props.leftHeadItems.map((leftHeadItem, index) => {
+                            return (
+                                <div key={index} className="fix-left-head-item">
+                                    {leftHeadItem.text}
+                                </div>
+                            )
+                        })
+                    }
+                </div>
                 {this.props.children}
             </div>
         )
@@ -18,6 +30,7 @@ class FixLeftContainer extends Component {
 }
 
 FixLeftContainer.propTypes = {
+    leftHeadItems: PropTypes.array,
     scrollTop: PropTypes.number
 }
 

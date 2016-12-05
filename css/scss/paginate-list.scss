@@ -276,7 +276,7 @@
         top: 0;
     }
 
-    .js-fix-left-container {
+    .fix-left-container {
         background: rgba(50, 100, 100, 0.75);
         overflow: hidden;
         position: absolute;
@@ -284,6 +284,17 @@
         top: 0;
         left: 0;
         bottom: 10px;
+
+        .fix-left-head {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 12;
+        }
+
+        .fix-left-head-item {
+            float: left;
+        }
     }
 
     .fix-left-item {

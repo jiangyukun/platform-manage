@@ -43,11 +43,19 @@ class SmartList extends Component {
     }
 
     getLeftItems() {
-        let leftIndexes = [1]
+        let leftIndexes = [0]
         if (this.props.fixLeft instanceof Array) {
             leftIndexes = this.props.fixLeft
         }
         return leftIndexes.map(leftIndex => this._getLeftItem(leftIndex))
+    }
+
+    getLeftHeadItem() {
+        let leftIndexes = [0]
+        if (this.props.fixLeft instanceof Array) {
+            leftIndexes = this.props.fixLeft
+        }
+        return leftIndexes.map(leftIndex => this._getLeftHeadItem(leftIndex))
     }
 
     _getLeftItem(index) {
@@ -66,6 +74,11 @@ class SmartList extends Component {
         return leftItem
     }
 
+    _getLeftHeadItem(index) {
+        let head = findDOMNode(this._head)
+        return {text: head.childNodes[index].innerText, height: head.clientHeight}
+    }
+
     componentDidMount() {
         events.on(this._tableContainer, 'scroll', this.handleTableScroll)
     }
@@ -73,8 +86,8 @@ class SmartList extends Component {
     componentDidUpdate() {
         if (!this._head || !this._body) return
 
+        this.leftHeadItems = this.getLeftHeadItem()
         this.leftItems = this.getLeftItems()
-        console.log(this.leftItems)
     }
 
     componentWillUnmount() {
@@ -102,7 +115,7 @@ class SmartList extends Component {
                                                  component={this.clonedHeadComponent}/>}
                 {
                     this.state.showLeft && (
-                        <FixLeftContainer scrollTop={this.state.scrollTop}>
+                        <FixLeftContainer leftHeadItems={this.leftHeadItems} scrollTop={this.state.scrollTop}>
                             {
                                 this.leftItems.map((leftItem, index) => {
                                     return <FixLeft key={index} leftItem={leftItem}/>
