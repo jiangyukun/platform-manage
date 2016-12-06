@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const moment = require('moment')
+process.env.NODE_ENV = 'production'
 
 module.exports = {
     entry: [

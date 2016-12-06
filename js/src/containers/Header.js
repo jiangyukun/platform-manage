@@ -36,7 +36,7 @@ class Header extends Component {
                     </button>
                     <a href="#/" className="navbar-brand text-lt">
                         <i className="fa fa-lemon-o"></i>
-                        <img src="img/logo.png" alt="." className="hide"/>
+                        <img src="platform-new/img/logo.png" alt="." className="hide"/>
                         <span className="hidden-folded m-l-xs">{this.props.app.name}</span>
                     </a>
                 </div>
@@ -58,7 +58,7 @@ class Header extends Component {
                         <Dropdown id="dropdown-system-menu" componentClass={CustomWrap}>
                             <Dropdown.Toggle useAnchor={true}>
                                     <span className="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                                        <img src="img/a0.jpg" alt="..."/>
+                                        <img src="platform-new/img/a0.jpg" alt="..."/>
                                         <i className="on md b-white bottom"></i>
                                     </span>
                                 <span className="hidden-sm hidden-md">管理员</span>

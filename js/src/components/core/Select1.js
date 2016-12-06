@@ -60,7 +60,7 @@ export default class Select1 extends Component {
         this.openFlag = true
     }
 
-    handleWindowClick(event) {
+    handleWindowClick() {
         if (this.openFlag) {
             this.openFlag = false
         } else {
@@ -176,15 +176,14 @@ export default class Select1 extends Component {
                             }
                             <ul className="select-items-container">
                                 {showSelectItems()}
+                                {
+                                    showMore && (
+                                        <li className="show-more" onClick={e => this.showMoreItems()}>
+                                            <span>加载更多...</span>
+                                        </li>
+                                    )
+                                }
                             </ul>
-                            {
-                                showMore && (
-                                    <div className="show-more" onClick={e => this.showMoreItems()}>
-                                        <span>加载更多...</span>
-                                    </div>
-                                )
-                            }
-
                             {
                                 noMatch && (
                                     <div className="no-match-result">

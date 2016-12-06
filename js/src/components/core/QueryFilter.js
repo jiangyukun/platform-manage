@@ -5,6 +5,7 @@ import React, {Component, cloneElement, PropTypes} from 'react'
 import classnames from 'classnames'
 import {merge} from  'lodash'
 
+import Form from '../element/Form'
 import FilterItem from './query-filter/FilterItem'
 
 class QueryFilter extends Component {
@@ -69,10 +70,10 @@ class QueryFilter extends Component {
     getSearchToolbar() {
         return (
             <div className="group-input">
-                <form>
+                <Form>
                     <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
                     <button className="icon-search-btn" onClick={e => this.filter()}></button>
-                </form>
+                </Form>
             </div>
         )
     }

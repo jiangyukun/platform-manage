@@ -10,7 +10,9 @@ class FixLeft extends Component {
             <div className="fix-left" style={{width: this.props.width}}>
                 {
                     this.props.leftItem && this.props.leftItem.map((item, index) => {
-                        return <div key={index} className="fix-left-item" style={{height: item.height + 'px'}}>{item.text}</div>
+                        return <div key={index} className="fix-left-item" style={{height: item.height + 'px'}}>
+                            <span>{item.text}</span>
+                        </div>
                     })
                 }
             </div>

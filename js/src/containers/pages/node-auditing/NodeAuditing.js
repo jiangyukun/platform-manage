@@ -138,7 +138,8 @@ class NodeAuditing extends Component {
                 <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
                 <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
                 <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
-                <NodeAuditingQueryFilter ref={c => this._queryFilter = c} beginFilter={filterCondition => this.beginFetch()} className="ex-big-label ">
+                <NodeAuditingQueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
+                                         beginFilter={filterCondition => this.beginFetch()}>
                     <button className="btn btn-primary mr-20" onClick={e => this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="middle-filter-item" item={this.props.auditingStateList}/>
@@ -156,11 +157,13 @@ class NodeAuditing extends Component {
                     </FilterItem>
                 </NodeAuditingQueryFilter>
 
-                <PaginateList ref={c => this._paginateList = c} loading={this.state.loading}
+                <PaginateList ref={c => this._paginateList = c}
                               beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
                               total={total}>
 
-                    <SmartList className="paginate-list-data-container" width={listWidth} fixHead={true} fixLeft={[1, 2]}>
+                    <SmartList className="paginate-list-data-container" width={listWidth}
+                               loading={this.state.loading}
+                               fixHead={true} fixLeft={[0, 1, 2]}>
                         <HeadContainer>
                             <Head open1={this.state.open1}
                                   open2={this.state.open2}

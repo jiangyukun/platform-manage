@@ -9,21 +9,22 @@ class FixLeftContainer extends Component {
     }
 
     render() {
-        console.log(this.props.leftHeadItems)
         return (
-            <div className="fix-left-container" ref={c => this._fixLeftContainer = c}>
+            <div>
                 <div className="fix-left-head">
                     {
                         this.props.leftHeadItems.map((leftHeadItem, index) => {
                             return (
-                                <div key={index} className="fix-left-head-item">
+                                <div key={index} className="fix-left-head-item" style={{width: leftHeadItem.width, height: leftHeadItem.height}}>
                                     {leftHeadItem.text}
                                 </div>
                             )
                         })
                     }
                 </div>
-                {this.props.children}
+                <div className="fix-left-container" ref={c => this._fixLeftContainer = c}>
+                    {this.props.children}
+                </div>
             </div>
         )
     }

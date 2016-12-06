@@ -1,7 +1,6 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
-
 import {fromJS} from 'immutable'
 
 export function hospitalList(state = [], action) {
@@ -21,7 +20,7 @@ export function hospitalList(state = [], action) {
         return nextIState.toJS()
     }
 
-//
+    //--------------------------------
 
     function fetchHospitalListSuccess() {
         let {hospitalList} = action

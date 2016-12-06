@@ -47,7 +47,7 @@ class FilterItem extends Component {
         this.subItemList.forEach(subItem => subItem.onChange(typeItem))
         this.setState({'selected': typeItem.value})
         let {typeCode, typeText} = this.props.item
-
+        this.props.onSelect(typeItem)
         this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
     }
 
@@ -155,6 +155,16 @@ class FilterItem extends Component {
             </ul>
         )
     }
+}
+
+FilterItem.defaultProps = {
+    onSelect: () => {
+    }
+}
+
+FilterItem.propTypes = {
+    item: PropTypes.object,
+    className: PropTypes.string
 }
 
 FilterItem.contextTypes = {

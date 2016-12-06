@@ -3,7 +3,7 @@
  */
 
 function preHandle(url, option) {
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV == 'dev_2' || process.env.NODE_ENV == 'production') {
         url = '/backend' + url
     }
     option = option || {}
@@ -33,10 +33,14 @@ function method(type) {
 
         return new Promise((resolve, reject) => {
             fetch(handleArg.url, handleArg.option).then(response => response.json()).then(result => {
-                if (result.status == 0) {
-                    resolve(result['data'])
-                } else {
-                    reject(result['errMsg'])
+                try {
+                    if (result.status == 0) {
+                        resolve(result['data'])
+                    } else {
+                        reject(result['errMsg'])
+                    }
+                } catch (err) {
+                    throw err
                 }
             }).catch(err => reject(err))
         })

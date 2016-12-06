@@ -1,43 +1,44 @@
 /**
  * Created by jiangyukun on 2016/11/30.
  */
-import http from '../../services/http'
+import http, {GET, POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
 //获取省列表
-export function fetchProvinceList(option) {
-    return dispatch => {
+export let fetchProvinceList = dispatch => () => {
+    dispatch({
+        type: types.FETCH_PROVINCE_LIST + phase.START
+    })
+    GET('/web/getCityProvinces').then((provinceList) => {
+        provinceList = provinceList.map(provinceDto => {
+            return {
+                value: provinceDto['province_Id'],
+                text: provinceDto['province_Name']
+            }
+        })
         dispatch({
-            type: types.FETCH_PROVINCE_LIST + phase.START
+            type: types.FETCH_PROVINCE_LIST + phase.SUCCESS, provinceList
         })
-        http('', {
-            method: 'POST',
-            body: option
-        }).then(response => response.json()).then((provinceList) => {
-            dispatch({
-                type: types.FETCH_PROVINCE_LIST + phase.FAILURE, provinceList
-            })
-        })
-
-    }
+    })
 }
 
 //获取市列表
-export function fetchCityList(option) {
-    return dispatch => {
+export let fetchCityList = dispatch => provinceId => {
+    dispatch({
+        type: types.FETCH_CITY_LIST + phase.START
+    })
+    GET(`/web/getCitys/${provinceId}`).then((cityList) => {
+        cityList = cityList.map(cityDto => {
+            return {
+                value: cityDto['id'],
+                text: cityDto['city_Name']
+            }
+        })
         dispatch({
-            type: types.FETCH_CITY_LIST + phase.START
+            type: types.FETCH_CITY_LIST + phase.SUCCESS, cityList
         })
-        http('', {
-            method: 'POST',
-            body: option
-        }).then(response => response.json()).then((cityList) => {
-            dispatch({
-                type: types.FETCH_CITY_LIST + phase.SUCCESS, cityList
-            })
-        })
-    }
+    })
 }
 
 //获取医院列表
@@ -45,20 +46,19 @@ export let fetchHospitalList = dispatch => option => {
     dispatch({
         type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.START
     })
-
-    http('/web/getBackendHospitalList', {
-        method: 'POST',
-        body: option
-    }).then(response => response.json()).then(({status, rspMsg, data}) => {
-        if (status != 0) {
+    return new Promise((resolve, reject) => {
+        POST('/web/getBackendHospitalList', {body: option}).then((result) => {
+            let {totalCount, list} = result
             dispatch({
-                type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.FAILURE, rspMsg
+                type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.SUCCESS, totalCount, list
             })
-            return
-        }
-        let {totalCount, list} = data
-        dispatch({
-            type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.SUCCESS, totalCount, list
+            resolve()
+        }, (err) => {
+            dispatch({
+                type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.FAILURE, err
+            })
+            reject()
         })
     })
+
 }

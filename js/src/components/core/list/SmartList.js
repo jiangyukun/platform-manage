@@ -7,6 +7,7 @@ import {findDOMNode} from 'react-dom'
 import {events} from 'dom-helpers'
 import {throttle} from 'lodash'
 
+import Loading from '../../ui/Loading'
 import HeadContainer from './HeadContainer'
 import BodyContainer from './BodyContainer'
 import FixHead from '../paginate-list/FixHead'
@@ -26,57 +27,93 @@ class SmartList extends Component {
     }
 
     handleTableScroll() {
+        if (!this.props.fixHead && !this.props.fixLeft) {
+            return
+        }
+        this.setState({scrollTop: this._tableContainer.scrollTop})
+        this.setState({scrollLeft: this._tableContainer.scrollLeft})
         if (this.props.fixHead) {
-            if (this._tableContainer.scrollTop > 0) {
-                this.setState({showHead: true, scrollLeft: this._tableContainer.scrollLeft})
-            } else {
-                this.setState({showHead: false})
-            }
+            this.setState({showHead: this._tableContainer.scrollTop > 0})
         }
         if (this.props.fixLeft) {
-            if (this._tableContainer.scrollLeft > 0) {
-                this.setState({showLeft: true, scrollTop: this._tableContainer.scrollTop})
-            } else {
-                this.setState({showLeft: false})
+            this.setState({showLeft: this._tableContainer.scrollLeft > 0})
+        }
+    }
+
+    getLeftHeadItem() {
+        const leftHeadItems = []
+        let leftIndexes = [0]
+        if (this.props.fixLeft instanceof Array) {
+            leftIndexes = this.props.fixLeft
+        }
+        for (let i = 0; i < leftIndexes.length; i++) {
+            let leftIndex = leftIndexes[i]
+            let leftItem = this._getLeftHeadItem(leftIndex)
+            if (leftItem) {
+                leftHeadItems.push(leftItem)
             }
+        }
+        return leftHeadItems
+    }
+
+    _getLeftHeadItem(index) {
+        if (this._getLeftTotalWidth(index) > this.state.scrollLeft) {
+            return
+        }
+        let head = findDOMNode(this._head)
+        let targetHeadItem = head.childNodes[index]
+        return {
+            text: targetHeadItem.innerText,
+            width: 100, //targetHeadItem.clientWidth
+            height: head.clientHeight
         }
     }
 
     getLeftItems() {
+        let leftItems = []
         let leftIndexes = [0]
         if (this.props.fixLeft instanceof Array) {
             leftIndexes = this.props.fixLeft
         }
-        return leftIndexes.map(leftIndex => this._getLeftItem(leftIndex))
-    }
 
-    getLeftHeadItem() {
-        let leftIndexes = [0]
-        if (this.props.fixLeft instanceof Array) {
-            leftIndexes = this.props.fixLeft
+        for (let i = 0; i < leftIndexes.length; i++) {
+            let leftIndex = leftIndexes[i]
+            let leftItem = this._getLeftItem(leftIndex)
+            if (leftItem) {
+                leftItems.push(leftItem)
+            }
         }
-        return leftIndexes.map(leftIndex => this._getLeftHeadItem(leftIndex))
+        return leftItems
     }
 
     _getLeftItem(index) {
-        let leftItem = []
+        if (this._getLeftTotalWidth(index) > this.state.scrollLeft) {
+            return
+        }
+        let leftItem = {items: []}
 
         let head = findDOMNode(this._head)
         let body = findDOMNode(this._body)
 
-        leftItem.push({text: head.childNodes[index].innerText, height: head.clientHeight})
+        leftItem.width = 100 //head.childNodes[index].clientWidth
+        leftItem.items.push({text: head.childNodes[index].innerText, height: head.clientHeight})
 
         let listItems = body.childNodes
         for (let i = 0; i < listItems.length; i++) {
             let item = listItems[i]
-            leftItem.push({text: item.childNodes[index].innerText, height: item.clientHeight})
+            leftItem.items.push({text: item.childNodes[index].innerText, height: item.clientHeight})
         }
         return leftItem
     }
 
-    _getLeftHeadItem(index) {
+    _getLeftTotalWidth(index) {
         let head = findDOMNode(this._head)
-        return {text: head.childNodes[index].innerText, height: head.clientHeight}
+
+        let leftTotalWidth = 0
+        for (let i = 0; i < index; i++) {
+            leftTotalWidth += head.childNodes[i].clientWidth
+        }
+        return leftTotalWidth
     }
 
     componentDidMount() {
@@ -95,7 +132,11 @@ class SmartList extends Component {
     }
 
     render() {
-        let children = this.props.children.map((child, index) => {
+        let {children} = this.props
+        if (!(children instanceof Array)) {
+            children = [children]
+        }
+        let handledChildren = children.map((child, index) => {
             if (child.type == HeadContainer) {
                 this.clonedHeadComponent = cloneElement(child.props.children, {key: index + '_clone', ref: c => this._head = c})
                 return cloneElement(child, {key: index, ref: c => this._head = c})
@@ -103,6 +144,7 @@ class SmartList extends Component {
             if (child.type == BodyContainer) {
                 return cloneElement(child, {key: index, ref: c => this._body = c})
             }
+            return cloneElement(child, {key: index})
         })
 
         return (
@@ -118,7 +160,7 @@ class SmartList extends Component {
                         <FixLeftContainer leftHeadItems={this.leftHeadItems} scrollTop={this.state.scrollTop}>
                             {
                                 this.leftItems.map((leftItem, index) => {
-                                    return <FixLeft key={index} leftItem={leftItem}/>
+                                    return <FixLeft key={index} leftItem={leftItem.items} width={leftItem.width}/>
                                 })
                             }
                         </FixLeftContainer>
@@ -127,7 +169,7 @@ class SmartList extends Component {
 
                 <div className="js-table-container" ref={c => this._tableContainer = c}>
                     <div className={this.props.className} style={{width: this.props.width + 'px'}}>
-                        {children}
+                        {handledChildren}
                     </div>
                 </div>
             </div>

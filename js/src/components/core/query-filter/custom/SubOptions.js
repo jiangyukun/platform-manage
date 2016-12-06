@@ -13,13 +13,11 @@ class SubOptions extends Component {
         context.addSubItem(this)
     }
 
-    selectOption({value}) {
-        let match = this.props.options.find(function (option) {
-            return option.value == value;
-        });
+    selectOption(option) {
+        let {text, value} = option
         this.context.selectSubItem({
             value: value,
-            text: `，：${this.props.title}` + match.text,
+            text: `，${this.props.title}：` + text,
         })
     }
 
@@ -47,6 +45,11 @@ class SubOptions extends Component {
             </div>
         )
     }
+}
+
+SubOptions.propTypes = {
+    title: PropTypes.string,
+    options: PropTypes.array
 }
 
 SubOptions.contextTypes = {
