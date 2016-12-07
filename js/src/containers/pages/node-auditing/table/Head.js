@@ -2,11 +2,20 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import React, {Component, PropTypes} from 'react'
+import {contextMenu} from '../../../../components/contextMenu'
 
 class Head extends Component {
+    handleContextMenu(e) {
+        e.preventDefault()
+        let target = e.target
+
+        // let info = target.getBoundingClientRect()
+        contextMenu.show(e.clientY, e.clientX)
+    }
+
     render() {
         return (
-            <ul className="list-header clearfix">
+            <ul className="list-header clearfix" onContextMenu={e => this.handleContextMenu(e)}>
                 <li className="list-header-item w-120">患者编号</li>
                 <li className="list-header-item w-120">患者姓名</li>
                 <li className="list-header-item w-120">手机号码</li>
