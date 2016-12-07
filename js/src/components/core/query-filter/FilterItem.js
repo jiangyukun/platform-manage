@@ -17,7 +17,7 @@ class FilterItem extends Component {
         this.defaultItem = {value: '', text: '不限'}
         this.customItemList = []
         this.subItemList = []
-        this.beforeTypeItem = null
+        this.lastTypeItem = null
         this.state = {selected: '', labelWidth: -1}
     }
 
@@ -30,20 +30,23 @@ class FilterItem extends Component {
         }
     }
 
+    // 添加自定义选项
     addCustomItem(customItem) {
         if (this.customItemList.indexOf(customItem) == -1) {
             this.customItemList.push(customItem)
         }
     }
 
+    // 添加子选项
     addSubItem(subItem) {
         if (this.subItemList.indexOf(subItem) == -1) {
             this.subItemList.push(subItem)
         }
     }
 
+    // 选择选项
     select(typeItem) {
-        this.beforeTypeItem = typeItem
+        this.lastTypeItem = typeItem
         this.subItemList.forEach(subItem => subItem.onChange(typeItem))
         this.setState({'selected': typeItem.value})
         let {typeCode, typeText} = this.props.item
@@ -51,20 +54,25 @@ class FilterItem extends Component {
         this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
     }
 
-    selectSubItem(subItem) {
+    // 选择子选项
+    selectSubItem(title, value, text, errorTip) {
         let {typeCode, typeText} = this.props.item
         this.context.updateFilterItem({
-            typeCode, typeText, typeItem: {
+            typeCode,
+            typeText,
+            typeItem: {
                 value: {
-                    main: this.beforeTypeItem.value,
-                    custom: subItem.value
+                    main: this.lastTypeItem,
+                    custom: {value, text}
                 },
-                text: this.beforeTypeItem.text + subItem.text,
-                errorTip: subItem.errorTip
-            }, filterItem: this
+                text: this.lastTypeItem.text + title,
+                errorTip: errorTip
+            },
+            filterItem: this
         })
     }
 
+    // 点击“不限”
     selectDefault() {
         this.setState({'selected': ''})
         this.subItemList.forEach(subItem => subItem.onChange(this.defaultItem))
@@ -75,6 +83,7 @@ class FilterItem extends Component {
         }
     }
 
+    // QueryFilter 重置 FilterItem 调用方法
     reset() {
         this.setState({'selected': ''})
         this.subItemList.forEach(subItem => subItem.reset())
@@ -84,26 +93,21 @@ class FilterItem extends Component {
         }
     }
 
-    componentDidMount() {
-        if (!this.props.item) {
+    render() {
+        let {item} = this.props
+        if (!item) {
             return null
         }
-        let labelLength = this.props.item.typeText.length
-        if (labelLength > 6) {
-            this.setState({labelWidth: labelLength * 12})
-        }
-    }
 
-    render() {
         let showItemUI = () => {
-            if (this.props.item.typeItemList.length > 2) {
+            if (item.typeItemList.length > 2) {
                 return showItemTotal()
             }
             return showItemRespective()
         }
 
         let showItemRespective = () => {
-            return this.props.item.typeItemList.map(typeItem => {
+            return item.typeItemList.map(typeItem => {
                 return (
                     <li key={typeItem.value}
                         className={classnames('filter-item-single', {'selected': typeItem.value == this.state.selected})}
@@ -119,28 +123,24 @@ class FilterItem extends Component {
                 <li className="select-option-container filter-item-single">
                     <Select1 ref={c => this._select1 = c}
                              className={classnames({'selected': this.state.selected != ''})}
-                             selectItems={this.props.item.typeItemList}
+                             selectItems={item.typeItemList}
                              onSelect={option => this.select(option)}/>
                 </li>
             )
         }
 
-
         /* - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-        if (!this.props.item) {
-            return null
-        }
-
         let style = {}
-        if (this.state.labelWidth) {
-            style.width = this.state.labelWidth + 'px'
+        let labelLength = item.typeText.length
+        if (labelLength > 6) {
+            style.width = labelLength * 12
         }
 
         return (
             <ul className={this.props.className}>
                 <li className="filter-item-label">
-                    <label style={style}>{this.props.item.typeText}：</label>
+                    <label style={style}>{item.typeText}：</label>
                 </li>
                 <li className="flex1 filter-items">
                     <ul className="filter-item-main">

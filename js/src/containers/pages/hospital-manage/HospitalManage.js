@@ -5,6 +5,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import moment from 'moment'
+import classnames from 'classnames'
 
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
@@ -12,11 +13,15 @@ import CustomDateRange from '../../../components/core/query-filter/custom/Custom
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
 import SmartList from '../../../components/core/list/SmartList'
+import HeadContainer from '../../../components/core/list/HeadContainer'
+import BodyContainer from '../../../components/core/list/BodyContainer'
 
+import AddHospitalDialog from './dialog/AddHospitalDialog'
+import EditHospitalDialog from './dialog/EditHospitalDialog'
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
-import {ConditionResolver, getFilterConditionValue} from '../../../core/busHelper'
+import {ConditionResolver, getFilterCondition} from '../../../core/queryFilterHelper'
 import {getYesOrNoText} from '../../../core/formatBusData'
-import {fetchHospitalList, fetchProvinceList, fetchCityList} from '../../../actions/pages/hospital-manage'
+import {fetchHospitalList, fetchProvinceList, fetchCityList, addHospital, fetchHospitalInfo} from '../../../actions/pages/hospital-manage'
 
 class HospitalManage extends Component {
     constructor() {
@@ -44,13 +49,14 @@ class HospitalManage extends Component {
             .resolveDate('register', 'hospital_Create_Begin_Time', 'hospital_Create_End_Time')
             .getCondition()
 
-        let value = getFilterConditionValue(this.allConditions.filters, 'province')
-        if (value) {
+        let condition = getFilterCondition(this.allConditions.filters, 'province')
+        if (condition) {
+            const value = condition.value
             if (typeof value != 'object') {
-                option['province'] = value
+                option['province'] = condition.text
             } else {
-                option['province'] = value.main
-                option['city'] = value.custom
+                option['province'] = value.main.text
+                option['city'] = value.custom.text
             }
         }
         option['key_Words'] = this.allConditions.searchKey
@@ -58,8 +64,17 @@ class HospitalManage extends Component {
     }
 
     onSelectProvince(selectedItem) {
-        console.log(selectedItem)
+        this.provinceId = selectedItem.value
         this.props.fetchCityList(selectedItem.value)
+    }
+
+    addHospital() {
+        this._addHospitalDialog.open()
+    }
+
+    editHospital() {
+
+        this._editHospitalDialog.open()
     }
 
     componentDidMount() {
@@ -68,14 +83,40 @@ class HospitalManage extends Component {
     }
 
     render() {
+        let cityFilterList = []
+        if (this.provinceId) {
+            cityFilterList = this.props.cityMapper[this.provinceId]
+        }
+        let selectHospitalId
+        if (this.state.currentIndex != -1) {
+            selectHospitalId = this.props.list[this.state.currentIndex]['id']
+        }
+
         return (
             <div className="app-function-page">
+                <AddHospitalDialog
+                    ref={c => this._addHospitalDialog = c}
+                    provinceList={this.props.provinceList}
+                    cityMapper={this.props.cityMapper}
+                    fetchCityList={this.props.fetchCityList}
+                    addHospital={this.props.addHospital}/>
+
+                <EditHospitalDialog
+                    ref={c => this._editHospitalDialog = c}
+                    hospitalId={selectHospitalId}
+                    provinceList={this.props.provinceList}
+                    cityMapper={this.props.cityMapper}
+                    fetchCityList={this.props.fetchCityList}
+                    fetchHospitalInfo={this.props.fetchHospitalInfo}/>
+
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch()}>
-                    <button className="btn btn-primary mr-20" onClick={e => this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
+                    <button className="btn btn-primary mr-20" onClick={this.addHospital.bind(this)}>新增</button>
+                    <button className="btn btn-primary mr-20" onClick={this.editHospital.bind(this)} disabled={this.state.currentIndex == -1}>查看
+                    </button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
-                    <FilterItem className="big-filter-item" item={this.props.provinceList} onSelect={this.onSelectProvince}>
-                        <SubOptions title="城市" options={this.props.cityList}/>
+                    <FilterItem className="big-filter-item" item={this.props.provinceFilterList} onSelect={this.onSelectProvince}>
+                        <SubOptions title="城市" options={cityFilterList}/>
                     </FilterItem>
                     <FilterItem className="middle-filter-item" item={this.props.serialNumberList}/>
                     <FilterItem className="middle-filter-item" item={this.props.isProjectHospital}/>
@@ -88,39 +129,39 @@ class HospitalManage extends Component {
                               beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
                               total={this.props.total}>
 
-                    <SmartList className="paginate-list-data-container"
-                               loading={this.state.loading}
-                               fixHead={true} fixLeft={[1, 2]}>
-                        <table className="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>医院名称</th>
-                                <th>省份</th>
-                                <th>城市/地区</th>
-                                <th>区域号</th>
-                                <th>流水号</th>
-                                <th>是否项目医院</th>
-                                <th>创建时间</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                this.props.list.map((hospital, index) => {
-                                    return (
-                                        <tr key={index} style={{height: '50px'}}>
-                                            <td>{hospital['hospital_Name']}</td>
-                                            <td>{hospital['province']}</td>
-                                            <td>{hospital['city']}</td>
-                                            <td>{hospital['cityCode']}</td>
-                                            <td>{hospital['hospitalSerialNumber']}</td>
-                                            <td>{getYesOrNoText(hospital['hospital_In_Project'])}</td>
-                                            <td>{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                            </tbody>
-                        </table>
+                    <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
+                        <HeadContainer>
+                            <ul className="flex-list header">
+                                <li className="item flex2">医院名称</li>
+                                <li className="item flex1">省份</li>
+                                <li className="item flex1">城市/地区</li>
+                                <li className="item flex1">区域号</li>
+                                <li className="item flex1">流水号</li>
+                                <li className="item flex1">是否项目医院</li>
+                                <li className="item flex1">创建时间</li>
+                            </ul>
+                        </HeadContainer>
+                        <BodyContainer>
+                            <div>
+                                {
+                                    this.props.list.map((hospital, index) => {
+                                        return (
+                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                                onClick={e => this.setState({currentIndex: index})}
+                                            >
+                                                <li className="item flex2">{hospital['hospital_Name']}</li>
+                                                <li className="item flex1">{hospital['province']}</li>
+                                                <li className="item flex1">{hospital['city']}</li>
+                                                <li className="item flex1">{hospital['cityCode']}</li>
+                                                <li className="item flex1">{hospital['hospitalSerialNumber']}</li>
+                                                <li className="item flex1">{getYesOrNoText(hospital['hospital_In_Project'])}</li>
+                                                <li className="item flex1">{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</li>
+                                            </ul>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </BodyContainer>
                     </SmartList>
                 </PaginateList>
             </div>
@@ -133,17 +174,18 @@ function mapStateToProps(state) {
     return {
         total,
         list,
+        provinceList: state.provinceList,
+        cityMapper: state.cityMapper,
         hospitalList: {
             typeCode: 'hospital',
             typeText: '医院',
             typeItemList: state.hospitalList
         },
-        provinceList: {
+        provinceFilterList: {
             typeCode: 'province',
             typeText: '省份',
             typeItemList: state.provinceList
         },
-        cityList: state.cityList,
         serialNumberList: getFilterItem('serialNumber', '流水号', [{value: '1', text: '有'}, {value: '0', text: '无'}]),
         isProjectHospital: getFilterItem('isProjectHospital', '是否项目医院'),
         register: getFilterItem('register', '创建日期', getStartEndDate())
@@ -154,7 +196,9 @@ function mapActionToProps(dispatch) {
     return {
         fetchHospitalList: fetchHospitalList(dispatch),
         fetchProvinceList: fetchProvinceList(dispatch),
-        fetchCityList: fetchCityList(dispatch)
+        fetchCityList: fetchCityList(dispatch),
+        addHospital: addHospital(dispatch),
+        fetchHospitalInfo: fetchHospitalInfo(dispatch)
     }
 }
 

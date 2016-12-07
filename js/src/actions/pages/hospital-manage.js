@@ -36,7 +36,7 @@ export let fetchCityList = dispatch => provinceId => {
             }
         })
         dispatch({
-            type: types.FETCH_CITY_LIST + phase.SUCCESS, cityList
+            type: types.FETCH_CITY_LIST + phase.SUCCESS, provinceId, cityList
         })
     })
 }
@@ -47,18 +47,58 @@ export let fetchHospitalList = dispatch => option => {
         type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.START
     })
     return new Promise((resolve, reject) => {
-        POST('/web/getBackendHospitalList', {body: option}).then((result) => {
+        POST('/web/getBackendHospitalList', {body: option}).then(result => {
             let {totalCount, list} = result
             dispatch({
                 type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.SUCCESS, totalCount, list
             })
             resolve()
-        }, (err) => {
+        }, err => {
             dispatch({
                 type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.FAILURE, err
             })
-            reject()
+            reject(err)
         })
     })
 
+}
+
+//添加医院
+export let addHospital = dispatch => option => {
+    dispatch({
+        type: types.ADD_HOSPITAL + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        POST('/web/addHospital', {body: option}).then(result => {
+            dispatch({
+                type: types.ADD_HOSPITAL + phase.SUCCESS
+            })
+            resolve()
+        }, err => {
+            dispatch({
+                type: types.ADD_HOSPITAL + phase.FAILURE, err
+            })
+            reject(err)
+        })
+    })
+}
+
+export let fetchHospitalInfo = dispatch => hospitalId => {
+    dispatch({
+        type: types.FETCH_HOSPITAL_INFO + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        GET(`/web/getBackendHospitalById/${hospitalId}`).then(result => {
+            console.log(result)
+            dispatch({
+                type: types.FETCH_HOSPITAL_INFO + phase.SUCCESS
+            })
+            resolve()
+        }, err => {
+            dispatch({
+                type: types.FETCH_HOSPITAL_INFO + phase.FAILURE, err
+            })
+            reject(err)
+        })
+    })
 }

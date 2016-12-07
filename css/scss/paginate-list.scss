@@ -305,6 +305,33 @@
 }
 
 .paginate-list {
+
+    .flex-list {
+
+        &.header {
+            display: flex;
+            background-color: #b9def0;
+            .item {
+                padding: 10px 15px;
+            }
+        }
+        &.body {
+            display: flex;
+            .item {
+                padding: 10px 15px;
+            }
+            &:nth-of-type(odd) {
+                background-color: #f9f9f9;
+            }
+            &:hover {
+                background-color: rgba(46, 213, 86, 0.1);
+            }
+            &.selected {
+                background-color: rgba(46, 213, 86, 0.5);
+            }
+        }
+    }
+
     .list-header {
         padding: 10px 15px;
         background-color: #b9def0;

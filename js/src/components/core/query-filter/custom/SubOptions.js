@@ -15,10 +15,7 @@ class SubOptions extends Component {
 
     selectOption(option) {
         let {text, value} = option
-        this.context.selectSubItem({
-            value: value,
-            text: `，${this.props.title}：` + text,
-        })
+        this.context.selectSubItem(`，${this.props.title}：` + text, value, text)
     }
 
     onChange(typeItem) {
@@ -40,7 +37,7 @@ class SubOptions extends Component {
             <div className={classnames('custom-item-wrap', {'hidden': !this.state.active})}>
                 {this.props.title}：
                 <span style={{width: '150px', display: 'inline-block'}}>
-                    <Select1 ref={c => this._select1 = c} selectItems={this.props.options} onSelect={this.selectOption}/>
+                    <Select1 ref={c => this._select1 = c} selectItems={this.props.options || []} onSelect={this.selectOption}/>
                 </span>
             </div>
         )

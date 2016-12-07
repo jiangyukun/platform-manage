@@ -2,6 +2,15 @@
  * Created by jiangyukun on 2016/11/27.
  */
 
+export function getFilterCondition(queryConditions, typeCode, useText) {
+    for (let i = 0; i < queryConditions.length; i++) {
+        let filterCondition = queryConditions[i]
+        if (filterCondition.typeCode == typeCode) {
+            return filterCondition.typeItem
+        }
+    }
+}
+
 export function getFilterConditionValue(queryConditions, typeCode, useText) {
     for (let i = 0; i < queryConditions.length; i++) {
         let filterCondition = queryConditions[i]
@@ -61,5 +70,3 @@ export class ConditionResolver {
         return this.options
     }
 }
-
-

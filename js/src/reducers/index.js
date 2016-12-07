@@ -8,13 +8,4 @@ export * from './hospital'
 export * from './pages/hospital-manage'
 export * from './pages/node-auditing'
 export * from './common/provinceList'
-export * from './common/cityList'
-
-export function doctorListInfo(state = {total: 0, doctorList: []}, action) {
-
-    if (action.type == 'fetchDoctorList') {
-        return action.doctorListInfo
-    }
-
-    return state
-}
+export * from './common/cityMapper'

@@ -1,0 +1,143 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": [
+    {
+      "province_Id": "1",
+      "province_Name": "北京市"
+    },
+    {
+      "province_Id": "2",
+      "province_Name": "天津市"
+    },
+    {
+      "province_Id": "3",
+      "province_Name": "上海市"
+    },
+    {
+      "province_Id": "4",
+      "province_Name": "重庆市"
+    },
+    {
+      "province_Id": "5",
+      "province_Name": "河北省"
+    },
+    {
+      "province_Id": "6",
+      "province_Name": "山西省"
+    },
+    {
+      "province_Id": "7",
+      "province_Name": "台湾省"
+    },
+    {
+      "province_Id": "8",
+      "province_Name": "辽宁省"
+    },
+    {
+      "province_Id": "9",
+      "province_Name": "吉林省"
+    },
+    {
+      "province_Id": "10",
+      "province_Name": "黑龙江省"
+    },
+    {
+      "province_Id": "11",
+      "province_Name": "江苏省"
+    },
+    {
+      "province_Id": "12",
+      "province_Name": "浙江省"
+    },
+    {
+      "province_Id": "13",
+      "province_Name": "安徽省"
+    },
+    {
+      "province_Id": "14",
+      "province_Name": "福建省"
+    },
+    {
+      "province_Id": "15",
+      "province_Name": "江西省"
+    },
+    {
+      "province_Id": "16",
+      "province_Name": "山东省"
+    },
+    {
+      "province_Id": "17",
+      "province_Name": "河南省"
+    },
+    {
+      "province_Id": "18",
+      "province_Name": "湖北省"
+    },
+    {
+      "province_Id": "19",
+      "province_Name": "湖南省"
+    },
+    {
+      "province_Id": "20",
+      "province_Name": "广东省"
+    },
+    {
+      "province_Id": "21",
+      "province_Name": "甘肃省"
+    },
+    {
+      "province_Id": "22",
+      "province_Name": "四川省"
+    },
+    {
+      "province_Id": "23",
+      "province_Name": "贵州省"
+    },
+    {
+      "province_Id": "24",
+      "province_Name": "海南省"
+    },
+    {
+      "province_Id": "25",
+      "province_Name": "云南省"
+    },
+    {
+      "province_Id": "26",
+      "province_Name": "青海省"
+    },
+    {
+      "province_Id": "27",
+      "province_Name": "陕西省"
+    },
+    {
+      "province_Id": "28",
+      "province_Name": "广西壮族自治区"
+    },
+    {
+      "province_Id": "29",
+      "province_Name": "西藏自治区"
+    },
+    {
+      "province_Id": "30",
+      "province_Name": "宁夏回族自治区"
+    },
+    {
+      "province_Id": "31",
+      "province_Name": "新疆维吾尔自治区"
+    },
+    {
+      "province_Id": "32",
+      "province_Name": "内蒙古自治区"
+    },
+    {
+      "province_Id": "33",
+      "province_Name": "澳门特别行政区"
+    },
+    {
+      "province_Id": "34",
+      "province_Name": "香港特别行政区"
+    }
+  ]
+}

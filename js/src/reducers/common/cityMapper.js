@@ -1,13 +1,14 @@
 /**
+ * 每个省对应市的object映射
  * Created by jiangyukun on 2016/12/6.
  */
 import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
-const defaultValue = []
+const defaultValue = {}
 
-export function cityList(state = defaultValue, action) {
+export function cityMapper(state = defaultValue, action) {
     const iState = fromJS(state)
     return nextState()
 
@@ -31,11 +32,11 @@ export function cityList(state = defaultValue, action) {
     //-----------------------------------------
 
     function fetchCityListStart() {
-        return fromJS(defaultValue)
+        return iState
     }
 
     function fetchCityListSuccess() {
-        let {cityList} = action
-        return fromJS(cityList)
+        let {provinceId, cityList} = action
+        return iState.set(provinceId, fromJS(cityList))
     }
 }

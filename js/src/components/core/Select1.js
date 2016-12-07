@@ -21,6 +21,13 @@ export default class Select1 extends Component {
         }
     }
 
+    getSelected() {
+        if (!this.lastSelected) {
+            return {}
+        }
+        return this.lastSelected
+    }
+
     toggle() {
         this.setState({active: !this.state.active})
     }
@@ -34,6 +41,7 @@ export default class Select1 extends Component {
     }
 
     select(option, index) {
+        this.lastSelected = option
         this.setState({value: option.value, selectIndex: index})
         this.props.onSelect(option)
         this.close()
@@ -63,7 +71,9 @@ export default class Select1 extends Component {
     handleWindowClick() {
         if (this.openFlag) {
             this.openFlag = false
-        } else {
+            return
+        }
+        if (this.state.active) {
             this.close()
         }
     }
@@ -160,7 +170,10 @@ export default class Select1 extends Component {
                  onClick={e => this.activeOpenFlag(e)}
                  tabIndex="-1">
                 <div onClick={e => this.toggle()}
-                     className={classnames('selected-item', {'open': this.state.active}, {'invalid': this.props.required && this.state.touched && !this.state.value})}>
+                     className={classnames('selected-item',
+                         {'open': this.state.active},
+                         {'invalid': this.props.required && this.state.touched && !this.state.value})}
+                >
                     <span className="select-item-text">{selectText}</span>
                     <span className="dropdown"><b></b></span>
                 </div>
@@ -207,5 +220,6 @@ Select1.defaultProps = {
 
 Select1.propTypes = {
     selectItems: PropTypes.array,
+    required: PropTypes.bool,
     onSelect: PropTypes.func
 }

@@ -37,7 +37,7 @@ function method(type) {
                     if (result.status == 0) {
                         resolve(result['data'])
                     } else {
-                        reject(result['errMsg'])
+                        reject(result['rspMsg'])
                     }
                 } catch (err) {
                     throw err

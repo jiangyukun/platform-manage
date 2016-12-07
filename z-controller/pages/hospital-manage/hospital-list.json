@@ -1,0 +1,110 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "totalCount": 141,
+    "list": [
+      {
+        "id": "161207053454431059",
+        "hospital_Name": "11",
+        "province": "北京市",
+        "city": "东城区",
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-12-07 17:34:54.0",
+        "cityCode": "11",
+        "hospitalSerialNumber": "11"
+      },
+      {
+        "id": "161104032950737256",
+        "hospital_Name": "武陟县第二人民医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 0,
+        "hospital_Create_Time": "2016-11-10 15:03:36.0",
+        "cityCode": "4108",
+        "hospitalSerialNumber": "01"
+      },
+      {
+        "id": "161104032950737255",
+        "hospital_Name": "浙江大学医学院附属第四医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 0,
+        "hospital_Create_Time": "2016-11-10 15:02:46.0",
+        "cityCode": "3307",
+        "hospitalSerialNumber": "20"
+      },
+      {
+        "id": "161104032950737252",
+        "hospital_Name": "新疆维吾尔自治区中医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:52:21.0",
+        "cityCode": "6501",
+        "hospitalSerialNumber": "02"
+      },
+      {
+        "id": "161104032950737250",
+        "hospital_Name": "福建医科大学孟超肝胆医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:48:00.0",
+        "cityCode": "3501",
+        "hospitalSerialNumber": "02"
+      },
+      {
+        "id": "161104032950737246",
+        "hospital_Name": "皖南医学院芜湖市弋矶山医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:41:56.0",
+        "cityCode": "3402",
+        "hospitalSerialNumber": "01"
+      },
+      {
+        "id": "161104032950737243",
+        "hospital_Name": "平煤神马医疗集团总医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:36:17.0",
+        "cityCode": "4104",
+        "hospitalSerialNumber": "01"
+      },
+      {
+        "id": "161104032950737239",
+        "hospital_Name": "广西医科大学第四附属医院（柳州工人医院）",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:31:14.0",
+        "cityCode": "4502",
+        "hospitalSerialNumber": "01"
+      },
+      {
+        "id": "161104032950737238",
+        "hospital_Name": "嘉兴市第一医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-10 14:26:21.0",
+        "cityCode": "3304",
+        "hospitalSerialNumber": "01"
+      },
+      {
+        "id": "161104032950737235",
+        "hospital_Name": "齐齐哈尔市第七医院",
+        "province": null,
+        "city": null,
+        "hospital_In_Project": 1,
+        "hospital_Create_Time": "2016-11-09 09:54:17.0",
+        "cityCode": "2302",
+        "hospitalSerialNumber": "01"
+      }
+    ]
+  }
+}

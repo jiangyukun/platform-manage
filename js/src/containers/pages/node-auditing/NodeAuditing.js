@@ -23,7 +23,7 @@ import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
 import EditPatient from './EditPatient'
 import mapStateToProps from './data/mapStateToProps'
-import {ConditionResolver, getFilterConditionValue} from '../../../core/busHelper'
+import {ConditionResolver, getFilterConditionValue} from '../../../core/queryFilterHelper'
 
 import {fetchPatientList, editVisitCardState, editRemark, editIsCompleteVisit} from '../../../actions/pages/node-auditing'
 
@@ -38,10 +38,11 @@ class NodeAuditing extends Component {
     }
 
     doFetch() {
-        this.setState({loading: true, currentIndex: -1})
+        this.setState({loading: true})
         this.allConditions = this._queryFilter.getAllConditions()
         this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions())).then(() => this.setState({loading: false}))
+        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions()))
+            .then(() => this.setState({loading: false, currentIndex: -1}))
     }
 
     handleFilterConditions() {
@@ -61,8 +62,8 @@ class NodeAuditing extends Component {
             if (typeof value != 'object') {
                 options['note_Type'] = value
             } else {
-                options['note_Type'] = value.main
-                let customValue = value.custom
+                options['note_Type'] = value.main.value
+                let customValue = value.custom.value
                 options['note_Begin_Time'] = customValue.startValue
                 options['note_End_Time'] = customValue.endValue
             }
@@ -72,8 +73,8 @@ class NodeAuditing extends Component {
             if (typeof value != 'object') {
                 options['visit_Type'] = value
             } else {
-                options['visit_Type'] = value.main
-                options['visit_Result_Type'] = value.custom
+                options['visit_Type'] = value.main.value
+                options['visit_Result_Type'] = value.custom.value
             }
         }
 

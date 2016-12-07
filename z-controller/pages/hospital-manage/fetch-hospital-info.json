@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "id": null,
+    "hospital_Name": "11",
+    "province": null,
+    "city": null,
+    "hospital_In_Project": 1,
+    "hospitalSerialNumber": "11",
+    "cityCode": "11",
+    "maxcityCode": "11"
+  }
+}
