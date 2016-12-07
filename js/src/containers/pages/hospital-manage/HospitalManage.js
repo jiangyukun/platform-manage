@@ -27,7 +27,12 @@ class HospitalManage extends Component {
     constructor() {
         super()
         this.onSelectProvince = this.onSelectProvince.bind(this)
-        this.state = {currentIndex: -1, loading: false}
+        this.state = {
+            currentIndex: -1,
+            loading: false,
+            showAdd: false,
+            showEdit: false
+        }
     }
 
     beginFetch() {
@@ -73,8 +78,7 @@ class HospitalManage extends Component {
     }
 
     editHospital() {
-
-        this._editHospitalDialog.open()
+        this.setState({showEdit: true})
     }
 
     componentDidMount() {
@@ -101,13 +105,15 @@ class HospitalManage extends Component {
                     fetchCityList={this.props.fetchCityList}
                     addHospital={this.props.addHospital}/>
 
-                <EditHospitalDialog
-                    ref={c => this._editHospitalDialog = c}
-                    hospitalId={selectHospitalId}
-                    provinceList={this.props.provinceList}
-                    cityMapper={this.props.cityMapper}
-                    fetchCityList={this.props.fetchCityList}
-                    fetchHospitalInfo={this.props.fetchHospitalInfo}/>
+                    <EditHospitalDialog
+                        ref={c => this._editHospitalDialog = c}
+                        show={this.state.showEdit}
+                        close={() => this.setState({showEdit: false})}
+                        hospitalId={selectHospitalId}
+                        provinceList={this.props.provinceList}
+                        cityMapper={this.props.cityMapper}
+                        fetchCityList={this.props.fetchCityList}
+                        fetchHospitalInfo={this.props.fetchHospitalInfo}/>
 
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch()}>

@@ -20,14 +20,6 @@ class EditHospitalDialog extends Component {
         }
     }
 
-    open() {
-        this.setState({active: true})
-    }
-
-    close() {
-        this.setState({active: false})
-    }
-
     handleHospitalNameChange(e) {
         this.setState({hospitalName: e.target.value.trim()}, this.checkFormValid)
     }
@@ -92,7 +84,7 @@ class EditHospitalDialog extends Component {
         }
 
         return (
-            <Modal show={this.state.active} onHide={() => this.close()} backdrop="static">
+            <Modal show={this.props.show} onHide={() => this.props.close()} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>修改医院</Modal.Title>
                 </Modal.Header>
@@ -161,12 +153,12 @@ class EditHospitalDialog extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-success btn-block" value="保存"
+                        <input type="button" className="btn btn-success btn-block" value="修改"
                                disabled={this.state.invalid}
                                onClick={e => this.addHospital()}/>
                     </div>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-default btn-block" onClick={() => this.close()} value="取消"/>
+                        <input type="button" className="btn btn-default btn-block" onClick={() => this.props.close()} value="取消"/>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -175,6 +167,7 @@ class EditHospitalDialog extends Component {
 }
 
 EditHospitalDialog.propTypes = {
+    show: PropTypes.bool,
     provinceList: PropTypes.array,
     cityMapper: PropTypes.object,
     fetchCityList: PropTypes.func,
