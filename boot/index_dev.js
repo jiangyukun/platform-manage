@@ -20,7 +20,7 @@ import '../css/scss/index.scss'
 const store = configureStore()
 
 let browserHistory = useRouterHistory(createBrowserHistory)({basename: '/platform/'})
-// history = syncHistoryWithStore(history, store)
+browserHistory = syncHistoryWithStore(browserHistory, store)
 
 render(
     <Root store={store} history={browserHistory}/>
