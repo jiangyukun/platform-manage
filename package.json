@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Redux async example",
   "scripts": {
-    "start": "node server.js",
+    "dev": "node server.js",
+    "backend": "webpack-dev-server --inline --hot",
     "prod": "webpack --config webpack.prod.js"
   },
   "repository": {

@@ -3,18 +3,17 @@
  */
 
 var fs = require('fs')
-var nodeAuditingList = ''
+var result = ''
 
 fs.readFile('z-controller/pages/statistics/patient-situation.json', function (err, data) {
-    nodeAuditingList = data.toString()
+    result = data.toString()
 })
 
 module.exports = function (app) {
     app.get('/patientReport/getPatientInfoReport/:start/:length', function (req, res) {
-        var start = req.body.start;
-        var length = req.body.length;
-        res.json(JSON.parse(nodeAuditingList))
+        setTimeout(function () {
+            res.json(JSON.parse(result))
+        }, 1000)
 
     })
-
 }

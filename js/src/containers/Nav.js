@@ -150,7 +150,7 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/app/patient-statistics">
+                                <Link to="/app/patient-situation-statistics">
                                     <span>病人情况报表</span>
                                 </Link>
                             </li>

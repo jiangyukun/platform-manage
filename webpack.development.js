@@ -4,9 +4,8 @@ var webpack = require('webpack')
 module.exports = {
     // devtool: 'cheap-module-eval-source-map',
     entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        './index'
+        'webpack-hot-middleware/client',
+        './boot/index_dev'
     ],
     devServer: {
         historyApiFallback: true,
@@ -22,7 +21,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"dev_2"'
+            'process.env.NODE_ENV': '"development"'
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin()
