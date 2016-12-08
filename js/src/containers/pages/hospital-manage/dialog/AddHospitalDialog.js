@@ -9,7 +9,7 @@ class AddHospitalDialog extends Component {
         super(props)
         this.checkFormValid = this.checkFormValid.bind(this)
         this.state = {
-            active: false,
+            show: true,
 
             hospitalName: '', // 医院名称
             regionNumber: '', // 区域号
@@ -19,12 +19,9 @@ class AddHospitalDialog extends Component {
         }
     }
 
-    open() {
-        this.setState({active: true})
-    }
-
     close() {
-        this.setState({active: false})
+        this.setState({show: false})
+        setTimeout(() => this.props.onClose(), this.props.closeTimeout)
     }
 
     handleHospitalNameChange(e) {
@@ -73,6 +70,7 @@ class AddHospitalDialog extends Component {
             "hospital_In_Project": this._isProjectHospital.getSelected().value
         }).then(() => {
             notification.success({message: '提示', description: '添加医院成功！'})
+            this.close()
         }, err => {
             notification.error({message: '提示', description: err})
         })
@@ -85,7 +83,7 @@ class AddHospitalDialog extends Component {
         }
 
         return (
-            <Modal show={this.state.active} onHide={() => this.close()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.close()} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>新增医院</Modal.Title>
                 </Modal.Header>
@@ -167,11 +165,17 @@ class AddHospitalDialog extends Component {
     }
 }
 
+AddHospitalDialog.defaultProps = {
+    closeTimeout: 250
+}
+
 AddHospitalDialog.propTypes = {
     provinceList: PropTypes.array,
     cityMapper: PropTypes.object,
     fetchCityList: PropTypes.func,
-    addHospital: PropTypes.func
+    addHospital: PropTypes.func,
+    closeTimeout: PropTypes.number,
+    onClose: PropTypes.func
 }
 
 export default AddHospitalDialog

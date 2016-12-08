@@ -1,0 +1,90 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "totalCount": 75,
+    "list": [
+      {
+        "hospital_name": "北京佑安医院",
+        "hospital_code": "110001",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 137,
+        "clinical_patient_count": 146,
+        "patient_count": 1
+      },
+      {
+        "hospital_name": "中国人民解放军第三〇二医院",
+        "hospital_code": "110002",
+        "is_project_hospital": "否",
+        "non_clinical_patient_count": 48,
+        "clinical_patient_count": 77,
+        "patient_count": 0
+      },
+      {
+        "hospital_name": "沈阳市第六人民医院（沈阳市传染病医院）",
+        "hospital_code": "210102",
+        "is_project_hospital": "否",
+        "non_clinical_patient_count": 0,
+        "clinical_patient_count": 0,
+        "patient_count": 0
+      },
+      {
+        "hospital_name": "中国医科大学附属盛京医院（中国医科大学附属第二医院）",
+        "hospital_code": "210101",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 28,
+        "clinical_patient_count": 0,
+        "patient_count": 0
+      },
+      {
+        "hospital_name": "吉林大学第一医院（吉林大学白求恩第一医院）",
+        "hospital_code": "220101",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 3,
+        "clinical_patient_count": 0,
+        "patient_count": 7
+      },
+      {
+        "hospital_name": "吉林省肝胆病医院",
+        "hospital_code": "220102",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 75,
+        "clinical_patient_count": 0,
+        "patient_count": 7
+      },
+      {
+        "hospital_name": "哈尔滨医科大学附属第四医院",
+        "hospital_code": "230101",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 1,
+        "clinical_patient_count": 0,
+        "patient_count": 0
+      },
+      {
+        "hospital_name": "上海市公共卫生临床中心",
+        "hospital_code": "310001",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 6,
+        "clinical_patient_count": 0,
+        "patient_count": 8
+      },
+      {
+        "hospital_name": "南京市第二医院",
+        "hospital_code": "320101",
+        "is_project_hospital": "否",
+        "non_clinical_patient_count": 119,
+        "clinical_patient_count": 154,
+        "patient_count": 2
+      },
+      {
+        "hospital_name": "无锡市第五人民医院（无锡市传染病医院）",
+        "hospital_code": "320201",
+        "is_project_hospital": "是",
+        "non_clinical_patient_count": 27,
+        "clinical_patient_count": 0,
+        "patient_count": 2
+      }
+    ]
+  }
+}

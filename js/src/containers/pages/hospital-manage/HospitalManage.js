@@ -21,7 +21,7 @@ import EditHospitalDialog from './dialog/EditHospitalDialog'
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
 import {ConditionResolver, getFilterCondition} from '../../../core/queryFilterHelper'
 import {getYesOrNoText} from '../../../core/formatBusData'
-import {fetchHospitalList, fetchProvinceList, fetchCityList, addHospital, fetchHospitalInfo} from '../../../actions/pages/hospital-manage'
+import * as actions from '../../../actions/pages/hospital-manage'
 
 class HospitalManage extends Component {
     constructor() {
@@ -70,20 +70,16 @@ class HospitalManage extends Component {
 
     onSelectProvince(selectedItem) {
         this.provinceId = selectedItem.value
-        this.props.fetchCityList(selectedItem.value)
-    }
-
-    addHospital() {
-        this._addHospitalDialog.open()
-    }
-
-    editHospital() {
-        this.setState({showEdit: true})
+        if (!this.props.cityMapper[this.provinceId]) {
+            this.props.fetchCityList(selectedItem.value)
+        }
     }
 
     componentDidMount() {
         this.beginFetch()
-        this.props.fetchProvinceList()
+        if (this.props.provinceList.length == 0) {
+            this.props.fetchProvinceList()
+        }
     }
 
     render() {
@@ -91,34 +87,35 @@ class HospitalManage extends Component {
         if (this.provinceId) {
             cityFilterList = this.props.cityMapper[this.provinceId]
         }
-        let selectHospitalId
-        if (this.state.currentIndex != -1) {
-            selectHospitalId = this.props.list[this.state.currentIndex]['id']
-        }
 
         return (
             <div className="app-function-page">
-                <AddHospitalDialog
-                    ref={c => this._addHospitalDialog = c}
-                    provinceList={this.props.provinceList}
-                    cityMapper={this.props.cityMapper}
-                    fetchCityList={this.props.fetchCityList}
-                    addHospital={this.props.addHospital}/>
-
-                    <EditHospitalDialog
-                        ref={c => this._editHospitalDialog = c}
-                        show={this.state.showEdit}
-                        close={() => this.setState({showEdit: false})}
-                        hospitalId={selectHospitalId}
+                {
+                    this.state.showAdd && <AddHospitalDialog
+                        ref={c => this._addHospitalDialog = c}
                         provinceList={this.props.provinceList}
                         cityMapper={this.props.cityMapper}
                         fetchCityList={this.props.fetchCityList}
-                        fetchHospitalInfo={this.props.fetchHospitalInfo}/>
+                        addHospital={this.props.addHospital}
+                        onClose={() => this.setState({showAdd: false})}/>
+                }
+
+                {
+                    this.state.showEdit && <EditHospitalDialog
+                        hospitalId={this.props.list[this.state.currentIndex]['id']}
+                        provinceList={this.props.provinceList}
+                        cityMapper={this.props.cityMapper}
+                        fetchCityList={this.props.fetchCityList}
+                        fetchHospitalInfo={this.props.fetchHospitalInfo}
+                        updateHospitalInfo={this.props.updateHospitalInfo}
+                        onClose={() => this.setState({showEdit: false})}
+                    />
+                }
 
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch()}>
-                    <button className="btn btn-primary mr-20" onClick={this.addHospital.bind(this)}>新增</button>
-                    <button className="btn btn-primary mr-20" onClick={this.editHospital.bind(this)} disabled={this.state.currentIndex == -1}>查看
+                    <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>新增</button>
+                    <button className="btn btn-primary mr-20" onClick={() => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看
                     </button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="big-filter-item" item={this.props.provinceFilterList} onSelect={this.onSelectProvince}>
@@ -154,6 +151,7 @@ class HospitalManage extends Component {
                                         return (
                                             <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
                                                 onClick={e => this.setState({currentIndex: index})}
+                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                                             >
                                                 <li className="item flex2">{hospital['hospital_Name']}</li>
                                                 <li className="item flex1">{hospital['province']}</li>
@@ -200,11 +198,12 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        fetchHospitalList: fetchHospitalList(dispatch),
-        fetchProvinceList: fetchProvinceList(dispatch),
-        fetchCityList: fetchCityList(dispatch),
-        addHospital: addHospital(dispatch),
-        fetchHospitalInfo: fetchHospitalInfo(dispatch)
+        fetchHospitalList: actions.fetchHospitalList(dispatch),
+        fetchProvinceList: actions.fetchProvinceList(dispatch),
+        fetchCityList: actions.fetchCityList(dispatch),
+        addHospital: actions.addHospital(dispatch),
+        fetchHospitalInfo: actions.fetchHospitalInfo(dispatch),
+        updateHospitalInfo: actions.updateHospitalInfo(dispatch)
     }
 }
 

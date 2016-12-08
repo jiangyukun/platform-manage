@@ -12,7 +12,7 @@ export default class Select1 extends Component {
         this.handleContainerKeyDown = this.handleContainerKeyDown.bind(this)
         this.state = {
             active: false,
-            value: props.value || '',
+            value: props.value + '',
             maxLength: select1.init,
             searchKey: '',
             selectIndex: -1,
@@ -22,10 +22,10 @@ export default class Select1 extends Component {
     }
 
     getSelected() {
-        if (!this.lastSelected) {
+        if (!this.state.value) {
             return {}
         }
-        return this.lastSelected
+        return this.props.selectItems.find(item => item.value == this.state.value)
     }
 
     toggle() {
@@ -40,11 +40,17 @@ export default class Select1 extends Component {
         this.setState({active: true, touchIndex: this.state.selectIndex})
     }
 
+    // 点击选项
     select(option, index) {
-        this.lastSelected = option
         this.setState({value: option.value, selectIndex: index})
         this.props.onSelect(option)
         this.close()
+    }
+
+    // 选中值为value的选项
+    activeValue(value) {
+        this.setState({value})
+        this.props.onValueChange(value)
     }
 
     reset() {
@@ -119,6 +125,13 @@ export default class Select1 extends Component {
     componentDidMount() {
         events.on(findDOMNode(this._container), 'keyup', this.handleContainerKeyDown)
         events.on(document, 'click', this.handleWindowClick)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let nextValue = nextProps.value + ''
+        if (nextValue !== this.props.value) {
+            this.activeValue(nextValue)
+        }
     }
 
     componentWillUnmount() {
@@ -213,13 +226,18 @@ export default class Select1 extends Component {
 }
 
 Select1.defaultProps = {
+    value: '',
     selectItems: [],
     onSelect: function () {
+    },
+    onValueChange: function () {
     }
 }
 
 Select1.propTypes = {
+    title: PropTypes.string,
     selectItems: PropTypes.array,
     required: PropTypes.bool,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

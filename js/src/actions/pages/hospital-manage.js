@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/11/30.
  */
-import http, {GET, POST} from '../../services/http'
+import {GET, POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
@@ -89,14 +89,32 @@ export let fetchHospitalInfo = dispatch => hospitalId => {
     })
     return new Promise((resolve, reject) => {
         GET(`/web/getBackendHospitalById/${hospitalId}`).then(result => {
-            console.log(result)
             dispatch({
-                type: types.FETCH_HOSPITAL_INFO + phase.SUCCESS
+                type: types.FETCH_HOSPITAL_INFO + phase.SUCCESS, hospitalId
             })
-            resolve()
+            resolve(result)
         }, err => {
             dispatch({
                 type: types.FETCH_HOSPITAL_INFO + phase.FAILURE, err
+            })
+            reject(err)
+        })
+    })
+}
+
+export let updateHospitalInfo = dispatch => newHospitalInfo => {
+    dispatch({
+        type: types.UPDATE_HOSPITAL_INFO + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        POST(`/web/updateBackendHospital`, {body: newHospitalInfo}).then(result => {
+            dispatch({
+                type: types.UPDATE_HOSPITAL_INFO + phase.SUCCESS, newHospitalInfo
+            })
+            resolve(result)
+        }, err => {
+            dispatch({
+                type: types.UPDATE_HOSPITAL_INFO + phase.FAILURE, err
             })
             reject(err)
         })

@@ -7,17 +7,25 @@ import Select1 from '../../../../components/core/Select1'
 class EditHospitalDialog extends Component {
     constructor(props) {
         super(props)
+        this.onProvinceChange = this.onProvinceChange.bind(this)
         this.checkFormValid = this.checkFormValid.bind(this)
         this.state = {
-            active: false,
+            show: true,
 
             hospitalId: '',
             hospitalName: '', // 医院名称
             regionNumber: '', // 区域号
             serialNumber: '', // 流水号
             provinceId: '',
+            cityId: '',
+            isProjectHospital: '',
             invalid: true
         }
+    }
+
+    close() {
+        this.setState({show: false})
+        setTimeout(() => this.props.onClose(), this.props.closeTimeout)
     }
 
     handleHospitalNameChange(e) {
@@ -32,12 +40,28 @@ class EditHospitalDialog extends Component {
         this.setState({serialNumber: e.target.value.trim()}, this.checkFormValid)
     }
 
+    onSelectIsProjectHospital(selectedItem) {
+        this.setState({isProjectHospital: selectedItem.value}, this.checkFormValid)
+    }
+
     onSelectProvince(selectedItem) {
         const provinceId = selectedItem.value
-        this.setState({provinceId}, this.checkFormValid)
+        if (provinceId != this.state.provinceId) {
+            this.setState({provinceId, cityId: '', invalid: true}, this.onProvinceChange)
+        }
+    }
+
+    onProvinceChange() {
+        const provinceId = this.state.provinceId
+        if (!provinceId) return
         if (!this.props.cityMapper[provinceId]) {
             this.props.fetchCityList(provinceId)
         }
+    }
+
+    onSelectCity(selectedItem) {
+        const cityId = selectedItem.value
+        this.setState({cityId}, this.checkFormValid)
     }
 
     // 信息是否完整，是否可以提交
@@ -47,17 +71,19 @@ class EditHospitalDialog extends Component {
         if (!this.state.regionNumber) valid = false
         if (!this.state.serialNumber) valid = false
         if (!this.state.provinceId) valid = false
-        if (!this._city.getSelected().text) valid = false
-        // if (!this._isProjectHospital.getSelected().value) valid = false
+        if (!this.state.cityId) valid = false
+        if (this.state.isProjectHospital === '') valid = false
 
         const invalid = !valid
         if (invalid != this.state.invalid) {
-            this.setState({invalid: !valid})
+            this.setState({invalid})
         }
     }
 
-    addHospital() {
-        this.props.addHospital({
+    // 更新医院信息
+    updateHospitalInfo() {
+        this.props.updateHospitalInfo({
+            "id": this.props.hospitalId,
             "hospital_Name": this.state.hospitalName,
             "province": this._province.getSelected().text,
             "city": this._city.getSelected().text,
@@ -65,16 +91,25 @@ class EditHospitalDialog extends Component {
             "cityCode": this.state.regionNumber,
             "hospital_In_Project": this._isProjectHospital.getSelected().value
         }).then(() => {
-            notification.success({message: '提示', description: '添加医院成功！'})
+            this.close()
+            notification.success({message: '提示', description: '更新医院成功！'})
         }, err => {
             notification.error({message: '提示', description: err})
         })
     }
 
-    componentDidUpdate() {
-        if (this.props.hospitalId) {
-            this.props.fetchHospitalInfo(this.props.hospitalId)
-        }
+    componentDidMount() {
+        this.props.fetchHospitalInfo(this.props.hospitalId).then(hospitalInfo => {
+            this.maxSerialNumber = 0
+            this.setState({
+                hospitalName: hospitalInfo['hospital_Name'],
+                serialNumber: hospitalInfo['hospitalSerialNumber'],
+                provinceId: hospitalInfo['province'] || '',
+                cityId: hospitalInfo['city'] || '',
+                regionNumber: hospitalInfo['cityCode'],
+                isProjectHospital: hospitalInfo['hospital_In_Project']
+            }, this.onProvinceChange)
+        })
     }
 
     render() {
@@ -82,9 +117,12 @@ class EditHospitalDialog extends Component {
         if (this.state.provinceId) {
             cityList = this.props.cityMapper[this.state.provinceId] || []
         }
+        const serialNumberPlaceholder = '该地区流水号已到' + this.maxSerialNumber + '，推荐填写' + (this.maxSerialNumber + 1)
+
+        let hospitalNameClass = this.state.hospitalName.length > 12 ? 'col-xs-7' : 'col-xs-6'
 
         return (
-            <Modal show={this.props.show} onHide={() => this.props.close()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.close()} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>修改医院</Modal.Title>
                 </Modal.Header>
@@ -94,7 +132,7 @@ class EditHospitalDialog extends Component {
                             <div className="col-xs-4">
                                 <label className="mt-5">医院名称：<span className="red">*</span>：</label>
                             </div>
-                            <div className="col-xs-6">
+                            <div className={hospitalNameClass}>
                                 <input type="text" className="form-control" placeholder="请输入医院名称"
                                        value={this.state.hospitalName} onChange={e => this.handleHospitalNameChange(e)}/>
                             </div>
@@ -106,8 +144,10 @@ class EditHospitalDialog extends Component {
                             </div>
                             <div className="col-xs-6">
                                 <Select1 ref={c => this._province = c} selectItems={this.props.provinceList}
-                                         required={true}
-                                         onSelect={selectedItem => this.onSelectProvince(selectedItem)}></Select1>
+                                         required={true} value={this.state.provinceId}
+                                         onSelect={selectedItem => this.onSelectProvince(selectedItem)}
+                                >
+                                </Select1>
                             </div>
                         </div>
 
@@ -116,7 +156,12 @@ class EditHospitalDialog extends Component {
                                 <label className="mt-5">城市/地区<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <Select1 ref={c => this._city = c} selectItems={cityList} required={true}></Select1>
+                                <Select1 ref={c => this._city = c}
+                                         selectItems={cityList}
+                                         required={true}
+                                         value={this.state.cityId}
+                                         onSelect={selectedItem => this.onSelectCity(selectedItem)}
+                                ></Select1>
                             </div>
                         </div>
 
@@ -135,7 +180,7 @@ class EditHospitalDialog extends Component {
                                 <label className="mt-5">流水号：<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input type="text" className="form-control" placeholder="请输入流水号"
+                                <input type="text" className="form-control" placeholder={serialNumberPlaceholder}
                                        value={this.state.serialNumber} onChange={e => this.handleSerialNumberChange(e)}/>
                             </div>
                         </div>
@@ -145,20 +190,25 @@ class EditHospitalDialog extends Component {
                                 <label className="mt-5">是否项目医院：<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <Select1 ref={c => this._isProjectHospital = c} selectItems={[{value: '1', text: '是'}, {value: '0', text: '否'}]}
-                                         required={true}></Select1>
+                                <Select1 ref={c => this._isProjectHospital = c}
+                                         title="项目医院"
+                                         value={this.state.isProjectHospital}
+                                         selectItems={[{value: '1', text: '是'}, {value: '0', text: '否'}]}
+                                         required={true}
+                                         onSelect={e => this.onSelectIsProjectHospital(e)}>
+                                </Select1>
                             </div>
                         </div>
                     </section>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-success btn-block" value="修改"
+                        <input type="button" className="btn btn-success btn-block" value="保存"
                                disabled={this.state.invalid}
-                               onClick={e => this.addHospital()}/>
+                               onClick={e => this.updateHospitalInfo()}/>
                     </div>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-default btn-block" onClick={() => this.props.close()} value="取消"/>
+                        <input type="button" className="btn btn-default btn-block" onClick={() => this.close()} value="取消"/>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -166,12 +216,18 @@ class EditHospitalDialog extends Component {
     }
 }
 
+EditHospitalDialog.defaultProps = {
+    closeTimeout: 250
+}
+
 EditHospitalDialog.propTypes = {
-    show: PropTypes.bool,
+    hospitalId: PropTypes.string,
     provinceList: PropTypes.array,
     cityMapper: PropTypes.object,
     fetchCityList: PropTypes.func,
-    fetchHospitalInfo: PropTypes.func
+    updateHospitalInfo: PropTypes.func,
+    close: PropTypes.func,
+    closeTimeout: PropTypes.number
 }
 
 export default EditHospitalDialog

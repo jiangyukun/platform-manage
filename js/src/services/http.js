@@ -50,6 +50,7 @@ function method(type) {
 export let GET = method('get')
 export let POST = method('post')
 export let PUT = method('put')
+export let PATCH = method('patch')
 
 export default function http(url, option) {
     //http://admin.vongihealth.com:85

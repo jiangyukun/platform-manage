@@ -150,6 +150,11 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
+                                <Link to="/app/patient-statistics">
+                                    <span>病人情况报表</span>
+                                </Link>
+                            </li>
+                            <li>
                                 <a href="../platform/home.html#/app.score-statistics">
                                     <span>在线医生评分</span>
                                 </a>

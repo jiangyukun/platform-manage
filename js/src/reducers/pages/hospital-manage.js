@@ -20,6 +20,10 @@ export function hospitalManageList(state = defaultValue, action) {
                 nextIState = fetchHospitalManageListSuccess()
                 break
 
+            case types.UPDATE_HOSPITAL_INFO + phase.SUCCESS:
+                nextIState = updateHospitalInfoSuccess();
+                break
+
             default:
                 break
         }
@@ -33,6 +37,24 @@ export function hospitalManageList(state = defaultValue, action) {
 
     function fetchHospitalManageListSuccess() {
         let {totalCount, list} = action
-       return iState.set('total', totalCount).set('list', list)
+        return iState.set('total', totalCount).set('list', list)
+    }
+
+    function updateHospitalInfoSuccess() {
+        let {newHospitalInfo} = action
+        // console.log(newHospitalInfo)
+
+        return _updateList(iState, newHospitalInfo['id'], hospital => hospital.set('hospital_Name', newHospitalInfo['newHospitalInfo'])
+            .set('province', newHospitalInfo['province']).set('city', newHospitalInfo['city'])
+            .set('cityCode', newHospitalInfo['cityCode']).set('hospitalSerialNumber', newHospitalInfo['hospitalSerialNumber'])
+            .set('hospital_In_Project'), newHospitalInfo['hospital_In_Project'])
+    }
+
+//    ---------------------------
+
+    function _updateList(curIState, id, callback) {
+        const list = curIState.get('list')
+        const match = list.find(hospital => hospital.get('id') == id)
+        return curIState.update('list', list => list.update(list.indexOf(match), hospital => callback(hospital)))
     }
 }
