@@ -12,12 +12,26 @@ var app = new express()
 var port = 3000
 
 var compiler = webpack(config)
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}))
 app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static('./'))
+
+app.get('/platform/dev/node-auditing', function (req, res) {
+    res.sendFile(__dirname + '/index.html')
+})
+
+app.get('/platform/dev/patient-situation-statistics', function (req, res) {
+    res.sendFile(__dirname + '/index.html')
+})
+
+
+app.get('/platform/dev/hospital-manage', function (req, res) {
+    res.sendFile(__dirname + '/index.html')
+})
+
 
 configController(app)
 

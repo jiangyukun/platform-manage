@@ -1,7 +1,8 @@
 import 'babel-polyfill'
 import React from 'react'
-import {hashHistory} from 'react-router'
 import {render} from 'react-dom'
+import {useRouterHistory} from 'react-router'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 import {syncHistoryWithStore} from 'react-router-redux'
 
 import configureStore from '../js/src/store/configureStore'
@@ -17,8 +18,11 @@ import '../css/less/index.less'
 import '../css/scss/index.scss'
 
 const store = configureStore()
-const history = syncHistoryWithStore(hashHistory, store)
+
+let browserHistory = useRouterHistory(createBrowserHistory)({basename: '/platform/'})
+// history = syncHistoryWithStore(history, store)
 
 render(
-    <Root store={store} history={history}/>, document.getElementById('root')
+    <Root store={store} history={browserHistory}/>
+    , document.getElementById('root')
 )

@@ -12,9 +12,11 @@ import PatientSituationStatistics from './containers/pages/statistics/patient-si
 
 let path = 'pages'
 if (process.env.NODE_ENV == 'backend-server') {
+    path = 'backend'
+}
+
+if (process.env.NODE_ENV == 'dev') {
     path = 'dev'
-} else {
-    path = 'app'
 }
 
 export default (

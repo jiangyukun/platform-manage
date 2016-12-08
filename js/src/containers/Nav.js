@@ -7,6 +7,20 @@ import {Link} from 'react-router'
 
 export default class Nav extends Component {
     render() {
+
+        let path = 'pages'
+        if (process.env.NODE_ENV == 'backend-server') {
+            path = 'backend'
+        }
+
+        if (process.env.NODE_ENV == 'dev') {
+            path = 'dev'
+        }
+
+        function getPath(page) {
+            return '/' + path + '/' + page
+        }
+
         return (
             <nav className="navi">
                 <ul className="nav">
@@ -31,7 +45,7 @@ export default class Nav extends Component {
                                 </a>
                             </li>
                             <li>
-                                <Link to="/app/node-auditing">
+                                <Link to={getPath('node-auditing')}>
                                     <span>病人审核</span>
                                 </Link>
                             </li>
@@ -104,7 +118,7 @@ export default class Nav extends Component {
                                 </a>
                             </li>
                             <li>
-                                <Link to="/app/hospital-manage">
+                                <Link to={getPath('hospital-manage')}>
                                     <span>医院管理</span>
                                 </Link>
                             </li>
@@ -150,7 +164,7 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/app/patient-situation-statistics">
+                                <Link to={getPath('patient-situation-statistics')}>
                                     <span>病人情况报表</span>
                                 </Link>
                             </li>
