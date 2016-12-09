@@ -7,18 +7,21 @@ import {Link} from 'react-router'
 
 export default class Nav extends Component {
     render() {
-
-        let path = 'pages'
-        if (process.env.NODE_ENV == 'backend-server') {
-            path = 'backend'
+        let path = ''
+        let prefix = ''
+        if (process.env.NODE_ENV == 'production') {
+            prefix = 'platform/'
         }
-
+        if (process.env.NODE_ENV == 'inline') {
+            prefix = 'platform/'
+            path = 'inline/'
+        }
         if (process.env.NODE_ENV == 'dev') {
-            path = 'dev'
+            path = 'dev/'
         }
 
         function getPath(page) {
-            return '/' + path + '/' + page
+            return prefix + path + page
         }
 
         return (
@@ -31,10 +34,10 @@ export default class Nav extends Component {
                     {/*患者管理*/}
                     <li className="active">
                         <a className="auto">
-                        <span className="pull-right text-muted">
-                            <i className="fa fa-fw fa-angle-right text"></i>
-                            <i className="fa fa-fw fa-angle-down text-active"></i>
-                        </span>
+                            <span className="pull-right text-muted">
+                                <i className="fa fa-fw fa-angle-right text"></i>
+                                <i className="fa fa-fw fa-angle-down text-active"></i>
+                            </span>
                             <i className="fa fa-wheelchair icon text-primary-dker"></i>
                             <span>患者管理</span>
                         </a>
@@ -45,17 +48,20 @@ export default class Nav extends Component {
                                 </a>
                             </li>
                             <li>
-                                <Link to={getPath('node-auditing')}>
+                                {/* <Link to={getPath('node-auditing')}>
+                                 <span>病人审核</span>
+                                 </Link>*/}
+                                <a href="platform/home.html#/app.node-auditing">
                                     <span>病人审核</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
-                                <Link to="/app/patient-edit">
+                                <a href="platform/home.html#/app/patient-edit">
                                     <span>病人修改</span>
-                                </Link>
+                                </a>
                             </li>
                             <li>
-                                <a href="../platform/home.html#/app/laboratory-sheet">
+                                <a href="platform/home.html#/app/laboratory-sheet">
                                     <span>化验单查看</span>
                                 </a>
                             </li>
@@ -79,12 +85,12 @@ export default class Nav extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="../platform/home.html#/app/slider-config">
+                                <a href="platform/home.html#/app/slider-config">
                                     <span>轮播图管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="../platform/home.html#/app/knowledge-base">
+                                <a href="platform/home.html#/app/knowledge-base">
                                     <span>知识库维护</span>
                                 </a>
                             </li>
@@ -113,7 +119,7 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <a href="../platform/home.html#/app/doctor-auditing">
+                                <a href="platform/home.html#/app/doctor-auditing">
                                     <span>医生管理</span>
                                 </a>
                             </li>
@@ -126,7 +132,7 @@ export default class Nav extends Component {
                     </li>
 
                     <li>
-                        <a href="../chat-system-new/chat.html" target="_blank">
+                        <a href="chat-system-new/chat.html" target="_blank">
                             <i className="glyphicon glyphicon-comment icon text-success"></i>
                             <span>聊天系统</span>
                         </a>
@@ -134,7 +140,7 @@ export default class Nav extends Component {
 
                     {/*报表统计*/}
                     <li className="active">
-                        <a href className="auto">
+                        <a className="auto">
                         <span className="pull-right text-muted">
                             <i className="fa fa-fw fa-angle-right text"></i>
                             <i className="fa fa-fw fa-angle-down text-active"></i>
@@ -144,12 +150,17 @@ export default class Nav extends Component {
                         </a>
                         <ul className="nav nav-sub dk">
                             <li className="nav-sub-header">
-                                <a href>
+                                <a>
                                     <span>报表统计</span>
                                 </a>
                             </li>
                             <li>
-                                <a >
+                                <Link to={getPath('patient-situation-statistics')}>
+                                    <span>病人情况报表</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <a>
                                     <span>用户统计</span>
                                 </a>
                             </li>
@@ -164,12 +175,7 @@ export default class Nav extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={getPath('patient-situation-statistics')}>
-                                    <span>病人情况报表</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <a href="../platform/home.html#/app.score-statistics">
+                                <a href="platform/home.html#/app.score-statistics">
                                     <span>在线医生评分</span>
                                 </a>
                             </li>
@@ -177,7 +183,7 @@ export default class Nav extends Component {
                     </li>
 
                     <li className="active">
-                        <a href className="auto">
+                        <a className="auto">
                         <span className="pull-right text-muted">
                             <i className="fa fa-fw fa-angle-right text"></i>
                             <i className="fa fa-fw fa-angle-down text-active"></i>
@@ -187,7 +193,7 @@ export default class Nav extends Component {
                         </a>
                         <ul className="nav nav-sub dk">
                             <li className="nav-sub-header">
-                                <a href>
+                                <a>
                                     <span>后台管理</span>
                                 </a>
                             </li>

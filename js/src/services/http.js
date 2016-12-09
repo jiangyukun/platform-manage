@@ -3,7 +3,7 @@
  */
 
 function preHandle(url, option) {
-    if (process.env.NODE_ENV == 'dev_2' || process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV != 'dev') {
         url = '/backend' + url
     }
     option = option || {}

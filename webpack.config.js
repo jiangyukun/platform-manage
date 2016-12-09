@@ -1,12 +1,13 @@
 var path = require('path')
 var webpack = require('webpack')
+process.env.NODE_ENV = 'inline'
 
 module.exports = {
-    // devtool: 'cheap-module-eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     entry: [
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
-        './index'
+        './boot/index.js'
     ],
     devServer: {
         historyApiFallback: true,
@@ -22,7 +23,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"development"'
+            'process.env.NODE_ENV': '"inline"'
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin()

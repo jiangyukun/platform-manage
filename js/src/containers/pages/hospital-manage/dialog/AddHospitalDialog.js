@@ -15,6 +15,10 @@ class AddHospitalDialog extends Component {
             regionNumber: '', // 区域号
             serialNumber: '', // 流水号
             provinceId: '',
+            cityId: '',
+            manager: '',
+
+            cityMaxSerialNumber: null,
             invalid: true
         }
     }
@@ -36,12 +40,25 @@ class AddHospitalDialog extends Component {
         this.setState({serialNumber: e.target.value.trim()}, this.checkFormValid)
     }
 
+    handleManagerChange(e) {
+        this.setState({manager: e.target.value.trim()})
+    }
+
     onSelectProvince(selectedItem) {
         const provinceId = selectedItem.value
-        this.setState({provinceId}, this.checkFormValid)
+        this.setState({provinceId, cityId: '', cityMaxSerialNumber: null}, this.checkFormValid)
         if (!this.props.cityMapper[provinceId]) {
             this.props.fetchCityList(provinceId)
         }
+    }
+
+    onSelectCity(selectedItem) {
+        const cityId = selectedItem.value
+        this.setState({cityId}, this.checkFormValid)
+        if (cityId) {
+            this.setState({cityMaxSerialNumber: -1})
+        }
+        this.props.fetchCityMaxSerialNumber(cityId).then(maxSerialNumber => this.setState({cityMaxSerialNumber: maxSerialNumber}))
     }
 
     // 信息是否完整，是否可以提交
@@ -51,8 +68,8 @@ class AddHospitalDialog extends Component {
         if (!this.state.regionNumber) valid = false
         if (!this.state.serialNumber) valid = false
         if (!this.state.provinceId) valid = false
-        if (!this._city.getSelected().text) valid = false
-        // if (!this._isProjectHospital.getSelected().value) valid = false
+        if (!this.state.cityId) valid = false
+        if (!this._isProjectHospital.getSelected().value) valid = false
 
         const invalid = !valid
         if (invalid != this.state.invalid) {
@@ -80,6 +97,15 @@ class AddHospitalDialog extends Component {
         let cityList = []
         if (this.state.provinceId) {
             cityList = this.props.cityMapper[this.state.provinceId] || []
+        }
+
+        let serialNumberPlaceHolder
+        if (this.state.cityMaxSerialNumber == null) {
+            serialNumberPlaceHolder = '请输入流水号'
+        } else if (this.state.cityMaxSerialNumber == -1) {
+            serialNumberPlaceHolder = '获取该地区流水号中...'
+        } else {
+            serialNumberPlaceHolder = '该地区流水号已到' + this.state.cityMaxSerialNumber + '，推荐填写' + (this.state.cityMaxSerialNumber + 1)
         }
 
         return (
@@ -115,7 +141,20 @@ class AddHospitalDialog extends Component {
                                 <label className="mt-5">城市/地区<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <Select1 ref={c => this._city = c} selectItems={cityList} required={true}></Select1>
+                                <Select1 ref={c => this._city = c} selectItems={cityList}
+                                         required={true} value={this.state.cityId}
+                                         onSelect={selectedItem => this.onSelectCity(selectedItem)}>
+                                </Select1>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-4">
+                                <label className="mt-5">是否项目医院：<span className="red">*</span>：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <Select1 ref={c => this._isProjectHospital = c} selectItems={[{value: '1', text: '是'}, {value: '0', text: '否'}]}
+                                         required={true}></Select1>
                             </div>
                         </div>
 
@@ -134,18 +173,18 @@ class AddHospitalDialog extends Component {
                                 <label className="mt-5">流水号：<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input type="text" className="form-control" placeholder="请输入流水号"
+                                <input type="text" className="form-control" placeholder={serialNumberPlaceHolder}
                                        value={this.state.serialNumber} onChange={e => this.handleSerialNumberChange(e)}/>
                             </div>
                         </div>
 
                         <div className="row mt-10">
                             <div className="col-xs-4">
-                                <label className="mt-5">是否项目医院：<span className="red">*</span>：</label>
+                                <label className="mt-5">后台管理人员：</label>
                             </div>
                             <div className="col-xs-6">
-                                <Select1 ref={c => this._isProjectHospital = c} selectItems={[{value: '1', text: '是'}, {value: '0', text: '否'}]}
-                                         required={true}></Select1>
+                                <input type="text" className="form-control" placeholder="请输入后台管理人员"
+                                       value={this.state.manager} onChange={e => this.handleManagerChange(e)}/>
                             </div>
                         </div>
                     </section>
@@ -173,6 +212,7 @@ AddHospitalDialog.propTypes = {
     provinceList: PropTypes.array,
     cityMapper: PropTypes.object,
     fetchCityList: PropTypes.func,
+    fetchCityMaxSerialNumber: PropTypes.func,
     addHospital: PropTypes.func,
     closeTimeout: PropTypes.number,
     onClose: PropTypes.func

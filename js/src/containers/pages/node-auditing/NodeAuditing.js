@@ -30,7 +30,13 @@ import {fetchPatientList, editVisitCardState, editRemark, editIsCompleteVisit} f
 class NodeAuditing extends Component {
     constructor(props) {
         super(props)
-        this.state = {open1: false, open2: false, currentIndex: -1, loading: false}
+        this.state = {
+            open1: false,
+            open2: false,
+            currentIndex: -1,
+            loading: false,
+            showEdit: false
+        }
     }
 
     beginFetch() {
@@ -87,10 +93,6 @@ class NodeAuditing extends Component {
         return options
     }
 
-    activeItem(index) {
-        this.setState({currentIndex: index})
-    }
-
     editVisitCard(id, state) {
         this.props.editVisitCardState(id, state).then(() => {
             notification.success({message: '提示', description: '更新随访卡成功！'})
@@ -119,13 +121,17 @@ class NodeAuditing extends Component {
         this.setState(openState)
     }
 
+    exportExcel() {
+
+    }
+
     componentDidMount() {
         this.beginFetch()
     }
 
     render() {
         let {total, list} = this.props.patientListInfo
-        let listWidth = 6800
+        let listWidth = 6920
         if (this.state.open1) {
             listWidth += 360
         }
@@ -135,13 +141,21 @@ class NodeAuditing extends Component {
 
         return (
             <div className="app-function-page">
+                {
+                    this.state.showEdit && (
+                        <EditPatient
+                            patientId={this.props.list[this.state.currentIndex]['patient_Id']}/>
+                    )
+                }
+
                 <EditPatient ref={c => this._editPatient = c}/>
                 <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
                 <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
                 <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
                 <NodeAuditingQueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                                          beginFilter={filterCondition => this.beginFetch()}>
-                    <button className="btn btn-primary mr-20" onClick={e => this.editDoctor()} disabled={this.state.currentIndex == -1}>查看</button>
+                    <button className="btn btn-primary mr-20" onClick={e => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看</button>
+                    <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
                     <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
                     <FilterItem className="middle-filter-item" item={this.props.auditingStateList}/>
                     <FilterItem className="big-filter-item" item={this.props.nodeFilterList}>
@@ -175,7 +189,8 @@ class NodeAuditing extends Component {
                                   open1={this.state.open1}
                                   open2={this.state.open2}
                                   currentIndex={this.state.currentIndex}
-                                  selectItem={this.activeItem.bind(this)}
+                                  selectItem={index => this.setState({currentIndex: index})}
+                                  openEditPatientDialog={index => this.setState({currentIndex: index, showEdit: true})}
                                   openVisitCardDialog={(...arg) => this._editVisitCard.open(...arg)}
                                   openEditRemarkDialog={(...arg) => this._editRemark.open(...arg)}
                                   openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}/>

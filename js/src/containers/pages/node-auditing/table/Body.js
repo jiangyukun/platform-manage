@@ -14,13 +14,14 @@ class Body extends Component {
                         return (
                             <ul key={index}
                                 onClick={e => this.props.selectItem(index)}
-                                onDoubleClick={e => this.editPatient(patient)}
+                                onDoubleClick={e => this.openEditPatientDialog(index)}
                                 className={classnames('list clearfix', {'selected': this.props.currentIndex == index})}>
 
                                 <li className="list-item w-120">{patient['patient_Code']}</li>
                                 <li className="list-item w-120">{patient['patient_Name']}</li>
                                 <li className="list-item w-120">{patient['patient_Phone']}</li>
                                 <li className="list-item w-120">{patient['hospital_Name']}</li>
+                                <li className="list-item w-120">{patient['backend_Manager'] || '-'}</li>
 
                                 <li className="list-item w-120">{patient['indications_Doctor_Name'] || '-'}</li>
                                 {this.props.open1 && ( <li className="list-item w-120">{patient['infection_Doctor']}</li>)}
@@ -229,6 +230,7 @@ Body.propTypes = {
     open1: PropTypes.bool,
     open2: PropTypes.bool,
     selectItem: PropTypes.func,
+    openEditPatientDialog: PropTypes.func,
     openVisitCardDialog: PropTypes.func,
     openEditRemarkDialog: PropTypes.func,
     openIsCompleteVisitDialog: PropTypes.func

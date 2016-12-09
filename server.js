@@ -1,7 +1,7 @@
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.development')
+var config = require('./webpack.dev')
 var bodyParser = require('body-parser')
 
 var express = require('express')
@@ -19,16 +19,16 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static('./'))
 
-app.get('/platform/dev/node-auditing', function (req, res) {
+app.get('/dev/node-auditing', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/platform/dev/patient-situation-statistics', function (req, res) {
+app.get('/dev/patient-situation-statistics', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
 
 
-app.get('/platform/dev/hospital-manage', function (req, res) {
+app.get('/dev/hospital-manage', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
 

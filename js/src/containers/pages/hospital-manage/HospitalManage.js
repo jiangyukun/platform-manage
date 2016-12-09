@@ -95,6 +95,7 @@ class HospitalManage extends Component {
                         ref={c => this._addHospitalDialog = c}
                         provinceList={this.props.provinceList}
                         cityMapper={this.props.cityMapper}
+                        fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
                         fetchCityList={this.props.fetchCityList}
                         addHospital={this.props.addHospital}
                         onClose={() => this.setState({showAdd: false})}/>
@@ -106,6 +107,7 @@ class HospitalManage extends Component {
                         provinceList={this.props.provinceList}
                         cityMapper={this.props.cityMapper}
                         fetchCityList={this.props.fetchCityList}
+                        fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
                         fetchHospitalInfo={this.props.fetchHospitalInfo}
                         updateHospitalInfo={this.props.updateHospitalInfo}
                         onClose={() => this.setState({showEdit: false})}
@@ -141,6 +143,7 @@ class HospitalManage extends Component {
                                 <li className="item flex1">区域号</li>
                                 <li className="item flex1">流水号</li>
                                 <li className="item flex1">是否项目医院</li>
+                                <li className="item flex1">后台管理人员</li>
                                 <li className="item flex1">创建时间</li>
                             </ul>
                         </HeadContainer>
@@ -159,6 +162,7 @@ class HospitalManage extends Component {
                                                 <li className="item flex1">{hospital['cityCode']}</li>
                                                 <li className="item flex1">{hospital['hospitalSerialNumber']}</li>
                                                 <li className="item flex1">{getYesOrNoText(hospital['hospital_In_Project'])}</li>
+                                                <li className="item flex1">{hospital['backend_Manager'] || '-'}</li>
                                                 <li className="item flex1">{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</li>
                                             </ul>
                                         )
@@ -201,6 +205,7 @@ function mapActionToProps(dispatch) {
         fetchHospitalList: actions.fetchHospitalList(dispatch),
         fetchProvinceList: actions.fetchProvinceList(dispatch),
         fetchCityList: actions.fetchCityList(dispatch),
+        fetchCityMaxSerialNumber: actions.fetchCityMaxSerialNumber(dispatch),
         addHospital: actions.addHospital(dispatch),
         fetchHospitalInfo: actions.fetchHospitalInfo(dispatch),
         updateHospitalInfo: actions.updateHospitalInfo(dispatch)

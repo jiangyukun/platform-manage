@@ -17,12 +17,28 @@ import 'antd/lib/date-picker/style/index.less'
 import '../css/less/index.less'
 import '../css/scss/index.scss'
 
-const store = configureStore()
+let path
+switch (process.env.NODE_ENV) {
+    case 'dev':
+        path = '/'
+        break
 
-let browserHistory = useRouterHistory(createBrowserHistory)({basename: '/platform/'})
-browserHistory = syncHistoryWithStore(browserHistory, store)
+    case 'inline':
+        path = '/backend/'
+        break
+
+    case 'test':
+    case 'production':
+        path = '/backend/'
+        break
+
+    default:
+        throw new Error('illegal NODE_ENV value!')
+}
+let store = configureStore()
+let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
 
 render(
-    <Root store={store} history={browserHistory}/>
-    , document.getElementById('root')
+    <Root store={store} history={browserHistory}/>,
+    document.getElementById('root')
 )

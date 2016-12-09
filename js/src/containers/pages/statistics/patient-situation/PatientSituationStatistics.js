@@ -39,7 +39,12 @@ class PatientSituationStatistics extends Component {
     render() {
         return (
             <div className="app-function-page">
-                <PaginateList ref={c => this._paginateList = c} style={{marginTop: '50px'}}
+                <div>
+                    <button className="btn btn-primary"
+                            style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
+                             onClick={e=>window.open('export/patientReportExcel')}>导出excel</button>
+                </div>
+                <PaginateList ref={c => this._paginateList = c}
                               beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
                               total={this.props.total}>
 

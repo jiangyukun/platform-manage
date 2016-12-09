@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const moment = require('moment')
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'test'
 
 module.exports = {
     entry: [
@@ -9,7 +9,7 @@ module.exports = {
 
     output: {
         path: __dirname + '/build/',
-        filename: 'bundle-' + moment().format('MMDD') + '.min.js',
+        filename: 'bundle-' + moment().format('MMDD') + '.js',
         publicPath: 'build/'
     },
 
@@ -31,10 +31,5 @@ module.exports = {
         }),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
     ]
 }

@@ -120,3 +120,23 @@ export let updateHospitalInfo = dispatch => newHospitalInfo => {
         })
     })
 }
+
+export let fetchCityMaxSerialNumber = dispatch => cityId => {
+    dispatch({
+        type: types.FETCH_CITY_MAX_SERIAL_NUMBER + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        GET(`/web/getMaxCode/${cityId}`).then(result => {
+            const maxSerialNumber = result
+            dispatch({
+                type: types.FETCH_CITY_MAX_SERIAL_NUMBER + phase.SUCCESS, maxSerialNumber
+            })
+            resolve(maxSerialNumber)
+        }, err => {
+            dispatch({
+                type: types.FETCH_CITY_MAX_SERIAL_NUMBER + phase.FAILURE, err
+            })
+            reject(err)
+        })
+    })
+}
