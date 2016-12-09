@@ -1,0 +1,87 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": [
+    {
+      "id": "451",
+      "city_Name": "东城区",
+      "province_Id": "1"
+    },
+    {
+      "id": "452",
+      "city_Name": "西城区",
+      "province_Id": "1"
+    },
+    {
+      "id": "453",
+      "city_Name": "朝阳区",
+      "province_Id": "1"
+    },
+    {
+      "id": "454",
+      "city_Name": "丰台区",
+      "province_Id": "1"
+    },
+    {
+      "id": "455",
+      "city_Name": "石景山区",
+      "province_Id": "1"
+    },
+    {
+      "id": "456",
+      "city_Name": "海淀区",
+      "province_Id": "1"
+    },
+    {
+      "id": "457",
+      "city_Name": "门头沟区",
+      "province_Id": "1"
+    },
+    {
+      "id": "458",
+      "city_Name": "房山区",
+      "province_Id": "1"
+    },
+    {
+      "id": "459",
+      "city_Name": "通州区",
+      "province_Id": "1"
+    },
+    {
+      "id": "460",
+      "city_Name": "顺义区",
+      "province_Id": "1"
+    },
+    {
+      "id": "461",
+      "city_Name": "昌平区",
+      "province_Id": "1"
+    },
+    {
+      "id": "462",
+      "city_Name": "大兴区",
+      "province_Id": "1"
+    },
+    {
+      "id": "463",
+      "city_Name": "怀柔区",
+      "province_Id": "1"
+    },
+    {
+      "id": "464",
+      "city_Name": "平谷区",
+      "province_Id": "1"
+    },
+    {
+      "id": "465",
+      "city_Name": "密云县",
+      "province_Id": "1"
+    },
+    {
+      "id": "466",
+      "city_Name": "延庆县",
+      "province_Id": "1"
+    }
+  ]
+}
