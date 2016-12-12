@@ -14,7 +14,7 @@ class Body extends Component {
                         return (
                             <ul key={index}
                                 onClick={e => this.props.selectItem(index)}
-                                onDoubleClick={e => this.openEditPatientDialog(index)}
+                                onDoubleClick={e => this.props.openEditPatientDialog(index)}
                                 className={classnames('list clearfix', {'selected': this.props.currentIndex == index})}>
 
                                 <li className="list-item w-120">{patient['patient_Code']}</li>

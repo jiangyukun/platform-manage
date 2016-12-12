@@ -1,7 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/16.
  */
-import http, {POST} from '../../services/http'
+import http, {GET, POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import {toRemarkTypeRequestKey, toCompleteVisitTypeRequestKey} from '../../core/pages/nodeAuditingHelper'
@@ -73,6 +73,27 @@ export let editIsCompleteVisit = dispatch => (id, visitCardType, newVisitCardSta
         }, err => {
             console.log(err)
             reject()
+        })
+    })
+}
+
+export let fetchPatientInfo = dispatch => patientId => {
+    dispatch({
+        type: types.FETCH_PATIENT_INFO + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        GET(`/web/getPatientInfoByid/${patientId}`).then(result => {
+            console.log(result)
+            const patientInfo = result
+            dispatch({
+                type: types.FETCH_PATIENT_INFO + phase.SUCCESS
+            })
+            resolve(patientInfo)
+        }, err => {
+            dispatch({
+                type: types.FETCH_CITY_MAX_SERIAL_NUMBER + phase.FAILURE, err
+            })
+            reject(err)
         })
     })
 }

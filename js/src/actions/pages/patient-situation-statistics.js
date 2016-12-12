@@ -13,7 +13,6 @@ export let fetchPatientSituationList = dispatch => pageInfo => {
 
     return new Promise((resolve, reject) => {
         GET(`/patientReport/getPatientInfoReport/${start}/${length}`).then(result => {
-            console.log(result)
             let total = result['totalCount']
             let list = result['list']
             dispatch({

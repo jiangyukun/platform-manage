@@ -25,7 +25,7 @@ import EditPatient from './EditPatient'
 import mapStateToProps from './data/mapStateToProps'
 import {ConditionResolver, getFilterConditionValue} from '../../../core/queryFilterHelper'
 
-import {fetchPatientList, editVisitCardState, editRemark, editIsCompleteVisit} from '../../../actions/pages/node-auditing'
+import * as actions from '../../../actions/pages/node-auditing'
 
 class NodeAuditing extends Component {
     constructor(props) {
@@ -144,11 +144,12 @@ class NodeAuditing extends Component {
                 {
                     this.state.showEdit && (
                         <EditPatient
-                            patientId={this.props.list[this.state.currentIndex]['patient_Id']}/>
+                            patientId={list[this.state.currentIndex]['patient_Id']}
+                            fetchPatientInfo={this.props.fetchPatientInfo}
+                            onClose={() => this.setState({showEdit: false})}/>
                     )
                 }
 
-                <EditPatient ref={c => this._editPatient = c}/>
                 <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
                 <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
                 <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
@@ -204,10 +205,11 @@ class NodeAuditing extends Component {
 
 function mapActionToProps(dispatch) {
     return {
-        fetchPatientList: fetchPatientList(dispatch),
-        editVisitCardState: editVisitCardState(dispatch),
-        editRemark: editRemark(dispatch),
-        editIsCompleteVisit: editIsCompleteVisit(dispatch)
+        fetchPatientList: actions.fetchPatientList(dispatch),
+        editVisitCardState: actions.editVisitCardState(dispatch),
+        editRemark: actions.editRemark(dispatch),
+        editIsCompleteVisit: actions.editIsCompleteVisit(dispatch),
+        fetchPatientInfo: actions.fetchPatientInfo(dispatch)
     }
 }
 

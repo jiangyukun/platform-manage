@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, {Component, PropTypes} from 'react'
 import {Modal, Button} from 'react-bootstrap'
 
 import Select1 from '../../../components/core/Select1'
@@ -7,138 +6,167 @@ import Select1 from '../../../components/core/Select1'
 class EditPatient extends Component {
     constructor(props) {
         super(props)
-        this.state = {active: false, invalid: true}
-    }
-
-    open() {
-        this.setState({active: true})
+        this.state = {show: true, valid: false}
     }
 
     close() {
         this.setState({active: false})
+        setTimeout(() => {
+            this.props.onClose()
+        }, this.props.closeTimeout)
     }
 
-    addNewDoctor() {
+    cancelAuditing() {
 
+    }
+
+    markUnPass() {
+
+    }
+
+    markPass() {
+
+    }
+
+    updatePatient() {
+
+    }
+
+    componentDidMount() {
+        this.props.fetchPatientInfo(this.props.patientId).then(patientInfo => {
+            this.setState({
+                name: patientInfo['full_Name'],
+                idCard: patientInfo['id_Number'],
+                birthday: patientInfo['birth_Date'],
+                minority: patientInfo['nation'],
+                isHepatitisB: patientInfo['is_Hepatitis'],
+                isPregnantWomen: patientInfo['is_Pregnant'],
+                auditingState: patientInfo['is_Checked'],
+                lastUpdateDate: patientInfo['updateTime'],
+                createDate: patientInfo['creatTime']
+            })
+        })
     }
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={()=> {
-                this.close()
-            }}>
+            <Modal show={this.state.show} onHide={() => this.close()}>
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>注册医生</Modal.Title>
+                    <Modal.Title>查看患者</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <section classNameName="container-fluid" ng-form="addDoctor.form">
-                        <div classNameName="row">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">医生姓名<span classNameName="red">*</span>：</label>
+                    <section className="container-fluid">
+                        <div className="row">
+                            <div className="col-xs-3">
+                                <label className="mt-5">姓名：</label>
                             </div>
-                            <div classNameName="col-xs-6">
-                                <input required ng-model="addDoctor.doctorName" type="text" classNameName="form-control"
-                                       placeholder="请输入姓名"/>
-                            </div>
-                        </div>
-
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">医院<span classNameName="red">*</span>：</label>
-                            </div>
-                            <div classNameName="col-xs-6">
-                                <Select1 selectItems={this.props.hospitalList} required={true}></Select1>
+                            <div className="col-xs-6">
+                                <input ng-model="editPatientCtrl.patientName" type="text" className="form-control" placeholder="请输入姓名"/>
                             </div>
                         </div>
 
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">科室<span classNameName="red">*</span>：</label>
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">身份证号：</label>
                             </div>
-                            <div classNameName="col-xs-6">
-                                <select required classNameName="form-control" ng-model="addDoctor.department"
-                                        ng-options="department.id as department.text for department in addDoctor.departmentList"></select>
-                            </div>
-                        </div>
-
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">职称<span classNameName="red">*</span>：</label>
-                            </div>
-                            <div classNameName="col-xs-6">
-                                <select required classNameName="form-control" ng-model="addDoctor.position"
-                                        ng-options="position.id as position.text for position in addDoctor.positionList"></select>
+                            <div className="col-xs-6">
+                                <input ng-model="editPatientCtrl.idNumber" type="text" className="form-control" length-restrict="18"
+                                       placeholder="请输入身份证号"/>
                             </div>
                         </div>
 
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">专长：</label>
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">出生日期：</label>
                             </div>
-                            <div classNameName="col-xs-9">
-                                <textarea ng-model="addDoctor.special" classNameName="form-control"></textarea>
-                            </div>
-                        </div>
-
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">手机号码<span classNameName="red">*</span>：</label>
-                            </div>
-                            <div classNameName="col-xs-6">
-                                <input required type="text" ng-model="addDoctor.mobile" classNameName="form-control"
-                                       placeholder="请输入手机号码"/>
+                            <div className="col-xs-6">
+                                <input ng-model="editPatientCtrl.birthday" type="text" className="form-control" placeholder="请选择日期"
+                                       date-picker=""/>
                             </div>
                         </div>
 
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-3">
-                                <label classNameName="mt-5">密码<span classNameName="red">*</span>：</label>
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">民族：</label>
                             </div>
-                            <div classNameName="col-xs-6">
-                                <input required type="text" ng-model="addDoctor.password" classNameName="form-control"
-                                       placeholder="请输入6-20位密码"/>
+                            <div className="col-xs-6">
+                                <select className="form-control" ng-model="editPatientCtrl.minority">
+                                    <option value="">请选择</option>
+                                    <option value="汉族">汉族</option>
+                                    <option value="其他">其他</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div classNameName="row mt-10">
-                            <div classNameName="col-xs-6">
-                                <div classNameName="row">
-                                    <div classNameName="previewContainer">
-                                        <img ngf-thumbnail="addDoctor.headImageFile" classNameName="img-responsive"/>
-                                    </div>
-                                </div>
-                                <div classNameName="row">
-                                    <div classNameName="center-block w-100">
-                                        <button classNameName="btn btn-default btn-block" ngf-select
-                                                ng-model="addDoctor.headImageFile">头像上传
-                                        </button>
-                                    </div>
-                                </div>
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">是否乙肝：</label>
                             </div>
-                            <div classNameName="col-xs-6">
-                                <div classNameName="row">
-                                    <div classNameName="previewContainer">
-                                        <img ngf-thumbnail="addDoctor.holdCardImageFile"
-                                             classNameName="img-responsive"/>
-                                    </div>
-                                </div>
-                                <div classNameName="row">
-                                    <div classNameName="center-block w-100">
-                                        <button classNameName="btn btn-default btn-block" ngf-select
-                                                ng-model="addDoctor.holdCardImageFile">
-                                            持牌照片
-                                        </button>
-                                    </div>
-                                </div>
+                            <div className="col-xs-6">
+                                <select className="form-control" ng-model="editPatientCtrl.isHepatitisB">
+                                    <option value="">请选择</option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">是否孕妇：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <select ng-model="editPatientCtrl.isPregnantWomen" className="form-control">
+                                    <option value="">请选择</option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">创建时间：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <input type="text" ng-model="editPatientCtrl.createTime" className="form-control" disabled/>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">上次修改时间：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <input type="text" ng-model="editPatientCtrl.lastEditTime" className="form-control" disabled/>
                             </div>
                         </div>
                     </section>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div classNameName="col-xs-12">
-                        <input type="button" classNameName="btn btn-success btn-block"
-                               disabled={this.state.invalid}
-                               onClick={e=>this.addNewDoctor()} value="确定注册"/>
+                    <div className="row" ng-if="!editPatientCtrl.tempAccount">
+                        <div className="col-xs-4">
+                            <input type="button" className="btn btn-default btn-block"
+                                   ng-click="editPatientCtrl.lookHeadPicture();" value="查看修改头像"/>
+                        </div>
+                        <div className="col-xs-offset-4 col-xs-4">
+                            <input type="button" className="btn btn-default btn-block" ng-click="editPatientCtrl.edit();" value="保存修改"/>
+                        </div>
+                    </div>
+
+                    <div className="row mt-10" ng-if="!editPatientCtrl.tempAccount">
+                        <div className="col-xs-4">
+                            <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
+                                   disabled={this.state.auditingState == 1} value="撤销审核"/>
+                        </div>
+                        <div className="col-xs-4">
+                            <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
+                                   disabled={this.state.auditingState == 3} value="标为不通过"/>
+                        </div>
+                        <div className="col-xs-4">
+                            <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
+                                   disabled={this.state.auditingState == 2} value="标为已审核"/>
+                        </div>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -146,10 +174,14 @@ class EditPatient extends Component {
     }
 }
 
-function mapStateToProps(state, props) {
-    return {
-        hospitalList: state.hospitalList
-    }
+EditPatient.defaultProps = {
+    closeTimeout: 250
 }
 
-export default connect(mapStateToProps, null, null, {withRef: true})(EditPatient)
+EditPatient.propTypes = {
+    patientId: PropTypes.string,
+    fetchPatientInfo: PropTypes.func,
+    onClose: PropTypes.func
+}
+
+export default EditPatient
