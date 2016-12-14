@@ -47,10 +47,10 @@ function method(type) {
     }
 }
 
-export let GET = method('get')
-export let POST = method('post')
-export let PUT = method('put')
-export let PATCH = method('patch')
+export let GET = method('GET')
+export let POST = method('POST')
+export let PUT = method('PUT')
+export let PATCH = method('PATCH')
 
 export default function http(url, option) {
     //http://admin.vongihealth.com:85

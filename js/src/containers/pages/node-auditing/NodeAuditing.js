@@ -146,6 +146,7 @@ class NodeAuditing extends Component {
                         <EditPatient
                             patientId={list[this.state.currentIndex]['patient_Id']}
                             fetchPatientInfo={this.props.fetchPatientInfo}
+                            updateAuditingState={this.props.updateAuditingState}
                             onClose={() => this.setState({showEdit: false})}/>
                     )
                 }
@@ -209,7 +210,8 @@ function mapActionToProps(dispatch) {
         editVisitCardState: actions.editVisitCardState(dispatch),
         editRemark: actions.editRemark(dispatch),
         editIsCompleteVisit: actions.editIsCompleteVisit(dispatch),
-        fetchPatientInfo: actions.fetchPatientInfo(dispatch)
+        fetchPatientInfo: actions.fetchPatientInfo(dispatch),
+        updateAuditingState: actions.updateAuditingState(dispatch)
     }
 }
 

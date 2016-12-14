@@ -62,21 +62,24 @@ class CustomDateRange extends Component {
     render() {
         return (
             <div className={classnames('custom-item-wrap', {selected: this.state.selected})}>
-                <DatePicker inputPrefixCls="my-input"
-                            placeholder="开始时间"
-                            size="small"
-                            format="YYYY-MM-DD"
-                            value={this.startValue}
-                            onChange={e => this.onStartDateChange(e)}/>
-
+                <span style={{display: 'inline-block', width: '100px'}}>
+                    <DatePicker inputPrefixCls="my-input"
+                                placeholder="开始时间"
+                                size="small"
+                                format="YYYY-MM-DD"
+                                value={this.startValue}
+                                onChange={e => this.onStartDateChange(e)}/>
+                </span>
                 -
+                <span style={{display: 'inline-block', width: '100px'}}>
+                     <DatePicker inputPrefixCls="my-input"
+                                 placeholder="结束时间"
+                                 size="small"
+                                 format="YYYY-MM-DD"
+                                 value={this.endValue}
+                                 onChange={e => this.onEndDateChange(e)}/>
+                </span>
 
-                <DatePicker inputPrefixCls="my-input"
-                            placeholder="结束时间"
-                            size="small"
-                            format="YYYY-MM-DD"
-                            value={this.endValue}
-                            onChange={e => this.onEndDateChange(e)}/>
             </div>
         )
     }

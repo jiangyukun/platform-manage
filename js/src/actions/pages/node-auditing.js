@@ -1,7 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/16.
  */
-import http, {GET, POST} from '../../services/http'
+import http, {GET, POST, PATCH} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import {toRemarkTypeRequestKey, toCompleteVisitTypeRequestKey} from '../../core/pages/nodeAuditingHelper'
@@ -91,7 +91,28 @@ export let fetchPatientInfo = dispatch => patientId => {
             resolve(patientInfo)
         }, err => {
             dispatch({
-                type: types.FETCH_CITY_MAX_SERIAL_NUMBER + phase.FAILURE, err
+                type: types.FETCH_PATIENT_INFO + phase.FAILURE, err
+            })
+            reject(err)
+        })
+    })
+}
+
+export let updateAuditingState = dispatch => (patientId, newAuditingState) => {
+    dispatch({
+        type: types.UPDATE_AUDITING_STATE + phase.START
+    })
+    return new Promise((resolve, reject) => {
+        PATCH(`/web/checkedPatientInfo/${patientId}/${newAuditingState}`).then(result => {
+            console.log(result)
+            const patientInfo = result
+            dispatch({
+                type: types.UPDATE_AUDITING_STATE + phase.SUCCESS
+            })
+            resolve(patientInfo)
+        }, err => {
+            dispatch({
+                type: types.UPDATE_AUDITING_STATE + phase.FAILURE, err
             })
             reject(err)
         })

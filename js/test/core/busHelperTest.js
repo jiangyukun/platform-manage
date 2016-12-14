@@ -3,7 +3,7 @@
  */
 
 const expect = require('chai').expect
-import {ConditionResolver} from '../../src/core/busHelper'
+import {ConditionResolver} from '../../src/core/queryFilterHelper'
 
 describe('busHelper', function () {
     it('testConditionResolver', function () {
