@@ -102,43 +102,45 @@ export default class Nav extends Component {
                         </Item>
                     </SubMenu>
 
-                    <div style={{paddingLeft: '26px', fontSize: '12px'}}>
-                        <a href="chat-system-new/chat.html" target="_blank">
+
+                    <Item key="5_1">
+                        <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
                             <i className="glyphicon glyphicon-comment icon text-success"></i>
                             <span style={{marginLeft: '8px'}}>聊天系统</span>
                         </a>
-                    </div>
+                    </Item>
 
-                    <SubMenu key="sub5" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
-                        <Menu.Item key="5_1">
+
+                    <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
+                        <Item key="6_1">
                             <Link to={getPath('patient-situation-statistics')}>
                                 <span>病人情况报表</span>
                             </Link>
-                        </Menu.Item>
-                        <Item key="5_2">
+                        </Item>
+                        <Item key="6_2">
                             <a>
                                 <span>用户统计</span>
                             </a>
                         </Item>
-                        <Item key="5_3">
+                        <Item key="6_3">
                             <a>
                                 <span>入组情况统计</span>
                             </a>
                         </Item>
-                        <Item key="5_4">
+                        <Item key="6_4">
                             <a>
                                 <span>聊天记录报表</span>
                             </a>
                         </Item>
-                        <Item key="5_5">
+                        <Item key="6_5">
                             <a href="platform/home.html#/app.score-statistics">
                                 <span>在线医生评分</span>
                             </a>
                         </Item>
                     </SubMenu>
 
-                    <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>后台管理</span></span>}>
-                        <Item key="6_1">
+                    <SubMenu key="sub7" title={<span><Icon type="desktop"/><span>后台管理</span></span>}>
+                        <Item key="7_1">
                             <a >
                                 <span>后台账号管理</span>
                             </a>

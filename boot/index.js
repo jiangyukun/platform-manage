@@ -25,9 +25,6 @@ switch (process.env.NODE_ENV) {
         break
 
     case 'inline':
-        path = '/backend/'
-        break
-
     case 'test':
     case 'production':
         path = '/backend/'

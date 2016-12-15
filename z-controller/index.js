@@ -6,6 +6,7 @@ var provinces = require('./provinces')
 var hospitalManageList = require('./pages/hospital-manage/hospitalList')
 var fetchHospitalInfo = require('./pages/hospital-manage/fetchHospitalInfo')
 var patientSituation = require('./pages/statistics/patientSituation')
+var fetchLaboratorySheet = require('./pages/laboratory-sheet/fetchLaboratorySheet')
 
 
 module.exports = function configController(app) {
@@ -21,4 +22,5 @@ module.exports = function configController(app) {
     hospitalManageList(app)
     fetchHospitalInfo(app)
     patientSituation(app)
+    fetchLaboratorySheet(app)
 }

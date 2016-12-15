@@ -1,0 +1,32 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "totalCount": 2,
+    "list": [
+      {
+        "assay_Owner_Phone": "11",
+        "patient_Code": "11",
+        "patient_Name": "11",
+        "hospital_Name": "11",
+        "visit_Doctor_Name": "11",
+        "infection_Doctor": "11",
+        "pediatrics_Doctor": "11",
+        "obstetrics_Doctor": "11",
+        "visit_Doctor_Upload_Count": "2"
+      },
+      {
+        "assay_Owner_Phone": "22",
+        "patient_Code": "2234233",
+        "patient_Name": "xvxcxc",
+        "hospital_Name": "11",
+        "visit_Doctor_Name": "11",
+        "infection_Doctor": "11",
+        "pediatrics_Doctor": "11",
+        "obstetrics_Doctor": "11",
+        "visit_Doctor_Upload_Count": "2"
+      }
+    ]
+  }
+}

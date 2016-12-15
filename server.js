@@ -19,18 +19,14 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static('./'))
 
-app.get('/dev/node-auditing', function (req, res) {
+function toIndex(req, res) {
     res.sendFile(__dirname + '/index.html')
-})
+}
 
-app.get('/dev/patient-situation-statistics', function (req, res) {
-    res.sendFile(__dirname + '/index.html')
-})
-
-
-app.get('/dev/hospital-manage', function (req, res) {
-    res.sendFile(__dirname + '/index.html')
-})
+app.get('/dev/node-auditing', toIndex)
+app.get('/dev/laboratory-sheet', toIndex)
+app.get('/dev/patient-situation-statistics', toIndex)
+app.get('/dev/hospital-manage', toIndex)
 
 
 configController(app)
