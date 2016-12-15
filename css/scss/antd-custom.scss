@@ -2,6 +2,23 @@
  * Created by jiangyukun on 2016/11/28.
  */
 
+.ant-menu-dark {
+    background: #1c2b36;
+    .ant-menu-inline {
+        &.ant-menu-sub {
+            background: #1c2b36;
+        }
+    }
+}
+
+.ant-modal-mask {
+    z-index: 9998;
+}
+
+.ant-modal-wrap {
+    z-index: 9999;
+}
+
 .ant-calendar-picker {
     width: 100%;
 
@@ -9,6 +26,15 @@
         width: 100%;
         height: 30px;
     }
+}
+
+.birthday-input {
+    width: 100%;
+    border: 1px solid #cfdadd;
+    height: 34px;
+    font-size: 14px;
+    padding-left: 15px;
+    border-radius: 2px;
 }
 
 .my-input-sm {

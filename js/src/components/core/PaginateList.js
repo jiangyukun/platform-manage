@@ -17,7 +17,10 @@ class PaginateList extends Component {
         }
     }
 
-    beginFetch() {
+    beginFetch(page) {
+        if (page) {
+            this.setState({currentPage: page})
+        }
         this.setState({draw: this.state.draw + 1}, () => this.props.doFetch())
     }
 

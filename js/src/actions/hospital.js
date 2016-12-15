@@ -2,26 +2,22 @@
  * Created by jiangyukun on 2016/11/26.
  */
 
-import http from '../services/http'
+import {GET} from '../services/http'
 
-export function fetchHospitalList() {
-    return dispatch => {
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 
-        http('/web/getHospitals').then(response => response.json()).then(result => {
-            let hospitalList = result.data
-            hospitalList = hospitalList.map(hospital => {
-                return {
-                    value: hospital['hospital_Id'],
-                    text: hospital['hospital_Name']
-                }
-            })
-            dispatch({
-                type: 'FETCH_HOSPITAL_LIST_SUCCESS',
-                hospitalList
-            })
+export let fetchHospitalList = dispatch => () => {
+    GET('/web/getHospitals').then(hospitalList => {
+        hospitalList = hospitalList.map(hospital => {
+            return {
+                value: hospital['hospital_Id'],
+                text: hospital['hospital_Name']
+            }
         })
         dispatch({
-            type: 'FETCH_HOSPITAL_LIST_START'
+            type: types.FETCH_HOSPITAL_LIST + phase.SUCCESS, hospitalList
         })
-    }
+    })
+
 }

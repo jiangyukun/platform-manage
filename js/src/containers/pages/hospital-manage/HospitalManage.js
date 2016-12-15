@@ -35,8 +35,8 @@ class HospitalManage extends Component {
         }
     }
 
-    beginFetch() {
-        this._paginateList.beginFetch()
+    beginFetch(newPageIndex) {
+        this._paginateList.beginFetch(newPageIndex)
     }
 
     doFetch() {
@@ -98,6 +98,7 @@ class HospitalManage extends Component {
                         fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
                         fetchCityList={this.props.fetchCityList}
                         addHospital={this.props.addHospital}
+                        onAddSuccess={() => this.beginFetch(1)}
                         onClose={() => this.setState({showAdd: false})}/>
                 }
 
@@ -115,7 +116,7 @@ class HospitalManage extends Component {
                 }
 
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
-                             beginFilter={() => this.beginFetch()}>
+                             beginFilter={() => this.beginFetch(1)}>
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>新增</button>
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看
                     </button>

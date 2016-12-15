@@ -9,6 +9,7 @@ import notification from 'antd/lib/notification'
 import NodeAuditingQueryFilter from './NodeAuditingQueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
+import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import SubDateSelect from '../../../components/core/query-filter/custom/SubDateSelect'
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
@@ -25,6 +26,8 @@ import EditPatient from './EditPatient'
 import mapStateToProps from './data/mapStateToProps'
 import {ConditionResolver, getFilterConditionValue} from '../../../core/queryFilterHelper'
 
+import * as utils from '../../../core/utils'
+import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/node-auditing'
 
 class NodeAuditing extends Component {
@@ -39,8 +42,8 @@ class NodeAuditing extends Component {
         }
     }
 
-    beginFetch() {
-        this._paginateList.beginFetch()
+    beginFetch(newPageIndex) {
+        this._paginateList.beginFetch(newPageIndex)
     }
 
     doFetch() {
@@ -60,6 +63,7 @@ class NodeAuditing extends Component {
             .resolve('isBaby8MonthAcceptedVisit', 'visit_5_Accept_Visit', true)
             .resolve('checkResultFilter', 'visit_Type')
             .resolve('result', 'visit_Result_Type')
+            .resolve('backendManager', 'backend_Manager')
             .resolveDate('register', 'registration_Begin_Time', 'registration_End_Time')
             .getCondition()
 
@@ -110,11 +114,9 @@ class NodeAuditing extends Component {
     }
 
     editIsCompleteVisit(id, completeVisitType, completeVisitState) {
-        this.props.editIsCompleteVisit(id, completeVisitType, completeVisitState).then(() => {
-            notification.success({message: '提示', description: '更新是否完成随访成功！'})
-        }, () => {
-            notification.error({message: '提示', description: '更新是否完成随访失败！'})
-        })
+        this.props.editIsCompleteVisit(id, completeVisitType, completeVisitState)
+            .then(() => notification.success({message: '提示', description: '更新是否完成随访成功！'}),
+                () => notification.error({message: '提示', description: '更新是否完成随访失败！'}))
     }
 
     updateOpenFlag(openState) {
@@ -122,11 +124,17 @@ class NodeAuditing extends Component {
     }
 
     exportExcel() {
-
+        let handledConditionInfo = this.handleFilterConditions()
+        let paramUrl = utils.urlParam(handledConditionInfo)
+        let exportExcelUrl = 'export/excel' + paramUrl;
+        window.open(exportExcelUrl);
     }
 
     componentDidMount() {
         this.beginFetch()
+        if (this.props.hospitalList.length == 0) {
+            this.props.fetchHospitalList()
+        }
     }
 
     render() {
@@ -147,6 +155,7 @@ class NodeAuditing extends Component {
                             patientId={list[this.state.currentIndex]['patient_Id']}
                             fetchPatientInfo={this.props.fetchPatientInfo}
                             updateAuditingState={this.props.updateAuditingState}
+                            updatePatientInfo={this.props.updatePatientInfo}
                             onClose={() => this.setState({showEdit: false})}/>
                     )
                 }
@@ -155,10 +164,10 @@ class NodeAuditing extends Component {
                 <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
                 <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
                 <NodeAuditingQueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
-                                         beginFilter={filterCondition => this.beginFetch()}>
+                                         beginFilter={() => this.beginFetch(1)}>
                     <button className="btn btn-primary mr-20" onClick={e => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看</button>
                     <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
-                    <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
+                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList}/>
                     <FilterItem className="middle-filter-item" item={this.props.auditingStateList}/>
                     <FilterItem className="big-filter-item" item={this.props.nodeFilterList}>
                         <SubDateSelect/>
@@ -169,7 +178,10 @@ class NodeAuditing extends Component {
                     <FilterItem className="big-filter-item" item={this.props.checkResultFilterList}>
                         <SubOptions options={this.props.resultList} title="结果为"/>
                     </FilterItem>
-                    <FilterItem className="big-filter-item" item={this.props.register}>
+                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                        <CustomTextInput placeholder="请输入后台管理人员"/>
+                    </FilterItem>
+                    <FilterItem className="small-filter-item" item={this.props.register}>
                         <CustomDateRange/>
                     </FilterItem>
                 </NodeAuditingQueryFilter>
@@ -206,12 +218,14 @@ class NodeAuditing extends Component {
 
 function mapActionToProps(dispatch) {
     return {
+        fetchHospitalList: fetchHospitalList(dispatch),
         fetchPatientList: actions.fetchPatientList(dispatch),
         editVisitCardState: actions.editVisitCardState(dispatch),
         editRemark: actions.editRemark(dispatch),
         editIsCompleteVisit: actions.editIsCompleteVisit(dispatch),
         fetchPatientInfo: actions.fetchPatientInfo(dispatch),
-        updateAuditingState: actions.updateAuditingState(dispatch)
+        updateAuditingState: actions.updateAuditingState(dispatch),
+        updatePatientInfo: actions.updatePatientInfo(dispatch)
     }
 }
 

@@ -5,7 +5,7 @@
 import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import {events} from 'dom-helpers'
-import {throttle} from 'lodash'
+import {merge, throttle} from 'lodash'
 
 import Loading from '../../ui/Loading'
 import HeadContainer from './HeadContainer'
@@ -147,6 +147,14 @@ class SmartList extends Component {
             return cloneElement(child, {key: index})
         })
 
+        let listWrapStyle = {}
+        if (this.props.width) {
+            listWrapStyle.width = this.props.width + 'px'
+        }
+        if (this.props.style) {
+            listWrapStyle = merge({}, listWrapStyle, this.props.style)
+        }
+
         return (
             <div className="table relative">
                 {this.props.loading && <Loading/>}
@@ -168,7 +176,7 @@ class SmartList extends Component {
                 }
 
                 <div className="js-table-container" ref={c => this._tableContainer = c}>
-                    <div className={this.props.className} style={{width: this.props.width + 'px'}}>
+                    <div className={this.props.className} style={listWrapStyle}>
                         {handledChildren}
                     </div>
                 </div>

@@ -1,25 +1,20 @@
 /**
  * Created by jiangyukun on 2016/10/21.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {merge} from 'lodash'
 
-import Dialog from './Dialog'
+import Dialog from './CommonDialog'
 
 export default class ImagePreview extends Component {
     constructor(props) {
-        super()
-        this.state = {url: props.url, style: {}, showReset: false}
-    }
-
-    close() {
-        this.setState({url: null})
-        this.dialog.close()
-    }
-
-    open(url) {
-        this.setState({url})
-        this.dialog.open()
+        super(props)
+        this.state = {
+            show: true,
+            width: 0,
+            angle: 0,
+            showReset: false
+        }
     }
 
     zoomIn() {
@@ -38,7 +33,7 @@ export default class ImagePreview extends Component {
         this.setState({width: this._img.naturalWidth, angle: 0, showReset: false})
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         if (this._img) {
             this._img.onload = () => {
                 this.setState({width: this._img.naturalWidth, angle: 0, showReset: false})
@@ -48,23 +43,38 @@ export default class ImagePreview extends Component {
 
     render() {
         return (
-            <Dialog ref={c => this.dialog = c}>
+            <Dialog show={this.state.show} onClose={() => this.props.onClose()}>
                 <div className="ngdialog-content" style={{width: '80%'}}>
                     <div className="full-screen-preview">
-                        <img ref={ c => this._img = c} src={this.state.url} style={{
-                            width: this.state.width,
-                            transform: 'rotate(' + this.state.angle + 'deg)'
-                        }}/>
+                        {
+                            !this.props.url && (
+                                <div>暂无图片</div>
+                            )
+                        }
+                        {
+                            this.props.url && (
+                                <img ref={ c => this._img = c} src={this.props.url} style={{
+                                    width: this.state.width,
+                                    transform: 'rotate(' + this.state.angle + 'deg)'
+                                }}/>
+                            )
+                        }
+
                     </div>
                     <div className="ngdialog-buttons">
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.zoomIn(e)} value="放大"/>
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.zoomOut(e)} value="缩小"/>
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.rotate(e)} value="旋转"/>
+                        {this.props.url && <input type="button" className="btn toolbar-btn" onClick={e => this.zoomIn(e)} value="放大"/>}
+                        {this.props.url && <input type="button" className="btn toolbar-btn" onClick={e => this.zoomOut(e)} value="缩小"/>}
+                        {this.props.url && <input type="button" className="btn toolbar-btn" onClick={e => this.rotate(e)} value="旋转"/>}
                         {this.state.showReset && <input type="button" className="btn toolbar-btn reset" onClick={e => this.reset(e)} value="还原"/>}
-                        <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.close()} value="关闭"/>
+                        <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.setState({show: false})} value="关闭"/>
                     </div>
                 </div>
             </Dialog>
         )
     }
+}
+
+ImagePreview.propTypes = {
+    url: PropTypes.string,
+    onClose: PropTypes.func
 }

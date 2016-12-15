@@ -87,6 +87,7 @@ class AddHospitalDialog extends Component {
             "hospital_In_Project": this._isProjectHospital.getSelected().value
         }).then(() => {
             notification.success({message: '提示', description: '添加医院成功！'})
+            this.props.onAddSuccess()
             this.close()
         }, err => {
             notification.error({message: '提示', description: err})
@@ -215,7 +216,8 @@ AddHospitalDialog.propTypes = {
     fetchCityMaxSerialNumber: PropTypes.func,
     addHospital: PropTypes.func,
     closeTimeout: PropTypes.number,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    onAddSuccess: PropTypes.func
 }
 
 export default AddHospitalDialog

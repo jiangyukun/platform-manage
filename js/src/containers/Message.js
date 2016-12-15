@@ -19,7 +19,7 @@ class Message extends Component {
 
         this.loadedMessageCount = 0
         this.start = 0
-        this.state = {visible: false}
+        this.state = {showPhoto: false, photoUrl: null, visible: false}
         this.fetch()
     }
 
@@ -31,16 +31,12 @@ class Message extends Component {
         this.props.closeMessagePanel()
     }
 
-    lookMessage(msg) {
-        this._imagePreview.open(msg.url)
-    }
-
     markUnRead(msg) {
         const {markMessageState} = this.props
         Modal.confirm({
             title: '提示',
             content: '确定标为未读吗？',
-            onOk() {
+            onOk: () => {
                 markMessageState(msg['id'], constants.messageState.unread).then(() => {
                     notification.success({message: '提示', description: '标为未读成功！'})
                 }, () => {
@@ -74,7 +70,11 @@ class Message extends Component {
         let show = !this.props.app.settings.asideMessage
         return (
             <CssTransitionGroup transitionName="slide-left" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
-                <ImagePreview ref={c => this._imagePreview = c}/>
+                {
+                    this.state.showPhoto && (
+                        <ImagePreview url={this.state.photoUrl} onClose={() => this.setState({showPhoto: false})}/>
+                    )
+                }
                 {
                     show && (
                         <div className="b-l hidden-xs app-message">
@@ -101,7 +101,7 @@ class Message extends Component {
                                                         <div>上传人： {msg.uploader}</div>
                                                         <div>上传时间： {msg.uploadDate}</div>
                                                         <div className="message-look-btn">
-                                                            <button className="msg-btn full" onClick={e => this.lookMessage(msg)}>查看</button>
+                                                            <button className="msg-btn full" onClick={e => this.setState({showPhoto: true, photoUrl: msg.url})}>查看</button>
                                                         </div>
                                                         <div className="clearfix">
                                                             <button className="msg-btn pull-left" onClick={e => this.markUnRead(msg)}>标为未读</button>

@@ -1,0 +1,52 @@
+/**
+ * Created by jiangyu2016 on 16/10/15.
+ */
+import React, {Component, PropTypes} from 'react'
+import classnames  from 'classnames'
+
+class CustomTextInput extends Component {
+    constructor(props, context) {
+        super(props)
+        this.state = {
+            value: '',
+            selected: false
+        }
+        context.addCustomItem(this)
+    }
+
+    handleInputChange(e) {
+        const value = e.target.value
+        this.setState({value: value, selected: !!value})
+        this.context.select({
+            value,
+            text: value
+        })
+    }
+
+    reset() {
+        this.setState({value: '', selected: false})
+    }
+
+    render() {
+        return (
+            <div className={classnames('custom-item-wrap', {selected: this.state.selected})}>
+                <input value={this.state.value}
+                       className={classnames('custom-text-search', this.props.className)}
+                       placeholder={this.props.placeholder}
+                       onChange={e => this.handleInputChange(e)}/>
+            </div>
+        )
+    }
+}
+
+CustomTextInput.contextTypes = {
+    select: PropTypes.func,
+    addCustomItem: PropTypes.func
+}
+
+CustomTextInput.propTypes = {
+    className: PropTypes.string,
+    placeholder: PropTypes.string
+}
+
+export default CustomTextInput

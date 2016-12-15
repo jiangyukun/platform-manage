@@ -68,7 +68,7 @@ class Header extends Component {
                                     <span>设置</span>
                                 </MenuItem>
                                 <MenuItem className="divider"></MenuItem>
-                                <MenuItem href="access/login.html">
+                                <MenuItem href="platform/access/login.html">
                                     重新登录
                                 </MenuItem>
                             </Dropdown.Menu>

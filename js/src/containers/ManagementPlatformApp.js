@@ -1,7 +1,8 @@
 /**
+ * 登录成功引导页，权限控制
  * Created by jiangyu2016 on 16/10/15.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 
@@ -10,19 +11,20 @@ import Aside from './Aside'
 import AppContent from './AppContent'
 import Message from './Message'
 import Settings from './Settings'
-import {fetchHospitalList} from '../actions/hospital'
+import * as utils from '../core/utils'
 
-class App extends Component {
+class ManagementPlatformApp extends Component {
     openSettings() {
         this._settings.open()
     }
 
-    componentDidMount() {
-        this.props.fetchHospitalList()
+    getChildContext() {
+        return {
+            role: this.props.role
+        }
     }
 
     render() {
-
         let app = this.props.app
 
         function getClassName() {
@@ -50,10 +52,19 @@ class App extends Component {
     }
 }
 
-function mapStateToProps(state, props) {
+ManagementPlatformApp.childContextTypes = {
+    role: PropTypes.string
+}
+
+function mapStateToProps(state) {
+    let role = 'admin'
+    if (utils.getSession('userId') == 'crc001') {
+        role = 'crc'
+    }
     return {
-        app: state.app
+        app: state.app,
+        role
     }
 }
 
-export default connect(mapStateToProps, {fetchHospitalList})(App)
+export default connect(mapStateToProps)(ManagementPlatformApp)

@@ -9,6 +9,7 @@ const vendors = [
     "antd/lib/notification",
     "antd/lib/date-picker",
     "antd/lib/modal",
+    "antd/lib/menu",
 
     'antd/lib/style/index.less',
     'antd/lib/button/style/index.less',

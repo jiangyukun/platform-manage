@@ -43,7 +43,7 @@ class EditHospitalDialog extends Component {
     }
 
     handleManagerChange(e) {
-        this.setState({manager: e.target.value.trim()})
+        this.setState({manager: e.target.value.trim()}, this.checkFormValid)
     }
 
     onSelectIsProjectHospital(selectedItem) {

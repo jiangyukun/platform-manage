@@ -4,9 +4,9 @@
 
 
 export function calculatePageIndex(pageTotal, currentPage) {
-    var i, j, pageToShowLength = 5;
-    var beforeCount = 4, afterCount, current = currentPage;
-    var pages = [];
+    let i, j, pageToShowLength = 5;
+    let beforeCount = 4, afterCount, current = currentPage;
+    let pages = [];
 
     if (typeof pageTotal != 'number' || pageTotal < 1) {
         return [];
@@ -16,7 +16,7 @@ export function calculatePageIndex(pageTotal, currentPage) {
     }
     pages.push(1);
 
-    var start = current - beforeCount;
+    let start = current - beforeCount;
     if (start < 2) {
         start = 2;
         beforeCount = current - 2;
