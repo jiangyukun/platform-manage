@@ -7,11 +7,11 @@ import {Transition} from 'react-overlays'
 import classnames from 'classnames'
 
 export default class CommonDialog extends Component {
-    componentDidUpdate() {
-        if (!this.props.show) {
-            setTimeout(() => this.props.onClose(), 450)
-        }
-    }
+    /*componentDidUpdate() {
+     if (!this.props.show) {
+     setTimeout(() => this.props.onClose(), 450)
+     }
+     }*/
 
     render() {
         return (
@@ -21,7 +21,8 @@ export default class CommonDialog extends Component {
                    backdropClassName="ngdialog-overlay"
                    transition={Fly}
                    dialogTransitionTimeout={450}
-                   onHide={e => this.close()}>
+                   onHide={() => this.props.onHide()}
+                   onExited={e => this.props.onExited()}>
                 {this.props.children}
             </Modal>
         )
@@ -30,7 +31,8 @@ export default class CommonDialog extends Component {
 
 CommonDialog.propTypes = {
     show: PropTypes.bool,
-    onClose: PropTypes.func
+    onHide: PropTypes.func,
+    onExited: PropTypes.func
 }
 
 //-----------------------------------

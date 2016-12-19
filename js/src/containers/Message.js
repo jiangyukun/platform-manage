@@ -72,7 +72,7 @@ class Message extends Component {
             <CssTransitionGroup transitionName="slide-left" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
                 {
                     this.state.showPhoto && (
-                        <ImagePreview url={this.state.photoUrl} onClose={() => this.setState({showPhoto: false})}/>
+                        <ImagePreview url={this.state.photoUrl} onExited={() => this.setState({showPhoto: false})}/>
                     )
                 }
                 {

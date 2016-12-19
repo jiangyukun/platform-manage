@@ -14,5 +14,10 @@ export default {
     messageState: {
         read: 1,
         unread: 2
+    },
+    laboratoryState: {
+        UN_RECORDED: 3,
+        INVALID: 2,
+        RECORDED: 1
     }
 }

@@ -43,7 +43,7 @@ export default class ImagePreview extends Component {
 
     render() {
         return (
-            <Dialog show={this.state.show} onClose={() => this.props.onClose()}>
+            <Dialog show={this.state.show} onHide={() => this.setState({show: false})} onExited={() => this.props.onExited()}>
                 <div className="ngdialog-content" style={{width: '80%'}}>
                     <div className="full-screen-preview">
                         {
@@ -76,5 +76,5 @@ export default class ImagePreview extends Component {
 
 ImagePreview.propTypes = {
     url: PropTypes.string,
-    onClose: PropTypes.func
+    onExited: PropTypes.func
 }

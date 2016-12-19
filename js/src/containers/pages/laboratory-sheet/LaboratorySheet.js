@@ -13,6 +13,7 @@ import PaginateList from '../../../components/core/PaginateList'
 import SmartList from '../../../components/core/list/SmartList'
 import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
+import EditLaboratorySheet from './EditLaboratorySheet'
 
 import {getFilterItem} from '../../../core/utils'
 import {fetchHospitalList} from '../../../actions/hospital'
@@ -43,8 +44,10 @@ class LaboratorySheet extends Component {
 
     }
 
-    editLaboratorySheet() {
-
+    editLaboratorySheet(sheet, type) {
+        this.mobile = sheet['assay_Owner_Phone']
+        this.sheetType = type
+        this.setState({showEdit: true})
     }
 
     componentDidMount() {
@@ -55,11 +58,24 @@ class LaboratorySheet extends Component {
     }
 
     render() {
+        let getSheetNumber = (sheet, name, index) => {
+            if (sheet[name] == 0) {
+                return <span>0张</span>
+            }
+            return (
+                <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, index)}>{sheet[name]}张</span>
+            )
+        }
+
         return (
             <div className="app-function-page">
                 {
                     this.state.showEdit && (
-                        <EditLaboratorySheet />
+                        <EditLaboratorySheet mobile={this.mobile}
+                                             sheetType={this.sheetType}
+                                             fetchPictureUrlList={this.props.fetchPictureUrlList}
+                                             markSheetItem={this.props.markSheetItem}
+                                             onExited={() => this.setState({showEdit: false})}/>
                     )
                 }
 
@@ -109,7 +125,9 @@ class LaboratorySheet extends Component {
                                 {
                                     this.props.list.map((sheet, index) => {
                                         return (
-                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            <ul key={index}
+                                                style={{height: '50px'}}
+                                                className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
                                                 onClick={e => this.setState({currentIndex: index})}
                                                 onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                                             >
@@ -122,22 +140,22 @@ class LaboratorySheet extends Component {
                                                 <li className="item flex2">{sheet['obstetrics_Doctor']}</li>
                                                 <li className="item flex2">{sheet['pediatrics_Doctor']}</li>
                                                 <li className="item flex2">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['visit_Doctor_Upload_Count']}张</span>
+                                                    {getSheetNumber(sheet, 'visit_Doctor_Upload_Count', 1)}
                                                 </li>
                                                 <li className="item flex1">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['patient_Count']}</span>
+                                                    {getSheetNumber(sheet, 'patient_Count', 2)}
                                                 </li>
                                                 <li className="item flex1">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['is_Input']}</span>
+                                                    {getSheetNumber(sheet, 'is_Input', 3)}
                                                 </li>
                                                 <li className="item flex1">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['is_No_Input']}</span>
+                                                    {getSheetNumber(sheet, 'is_No_Input', 4)}
                                                 </li>
                                                 <li className="item flex1">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['invalid_Count']}</span>
+                                                    {getSheetNumber(sheet, 'invalid_Count', 5)}
                                                 </li>
                                                 <li className="item flex1">
-                                                    <span className="editable-number" onClick={e => this.editLaboratorySheet(sheet, 1)}>{sheet['delete_List']}</span>
+                                                    {getSheetNumber(sheet, 'delete_List', 6)}
                                                 </li>
                                             </ul>
                                         )
@@ -173,7 +191,9 @@ function mapStateToProps(state) {
 function mapActionToProps(dispatch) {
     return {
         fetchLaboratorySheetList: actions.fetchLaboratorySheetList(dispatch),
-        fetchHospitalList: fetchHospitalList(dispatch)
+        fetchHospitalList: fetchHospitalList(dispatch),
+        fetchPictureUrlList: actions.fetchPictureUrlList(dispatch),
+        markSheetItem: actions.markSheetItem(dispatch)
     }
 }
 
