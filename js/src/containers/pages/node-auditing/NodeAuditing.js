@@ -156,7 +156,8 @@ class NodeAuditing extends Component {
                             fetchPatientInfo={this.props.fetchPatientInfo}
                             updateAuditingState={this.props.updateAuditingState}
                             updatePatientInfo={this.props.updatePatientInfo}
-                            onClose={() => this.setState({showEdit: false})}/>
+                            patientInfoUpdated={() => this.beginFetch()}
+                            onExited={() => this.setState({showEdit: false})}/>
                     )
                 }
 
@@ -187,7 +188,7 @@ class NodeAuditing extends Component {
                 </NodeAuditingQueryFilter>
 
                 <PaginateList ref={c => this._paginateList = c}
-                              beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
+                              doFetch={() => this.doFetch()}
                               total={total}>
 
                     <SmartList className="paginate-list-data-container" width={listWidth}

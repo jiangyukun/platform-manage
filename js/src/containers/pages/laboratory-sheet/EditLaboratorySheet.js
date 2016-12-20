@@ -13,6 +13,7 @@ class EditLaboratorySheet extends Component {
     constructor(props) {
         super(props)
         this.listLength = 0
+        this.sheetType = props.sheetType
         this.title = convertTitle(props.sheetType)
         this.state = {
             list: [],
@@ -55,6 +56,7 @@ class EditLaboratorySheet extends Component {
         antdUtil.confirm(messageStart, () => {
             this.props.markSheetItem(this.state.list[this.state.current].id, sheetType)
                 .then(antdUtil.tipSuccess(messageSuccess), err => antdUtil.tipErr(err))
+                .then(this.setState({show: false})).then(this.props.sheetStateUpdated())
         })
     }
 
@@ -76,6 +78,7 @@ class EditLaboratorySheet extends Component {
 
     componentDidMount() {
         this.props.fetchPictureUrlList(this.props.mobile, this.props.sheetType).then(sheetList => {
+            if (!sheetList) return
             const list = sheetList.map(sheet => {
                 return {
                     id: sheet['id'],
@@ -109,43 +112,54 @@ class EditLaboratorySheet extends Component {
 
     render() {
         return (
-            <CommonDialog show={this.state.show} onHide={() => this.setState({show: false})} onExited={() => this.props.onExited()}>
-                <div className="ngdialog-content" style={{width: '60%'}}>
-                    <h4>{this.title}，第{this.state.current + 1}张，上传时间：{dateUtils.formatDateStr(this.state.uploadTime)}</h4>
+            <CommonDialog show={this.state.show} onHide={() => this.setState({show: false})} onExited={() => this.props.onExited()} width="60%">
+                {this.state.current == -1 && <h4>暂无化验单</h4>}
+                {this.state.current != -1 && <h4>{this.title}，第{this.state.current + 1}张，上传时间：{dateUtils.formatDateStr(this.state.uploadTime)}</h4>}
 
-                    <section className="picture-preview-container flex">
-                        <div className="before-picture-btn" onClick={e => this.beforePicture()}>
-                            <i className="fa fa-chevron-left"></i>
-                        </div>
-                        <div className="list-picture-container">
-                            <div className="center-position-table">
-                                <div className="center-position">
-                                    {
-                                        this.state.current != -1 && <img ref={c => this._img = c}
-                                                                         src={this.state.list[this.state.current].url}
-                                                                         style={{
-                                                                             width: this.state.width,
-                                                                             transform: 'rotate(' + this.state.angle + 'deg)'
-                                                                         }}/>
-                                    }
-                                </div>
+                <section className="picture-preview-container flex">
+                    <div className="before-picture-btn" onClick={e => this.beforePicture()}>
+                        <i className="fa fa-chevron-left"></i>
+                    </div>
+                    <div className="list-picture-container">
+                        <div className="center-position-table">
+                            <div className="center-position">
+                                {
+                                    this.state.current != -1 && <img ref={c => this._img = c}
+                                                                     src={this.state.list[this.state.current].url}
+                                                                     style={{
+                                                                         width: this.state.width,
+                                                                         transform: 'rotate(' + this.state.angle + 'deg)'
+                                                                     }}/>
+                                }
                             </div>
                         </div>
-                        <div className="next-picture-btn" onClick={e => this.nextPicture()}>
-                            <i className="fa fa-chevron-right"></i>
-                        </div>
-                    </section>
-
-                    <div className="ngdialog-buttons">
-                        <input type="button" className="ngdialog-button ngdialog-button-primary" onClick={e => this.markRecorded()} value="标为已录入"/>
-                        <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markUnPass()} value="标为未录入"/>
-                        <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markInvalid()} value="标为无效"/>
-
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.zoomIn()} value="放大"/>
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.zoomOut()} value="缩小"/>
-                        <input type="button" className="btn toolbar-btn" onClick={e => this.rotate()} value="旋转"/>
-                        {this.state.showReset && <input type="button" className="btn toolbar-btn reset" onClick={e => this.reset()} value="还原"/>}
                     </div>
+                    <div className="next-picture-btn" onClick={e => this.nextPicture()}>
+                        <i className="fa fa-chevron-right"></i>
+                    </div>
+                </section>
+
+                <div className="ngdialog-buttons">
+                    {
+                        this.state.current != -1 && this.sheetType != 6 && (
+                            <input type="button" className="ngdialog-button ngdialog-button-primary" onClick={e => this.markRecorded()} value="标为已录入"/>
+                        )
+                    }
+                    {
+                        this.state.current != -1 && this.sheetType != 6 && (
+                            <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markUnPass()} value="标为未录入"/>
+                        )
+                    }
+                    {
+                        this.state.current != -1 && this.sheetType != 6 && (
+                            <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markInvalid()} value="标为无效"/>
+                        )
+                    }
+
+                    {this.state.current != -1 && <input type="button" className="btn toolbar-btn" onClick={e => this.zoomIn()} value="放大"/>}
+                    {this.state.current != -1 && <input type="button" className="btn toolbar-btn" onClick={e => this.zoomOut()} value="缩小"/>}
+                    {this.state.current != -1 && <input type="button" className="btn toolbar-btn" onClick={e => this.rotate()} value="旋转"/>}
+                    {this.state.showReset && <input type="button" className="btn toolbar-btn reset" onClick={e => this.reset()} value="还原"/>}
                 </div>
             </CommonDialog>
         )
@@ -157,6 +171,7 @@ EditLaboratorySheet.propTypes = {
     sheetType: PropTypes.number,
     fetchPictureUrlList: PropTypes.func,
     markSheetItem: PropTypes.func,
+    sheetStateUpdated: PropTypes.func,
     onExited: PropTypes.func
 }
 

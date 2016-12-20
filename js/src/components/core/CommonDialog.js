@@ -7,12 +7,6 @@ import {Transition} from 'react-overlays'
 import classnames from 'classnames'
 
 export default class CommonDialog extends Component {
-    /*componentDidUpdate() {
-     if (!this.props.show) {
-     setTimeout(() => this.props.onClose(), 450)
-     }
-     }*/
-
     render() {
         return (
             <Modal show={this.props.show}
@@ -23,7 +17,10 @@ export default class CommonDialog extends Component {
                    dialogTransitionTimeout={450}
                    onHide={() => this.props.onHide()}
                    onExited={e => this.props.onExited()}>
-                {this.props.children}
+                <div className="ngdialog-content" style={{width: this.props.width}}>
+                    <div className="ngdialog-close" onClick={() => this.props.onHide()}></div>
+                    {this.props.children}
+                </div>
             </Modal>
         )
     }

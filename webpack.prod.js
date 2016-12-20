@@ -8,7 +8,7 @@ module.exports = {
     ],
 
     output: {
-        path: __dirname + '/build/',
+        path: 'D:/2016/project1/tigermed-app/backed-web/src/main/webapp/platform-new/build/',
         filename: 'bundle-' + moment().format('MMDD') + '.min.js',
         publicPath: 'build/'
     },

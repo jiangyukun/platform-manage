@@ -1,6 +1,8 @@
 /**
  * Created by jiangyukun on 2016/11/29.
  */
+import constants from './constants'
+
 function _unKnowData() {
     return '错误数据'
 }
@@ -36,4 +38,16 @@ export function isCompleteVisit(state) {
     } else if (state == '2') {
         return '未联系';
     }
+    return _unKnowData()
+}
+
+export function getAuditStatus(value) {
+    if (constants.auditingState.auditing == value) {
+        return '审核中';
+    } else if (constants.auditingState.auditingPass == value) {
+        return '审核通过';
+    } else if (constants.auditingState.auditingUnPass == value) {
+        return '审核不通过';
+    }
+    return _unKnowData()
 }

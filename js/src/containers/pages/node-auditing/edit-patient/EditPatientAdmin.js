@@ -28,34 +28,27 @@ class EditPatient extends Component {
         }
     }
 
-    close() {
-        this.setState({show: false})
-        setTimeout(() => {
-            this.props.onClose()
-        }, this.props.closeTimeout)
-    }
-
     cancelAuditing() {
         antdUtil.confirm('确定撤销审核吗？', () => {
-            this.props.updateAuditingState(this.infoId, constants.auditingState.auditing)
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditing)
                 .then(() => antdUtil.tipSuccess('撤销审核成功!'), err => antdUtil.tipErr('撤销审核失败！'))
-                .then(this.close())
+                .then(this.setState({show: false}))
         })
     }
 
     markUnPass() {
         antdUtil.confirm('确定标为不通过吗？', () => {
-            this.props.updateAuditingState(this.infoId, constants.auditingState.auditingUnPass)
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingUnPass)
                 .then(() => antdUtil.tipSuccess('标为不通过成功!'), err => antdUtil.tipErr('标为不通过失败！'))
-                .then(this.close())
+                .then(this.setState({show: false}))
         })
     }
 
     markPass() {
         antdUtil.confirm('确定标为已审核吗？', () => {
-            this.props.updateAuditingState(this.infoId, constants.auditingState.auditingPass)
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingPass)
                 .then(() => antdUtil.tipSuccess('标为已审核成功!'), err => antdUtil.tipErr('标为已审核失败！'))
-                .then(this.close())
+                .then(this.setState({show: false}))
         })
     }
 
@@ -70,7 +63,10 @@ class EditPatient extends Component {
                 "patient_Is_Pregnant": this.state.isPregnantWomen,
                 "patient_BirthDate": this.state.birthday && this.state.birthday.format('YYYY-MM-DD'),
                 "patient_Photo": this.state.photo
-            }).then(() => antdUtil.tipSuccess('更新病人信息成功！'), err => antdUtil.tipErr(err)).then(this.close())
+            }).then(() => {
+                antdUtil.tipSuccess('更新病人信息成功！')
+                this.props.patientInfoUpdated()
+            }, err => antdUtil.tipErr(err)).then(this.setState({show: false}))
         })
     }
 
@@ -94,14 +90,14 @@ class EditPatient extends Component {
 
     render() {
         return (
-            <Modal show={this.state.show} onHide={() => this.close()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.setState({show: false})} onExited={this.props.onExited} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>编辑患者</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {
                         this.state.showPhoto && (
-                            <ImagePreview url={this.state.photo} onClose={() => this.setState({showPhoto: false})}/>
+                            <ImagePreview url={this.state.photo} onExited={() => this.setState({showPhoto: false})}/>
                         )
                     }
                     <section className="container-fluid">
@@ -226,16 +222,13 @@ class EditPatient extends Component {
     }
 }
 
-EditPatient.defaultProps = {
-    closeTimeout: 250
-}
-
 EditPatient.propTypes = {
     patientId: PropTypes.string,
     fetchPatientInfo: PropTypes.func,
     updateAuditingState: PropTypes.func,
     updatePatientInfo: PropTypes.func,
-    onClose: PropTypes.func
+    patientInfoUpdated: PropTypes.func,
+    onExited: PropTypes.func
 }
 
 export default EditPatient

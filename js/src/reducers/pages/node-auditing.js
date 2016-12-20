@@ -34,12 +34,17 @@ export function patientListInfo(state = defaultValue, action) {
                 nextIState = updateIsCompleteVisitSuccess()
                 break
 
+            case types.UPDATE_AUDITING_STATE + phase.SUCCESS:
+                nextIState = updateAuditingStatusSuccess()
+                break
+
             default:
                 break
         }
         if (nextIState == iState) {
             return state
         }
+        console.log(nextIState.toJS())
         return nextIState.toJS()
     }
 
@@ -62,6 +67,11 @@ export function patientListInfo(state = defaultValue, action) {
         return _updateList(iState, id, patient => patient.set(isCompleteVisitKey, formatBusData.isCompleteVisit(newVisitCardState)))
     }
 
+    function updateAuditingStatusSuccess() {
+        const {patientId, newAuditingState} = action
+        return _updateList(iState, patientId, patient => patient.set('is_Checked', formatBusData.getAuditStatus(newAuditingState)))
+    }
+
     function fetchPatientListSuccess() {
         let {data} =action.patientListInfo
         return iState.set('total', data['total_Patient_Count']).set('list', fromJS(data['patientCheckList']))
@@ -70,7 +80,11 @@ export function patientListInfo(state = defaultValue, action) {
     //-------------------------------------
 
     function _updateList(curIState, id, callback) {
+        console.log(id)
         let match = curIState.get('list').find(patient => patient.get('patient_Id') == id)
+        if (!match) {
+            return curIState
+        }
         return curIState.update('list', list => list.update(list.indexOf(match), patient => callback(patient)))
     }
 

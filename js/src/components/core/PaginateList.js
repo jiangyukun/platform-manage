@@ -11,9 +11,12 @@ import {calculatePageIndex} from '../../utils'
 class PaginateList extends Component {
     constructor(props) {
         super(props)
+        this.sortByList = []
         this.state = {
             draw: 1,
-            currentPage: 1
+            currentPage: 1,
+            by: '',
+            order: 'default'
         }
     }
 
@@ -25,6 +28,15 @@ class PaginateList extends Component {
     }
 
     getPageInfo() {
+        if (this.state.by && this.state.order) {
+            return {
+                start: this.state.currentPage - 1,
+                length: pageSize,
+                draw: this.state.draw,
+                by: this.state.by,
+                order: this.state.order
+            }
+        }
         return {
             start: this.state.currentPage - 1,
             length: pageSize,
@@ -32,8 +44,16 @@ class PaginateList extends Component {
         }
     }
 
-    sort(order) {
+    addSortBy(sortBy) {
+        this.sortByList.push(sortBy)
+    }
 
+    sort(by, order) {
+        if (order == 'default') {
+            order = ''
+        }
+        this.setState({by, order}, this.beginFetch(1))
+        this.sortByList.forEach(sortBy => sortBy.reset(by))
     }
 
     nextPage() {
@@ -50,13 +70,14 @@ class PaginateList extends Component {
 
     toPage(page) {
         if (this.state.currentPage != page) {
-            this.setState({currentPage: page}, () => this.props.beginFetch())
+            this.setState({currentPage: page}, () => this.beginFetch())
         }
     }
 
     getChildContext() {
         return {
-            sort: order => this.sort(order)
+            addSortBy: (...arg) => this.addSortBy(...arg),
+            sort: (...arg) => this.sort(...arg)
         }
     }
 
@@ -101,11 +122,11 @@ class PaginateList extends Component {
 PaginateList.propTypes = {
     total: PropTypes.number,
     loading: PropTypes.bool,
-    beginFetch: PropTypes.func,
     doFetch: PropTypes.func
 }
 
 PaginateList.childContextTypes = {
+    addSortBy: PropTypes.func,
     sort: PropTypes.func
 }
 

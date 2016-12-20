@@ -98,17 +98,16 @@ export let fetchPatientInfo = dispatch => patientId => {
     })
 }
 
-export let updateAuditingState = dispatch => (patientId, newAuditingState) => {
+export let updateAuditingState = dispatch => (infoId, patientId, newAuditingState) => {
     dispatch({
         type: types.UPDATE_AUDITING_STATE + phase.START
     })
     return new Promise((resolve, reject) => {
-        PATCH(`/web/checkedPatientInfo/${patientId}/${newAuditingState}`).then(result => {
-            const patientInfo = result
+        PATCH(`/web/checkedPatientInfo/${infoId}/${newAuditingState}`).then(() => {
             dispatch({
-                type: types.UPDATE_AUDITING_STATE + phase.SUCCESS
+                type: types.UPDATE_AUDITING_STATE + phase.SUCCESS, patientId, newAuditingState
             })
-            resolve(patientInfo)
+            resolve()
         }, err => {
             dispatch({
                 type: types.UPDATE_AUDITING_STATE + phase.FAILURE, err

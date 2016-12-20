@@ -3,7 +3,7 @@ var webpack = require('webpack')
 process.env.NODE_ENV = 'inline'
 
 module.exports = {
-    // devtool: 'cheap-module-eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     entry: [
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
