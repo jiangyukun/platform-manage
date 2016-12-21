@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Dropdown, MenuItem} from 'react-bootstrap'
 import classnames from 'classnames'
-
 import {toggleAside, toggleMessagePanel} from '../actions/header'
 
 class CustomWrap extends Component {

@@ -1,7 +1,6 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-
 import React, {Component} from 'react'
 import classnames from 'classnames'
 import {connect} from 'react-redux'

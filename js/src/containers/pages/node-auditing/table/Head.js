@@ -2,7 +2,6 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import React, {Component, PropTypes} from 'react'
-import {contextMenu} from '../../../../components/contextMenu'
 
 class Head extends Component {
     handleContextMenu(e) {

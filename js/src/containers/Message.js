@@ -7,7 +7,6 @@ import {connect} from 'react-redux'
 import classnames from 'classnames'
 import Modal from 'antd/lib/modal'
 import notification from 'antd/lib/notification'
-
 import ImagePreview from '../components/core/ImagePreview'
 import constants from '../core/constants'
 import {fetchMessageInfo, markMessageState} from '../actions/message'

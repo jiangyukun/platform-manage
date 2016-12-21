@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 import notification from 'antd/lib/notification'
-
 import Select1 from '../../../../components/core/Select1'
 
 class EditHospitalDialog extends Component {
@@ -23,11 +22,6 @@ class EditHospitalDialog extends Component {
 
             invalid: true
         }
-    }
-
-    close() {
-        this.setState({show: false})
-        setTimeout(() => this.props.onClose(), this.props.closeTimeout)
     }
 
     handleHospitalNameChange(e) {
@@ -96,9 +90,9 @@ class EditHospitalDialog extends Component {
             "hospitalSerialNumber": this.state.serialNumber,
             "cityCode": this.state.regionNumber,
             "hospital_In_Project": this._isProjectHospital.getSelected().value,
-            "backend_Manager": this.state.manager
+            "backend_Manager": this.state.manager || ''
         }).then(() => {
-            this.close()
+            this.setState({show: false})
             notification.success({message: '提示', description: '更新医院成功！'})
         }, err => {
             notification.error({message: '提示', description: err})
@@ -109,13 +103,13 @@ class EditHospitalDialog extends Component {
         this.props.fetchHospitalInfo(this.props.hospitalId).then(hospitalInfo => {
             this.maxSerialNumber = 0
             this.setState({
-                hospitalName: hospitalInfo['hospital_Name'],
-                serialNumber: hospitalInfo['hospitalSerialNumber'],
+                hospitalName: hospitalInfo['hospital_Name'] || '',
+                serialNumber: hospitalInfo['hospitalSerialNumber'] || '',
                 provinceId: hospitalInfo['province'] || '',
                 cityId: hospitalInfo['city'] || '',
-                regionNumber: hospitalInfo['cityCode'],
-                isProjectHospital: hospitalInfo['hospital_In_Project'],
-                manager: hospitalInfo['backend_Manager']
+                regionNumber: hospitalInfo['cityCode'] || '',
+                isProjectHospital: hospitalInfo['hospital_In_Project'] || '',
+                manager: hospitalInfo['backend_Manager'] || ''
             }, this.onProvinceChange)
         })
     }
@@ -130,7 +124,7 @@ class EditHospitalDialog extends Component {
         let hospitalNameClass = this.state.hospitalName.length > 12 ? 'col-xs-7' : 'col-xs-6'
 
         return (
-            <Modal show={this.state.show} onHide={() => this.close()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.setState({show: false})} onExited={this.props.onExited} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>修改医院</Modal.Title>
                 </Modal.Header>
@@ -226,16 +220,12 @@ class EditHospitalDialog extends Component {
                                onClick={e => this.updateHospitalInfo()}/>
                     </div>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-default btn-block" onClick={() => this.close()} value="取消"/>
+                        <input type="button" className="btn btn-default btn-block" onClick={() => this.setState({show: false})} value="取消"/>
                     </div>
                 </Modal.Footer>
             </Modal>
         )
     }
-}
-
-EditHospitalDialog.defaultProps = {
-    closeTimeout: 250
 }
 
 EditHospitalDialog.propTypes = {
@@ -245,8 +235,7 @@ EditHospitalDialog.propTypes = {
     fetchCityList: PropTypes.func,
     fetchCityMaxSerialNumber: PropTypes.func,
     updateHospitalInfo: PropTypes.func,
-    close: PropTypes.func,
-    closeTimeout: PropTypes.number
+    onExited: PropTypes.func
 }
 
 export default EditHospitalDialog

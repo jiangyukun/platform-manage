@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react'
 import DatePicker from 'antd/lib/date-picker'
-import classnames  from 'classnames'
+import classnames from 'classnames'
 
 class CustomDateRange extends Component {
     constructor(props, context) {
@@ -46,7 +46,7 @@ class CustomDateRange extends Component {
             }
         }
         this.setState({selected: true})
-        this.context.select({
+        this.context.selectCustom({
             value: (startText || '') + ',' + (endText || ''),
             text: text,
             errorTip: errorTip
@@ -57,6 +57,22 @@ class CustomDateRange extends Component {
         this.startValue = null
         this.endValue = null
         this.setState({selected: false})
+    }
+
+    getParam() {
+        if (!this.props.startName || !this.props.endName) {
+            console.log('未设置（startName或endName）参数名请勿调用此方法')
+            return {}
+        }
+        if (this.startValue || this.endValue) {
+            const startText = this.startValue && this.startValue.format('YYYY-MM-DD')
+            const endText = this.endValue && this.endValue.format('YYYY-MM-DD')
+            return {
+                [this.props.startName]: startText,
+                [this.props.endName]: endText
+            }
+        }
+        return {}
     }
 
     render() {
@@ -85,8 +101,13 @@ class CustomDateRange extends Component {
     }
 }
 
+CustomDateRange.propTypes = {
+    startName: PropTypes.string,
+    endName: PropTypes.string
+}
+
 CustomDateRange.contextTypes = {
-    select: PropTypes.func,
+    selectCustom: PropTypes.func,
     addCustomItem: PropTypes.func
 }
 

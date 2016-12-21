@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/12/1.
  */
-import constants  from '../../../../core/constants'
+import constants from '../../../../core/constants'
 import {getFilterItem, getStartEndDate} from '../../../../core/utils'
 
 export default function mapStateToProps(state) {

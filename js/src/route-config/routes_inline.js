@@ -1,10 +1,8 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-
 import React from 'react'
 import {Route} from 'react-router'
-
 import ManagementPlatformApp from '../containers/ManagementPlatformApp'
 import NodeAuditing from '../containers/pages/node-auditing/NodeAuditing'
 import LaboratorySheet from '../containers/pages/laboratory-sheet/LaboratorySheet'

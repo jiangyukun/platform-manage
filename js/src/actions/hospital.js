@@ -1,9 +1,7 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
-
 import {GET} from '../services/http'
-
 import * as types from '../constants/ActionTypes'
 import * as phase from '../constants/PhaseConstant'
 

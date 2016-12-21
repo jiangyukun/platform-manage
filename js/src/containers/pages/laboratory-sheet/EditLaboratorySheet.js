@@ -2,7 +2,6 @@
  * Created by jiangyukun on 2016/12/15.
  */
 import React, {Component, PropTypes} from 'react'
-
 import CommonDialog from '../../../components/core/CommonDialog'
 import {convertTitle} from '../../../core/pages/laboratorySheetHelper'
 import constants from '../../../core/constants'

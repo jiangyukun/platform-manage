@@ -7,11 +7,8 @@ function preHandle(url, option) {
         url = '/backend' + url
     }
     option = option || {}
+    const body = option.body
 
-    let param = option.body
-    if (param && param.length) {
-        param.limit = param.length
-    }
     option = {
         ...option,
         credentials: 'include',
@@ -19,7 +16,7 @@ function preHandle(url, option) {
             'Accept': 'application/json;charset=utf-8',
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(option.body),
+        body: JSON.stringify(body),
     }
 
     return {url, option}
@@ -51,6 +48,8 @@ export let GET = method('GET')
 export let POST = method('POST')
 export let PUT = method('PUT')
 export let PATCH = method('PATCH')
+export let DELETE = method('DELETE')
+export let HEAD = method('HEAD')
 
 export default function http(url, option) {
     //http://admin.vongihealth.com:85

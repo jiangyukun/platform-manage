@@ -2,7 +2,8 @@
  *
  * Created by jiangyukun on 2016/11/29.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
+import {merge} from 'lodash'
 import QueryFilter from '../../../components/core/QueryFilter'
 import Form from '../../../components/element/Form'
 
@@ -20,6 +21,17 @@ class NodeAuditingQueryFilter extends QueryFilter {
             searchKey1: this.searchKey1,
             searchKey2: this.searchKey2
         }
+    }
+
+    getSearchParam() {
+        let param = {}
+        if (this.searchKey1) {
+            merge(param, {[this.props.searchKeyName1]: this.searchKey1})
+        }
+        if (this.searchKey2) {
+            merge(param, {[this.props.searchKeyName2]: this.searchKey2})
+        }
+        return param
     }
 
     getSearchToolbar() {
@@ -44,6 +56,11 @@ class NodeAuditingQueryFilter extends QueryFilter {
             </div>
         )
     }
+}
+
+NodeAuditingQueryFilter.propTypes = {
+    searchKeyName1: PropTypes.string,
+    searchKeyName2: PropTypes.string
 }
 
 export default NodeAuditingQueryFilter

@@ -70,7 +70,7 @@ class SortBy extends Component {
                 return (
                     <li onClick={e => this.sort('asc')} className="asc">
                         <a>{name}</a>
-                        <i className="icon-arrow-desc"></i>
+                        <i className="icon-arrow-asc"></i>
                     </li>
                 )
             }
@@ -82,7 +82,7 @@ class SortBy extends Component {
                 return (
                     <li onClick={e => this.sort('desc')} className="desc">
                         <a>{name}</a>
-                        <i className="icon-arrow-desc1"></i>
+                        <i className="icon-arrow-desc"></i>
                     </li>
                 )
             }
@@ -106,7 +106,8 @@ class SortBy extends Component {
                 <div className="sort-container" style={style}>
                     <div className="clearfix current-sort">
                         <a className="link">{name}</a>
-                        <i className={classnames('arrow', {'icon-arrow-desc-red': this.state.order == 'asc'}, {'icon-arrow-desc1-red': this.state.order == 'desc'})}></i>
+                        {this.state.order == 'asc' && <i className="icon-arrow-asc-red"></i>}
+                        {this.state.order == 'desc' && <i className="icon-arrow-desc-red"></i>}
                         <i className="icon-more-select"></i>
                     </div>
 

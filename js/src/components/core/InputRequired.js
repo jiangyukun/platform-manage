@@ -1,8 +1,6 @@
 /**
  * Created by jiangyu2016 on 2016/10/19.
  */
-
-
 import React, {Component, createElement} from 'react'
 import classnames from 'classnames'
 

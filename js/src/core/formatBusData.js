@@ -21,10 +21,10 @@ export function getVisitCardState(state) {
 }
 
 export function getYesOrNoText(flag) {
-    if (flag == 0) {
+    if (flag == '0') {
         return '否'
     }
-    if (flag == 1) {
+    if (flag == '1') {
         return '是'
     }
     return _unKnowData()

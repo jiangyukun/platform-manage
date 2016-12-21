@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import notification from 'antd/lib/notification'
-
 import NodeAuditingQueryFilter from './NodeAuditingQueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
@@ -16,7 +15,6 @@ import PaginateList from '../../../components/core/PaginateList'
 import SmartList from '../../../components/core/list/SmartList'
 import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
-
 import Head from './table/Head'
 import Body from './table/Body'
 import EditVisitCard from './edit/EditVisitCard'
@@ -24,8 +22,6 @@ import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
 import EditPatient from './EditPatient'
 import mapStateToProps from './data/mapStateToProps'
-import {ConditionResolver, getFilterConditionValue} from '../../../core/queryFilterHelper'
-
 import * as utils from '../../../core/utils'
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/node-auditing'
@@ -50,51 +46,8 @@ class NodeAuditing extends Component {
         this.setState({loading: true})
         this.allConditions = this._queryFilter.getAllConditions()
         this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchPatientList(merge({}, this.pageInfo, this.handleFilterConditions()))
+        this.props.fetchPatientList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
             .then(() => this.setState({loading: false, currentIndex: -1}))
-    }
-
-    handleFilterConditions() {
-        let options = new ConditionResolver(this.allConditions.filters)
-            .resolve('hospital', 'hsp_Name', true)
-            .resolve('auditingState', 'check_Status')
-            .resolve('visitCard', 'status')
-            .resolve('isPregnant12To14AcceptedVisit', 'visit_2_Accept_Visit', true)
-            .resolve('isBaby8MonthAcceptedVisit', 'visit_5_Accept_Visit', true)
-            .resolve('checkResultFilter', 'visit_Type')
-            .resolve('result', 'visit_Result_Type')
-            .resolve('backendManager', 'backend_Manager')
-            .resolveDate('register', 'registration_Begin_Time', 'registration_End_Time')
-            .getCondition()
-
-        let value = getFilterConditionValue(this.allConditions.filters, 'nodeFilter')
-        if (value) {
-            if (typeof value != 'object') {
-                options['note_Type'] = value
-            } else {
-                options['note_Type'] = value.main.value
-                let customValue = value.custom.value
-                options['note_Begin_Time'] = customValue.startValue
-                options['note_End_Time'] = customValue.endValue
-            }
-        }
-        value = getFilterConditionValue(this.allConditions.filters, 'checkResultFilter')
-        if (value) {
-            if (typeof value != 'object') {
-                options['visit_Type'] = value
-            } else {
-                options['visit_Type'] = value.main.value
-                options['visit_Result_Type'] = value.custom.value
-            }
-        }
-
-        if (this.allConditions.searchKey1) {
-            options['doctor_key_Words'] = this.allConditions.searchKey1
-        }
-        if (this.allConditions.searchKey2) {
-            options['key_Words'] = this.allConditions.searchKey2
-        }
-        return options
     }
 
     editVisitCard(id, state) {
@@ -164,32 +117,52 @@ class NodeAuditing extends Component {
                 <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
                 <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
                 <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
-                <NodeAuditingQueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
-                                         beginFilter={() => this.beginFetch(1)}>
-                    <button className="btn btn-primary mr-20" onClick={e => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看</button>
+
+                <NodeAuditingQueryFilter ref={c => this._queryFilter = c}
+                                         className="ex-big-label"
+                                         beginFilter={() => this.beginFetch(1)}
+                                         searchKeyName1="doctor_key_Words"
+                                         searchKeyName2="key_Words"
+                >
+                    <button className="btn btn-primary mr-20"
+                            onClick={e => this.setState({showEdit: true})}
+                            disabled={this.state.currentIndex == -1}>查看
+                    </button>
                     <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
-                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList}/>
-                    <FilterItem className="middle-filter-item" item={this.props.auditingStateList}/>
-                    <FilterItem className="big-filter-item" item={this.props.nodeFilterList}>
-                        <SubDateSelect/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hsp_Name" useText={true}/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.auditingStateList} paramName="check_Status"/>
+
+                    <FilterItem className="big-filter-item" item={this.props.nodeFilterList} paramName="note_Type">
+                        <SubDateSelect startName="note_Begin_Time" endName="note_End_Time"/>
                     </FilterItem>
-                    <FilterItem className="middle-filter-item" item={this.props.visitCardList}/>
-                    <FilterItem className="middle-filter-item" item={this.props.isPregnant12To14AcceptedVisit}/>
-                    <FilterItem className="middle-filter-item" item={this.props.isBaby8MonthAcceptedVisit}/>
-                    <FilterItem className="big-filter-item" item={this.props.checkResultFilterList}>
-                        <SubOptions options={this.props.resultList} title="结果为"/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.visitCardList} paramName="status"/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.isPregnant12To14AcceptedVisit} paramName="visit_2_Accept_Visit"/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.isBaby8MonthAcceptedVisit} paramName="visit_5_Accept_Visit"/>
+
+                    <FilterItem className="big-filter-item" item={this.props.checkResultFilterList} paramName="visit_Type">
+                        <SubOptions options={this.props.resultList} title="结果为" paramName="visit_Result_Type"/>
                     </FilterItem>
+
                     <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
-                        <CustomTextInput placeholder="请输入后台管理人员"/>
+                        <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
                     </FilterItem>
+
                     <FilterItem className="small-filter-item" item={this.props.register}>
-                        <CustomDateRange/>
+                        <CustomDateRange startName="registration_Begin_Time" endName="registration_End_Time"/>
                     </FilterItem>
                 </NodeAuditingQueryFilter>
 
                 <PaginateList ref={c => this._paginateList = c}
                               doFetch={() => this.doFetch()}
-                              total={total}>
+                              total={total}
+                              lengthName="limit"
+                              byName="order_By"
+                >
 
                     <SmartList className="paginate-list-data-container" width={listWidth}
                                loading={this.state.loading}

@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
 import {events} from 'dom-helpers'
-
 import {select1, keyboard} from '../../common/constants'
 
 export default class Select1 extends Component {

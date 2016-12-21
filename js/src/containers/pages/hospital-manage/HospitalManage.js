@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import moment from 'moment'
 import classnames from 'classnames'
-
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
@@ -15,12 +14,11 @@ import PaginateList from '../../../components/core/PaginateList'
 import SmartList from '../../../components/core/list/SmartList'
 import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
-
 import AddHospitalDialog from './dialog/AddHospitalDialog'
 import EditHospitalDialog from './dialog/EditHospitalDialog'
 import {getFilterItem, getStartEndDate} from '../../../core/utils'
-import {ConditionResolver, getFilterCondition} from '../../../core/queryFilterHelper'
 import {getYesOrNoText} from '../../../core/formatBusData'
+import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/hospital-manage'
 
 class HospitalManage extends Component {
@@ -43,29 +41,8 @@ class HospitalManage extends Component {
         this.setState({currentIndex: -1, loading: true})
         this.allConditions = this._queryFilter.getAllConditions()
         this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchHospitalList(merge({}, this.pageInfo, this.handleFilterConditions())).then(() => this.setState({loading: false}))
-    }
-
-    handleFilterConditions() {
-        let option = new ConditionResolver(this.allConditions.filters)
-            .resolve('isProjectHospital', 'hospital_In_Project')
-            .resolve('hospital', 'hospital_Name', true)
-            .resolve('serialNumber', 'hospital_Num')
-            .resolveDate('register', 'hospital_Create_Begin_Time', 'hospital_Create_End_Time')
-            .getCondition()
-
-        let condition = getFilterCondition(this.allConditions.filters, 'province')
-        if (condition) {
-            const value = condition.value
-            if (typeof value != 'object') {
-                option['province'] = condition.text
-            } else {
-                option['province'] = value.main.text
-                option['city'] = value.custom.text
-            }
-        }
-        option['key_Words'] = this.allConditions.searchKey
-        return option
+        this.props.fetchHospitalList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+            .then(() => this.setState({loading: false}))
     }
 
     onSelectProvince(selectedItem) {
@@ -79,6 +56,9 @@ class HospitalManage extends Component {
         this.beginFetch()
         if (this.props.provinceList.length == 0) {
             this.props.fetchProvinceList()
+        }
+        if (this.props.hospitalList.length == 0) {
+            this.props.fetchHospitalFilterList()
         }
     }
 
@@ -99,7 +79,7 @@ class HospitalManage extends Component {
                         fetchCityList={this.props.fetchCityList}
                         addHospital={this.props.addHospital}
                         onAddSuccess={() => this.beginFetch(1)}
-                        onClose={() => this.setState({showAdd: false})}/>
+                        onExited={() => this.setState({showAdd: false})}/>
                 }
 
                 {
@@ -111,29 +91,47 @@ class HospitalManage extends Component {
                         fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
                         fetchHospitalInfo={this.props.fetchHospitalInfo}
                         updateHospitalInfo={this.props.updateHospitalInfo}
-                        onClose={() => this.setState({showEdit: false})}
+                        onExited={() => this.setState({showEdit: false})}
                     />
                 }
 
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
-                             beginFilter={() => this.beginFetch(1)}>
+                             beginFilter={() => this.beginFetch(1)}
+                             searchKeyName="key_Words"
+                >
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>新增</button>
-                    <button className="btn btn-primary mr-20" onClick={() => this.setState({showEdit: true})} disabled={this.state.currentIndex == -1}>查看
+
+                    <button className="btn btn-primary mr-20"
+                            onClick={() => this.setState({showEdit: true})}
+                            disabled={this.state.currentIndex == -1}>查看
                     </button>
-                    <FilterItem className="middle-filter-item" item={this.props.hospitalList}/>
-                    <FilterItem className="big-filter-item" item={this.props.provinceFilterList} onSelect={this.onSelectProvince}>
-                        <SubOptions title="城市" options={cityFilterList}/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
+
+                    <FilterItem className="big-filter-item"
+                                item={this.props.provinceFilterList}
+                                onSelect={this.onSelectProvince}
+                                paramName="province"
+                                useText={true}
+                    >
+                        <SubOptions title="城市" options={cityFilterList} paramName="city" useText={true}/>
                     </FilterItem>
-                    <FilterItem className="middle-filter-item" item={this.props.serialNumberList}/>
-                    <FilterItem className="middle-filter-item" item={this.props.isProjectHospital}/>
-                    <FilterItem className="big-filter-item" item={this.props.register}>
-                        <CustomDateRange/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.serialNumberList} paramName="hospital_Num"/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.isProjectHospital} paramName="hospital_In_Project"/>
+
+                    <FilterItem className="big-filter-item" item={this.props.register} paramName="">
+                        <CustomDateRange startName="hospital_Create_Begin_Time" endName="hospital_Create_End_Time"/>
                     </FilterItem>
                 </QueryFilter>
 
                 <PaginateList ref={c => this._paginateList = c}
-                              beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
-                              total={this.props.total}>
+                              doFetch={() => this.doFetch()}
+                              total={this.props.total}
+                              lengthName="limit"
+                              byName="order_By"
+                >
 
                     <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
                         <HeadContainer>
@@ -154,6 +152,7 @@ class HospitalManage extends Component {
                                     this.props.list.map((hospital, index) => {
                                         return (
                                             <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                                style={{height: '40px'}}
                                                 onClick={e => this.setState({currentIndex: index})}
                                                 onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                                             >
@@ -179,13 +178,14 @@ class HospitalManage extends Component {
 }
 
 function mapStateToProps(state) {
-    let {total, list} = state['hospitalManageList']
+    let {total = 0, list = []} = state['hospitalManageList']
     return {
         total,
         list,
+        hospitalList: state.hospitalList,
         provinceList: state.provinceList,
         cityMapper: state.cityMapper,
-        hospitalList: {
+        hospitalFilterList: {
             typeCode: 'hospital',
             typeText: '医院',
             typeItemList: state.hospitalList
@@ -203,6 +203,7 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
+        fetchHospitalFilterList: fetchHospitalList(dispatch),
         fetchHospitalList: actions.fetchHospitalList(dispatch),
         fetchProvinceList: actions.fetchProvinceList(dispatch),
         fetchCityList: actions.fetchCityList(dispatch),

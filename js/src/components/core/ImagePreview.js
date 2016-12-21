@@ -3,7 +3,6 @@
  */
 import React, {Component, PropTypes} from 'react'
 import {merge} from 'lodash'
-
 import CommonDialog from './CommonDialog'
 
 export default class ImagePreview extends Component {

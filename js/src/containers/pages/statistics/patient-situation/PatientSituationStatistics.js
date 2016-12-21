@@ -5,12 +5,10 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
-
 import PaginateList from '../../../../components/core/PaginateList'
 import SmartList from '../../../../components/core/list/SmartList'
 import HeadContainer from '../../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../../components/core/list/BodyContainer'
-
 import * as actions from '../../../../actions/pages/patient-situation-statistics'
 
 class PatientSituationStatistics extends Component {

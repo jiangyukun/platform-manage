@@ -6,7 +6,6 @@ import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import {events} from 'dom-helpers'
 import {merge, throttle} from 'lodash'
-
 import Loading from '../../ui/Loading'
 import HeadContainer from './HeadContainer'
 import BodyContainer from './BodyContainer'
@@ -158,7 +157,7 @@ class SmartList extends Component {
         return (
             <div className="table relative">
                 {this.props.loading && <Loading/>}
-                {this.props.total == 0 && <span className="no-list-data">暂无数据</span>}
+                {this.context.total == 0 && <span className="no-list-data">暂无数据</span>}
 
                 {this.state.showHead && <FixHead width={this.props.width}
                                                  scrollLeft={this.state.scrollLeft}
@@ -191,6 +190,10 @@ SmartList.propTypes = {
     width: PropTypes.number,
     fixHead: PropTypes.bool,
     fixLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array])
+}
+
+SmartList.contextTypes = {
+    total: PropTypes.number
 }
 
 export default SmartList

@@ -2,10 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Modal, Button} from 'react-bootstrap'
 import moment from 'moment'
 import DatePicker from 'antd/lib/date-picker'
-
 import ImagePreview from '../../../../components/core/ImagePreview'
-import constants from '../../../../core/constants'
-import * as antdUtil from '../../../../core/utils/antdUtil'
 
 class EditPatient extends Component {
     constructor(props) {
@@ -48,7 +45,7 @@ class EditPatient extends Component {
 
     render() {
         return (
-            <Modal show={this.state.show} onHide={() => this.setState({show: false})} onExited={this.props.onExited()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.setState({show: false})} onExited={this.props.onExited} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>查看患者</Modal.Title>
                 </Modal.Header>

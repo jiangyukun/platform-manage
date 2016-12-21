@@ -1,10 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Modal, Button} from 'react-bootstrap'
-
-import Select1 from '../../core/Select1'
-import InputRequired from '../../core/InputRequired'
-
+import {Modal} from 'react-bootstrap'
 import DatePicker from '../../core/datepicker/DatePicker'
 
 class EditPatientDialog extends Component {

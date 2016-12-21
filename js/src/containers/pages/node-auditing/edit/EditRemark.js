@@ -3,7 +3,6 @@
  */
 import React, {Component, PropTypes} from 'react'
 import Modal from 'antd/lib/modal'
-
 import {toRemarkTypeResponseKey} from '../../../../core/pages/nodeAuditingHelper'
 
 class EditRemark extends Component {

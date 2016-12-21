@@ -2,7 +2,6 @@
  * Created by jiangyukun on 2016/12/15.
  */
 import React, {Component, PropTypes} from 'react'
-
 import BodyAdmin from './body/BodyAdmin'
 import BodyCrc from './body/BodyCrc'
 

@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 import notification from 'antd/lib/notification'
-
 import Select1 from '../../../../components/core/Select1'
 
 class AddHospitalDialog extends Component {
@@ -21,11 +20,6 @@ class AddHospitalDialog extends Component {
             cityMaxSerialNumber: null,
             invalid: true
         }
-    }
-
-    close() {
-        this.setState({show: false})
-        setTimeout(() => this.props.onClose(), this.props.closeTimeout)
     }
 
     handleHospitalNameChange(e) {
@@ -88,7 +82,7 @@ class AddHospitalDialog extends Component {
         }).then(() => {
             notification.success({message: '提示', description: '添加医院成功！'})
             this.props.onAddSuccess()
-            this.close()
+            this.setState({show: false})
         }, err => {
             notification.error({message: '提示', description: err})
         })
@@ -110,7 +104,7 @@ class AddHospitalDialog extends Component {
         }
 
         return (
-            <Modal show={this.state.show} onHide={() => this.close()} backdrop="static">
+            <Modal show={this.state.show} onHide={() => this.setState({show: false})} onExited={this.props.onExited} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>新增医院</Modal.Title>
                 </Modal.Header>
@@ -197,16 +191,12 @@ class AddHospitalDialog extends Component {
                                onClick={e => this.addHospital()}/>
                     </div>
                     <div className="col-xs-6">
-                        <input type="button" className="btn btn-default btn-block" onClick={() => this.close()} value="取消"/>
+                        <input type="button" className="btn btn-default btn-block" onClick={() => this.setState({show: false})} value="取消"/>
                     </div>
                 </Modal.Footer>
             </Modal>
         )
     }
-}
-
-AddHospitalDialog.defaultProps = {
-    closeTimeout: 250
 }
 
 AddHospitalDialog.propTypes = {
@@ -215,9 +205,8 @@ AddHospitalDialog.propTypes = {
     fetchCityList: PropTypes.func,
     fetchCityMaxSerialNumber: PropTypes.func,
     addHospital: PropTypes.func,
-    closeTimeout: PropTypes.number,
-    onClose: PropTypes.func,
-    onAddSuccess: PropTypes.func
+    onAddSuccess: PropTypes.func,
+    onExited: PropTypes.func
 }
 
 export default AddHospitalDialog

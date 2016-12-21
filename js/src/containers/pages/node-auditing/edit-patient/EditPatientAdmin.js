@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 import moment from 'moment'
 import DatePicker from 'antd/lib/date-picker'
-
 import ImagePreview from '../../../../components/core/ImagePreview'
 import constants from '../../../../core/constants'
 import * as antdUtil from '../../../../core/utils/antdUtil'

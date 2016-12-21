@@ -1,7 +1,6 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-
 import React, {Component, PropTypes} from 'react'
 import NavAdmin from './nav/NavAdmin'
 import NavCrc from './nav/NavCrc'

@@ -36,18 +36,6 @@
         border-style: none;
     }
 
-    .icon-arrow-desc-red {
-        background-position: 0 -25px;
-        height: 10px;
-        width: 7px;
-    }
-
-    .icon-arrow-desc1-red {
-        background-position: 0 -45px;
-        height: 10px;
-        width: 7px;
-    }
-
     .fix-header-list {
         flex: 1;
         flex-direction: column;
@@ -280,16 +268,9 @@
                 .link {
                     float: left;
                 }
-
-                .arrow {
-                    display: block;
-                    float: left;
-                    margin: 4px 0 0 5px;
-                }
             }
             .icon-more-select {
-                float: left;
-                margin-left: 7px;
+                margin-left: 4px;
                 margin-top: 2px;
                 display: inline-block;
                 background-position: 0 -988px;
@@ -305,19 +286,33 @@
             padding: 10px;
         }
 
-        .icon-arrow-desc, .icon-arrow-desc1 {
+        .icon-arrow-asc, .icon-arrow-desc {
             display: inline-block;
-            margin-left: 5px;
+            margin: 4px 0 0 4px;
             height: 10px;
             width: 7px;
         }
 
-        .icon-arrow-desc {
+        .icon-arrow-asc {
             background-position: 0 -35px;
         }
 
-        .icon-arrow-desc1 {
+        .icon-arrow-desc {
             background-position: 0 -55px;
+        }
+
+        .icon-arrow-asc-red, .icon-arrow-desc-red {
+            display: inline-block;
+            height: 10px;
+            width: 7px;
+        }
+
+        .icon-arrow-asc-red {
+            background-position: 0 -25px;
+        }
+
+        .icon-arrow-desc-red {
+            background-position: 0 -45px;
         }
 
         .more {

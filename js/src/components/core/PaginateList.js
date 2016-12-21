@@ -4,13 +4,14 @@
 import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
-
 import {pageSize} from '../../common/constants'
 import {calculatePageIndex} from '../../utils'
 
 class PaginateList extends Component {
     constructor(props) {
         super(props)
+        this.addSortBy = this.addSortBy.bind(this)
+        this.sort = this.sort.bind(this)
         this.sortByList = []
         this.state = {
             draw: 1,
@@ -27,21 +28,9 @@ class PaginateList extends Component {
         this.setState({draw: this.state.draw + 1}, () => this.props.doFetch())
     }
 
+    // deprecated, 使用getParams
     getPageInfo() {
-        if (this.state.by && this.state.order) {
-            return {
-                start: this.state.currentPage - 1,
-                length: pageSize,
-                draw: this.state.draw,
-                by: this.state.by,
-                order: this.state.order
-            }
-        }
-        return {
-            start: this.state.currentPage - 1,
-            length: pageSize,
-            draw: this.state.draw
-        }
+        this.getParams()
     }
 
     addSortBy(sortBy) {
@@ -74,10 +63,20 @@ class PaginateList extends Component {
         }
     }
 
-    getChildContext() {
+    getParams() {
+        if (this.state.by && this.state.order) {
+            return {
+                [this.props.startName]: this.state.currentPage - 1,
+                [this.props.lengthName]: pageSize,
+                [this.props.drawName]: this.state.draw,
+                [this.props.byName]: this.state.by,
+                [this.props.orderName]: this.state.order
+            }
+        }
         return {
-            addSortBy: (...arg) => this.addSortBy(...arg),
-            sort: (...arg) => this.sort(...arg)
+            [this.props.startName]: this.state.currentPage - 1,
+            [this.props.lengthName]: pageSize,
+            [this.props.drawName]: this.state.draw
         }
     }
 
@@ -117,17 +116,40 @@ class PaginateList extends Component {
             </div>
         )
     }
+
+    getChildContext() {
+        return {
+            addSortBy: this.addSortBy,
+            sort: this.sort,
+            total: this.props.total
+        }
+    }
+}
+
+PaginateList.defaultProps = {
+    startName: 'start',
+    lengthName: 'length',
+    drawName: 'draw',
+    byName: 'by',
+    orderName: 'order'
 }
 
 PaginateList.propTypes = {
-    total: PropTypes.number,
+    total: PropTypes.number.isRequired,
     loading: PropTypes.bool,
-    doFetch: PropTypes.func
+    doFetch: PropTypes.func.isRequired,
+
+    startName: PropTypes.string,
+    lengthName: PropTypes.string,
+    drawName: PropTypes.string,
+    byName: PropTypes.string,
+    orderName: PropTypes.string
 }
 
 PaginateList.childContextTypes = {
     addSortBy: PropTypes.func,
-    sort: PropTypes.func
+    sort: PropTypes.func,
+    total: PropTypes.number
 }
 
 export default PaginateList

@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-
 import EditPatientAdmin from './edit-patient/EditPatientAdmin'
 import EditPatientCrc from './edit-patient/EditPatientCrc'
 

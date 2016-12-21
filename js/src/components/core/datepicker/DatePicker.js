@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 import {findDOMNode} from 'react-dom'
 import {Modal} from 'react-overlays'
 import {events} from 'dom-helpers'
-
 import SelectYear from './SelectYear'
 import SelectMonth from './SelectMonth'
 import SelectDay from './SelectDay'

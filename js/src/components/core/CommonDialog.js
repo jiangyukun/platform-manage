@@ -2,8 +2,7 @@
  * Created by jiangyukun on 2016/10/21.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-overlays'
-import {Transition} from 'react-overlays'
+import {Modal, Transition} from 'react-overlays'
 import classnames from 'classnames'
 
 export default class CommonDialog extends Component {

@@ -2,7 +2,6 @@
  * Created by jiangyu2016 on 2016/10/22.
  */
 import React, {Component} from 'react'
-import classnames from 'classnames'
 import {Modal} from 'react-bootstrap'
 import ImagePreview from '../../core/ImagePreview'
 

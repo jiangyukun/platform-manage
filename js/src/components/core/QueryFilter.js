@@ -3,17 +3,18 @@
  */
 import React, {Component, cloneElement, PropTypes} from 'react'
 import classnames from 'classnames'
-import {merge} from  'lodash'
-
+import {merge} from 'lodash'
 import Form from '../element/Form'
 import FilterItem from './query-filter/FilterItem'
 
 class QueryFilter extends Component {
     constructor() {
         super()
+        this.addFilterItem = this.addFilterItem.bind(this)
         this.removeFilterItem = this.removeFilterItem.bind(this)
         this.updateFilterItem = this.updateFilterItem.bind(this)
         this.searchKey = ''
+        this.filterItemList = []
         this.state = {more: false, filterConditions: []}
     }
 
@@ -78,11 +79,27 @@ class QueryFilter extends Component {
         )
     }
 
-    getChildContext() {
-        return {
-            removeFilterItem: this.removeFilterItem,
-            updateFilterItem: this.updateFilterItem
+    addFilterItem(filterItem) {
+        if (this.filterItemList.indexOf(filterItem) == -1) {
+            this.filterItemList.push(filterItem)
+        } else {
+            console.log('重复添加的filterItem')
         }
+    }
+
+    getSearchParam() {
+        if (!this.searchKey) {
+            return {}
+        }
+        return {[this.props.searchKeyName]: this.searchKey}
+    }
+
+    getParams() {
+        let params = this.getSearchParam()
+        this.filterItemList.forEach(filterItem => {
+            merge(params, filterItem.getParam())
+        })
+        return params
     }
 
     render() {
@@ -167,14 +184,24 @@ class QueryFilter extends Component {
             </div>
         )
     }
+
+    getChildContext() {
+        return {
+            addFilterItem: this.addFilterItem,
+            removeFilterItem: this.removeFilterItem,
+            updateFilterItem: this.updateFilterItem
+        }
+    }
 }
 
 QueryFilter.propTypes = {
     className: PropTypes.string,
-    beginFilter: PropTypes.func
+    beginFilter: PropTypes.func.isRequired,
+    searchKeyName: PropTypes.string
 }
 
 QueryFilter.childContextTypes = {
+    addFilterItem: PropTypes.func,
     removeFilterItem: PropTypes.func,
     updateFilterItem: PropTypes.func
 }

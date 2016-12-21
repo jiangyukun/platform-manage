@@ -5,7 +5,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
-
 import Header from './Header'
 import Aside from './Aside'
 import AppContent from './AppContent'

@@ -1,7 +1,6 @@
 /**
  * Created by jiangyukun on 2016/10/20.
  */
-
 import {merge} from 'lodash'
 
 export function app(state = {}, action) {

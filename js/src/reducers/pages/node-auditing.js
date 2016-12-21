@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/12/1.
  */
-import {fromJS, List} from 'immutable'
+import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import * as nodeAuditingHelper from '../../core/pages/nodeAuditingHelper'
@@ -44,7 +44,6 @@ export function patientListInfo(state = defaultValue, action) {
         if (nextIState == iState) {
             return state
         }
-        console.log(nextIState.toJS())
         return nextIState.toJS()
     }
 

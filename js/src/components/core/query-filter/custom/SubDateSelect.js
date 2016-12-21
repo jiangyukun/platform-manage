@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react'
 import DatePicker from 'antd/lib/date-picker'
-import classnames  from 'classnames'
+import classnames from 'classnames'
 
 class SubDateSelect extends Component {
     constructor(props, context) {
@@ -44,8 +44,7 @@ class SubDateSelect extends Component {
             }
         }
         this.setState({selected: true})
-        this.context.selectSubItem(text, {startValue: startText, endValue: endText}, text, errorTip
-        )
+        this.context.selectSubItem(text, {startValue: startText, endValue: endText}, text, errorTip)
     }
 
     onChange(typeItem) {
@@ -62,6 +61,22 @@ class SubDateSelect extends Component {
         this.startValue = null
         this.endValue = null
         this.setState({active: false})
+    }
+
+    getParam() {
+        if (!this.props.startName || !this.props.endName) {
+            console.warn('未设置SubDateSelect（startName或endName）参数名')
+            return {}
+        }
+        if (this.startValue || this.endValue) {
+            const startText = this.startValue && this.startValue.format('YYYY-MM-DD')
+            const endText = this.endValue && this.endValue.format('YYYY-MM-DD')
+            return {
+                [this.props.startName]: startText,
+                [this.props.endName]: endText
+            }
+        }
+        return {}
     }
 
     render() {
@@ -87,6 +102,11 @@ class SubDateSelect extends Component {
             </div>
         )
     }
+}
+
+SubDateSelect.propTypes = {
+    startName: PropTypes.string,
+    endName: PropTypes.string
 }
 
 SubDateSelect.contextTypes = {

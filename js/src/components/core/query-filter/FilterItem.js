@@ -3,17 +3,19 @@
  */
 import React, {Component, PropTypes, cloneElement} from 'react'
 import classnames from 'classnames'
+import {merge} from 'lodash'
 import Select1 from '../Select1'
 
 class FilterItem extends Component {
-    constructor(props) {
-        super(props)
+    constructor(props, context) {
+        super(props, context)
 
-        this.select = this.select.bind(this)
+        this.selectCustom = this.selectCustom.bind(this)
         this.selectSubItem = this.selectSubItem.bind(this)
         this.addCustomItem = this.addCustomItem.bind(this)
         this.addSubItem = this.addSubItem.bind(this)
 
+        context.addFilterItem(this)
         this.defaultItem = {value: '', text: '不限'}
         this.customItemList = []
         this.subItemList = []
@@ -21,12 +23,13 @@ class FilterItem extends Component {
         this.state = {selected: '', labelWidth: -1}
     }
 
-    getChildContext() {
-        return {
-            select: this.select,
-            selectSubItem: this.selectSubItem,
-            addCustomItem: this.addCustomItem,
-            addSubItem: this.addSubItem
+    // QueryFilter 重置 FilterItem 调用方法
+    reset() {
+        this.setState({'selected': ''})
+        this.subItemList.forEach(subItem => subItem.reset())
+        this.customItemList.forEach(customItem => customItem.reset())
+        if (this._select1) {
+            this._select1.reset()
         }
     }
 
@@ -49,6 +52,14 @@ class FilterItem extends Component {
         this.lastTypeItem = typeItem
         this.subItemList.forEach(subItem => subItem.onChange(typeItem))
         this.setState({'selected': typeItem.value})
+        let {typeCode, typeText} = this.props.item
+        this.props.onSelect(typeItem)
+        this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
+    }
+
+    selectCustom(typeItem) {
+        this.lastTypeItem = null
+        this.setState({'selected': '__custom__'})
         let {typeCode, typeText} = this.props.item
         this.props.onSelect(typeItem)
         this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
@@ -83,18 +94,32 @@ class FilterItem extends Component {
         }
     }
 
-    // QueryFilter 重置 FilterItem 调用方法
-    reset() {
-        this.setState({'selected': ''})
-        this.subItemList.forEach(subItem => subItem.reset())
-        this.customItemList.forEach(customItem => customItem.reset())
-        if (this._select1) {
-            this._select1.reset()
+    // QueryFilter 调用此方法合成所有过滤请求参数
+    getParam() {
+        let result = {}
+        const {paramName, useText} = this.props
+        if (paramName && this.lastTypeItem) {
+            result[paramName] = useText ? this.lastTypeItem.text : this.lastTypeItem.value
         }
+        this.customItemList.forEach(customItem => {
+            try {
+                merge(result, customItem.getParam())
+            } catch (e) {
+                console.log('customItem 暂不支持getParam方法')
+            }
+        })
+        this.subItemList.forEach(subItem => {
+            try {
+                merge(result, subItem.getParam())
+            } catch (e) {
+                console.log('subItem 暂不支持getParam方法')
+            }
+        })
+        return result
     }
 
     render() {
-        let {item} = this.props
+        const {item} = this.props
         if (!item) {
             return null
         }
@@ -155,25 +180,41 @@ class FilterItem extends Component {
             </ul>
         )
     }
+
+    getChildContext() {
+        return {
+            selectCustom: this.selectCustom,
+            selectSubItem: this.selectSubItem,
+            addCustomItem: this.addCustomItem,
+            addSubItem: this.addSubItem
+        }
+    }
 }
 
 FilterItem.defaultProps = {
+    paramName: '',
+    useText: false,
     onSelect: () => {
     }
 }
 
 FilterItem.propTypes = {
     item: PropTypes.object,
-    className: PropTypes.string
+    className: PropTypes.string,
+    onSelect: PropTypes.func,
+
+    paramName: PropTypes.string,
+    useText: PropTypes.bool
 }
 
 FilterItem.contextTypes = {
+    addFilterItem: PropTypes.func,
     updateFilterItem: PropTypes.func,
     removeFilterItem: PropTypes.func
 }
 
 FilterItem.childContextTypes = {
-    select: PropTypes.func,
+    selectCustom: PropTypes.func,
     selectSubItem: PropTypes.func,
     addCustomItem: PropTypes.func,
     addSubItem: PropTypes.func

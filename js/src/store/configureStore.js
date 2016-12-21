@@ -1,11 +1,9 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
+import {createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {routerReducer as routing} from 'react-router-redux'
-
 import * as reducers from '../reducers/'
 
 const allReducers = combineReducers({...reducers, routing})

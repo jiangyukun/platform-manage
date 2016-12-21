@@ -37,20 +37,33 @@ export function hospitalManageList(state = defaultValue, action) {
 
     function fetchHospitalManageListSuccess() {
         let {totalCount, list} = action
-        return iState.set('total', totalCount).set('list', list)
+        return iState.set('total', totalCount).set('list', list || [])
     }
 
     function updateHospitalInfoSuccess() {
         let {newHospitalInfo} = action
-        // console.log(newHospitalInfo)
+        const {
+            id,
+            hospital_Name,
+            province,
+            city,
+            hospitalSerialNumber,
+            cityCode,
+            hospital_In_Project,
+            backend_Manager
+        } = newHospitalInfo
 
-        return _updateList(iState, newHospitalInfo['id'], hospital => hospital.set('hospital_Name', newHospitalInfo['newHospitalInfo'])
-            .set('province', newHospitalInfo['province']).set('city', newHospitalInfo['city'])
-            .set('cityCode', newHospitalInfo['cityCode']).set('hospitalSerialNumber', newHospitalInfo['hospitalSerialNumber'])
-            .set('hospital_In_Project'), newHospitalInfo['hospital_In_Project'])
+        return _updateList(iState, id, hospital => hospital.set('hospital_Name', hospital_Name)
+            .set('province', province)
+            .set('city', city)
+            .set('hospitalSerialNumber', hospitalSerialNumber)
+            .set('cityCode', cityCode)
+            .set('hospital_In_Project', hospital_In_Project)
+            .set('backend_Manager', backend_Manager)
+        )
     }
 
-//    ---------------------------
+    // ---------------------------
 
     function _updateList(curIState, id, callback) {
         const list = curIState.get('list')
