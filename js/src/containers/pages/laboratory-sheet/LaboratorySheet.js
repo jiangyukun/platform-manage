@@ -34,7 +34,7 @@ class LaboratorySheet extends Component {
 
     doFetch() {
         this.setState({currentIndex: -1, loading: true})
-        this.props.fetchLaboratorySheetList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+        this.props.fetchLaboratorySheetList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
             .then(() => this.setState({loading: false}))
     }
 

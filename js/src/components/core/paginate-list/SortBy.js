@@ -92,8 +92,8 @@ class SortBy extends Component {
         let name = this.props.children
 
         let style = {}
-        if (this.state.active && this.props.activeWidth) {
-            style.width = this.props.activeWidth + 'px'
+        if (this.props.activeWidth && this.state.active) {
+            style.width = (this.props.activeWidth + (this.state.order != 'default' ? 7 : 0)) + 'px'
         }
 
         return (

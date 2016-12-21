@@ -58,9 +58,9 @@ export default class Nav extends Component {
                             </Link>
                         </Item>
                         <Item key="2">
-                            <a href="platform/home.html#/app/patient-edit">
+                            <Link to={getPath('patient-edit')}>
                                 <span>病人修改</span>
-                            </a>
+                            </Link>
                         </Item>
                         <Item key="3">
                             <Link to={getPath('laboratory-sheet')}>

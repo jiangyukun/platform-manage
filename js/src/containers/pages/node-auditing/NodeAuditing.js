@@ -44,9 +44,7 @@ class NodeAuditing extends Component {
 
     doFetch() {
         this.setState({loading: true})
-        this.allConditions = this._queryFilter.getAllConditions()
-        this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchPatientList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+        this.props.fetchPatientList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
             .then(() => this.setState({loading: false, currentIndex: -1}))
     }
 
@@ -77,10 +75,9 @@ class NodeAuditing extends Component {
     }
 
     exportExcel() {
-        let handledConditionInfo = this.handleFilterConditions()
+        let handledConditionInfo = this._queryFilter.getParams()
         let paramUrl = utils.urlParam(handledConditionInfo)
-        let exportExcelUrl = 'export/excel' + paramUrl;
-        window.open(exportExcelUrl);
+        location.href = 'export/excel' + paramUrl
     }
 
     componentDidMount() {

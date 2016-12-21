@@ -39,8 +39,6 @@ class HospitalManage extends Component {
 
     doFetch() {
         this.setState({currentIndex: -1, loading: true})
-        this.allConditions = this._queryFilter.getAllConditions()
-        this.pageInfo = this._paginateList.getPageInfo()
         this.props.fetchHospitalList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
             .then(() => this.setState({loading: false}))
     }

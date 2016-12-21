@@ -20,14 +20,14 @@ export function getVisitCardState(state) {
     return _unKnowData()
 }
 
-export function getYesOrNoText(flag) {
+export function getYesOrNoText(flag, defaultValue) {
     if (flag == '0') {
         return '否'
     }
     if (flag == '1') {
         return '是'
     }
-    return _unKnowData()
+    return defaultValue || _unKnowData()
 }
 
 export function isCompleteVisit(state) {

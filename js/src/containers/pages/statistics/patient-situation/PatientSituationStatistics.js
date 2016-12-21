@@ -26,8 +26,7 @@ class PatientSituationStatistics extends Component {
 
     doFetch() {
         this.setState({currentIndex: -1, loading: true})
-        this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchPatientSituationList(merge({}, this.pageInfo)).then(() => this.setState({loading: false}))
+        this.props.fetchPatientSituationList(this._paginateList.getParams()).then(() => this.setState({loading: false}))
     }
 
     componentDidMount() {
@@ -40,11 +39,14 @@ class PatientSituationStatistics extends Component {
                 <div>
                     <button className="btn btn-primary"
                             style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                             onClick={e=>window.open('export/patientReportExcel')}>导出excel</button>
+                            onClick={e => window.open('export/patientReportExcel')}>导出excel
+                    </button>
                 </div>
                 <PaginateList ref={c => this._paginateList = c}
-                              beginFetch={() => this.beginFetch()} doFetch={() => this.doFetch()}
-                              total={this.props.total}>
+                              doFetch={() => this.doFetch()}
+                              total={this.props.total}
+                              lengthName="limit"
+                >
 
                     <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
                         <HeadContainer>

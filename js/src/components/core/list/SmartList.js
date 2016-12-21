@@ -157,7 +157,7 @@ class SmartList extends Component {
         return (
             <div className="table relative">
                 {this.props.loading && <Loading/>}
-                {this.context.total == 0 && <span className="no-list-data">暂无数据</span>}
+                {this.context.total == 0 && !this.props.loading && <span className="no-list-data">暂无数据</span>}
 
                 {this.state.showHead && <FixHead width={this.props.width}
                                                  scrollLeft={this.state.scrollLeft}

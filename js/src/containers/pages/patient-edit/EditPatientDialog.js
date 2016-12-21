@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Modal} from 'react-bootstrap'
-import DatePicker from '../../core/datepicker/DatePicker'
+import DatePicker from 'antd/lib/date-picker'
 
 class EditPatientDialog extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class EditPatientDialog extends Component {
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={()=> this.close()} backdrop="static">
+            <Modal show={this.state.active} onHide={() => this.close()} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>查看患者</Modal.Title>
                 </Modal.Header>
@@ -53,8 +53,8 @@ class EditPatientDialog extends Component {
                                 <label className="mt-5">出生日期：</label>
                             </div>
                             <div className="col-xs-6">
-                                <DatePicker show={this.state.datePicker} close={()=>this.setState({datePicker: false})}/>
-                                <input onFocus={e=>this.setState({datePicker: true})} ng-model="birthday" type="text" className="form-control" placeholder="请选择日期"/>
+                                <DatePicker />
+                                <input onFocus={e => this.setState({datePicker: true})} ng-model="birthday" type="text" className="form-control" placeholder="请选择日期"/>
                             </div>
                         </div>
 
