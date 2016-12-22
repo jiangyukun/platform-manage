@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import EditPatientAdmin from './edit-patient/EditPatientAdmin'
-import EditPatientCrc from './edit-patient/EditPatientCrc'
+import EditPatientAdmin from './edit/EditPatientAdmin'
+import EditPatientCrc from './edit/EditPatientCrc'
 
 class EditPatient extends Component {
     render() {
@@ -16,6 +16,15 @@ class EditPatient extends Component {
 
 EditPatient.contextTypes = {
     role: PropTypes.string
+}
+
+EditPatient.propTypes = {
+    patientId: PropTypes.string,
+    fetchPatientInfo: PropTypes.func,
+    updateAuditingState: PropTypes.func,
+    updatePatientInfo: PropTypes.func,
+    patientInfoUpdated: PropTypes.func,
+    onExited: PropTypes.func
 }
 
 export default EditPatient

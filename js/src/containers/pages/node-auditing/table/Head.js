@@ -20,6 +20,7 @@ class Head extends Component {
                 <li className="list-header-item w-120">手机号码</li>
                 <li className="list-header-item w-120">医院</li>
                 <li className="list-header-item w-120">后台管理人员</li>
+                <li className="list-header-item w-120">运营人员</li>
 
                 <li className="list-header-item w-120">主治医生
                     {!this.props.open1 && <i className="fa fa-arrow-right" title="展开其他医生" onClick={e => this.props.updateOpenFlag({open1: true})}></i>}

@@ -2,7 +2,9 @@
  * Created by jiangyukun on 2016/12/1.
  */
 
+//通用
 export const FETCH_HOSPITAL_LIST = 'FETCH_HOSPITAL_LIST'
+export const UPDATE_REMARK = 'UPDATE_REMARK'
 
 //节点审核
 export const FETCH_PATIENT_LIST = 'FETCH_PATIENT_LIST'

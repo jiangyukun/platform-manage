@@ -50,7 +50,8 @@ export function hospitalManageList(state = defaultValue, action) {
             hospitalSerialNumber,
             cityCode,
             hospital_In_Project,
-            backend_Manager
+            backend_Manager,
+            operation_Manager
         } = newHospitalInfo
 
         return _updateList(iState, id, hospital => hospital.set('hospital_Name', hospital_Name)
@@ -60,6 +61,7 @@ export function hospitalManageList(state = defaultValue, action) {
             .set('cityCode', cityCode)
             .set('hospital_In_Project', hospital_In_Project)
             .set('backend_Manager', backend_Manager)
+            .set('operation_Manager', operation_Manager)
         )
     }
 

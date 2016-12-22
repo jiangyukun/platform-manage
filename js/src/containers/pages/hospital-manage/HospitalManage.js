@@ -8,6 +8,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
+import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
 import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
@@ -119,6 +120,14 @@ class HospitalManage extends Component {
 
                     <FilterItem className="middle-filter-item" item={this.props.isProjectHospital} paramName="hospital_In_Project"/>
 
+                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                        <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
+                    </FilterItem>
+
+                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                        <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
+                    </FilterItem>
+
                     <FilterItem className="big-filter-item" item={this.props.register} paramName="">
                         <CustomDateRange startName="hospital_Create_Begin_Time" endName="hospital_Create_End_Time"/>
                     </FilterItem>
@@ -141,6 +150,7 @@ class HospitalManage extends Component {
                                 <li className="item flex1">流水号</li>
                                 <li className="item flex1">是否项目医院</li>
                                 <li className="item flex1">后台管理人员</li>
+                                <li className="item flex1">运营人员</li>
                                 <li className="item flex1">创建时间</li>
                             </ul>
                         </HeadContainer>
@@ -161,6 +171,7 @@ class HospitalManage extends Component {
                                                 <li className="item flex1">{hospital['hospitalSerialNumber']}</li>
                                                 <li className="item flex1">{getYesOrNoText(hospital['hospital_In_Project'])}</li>
                                                 <li className="item flex1">{hospital['backend_Manager'] || '-'}</li>
+                                                <li className="item flex1">{hospital['operation_Manager'] || '-'}</li>
                                                 <li className="item flex1">{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</li>
                                             </ul>
                                         )
@@ -195,6 +206,8 @@ function mapStateToProps(state) {
         },
         serialNumberList: getFilterItem('serialNumber', '流水号', [{value: '1', text: '有'}, {value: '0', text: '无'}]),
         isProjectHospital: getFilterItem('isProjectHospital', '是否项目医院'),
+        backendMangerList: getFilterItem('backendManager', '后台管理人员', []),
+        operationPersonList: getFilterItem('operationPerson', '运营人员', []),
         register: getFilterItem('register', '创建日期', getStartEndDate())
     }
 }

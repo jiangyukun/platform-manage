@@ -4,6 +4,7 @@
 import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
+import constants from '../../core/constants'
 
 const defaultValue = {total: 0, list: []}
 
@@ -18,6 +19,10 @@ export function patientEditPaginateList(state = defaultValue, action) {
         switch (action.type) {
             case types.FETCH_PATIENT_PAGINATE_LIST + phase.SUCCESS:
                 nextIState = fetchPatientPaginateListSuccess()
+                break
+
+            case types.UPDATE_REMARK + phase.SUCCESS:
+                nextIState = updateRemarkSuccess()
                 break
 
             default:
@@ -36,34 +41,23 @@ export function patientEditPaginateList(state = defaultValue, action) {
         return iState.set('total', total).set('list', list)
     }
 
-    function updateHospitalInfoSuccess() {
-        let {newHospitalInfo} = action
-        const {
-            id,
-            hospital_Name,
-            province,
-            city,
-            hospitalSerialNumber,
-            cityCode,
-            hospital_In_Project,
-            backend_Manager
-        } = newHospitalInfo
-
-        return _updateList(iState, id, hospital => hospital.set('hospital_Name', hospital_Name)
-            .set('province', province)
-            .set('city', city)
-            .set('hospitalSerialNumber', hospitalSerialNumber)
-            .set('cityCode', cityCode)
-            .set('hospital_In_Project', hospital_In_Project)
-            .set('backend_Manager', backend_Manager)
-        )
+    function updateRemarkSuccess() {
+        let {id, remarkType, remark} = action
+        if (remarkType != constants.remarkFlag.PATIENT_EDIT) {
+            return iState
+        }
+        return _updateList(iState, id, patient => patient.set('remark', remark))
     }
 
-    // ---------------------------
+    // -------------------------------------
 
     function _updateList(curIState, id, callback) {
         const list = curIState.get('list')
-        const match = list.find(hospital => hospital.get('id') == id)
-        return curIState.update('list', list => list.update(list.indexOf(match), hospital => callback(hospital)))
+        const match = list.find(patient => patient.get('patient_Id') == id)
+        if (!match) {
+            console.warn('no match')
+            return curIState
+        }
+        return curIState.update('list', list => list.update(list.indexOf(match), patient => callback(patient)))
     }
 }

@@ -192,19 +192,32 @@
 
 .paginate-list {
 
+    .look-picture-txt {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
     .flex-list {
 
         &.header {
             display: flex;
             background-color: #b9def0;
             .item {
-                padding: 10px 15px;
+                margin: 10px;
+                &:first-child {
+                    margin-left: 15px;
+                }
             }
         }
         &.body {
             display: flex;
             .item {
-                padding: 10px 15px;
+                margin: 5px 10px;
+                overflow: hidden;
+                word-break: break-all;
+                &:first-child {
+                    margin-left: 15px;
+                }
             }
             &:nth-of-type(odd) {
                 background-color: #fff;
@@ -254,14 +267,18 @@
 
         &.active {
             margin-top: -10px;
+            margin-left: -10px;
+            .sort-container {
+                z-index: 99;
+                border: 1px solid #bbc8e2;
+                background-color: #fff;
+                padding: 9px;
+            }
         }
 
         .sort-container {
             position: absolute;
-            padding-left: 10px;
             top: 0;
-            left: -15px;
-            right: -15px;
 
             .current-sort {
                 margin-bottom: 8px;
@@ -277,13 +294,6 @@
                 height: 12px;
                 width: 13px;
             }
-        }
-
-        &.active .sort-container {
-            z-index: 99;
-            border: 1px solid #bbc8e2;
-            background-color: #fff;
-            padding: 10px;
         }
 
         .icon-arrow-asc, .icon-arrow-desc {

@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import moment from 'moment'
 import DatePicker from 'antd/lib/date-picker'
-import ImagePreview from '../../../../components/core/ImagePreview'
+import EditableImagePreview from '../../../../components/core/EditableImagePreview'
 import constants from '../../../../core/constants'
 import * as antdUtil from '../../../../core/utils/antdUtil'
 
-class EditPatient extends Component {
+class EditPatientAdmin extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -64,8 +64,9 @@ class EditPatient extends Component {
                 "patient_Photo": this.state.photo
             }).then(() => {
                 antdUtil.tipSuccess('更新病人信息成功！')
+                this.setState({show: false})
                 this.props.patientInfoUpdated()
-            }, err => antdUtil.tipErr(err)).then(this.setState({show: false}))
+            }, err => antdUtil.tipErr(err))
         })
     }
 
@@ -76,10 +77,10 @@ class EditPatient extends Component {
                 name: patientInfo['full_Name'] || '',
                 idCard: patientInfo['id_Number'] || '',
                 birthday: patientInfo['birth_Date'] ? moment(patientInfo['birth_Date']) : null,
-                minority: patientInfo['nation'],
-                isHepatitisB: patientInfo['is_Hepatitis'],
-                isPregnantWomen: patientInfo['is_Pregnant'],
-                auditingState: patientInfo['is_Checked'],
+                minority: patientInfo['nation'] || '',
+                isHepatitisB: patientInfo['is_Hepatitis'] || '',
+                isPregnantWomen: patientInfo['is_Pregnant'] || '',
+                auditingState: patientInfo['is_Checked'] || '',
                 lastUpdateDate: patientInfo['updateTime'] || '',
                 createDate: patientInfo['creatTime'] || '',
                 photo: patientInfo['info_Photo'] || ''
@@ -96,7 +97,9 @@ class EditPatient extends Component {
                 <Modal.Body>
                     {
                         this.state.showPhoto && (
-                            <ImagePreview url={this.state.photo} onExited={() => this.setState({showPhoto: false})}/>
+                            <EditableImagePreview url={this.state.photo}
+                                                  onExited={() => this.setState({showPhoto: false})}
+                                                  imageUrlUpdated={url => this.setState({photo: url})}/>
                         )
                     }
                     <section className="container-fluid">
@@ -221,7 +224,7 @@ class EditPatient extends Component {
     }
 }
 
-EditPatient.propTypes = {
+EditPatientAdmin.propTypes = {
     patientId: PropTypes.string,
     fetchPatientInfo: PropTypes.func,
     updateAuditingState: PropTypes.func,
@@ -230,4 +233,4 @@ EditPatient.propTypes = {
     onExited: PropTypes.func
 }
 
-export default EditPatient
+export default EditPatientAdmin

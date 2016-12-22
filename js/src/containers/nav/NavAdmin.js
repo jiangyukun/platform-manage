@@ -87,7 +87,6 @@ export default class Nav extends Component {
                         </Item>
                     </SubMenu>
 
-
                     <SubMenu key="sub3" title={<span><Icon type="desktop"/><span>医生管理</span></span>}>
                         <Item key="3_1">
                             <a href="platform/home.html#/app/doctor-auditing">
@@ -100,7 +99,6 @@ export default class Nav extends Component {
                             </Link>
                         </Item>
                     </SubMenu>
-
 
                     <Item key="5_1">
                         <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>

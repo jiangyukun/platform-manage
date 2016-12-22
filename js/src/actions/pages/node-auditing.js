@@ -83,7 +83,6 @@ export let fetchPatientInfo = dispatch => patientId => {
     })
     return new Promise((resolve, reject) => {
         GET(`/web/getPatientInfoByid/${patientId}`).then(result => {
-            console.log(result)
             const patientInfo = result
             dispatch({
                 type: types.FETCH_PATIENT_INFO + phase.SUCCESS

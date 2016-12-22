@@ -54,6 +54,7 @@ export default function mapStateToProps(state) {
             {value: 14, text: '产后80周第一天'},
         ]),
         backendMangerList: getFilterItem('backendManager', '后台管理人员', []),
+        operationPersonList: getFilterItem('operationPerson', '运营人员', []),
         register: getFilterItem('register', '注册日期', getStartEndDate())
     }
 }

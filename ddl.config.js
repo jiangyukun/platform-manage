@@ -16,6 +16,7 @@ const vendors = [
     'antd/lib/modal/style/index.less',
     'antd/lib/notification/style/index.less',
     'antd/lib/date-picker/style/index.less',
+    'antd/lib/upload/style/index.less',
 
     "babel-polyfill",
     "classnames",

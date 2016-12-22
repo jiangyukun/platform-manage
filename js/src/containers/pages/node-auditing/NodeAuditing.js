@@ -20,7 +20,7 @@ import Body from './table/Body'
 import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
-import EditPatient from './EditPatient'
+import EditPatientInfo from '../patient-edit/EditPatientInfo'
 import mapStateToProps from './data/mapStateToProps'
 import * as utils from '../../../core/utils'
 import {fetchHospitalList} from '../../../actions/hospital'
@@ -89,7 +89,7 @@ class NodeAuditing extends Component {
 
     render() {
         let {total, list} = this.props.patientListInfo
-        let listWidth = 6920
+        let listWidth = 7040
         if (this.state.open1) {
             listWidth += 360
         }
@@ -101,7 +101,7 @@ class NodeAuditing extends Component {
             <div className="app-function-page">
                 {
                     this.state.showEdit && (
-                        <EditPatient
+                        <EditPatientInfo
                             patientId={list[this.state.currentIndex]['patient_Id']}
                             fetchPatientInfo={this.props.fetchPatientInfo}
                             updateAuditingState={this.props.updateAuditingState}
@@ -147,6 +147,10 @@ class NodeAuditing extends Component {
 
                     <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
+                    </FilterItem>
+
+                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                        <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
                     </FilterItem>
 
                     <FilterItem className="small-filter-item" item={this.props.register}>

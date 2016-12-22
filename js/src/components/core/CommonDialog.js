@@ -9,7 +9,7 @@ export default class CommonDialog extends Component {
     render() {
         return (
             <Modal show={this.props.show}
-                   className={classnames('ngdialog ngdialog-theme-full-container', {'ngdialog-closing': !this.props.show})}
+                   className={classnames(this.props.className, {'ngdialog-closing': !this.props.show})}
                    backdrop="static"
                    backdropClassName="ngdialog-overlay"
                    transition={Fly}
@@ -27,6 +27,8 @@ export default class CommonDialog extends Component {
 
 CommonDialog.propTypes = {
     show: PropTypes.bool,
+    width: PropTypes.string,
+    className: PropTypes.string,
     onHide: PropTypes.func,
     onExited: PropTypes.func
 }

@@ -13,12 +13,16 @@ import SortBy from '../../../components/core/paginate-list/SortBy'
 import SmartList from '../../../components/core/list/SmartList'
 import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
-import EditPatientDialog from './EditPatientDialog'
+import EditPatientInfo from './EditPatientInfo'
+import EditRemark from './edit/EditRemark'
+import ImagePreview from '../../../components/core/ImagePreview'
 import constants from '../../../core/constants'
 import {getFilterItem} from '../../../core/utils'
 import {getAuditStatus, getYesOrNoText} from '../../../core/formatBusData'
 import {formatDateStr} from '../../../core/dateUtils'
+import * as commonActions from '../../../actions/pages/common'
 import * as actions from '../../../actions/pages/patient-edit'
+import * as editActions from '../../../actions/pages/node-auditing'
 
 class PatientEdit extends Component {
     constructor() {
@@ -26,7 +30,9 @@ class PatientEdit extends Component {
         this.state = {
             currentIndex: -1,
             loading: false,
-            showEdit: false
+            showEdit: false,
+            showImage: false,
+            showEditMark: false
         }
     }
 
@@ -40,8 +46,16 @@ class PatientEdit extends Component {
             .then(() => this.setState({loading: false}))
     }
 
-    editPatientInfo(patient) {
-        this.setState({showEdit: true})
+    imagePreview(imageUrl) {
+        this.imageUrl = imageUrl
+        this.setState({showImage: true})
+    }
+
+    editRemark(patientId, infoId, remark) {
+        this.patientId = patientId
+        this.infoId = infoId
+        this.remark = remark
+        this.setState({showEditMark: true})
     }
 
     componentDidMount() {
@@ -52,9 +66,29 @@ class PatientEdit extends Component {
         return (
             <div className="app-function-page">
                 {
-                    this.state.showEdit && (
-                        <EditPatientDialog patientId=""
-                                           onExited={() => this.setState({showEdit: false})}/>
+                    this.state.showEdit && this.state.currentIndex != -1 && (
+                        <EditPatientInfo patientId={this.props.list[this.state.currentIndex]['patient_Id']}
+                                         fetchPatientInfo={this.props.fetchPatientInfo}
+                                         updateAuditingState={this.props.updateAuditingState}
+                                         updatePatientInfo={this.props.updatePatientInfo}
+                                         patientInfoUpdated={() => this.beginFetch()}
+                                         onExited={() => this.setState({showEdit: false})}/>
+                    )
+                }
+
+                {
+                    this.state.showEditMark && (
+                        <EditRemark patientId={this.patientId}
+                                    infoId={this.infoId}
+                                    value={this.remark}
+                                    updatePatientRemark={this.props.updatePatientRemark}
+                                    onExited={() => this.setState({showEditMark: false})}/>
+                    )
+                }
+
+                {
+                    this.state.showImage && (
+                        <ImagePreview url={this.imageUrl} onExited={() => this.setState({showImage: false})}/>
                     )
                 }
 
@@ -62,14 +96,21 @@ class PatientEdit extends Component {
                              beginFilter={() => this.beginFetch(1)}
                              searchKeyName="key_Words"
                 >
+                    <button className="btn btn-primary mr-20"
+                            onClick={() => this.setState({showEdit: true})}
+                            disabled={this.state.currentIndex == -1}>查看
+                    </button>
+
                     <FilterItem className="middle-filter-item" item={this.props.isHepatitisBFilter} paramName="patient_Is_Hepatitis"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.isPregnantWomenFilter} paramName="checked"/>
+                    <FilterItem className="middle-filter-item" item={this.props.isPregnantWomenFilter} paramName="patient_Is_Pregnant"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="patient_Is_Pregnant"/>
+                    <FilterItem className="middle-filter-item" item={this.props.minorityFilter} paramName="nation"/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="checked"/>
 
                     <FilterItem className="small-filter-item" item={this.props.registerFilter}>
-                        <CustomDateRange startName="registration_Begin_Time" endName="registration_End_Time"/>
+                        <CustomDateRange startName="patient_Info_Create_Begin_Time" endName="patient_Info_Create_End_Time"/>
                     </FilterItem>
                 </QueryFilter>
 
@@ -86,7 +127,7 @@ class PatientEdit extends Component {
                                     <SortBy by="patient_Phone">患者账号</SortBy>
                                 </li>
                                 <li className="item" style={{width: '100px'}}>
-                                    <SortBy by="patient_Name" activeWidth={70}>姓名</SortBy>
+                                    <SortBy by="patient_Name" activeWidth={65}>姓名</SortBy>
                                 </li>
                                 <li className="item" style={{width: '100px'}}>
                                     <SortBy by="patient_BirthDate">出生日期</SortBy>
@@ -122,10 +163,22 @@ class PatientEdit extends Component {
                                                 <li className="item flex1">{patient['patient_Nation']}</li>
                                                 <li className="item flex1">{getYesOrNoText(patient['patient_Is_Hepatitis'], '未知')}</li>
                                                 <li className="item flex1">{getYesOrNoText(patient['patient_Is_Pregnant'], '未知')}</li>
-                                                <li className="item flex1">look</li>
+                                                <li className="item flex1">
+                                                    {
+                                                        patient['patient_Photo'] && (
+                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(patient['patient_Photo'])}>查看</span>
+                                                        )
+                                                    }
+                                                </li>
                                                 <li className="item" style={{width: '100px'}}>{patient['id_Num']}</li>
                                                 <li className="item flex1">{getAuditStatus(patient['checked'])}</li>
-                                                <li className="item flex1">{patient['remark']}</li>
+                                                <li className="item flex1">
+                                                    {patient['remark']}
+                                                    <div>
+                                                        <i className="fa fa-edit"
+                                                           onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
+                                                    </div>
+                                                </li>
                                                 <li className="item" style={{width: '120px'}}>{formatDateStr(patient['creatTime'])}</li>
                                             </ul>
                                         )
@@ -162,7 +215,12 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        fetchPatientPaginateList: actions.fetchPatientPaginateList(dispatch)
+        fetchPatientPaginateList: actions.fetchPatientPaginateList(dispatch),
+
+        fetchPatientInfo: editActions.fetchPatientInfo(dispatch),
+        updateAuditingState: editActions.updateAuditingState(dispatch),
+        updatePatientInfo: editActions.updatePatientInfo(dispatch),
+        updatePatientRemark: commonActions.updateRemark(dispatch)
     }
 }
 

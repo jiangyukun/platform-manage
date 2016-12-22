@@ -16,6 +16,7 @@ class AddHospitalDialog extends Component {
             provinceId: '',
             cityId: '',
             manager: '',
+            operationPerson: '',
 
             cityMaxSerialNumber: null,
             invalid: true
@@ -36,6 +37,10 @@ class AddHospitalDialog extends Component {
 
     handleManagerChange(e) {
         this.setState({manager: e.target.value.trim()})
+    }
+
+    handleOperationPersonChange(e) {
+        this.setState({operationPerson: e.target.value.trim()})
     }
 
     onSelectProvince(selectedItem) {
@@ -78,7 +83,9 @@ class AddHospitalDialog extends Component {
             "city": this._city.getSelected().text,
             "hospitalSerialNumber": this.state.serialNumber,
             "cityCode": this.state.regionNumber,
-            "hospital_In_Project": this._isProjectHospital.getSelected().value
+            "hospital_In_Project": this._isProjectHospital.getSelected().value,
+            "backend_Manager": this.state.manager,
+            "operation_Manager": this.state.operationPerson
         }).then(() => {
             notification.success({message: '提示', description: '添加医院成功！'})
             this.props.onAddSuccess()
@@ -180,6 +187,16 @@ class AddHospitalDialog extends Component {
                             <div className="col-xs-6">
                                 <input type="text" className="form-control" placeholder="请输入后台管理人员"
                                        value={this.state.manager} onChange={e => this.handleManagerChange(e)}/>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-4">
+                                <label className="mt-5">运营人员：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <input type="text" className="form-control" placeholder="请输入运营人员"
+                                       value={this.state.operationPerson} onChange={e => this.handleOperationPersonChange(e)}/>
                             </div>
                         </div>
                     </section>

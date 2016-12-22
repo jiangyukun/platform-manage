@@ -22,6 +22,7 @@ class Body extends Component {
                                 <li className="list-item w-120">{patient['patient_Phone']}</li>
                                 <li className="list-item w-120">{patient['hospital_Name']}</li>
                                 <li className="list-item w-120">{patient['backend_Manager'] || '-'}</li>
+                                <li className="list-item w-120">{patient['operation_Manager'] || '-'}</li>
 
                                 <li className="list-item w-120">{patient['indications_Doctor_Name'] || '-'}</li>
                                 {this.props.open1 && ( <li className="list-item w-120">{patient['infection_Doctor']}</li>)}

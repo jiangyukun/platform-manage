@@ -19,6 +19,7 @@ class EditHospitalDialog extends Component {
             cityId: '',
             isProjectHospital: '',
             manager: '',
+            operationPerson: '',
 
             invalid: true
         }
@@ -38,6 +39,10 @@ class EditHospitalDialog extends Component {
 
     handleManagerChange(e) {
         this.setState({manager: e.target.value.trim()}, this.checkFormValid)
+    }
+
+    handleOperationPersonChange(e) {
+        this.setState({operationPerson: e.target.value.trim()}, this.checkFormValid)
     }
 
     onSelectIsProjectHospital(selectedItem) {
@@ -90,7 +95,8 @@ class EditHospitalDialog extends Component {
             "hospitalSerialNumber": this.state.serialNumber,
             "cityCode": this.state.regionNumber,
             "hospital_In_Project": this._isProjectHospital.getSelected().value,
-            "backend_Manager": this.state.manager || ''
+            "backend_Manager": this.state.manager || '',
+            "operation_Manager": this.state.operationPerson || ''
         }).then(() => {
             this.setState({show: false})
             notification.success({message: '提示', description: '更新医院成功！'})
@@ -109,7 +115,8 @@ class EditHospitalDialog extends Component {
                 cityId: hospitalInfo['city'] || '',
                 regionNumber: hospitalInfo['cityCode'] || '',
                 isProjectHospital: hospitalInfo['hospital_In_Project'] || '',
-                manager: hospitalInfo['backend_Manager'] || ''
+                manager: hospitalInfo['backend_Manager'] || '',
+                operationPerson: hospitalInfo['operation_Manager'] || ''
             }, this.onProvinceChange)
         })
     }
@@ -209,6 +216,16 @@ class EditHospitalDialog extends Component {
                             <div className="col-xs-6">
                                 <input type="text" className="form-control" placeholder="请输入后台管理人员"
                                        value={this.state.manager} onChange={e => this.handleManagerChange(e)}/>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-4">
+                                <label className="mt-5">运营人员：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <input type="text" className="form-control" placeholder="请输入运营人员"
+                                       value={this.state.operationPerson} onChange={e => this.handleOperationPersonChange(e)}/>
                             </div>
                         </div>
                     </section>
