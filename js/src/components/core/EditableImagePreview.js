@@ -8,34 +8,26 @@ import Icon from 'antd/lib/icon'
 
 import ImagePreview from './ImagePreview'
 import * as antdUtil from '../../core/utils/antdUtil'
+import * as utils from '../../core/utils'
 import * as uploadUtil from '../../core/utils/uploadUtil'
-
-function getBase64(img, callback) {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => callback(reader.result))
-    reader.readAsDataURL(img)
-}
-
-function beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJPG) {
-        antdUtil.tipErr('不支持的图片格式！')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-        antdUtil.tipErr('文件不能超过2MB!')
-    }
-    return isJPG && isLt2M
-}
 
 class EditableImagePreview extends Component {
     constructor(props) {
         super()
+        this.beforeUpload = this.beforeUpload.bind(this)
         this.customRequest = this.customRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.cancel = this.cancel.bind(this)
         this.confirm = this.confirm.bind(this)
         this.state = {imageUrl: props.url, isEdited: false}
+    }
+
+    beforeUpload(file) {
+        const {status, message} = utils.beforeUpload(file)
+        if (status != 0) {
+            antdUtil.tipErr(message)
+        }
+        return status == 0
     }
 
     customRequest(fileInfo) {
@@ -46,7 +38,7 @@ class EditableImagePreview extends Component {
         if (info.file.status === 'done') {
             const file = info.file.originFileObj
             this.httpUrl = info.file.response
-            getBase64(file, imageUrl => this.setState({imageUrl, isEdited: true}))
+            utils.getBase64(file, imageUrl => this.setState({imageUrl, isEdited: true}))
         }
     }
 
@@ -73,7 +65,7 @@ class EditableImagePreview extends Component {
                     !this.state.imageUrl && (
                         <Upload className="avatar-uploader"
                                 showUploadList={false}
-                                beforeUpload={beforeUpload}
+                                beforeUpload={this.beforeUpload}
                                 customRequest={this.customRequest}
                                 onChange={this.handleChange}
                         >

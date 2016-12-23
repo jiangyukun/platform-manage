@@ -1,209 +1,279 @@
-/**
- * Created by jiangyu2016 on 16/10/15.
- */
-import React, {Component} from 'react'
-import {render} from 'react-dom'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
-import BasePage from '../base/BasePage'
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
+import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../../components/core/PaginateList'
 import SortBy from '../../../components/core/paginate-list/SortBy'
-import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
+import SmartList from '../../../components/core/list/SmartList'
+import HeadContainer from '../../../components/core/list/HeadContainer'
+import BodyContainer from '../../../components/core/list/BodyContainer'
+import AddDoctorDialog from './dialog/AddDoctorDialog'
+import EditDoctorDialog from './dialog/EditDoctorDialog'
+import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../../components/core/ImagePreview'
-import AddDoctor from './AddDoctor'
-import EditDoctorDialog from './EditDoctorDialog'
-import {fetchDoctorList} from '../../../actions/app'
+import constants from '../../../core/constants'
+import {getFilterItem} from '../../../core/utils'
+import {getAuditStatus, isVisitDoctor} from '../../../core/formatBusData'
+import {formatDateStr} from '../../../core/dateUtils'
+import * as commonActions from '../../../actions/pages/common'
+import {fetchHospitalList} from '../../../actions/hospital'
+import * as actions from '../../../actions/pages/doctor-auditing'
 
-class DoctorAuditing extends BasePage {
-    constructor(props) {
-        super(props)
-        this.state = {currentIndex: -1}
-    }
-
-    fetch() {
-        this.setState({currentIndex: -1})
-        this.filterConditions = this._queryFilter.getFilterConditions()
-        this.pageInfo = this._paginateList.getPageInfo()
-        this.props.fetchDoctorList(merge({}, this.pageInfo, this.handleFilterConditions()))
-    }
-
-    filter(filterConditions) {
-        this.filterConditions = filterConditions
-        this.fetch()
-    }
-
-    getPageList(pageInfo) {
-        this.pageInfo = pageInfo
-        this.fetch()
-    }
-
-    handleFilterConditions() {
-        return {
-            hospital: super.handleFilterCondition('hospital', 'value')
+class DoctorAuditing extends Component {
+    constructor() {
+        super()
+        this.state = {
+            currentIndex: -1,
+            loading: false,
+            showAdd: false,
+            showEdit: false,
+            showImage: false,
+            showEditMark: false
         }
     }
 
-    activeItem(doctor, index) {
-        this.setState({currentIndex: index})
+    beginFetch(newPageIndex) {
+        this._paginateList.beginFetch(newPageIndex)
     }
 
-    addDoctor() {
-        this._addDoctor.getWrappedInstance().open()
+    doFetch() {
+        this.setState({currentIndex: -1, loading: true})
+        this.props.fetchDoctorPaginateList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
+            .then(() => this.setState({loading: false}))
     }
 
-    editDoctor(doctor) {
-        if (!doctor) {
-            doctor = this.props.doctorListInfo.doctorList[this.state.currentIndex]
-        }
-        this.editDoctorDialog.open(doctor)
+    imagePreview(imageUrl) {
+        this.imageUrl = imageUrl
+        this.setState({showImage: true})
     }
 
-    lookDoctorPhoto() {
-        this._imagePreview.open()
+    editRemark(patientId, remark) {
+        this.patientId = patientId
+        this.remark = remark
+        this.setState({showEditMark: true})
     }
 
-    lookDoctorPracticingPhoto() {
-        this._imagePreview1.open()
-    }
-
-    editMark(doctor) {
+    exportExcel() {
 
     }
 
     componentDidMount() {
-        this.fetch()
+        this.beginFetch()
+        if (this.props.hospitalList.length == 0) {
+            this.props.fetchHospitalList()
+        }
+        if (this.props.positionList.length == 0) {
+            this.props.fetchPositionList()
+        }
+        if (this.props.departmentList.length == 0) {
+            this.props.fetchDepartmentList()
+        }
     }
 
     render() {
-        let {doctorList, total} = this.props.doctorListInfo
-
         return (
             <div className="app-function-page">
+                {
+                    this.state.showAdd && (
+                        <AddDoctorDialog
+                            hospitalList={this.props.hospitalList}
+                            positionList={this.props.positionList}
+                            departmentList={this.props.departmentList}
+                            addNewDoctor={this.props.addNewDoctor}
+                            addDoctorSuccess={() => this.beginFetch()}
+                            onExited={() => this.setState({showAdd: false})}/>
+                    )
+                }
 
-                <QueryFilter ref={c => this._queryFilter = c} filter={filterCondition => this.filter(filterCondition)} className="big-label ">
-                    <button className="btn btn-primary mr-20" onClick={e => this.addDoctor()}>
-                        注册
-                        <AddDoctor ref={c => this._addDoctor = c}/>
-                    </button>
+                {
+                    this.state.showEdit && this.state.currentIndex != -1 && (
+                        <EditDoctorDialog patientId={this.props.list[this.state.currentIndex]['patient_Id']}
+                                          fetchPatientInfo={this.props.fetchPatientInfo}
+                                          updateAuditingState={this.props.updateAuditingState}
+                                          updatePatientInfo={this.props.updatePatientInfo}
+                                          patientInfoUpdated={() => this.beginFetch()}
+                                          onExited={() => this.setState({showEdit: false})}/>
+                    )
+                }
+
+                {
+                    this.state.showEditMark && (
+                        <EditRemark patientId={this.patientId}
+                                    infoId={this.patientId}
+                                    value={this.remark}
+                                    remarkType={constants.remarkFlag.DOCTOR_AUDITING}
+                                    updateRemark={this.props.updateDoctorRemark}
+                                    onExited={() => this.setState({showEditMark: false})}/>
+                    )
+                }
+
+                {
+                    this.state.showImage && (
+                        <ImagePreview url={this.imageUrl} onExited={() => this.setState({showImage: false})}/>
+                    )
+                }
+
+                <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
+                             beginFilter={() => this.beginFetch(1)}
+                             searchKeyName="key_Words"
+                >
+                    <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>注册</button>
                     <button className="btn btn-primary mr-20"
-                            onClick={e => this.editDoctor()}
-                            disabled={this.state.currentIndex == -1}>
-                        查看
-                        <EditDoctorDialog ref={c => this.editDoctorDialog = c}/>
+                            onClick={() => this.setState({showEdit: true})}
+                            disabled={this.state.currentIndex == -1}>查看
                     </button>
-                    <FilterItem className="small-filter-item" item={this.props.hospitalList}/>
-                    <FilterItem className="small-filter-item" item={this.props.positionList}/>
-                    <FilterItem className="small-filter-item" item={this.props.departmentList}/>
-                    <FilterItem className="small-filter-item" item={this.props.auditingStateList}/>
-                    <FilterItem className="small-filter-item" item={this.props.createTime}>
-                        <CustomDateRange/>
+                    <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()}>导出到excel</button>
+
+                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.positionFilterList} paramName="title_Name" useText={true}/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.departmentFilterList} paramName="department_Name" useText={true}/>
+
+                    <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="doctor_Is_Checked"/>
+
+                    <FilterItem className="small-filter-item" item={this.props.registerFilter}>
+                        <CustomDateRange startName="doctor_Info_Create_Begin_Time" endName="doctor_Info_Create_End_Time"/>
                     </FilterItem>
                 </QueryFilter>
 
-                <PaginateList ref={c => this._paginateList = c} getPageList={pageInfo => this.getPageList(pageInfo)} total={total} fixHead={true}>
-                    <table className="table table-striped table-hover" style={{'minWidth': '1200px'}}>
-                        <thead>
-                        <tr>
-                            <th className="th-left pl-15" width="150">
-                                <SortBy by="phone">手机号码</SortBy>
-                            </th>
-                            <th className="th-left pl-15" width="120">医生姓名</th>
-                            <th className="th-left pl-15" width="140">医院</th>
-                            <th className="th-left pl-15" width="120">科室</th>
-                            <th className="th-left pl-15" width="120">职称</th>
-                            <th className="th-left pl-15" width="120">个人照片</th>
-                            <th className="th-left pl-15" width="120">持证照片</th>
-                            <th className="th-left pl-15" width="180">
-                                <SortBy by="doctor_Practicing_Number">执业证编号</SortBy>
-                            </th>
-                            <th className="th-left pl-15" width="150">专长</th>
-                            <th className="th-left pl-15" width="120">审核状态</th>
-                            <th className="th-left pl-15" width="120">备注</th>
-                            <th className="th-left pl-15" width="180">
-                                <SortBy by="doctor_Info_Creat_Time">创建时间</SortBy>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <PaginateList ref={c => this._paginateList = c}
+                              doFetch={() => this.doFetch()}
+                              total={this.props.total}
+                              lengthName="limit"
+                              byName="order_By"
+                >
+                    <SmartList loading={this.state.loading} fixHead={true} style={{minWidth: '1600px'}} fixLeft={[0, 1]}>
+                        <HeadContainer>
+                            <ul className="flex-list header">
+                                <li className="item" style={{width: '100px'}}>
+                                    <SortBy by="phone">手机号码</SortBy>
+                                </li>
+                                <li className="item" style={{width: '100px'}}>医生姓名</li>
+                                <li className="item" style={{width: '120px'}}>医院</li>
+                                <li className="item" style={{width: '100px'}}>科室</li>
+                                <li className="item" style={{width: '130px'}}>是否随访医生</li>
+                                <li className="item" style={{width: '100px'}}>职称</li>
+                                <li className="item" style={{width: '80px'}}>个人照片</li>
+                                <li className="item" style={{width: '80px'}}>持证照片</li>
+                                <li className="item" style={{width: '120px'}}>
+                                    <SortBy by="doctor_practicing_number" activeWidth={100}>执业证编号</SortBy>
+                                </li>
+                                <li className="item" style={{width: '100px'}}>专长</li>
+                                <li className="item" style={{width: '100px'}}>审核状态</li>
+                                <li className="item" style={{width: '80px'}}>备注</li>
+                                <li className="item" style={{width: '110px'}}>后台管理人员</li>
+                                <li className="item" style={{width: '80px'}}>运营人员</li>
+                                <li className="item" style={{width: '120px'}}>
+                                    <SortBy by="doctor_info_creat_time" activeWidth={90}>创建日期</SortBy>
+                                </li>
+                            </ul>
+                        </HeadContainer>
+                        <BodyContainer>
+                            <div>
+                                {
+                                    this.props.list.map((doctor, index) => {
+                                        return (
+                                            <ul key={doctor['doctor_Id'] || index}
+                                                style={{minHeight: '50px'}}
+                                                className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                                onClick={e => this.setState({currentIndex: index})}
+                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
+                                            >
 
-                        {
-                            doctorList.map((doctor, index) => {
-                                return (
-                                    <tr key={index}
-                                        className={classnames('h-50', {'selected': this.state['currentIndex'] == index})}
-                                        onClick={e => this.activeItem(doctor, index)}
-                                        onDoubleClick={e => this.editDoctor(doctor)}>
-                                        <td>{doctor['phone']}</td>
-                                        <td>{doctor['doctor_Name']}</td>
-                                        <td>{doctor['hospital_Id']}</td>
-                                        <td>{doctor['department_Id']}</td>
-                                        <td>{doctor['title_Id']}</td>
-
-                                        <td>{
-                                            doctor['doctor_Photo'] && (
-                                                <div className="table-cell-look">
-                                                    <a onClick={e => this.lookDoctorPhoto(doctor['doctor_Photo'])}>
-                                                        查看
-                                                        <ImagePreview ref={c => this._imagePreview = c} url={doctor['doctor_Photo']}/>
-                                                    </a>
-                                                </div>
-                                            )
-                                        }</td>
-                                        <td>
-                                            {
-                                                doctor['doctor_Practicing_Photo'] && (
-                                                    <div className="table-cell-look">
-                                                        <a onClick={e => this.lookDoctorPracticingPhoto(doctor['doctor_Practicing_Photo'])}>
-                                                            查看
-                                                            <ImagePreview ref={c => this._imagePreview1 = c} url={doctor['doctor_Practicing_Photo']}/>
-                                                        </a>
+                                                <li className="item" style={{width: '100px'}}>{doctor['phone']}</li>
+                                                <li className="item" style={{width: '100px'}}>{doctor['doctor_Name']}</li>
+                                                <li className="item" style={{width: '120px'}}>{doctor['hospital_Id']}</li>
+                                                <li className="item" style={{width: '100px'}}>{doctor['department_Id']}</li>
+                                                <li className="item" style={{width: '130px'}}>{isVisitDoctor(doctor['is_Doctor_Purview'])}</li>
+                                                <li className="item" style={{width: '100px'}}>{doctor['title_Id']}</li>
+                                                <li className="item" style={{width: '80px'}}>
+                                                    {
+                                                        doctor['doctor_Photo'] && (
+                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Photo'])}>查看</span>
+                                                        )
+                                                    }
+                                                </li>
+                                                <li className="item" style={{width: '80px'}}>
+                                                    {
+                                                        doctor['doctor_Practicing_Photo'] && (
+                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Practicing_Photo'])}>查看</span>
+                                                        )
+                                                    }
+                                                </li>
+                                                <li className="item" style={{width: '120px'}}>{doctor['doctor_Practicing_Number']}</li>
+                                                <li className="item" style={{width: '100px'}}>{doctor['doctor_Major'] || ''}</li>
+                                                <li className="item" style={{width: '100px'}}>{getAuditStatus(doctor['doctor_Is_Checked'])}</li>
+                                                <li className="item" style={{width: '80px'}}>
+                                                    {doctor['doctor_Info_Remark']}
+                                                    <div>
+                                                        <i className="fa fa-edit"
+                                                           onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
                                                     </div>
-                                                )
-                                            }
-                                        </td>
-                                        <td>{doctor['doctor_Practicing_Number']}</td>
-                                        <td>{doctor['doctor_Major']}</td>
-                                        <td>{doctor['doctor_Is_Checked']}</td>
-
-                                        <td>
-                                            {doctor['doctor_Info_Remark']}
-                                            <div><i className="fa fa-edit" onClick={e => this.editMark(doctor)}></i></div>
-                                        </td>
-                                        <td>{doctor['doctor_Info_Creat_Time']}</td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-                    </table>
+                                                </li>
+                                                <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
+                                                <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>
+                                                <li className="item" style={{width: '120px'}}>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</li>
+                                            </ul>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </BodyContainer>
+                    </SmartList>
                 </PaginateList>
             </div>
-
         )
     }
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
+    const {list, total} = state['doctorAuditingPaginateList']
     return {
-        doctorListInfo: state.doctorListInfo,
-        hospitalList: {
+        list,
+        total,
+        hospitalList: state.hospitalList,
+        positionList: state.positionList,
+        departmentList: state.departmentList,
+        hospitalFilterList: {
             typeCode: 'hospital',
             typeText: '医院',
-            typeItemList: [
-                {value: 'zhejiang hospital', text: '浙江医院'}
-            ]
+            typeItemList: state.hospitalList
         },
-        positionList: {
-            typeCode: 'b',
-            typeText: '医生',
-            typeItemList: [
-                {value: 'zhao', text: '找医生'}
-            ]
-        }
+        positionFilterList: {
+            typeCode: 'position',
+            typeText: '职位',
+            typeItemList: state.positionList
+        },
+        departmentFilterList: {
+            typeCode: 'department',
+            typeText: '科室',
+            typeItemList: state.departmentList
+        },
+        auditingStateFilter: getFilterItem('auditingState', '审核状态', [
+            {value: constants.auditingState.auditing, text: '审核中'},
+            {value: constants.auditingState.auditingPass, text: '审核通过'},
+            {value: constants.auditingState.auditingUnPass, text: '审核不通过'}
+        ]),
+        registerFilter: getFilterItem('register', '创建日期', [])
     }
 }
 
-export default connect(mapStateToProps, {fetchDoctorList})(DoctorAuditing)
+function mapActionToProps(dispatch) {
+    return {
+        fetchHospitalList: fetchHospitalList(dispatch),
+        fetchDoctorPaginateList: actions.fetchDoctorPaginateList(dispatch),
+        fetchPositionList: commonActions.fetchPositionList(dispatch),
+        fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),
+
+        updateDoctorAuditingState: actions.updateDoctorAuditingState(dispatch),
+        updateDoctorInfo: actions.updateDoctorInfo(dispatch),
+        updateDoctorRemark: commonActions.updateRemark(dispatch),
+        addNewDoctor: actions.addNewDoctor(dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapActionToProps)(DoctorAuditing)

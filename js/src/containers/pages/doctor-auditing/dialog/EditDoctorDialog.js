@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import {Modal} from 'react-bootstrap'
-import ImagePreview from '../../core/ImagePreview'
+import ImagePreview from '../../../../components/core/EditableImagePreview'
 
 export default  class EditDoctorDialog extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ export default  class EditDoctorDialog extends Component {
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={()=>this.close()}>
+            <Modal show={this.state.active} onHide={() => this.close()}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>审核状态</Modal.Title>
                 </Modal.Header>
@@ -82,9 +82,9 @@ export default  class EditDoctorDialog extends Component {
                 <Modal.Footer>
                     <div className="row">
                         <div className="col-xs-4">
-                            <input type="button" className="btn btn-default btn-block" onClick={e=>this.imagePreview.open()} value="查看修改头像"/>
+                            <input type="button" className="btn btn-default btn-block" onClick={e => this.imagePreview.open()} value="查看修改头像"/>
                             {
-                                this.doctor && <ImagePreview ref={c=>this.imagePreview = c} url={this.doctor['doctor_Photo']}/>
+                                this.doctor && <ImagePreview ref={c => this.imagePreview = c} url={this.doctor['doctor_Photo']}/>
                             }
                         </div>
                         <div className="col-xs-4">

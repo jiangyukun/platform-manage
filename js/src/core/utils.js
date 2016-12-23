@@ -16,10 +16,6 @@ export function getFilterItem(typeCode, typeText, typeItemList) {
     }
 }
 
-export function getStartEndDate(typeCode, typeText, typeItemList) {
-    return []
-}
-
 export function getSession(key) {
     return sessionStorage.getItem(key)
 }
@@ -41,4 +37,32 @@ export function urlParam(paramObj) {
         }
     }
     return encodeURI(paramUrl);
+}
+
+
+export function getBase64(img, callback) {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
+}
+
+export function beforeUpload(file) {
+    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJPG) {
+        return {
+            status: 1,
+            message: '不支持的图片格式！'
+        }
+
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+        return {
+            status: 1,
+            message: '文件不能超过2MB！'
+        }
+    }
+    return {
+        status: 0
+    }
 }

@@ -142,7 +142,7 @@ class LaboratorySheet extends Component {
                                     this.props.list.map((sheet, index) => {
                                         return (
                                             <ul key={index}
-                                                style={{height: '60px'}}
+                                                style={{minHeight: '60px'}}
                                                 className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
                                                 onClick={e => this.setState({currentIndex: index})}
                                             >

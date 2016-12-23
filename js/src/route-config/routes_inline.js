@@ -7,6 +7,7 @@ import ManagementPlatformApp from '../containers/ManagementPlatformApp'
 import NodeAuditing from '../containers/pages/node-auditing/NodeAuditing'
 import PatientEdit from '../containers/pages/patient-edit/PatientEdit'
 import LaboratorySheet from '../containers/pages/laboratory-sheet/LaboratorySheet'
+import DoctorAuditing from '../containers/pages/doctor-auditing/DoctorAuditing'
 import HospitalManage from '../containers/pages/hospital-manage/HospitalManage'
 import PatientSituationStatistics from '../containers/pages/statistics/patient-situation/PatientSituationStatistics'
 
@@ -16,6 +17,7 @@ export default (
             <Route path="node-auditing" component={NodeAuditing}/>
             <Route path="patient-edit" component={PatientEdit}/>
             <Route path="laboratory-sheet" component={LaboratorySheet}/>
+            <Route path="doctor-auditing" component={DoctorAuditing}/>
             <Route path="hospital-manage" component={HospitalManage}/>
             <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
         </Route>

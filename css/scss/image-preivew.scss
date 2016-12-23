@@ -1,14 +1,22 @@
-.avatar-uploader, .avatar-uploader-trigger {
+.avatar-uploader, .add-doctor-avatar-uploader, .avatar-uploader-trigger {
     width: 150px;
     height: 150px;
 }
 
-.avatar-uploader {
+.avatar-uploader, .add-doctor-avatar-uploader {
     display: block;
-    margin: 50px auto;
+    margin: 0 auto;
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.avatar-uploader {
+    margin: 50px auto;
+}
+
+.add-doctor-avatar-uploader {
+    position: relative;
 }
 
 .avatar-uploader-trigger {
@@ -16,4 +24,27 @@
     vertical-align: middle;
     font-size: 28px;
     color: #999;
+}
+
+.avatar-uploader-tip {
+    position: absolute;
+    text-align: center;
+    color: #aaa;
+    top: 70%;
+    font-size: 14px;
+    left: 0;
+    right: 0;
+}
+
+.avatar-uploader-preview {
+    position: absolute;
+    top: 0;
+    font-size: 14px;
+    left: 0;
+    right: 0;
+
+    img {
+        max-width: 100%;
+        opacity: 0.5;
+    }
 }

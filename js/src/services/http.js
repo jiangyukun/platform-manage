@@ -29,7 +29,14 @@ function method(type) {
         let handleArg = preHandle(url, option)
 
         return new Promise((resolve, reject) => {
-            fetch(handleArg.url, handleArg.option).then(response => response.json()).then(result => {
+            fetch(handleArg.url, handleArg.option).then(response => {
+                if (response.status == 200) {
+                    return response.json()
+                }
+                return Promise.resolve({
+                    status: -1, rspMsg: 'HTTP: ' + response.status
+                })
+            }).then(result => {
                 try {
                     if (result.status == 0) {
                         resolve(result['data'])

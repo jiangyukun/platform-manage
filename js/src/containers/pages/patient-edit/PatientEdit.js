@@ -14,7 +14,7 @@ import SmartList from '../../../components/core/list/SmartList'
 import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
 import EditPatientInfo from './EditPatientInfo'
-import EditRemark from './edit/EditRemark'
+import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../../components/core/ImagePreview'
 import constants from '../../../core/constants'
 import {getFilterItem} from '../../../core/utils'
@@ -81,7 +81,8 @@ class PatientEdit extends Component {
                         <EditRemark patientId={this.patientId}
                                     infoId={this.infoId}
                                     value={this.remark}
-                                    updatePatientRemark={this.props.updatePatientRemark}
+                                    updateRemark={this.props.updatePatientRemark}
+                                    remarkType={constants.remarkFlag.PATIENT_EDIT}
                                     onExited={() => this.setState({showEditMark: false})}/>
                     )
                 }
@@ -152,7 +153,7 @@ class PatientEdit extends Component {
                                     this.props.list.map((patient, index) => {
                                         return (
                                             <ul key={patient['patient_Id']}
-                                                style={{height: '50px'}}
+                                                style={{minHeight: '50px'}}
                                                 className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
                                                 onClick={e => this.setState({currentIndex: index})}
                                                 onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}

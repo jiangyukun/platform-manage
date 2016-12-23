@@ -5,7 +5,7 @@ import {GET, POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
-//获取省列表
+//获取分页列表
 export let fetchPatientPaginateList = dispatch => option => {
     dispatch({
         type: types.FETCH_PATIENT_PAGINATE_LIST + phase.START

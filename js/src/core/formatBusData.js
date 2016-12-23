@@ -3,7 +3,8 @@
  */
 import constants from './constants'
 
-function _unKnowData() {
+function _unKnowData(value) {
+    if (!value) return '未知'
     return '错误数据'
 }
 
@@ -32,22 +33,33 @@ export function getYesOrNoText(flag, defaultValue) {
 
 export function isCompleteVisit(state) {
     if (state == '1') {
-        return '是';
+        return '是'
     } else if (state == '0') {
-        return '否';
+        return '否'
     } else if (state == '2') {
-        return '未联系';
+        return '未联系'
     }
     return _unKnowData()
 }
 
 export function getAuditStatus(value) {
     if (constants.auditingState.auditing == value) {
-        return '审核中';
+        return '审核中'
     } else if (constants.auditingState.auditingPass == value) {
-        return '审核通过';
+        return '审核通过'
     } else if (constants.auditingState.auditingUnPass == value) {
-        return '审核不通过';
+        return '审核不通过'
+    }
+    return _unKnowData(value)
+}
+
+export function isVisitDoctor(value) {
+    if (!value) {
+        return '否'
+    } else if (value == '1') {
+        return '否'
+    } else if (value == '2') {
+        return '是'
     }
     return _unKnowData()
 }

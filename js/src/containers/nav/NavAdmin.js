@@ -46,7 +46,7 @@ export default class Nav extends Component {
                 </div>
 
                 <Menu theme="dark"
-                      defaultOpenKeys={['sub1']}
+                      defaultOpenKeys={['sub1', 'sub3']}
                       onClick={e => this.handleClick(e)}
                       selectedKeys={[this.state.current]}
                       mode="inline"
@@ -69,6 +69,20 @@ export default class Nav extends Component {
                         </Item>
                     </SubMenu>
 
+                    <SubMenu key="sub3" title={<span><Icon type="desktop"/><span>医生管理</span></span>}>
+                        <Item key="3_1">
+                            <Link to={getPath('doctor-auditing')}>
+                                <span>医生管理</span>
+                            </Link>
+                        </Item>
+                        <Item key="3_2">
+                            <Link to={getPath('hospital-manage')}>
+                                <span>医院管理</span>
+                            </Link>
+                        </Item>
+                    </SubMenu>
+
+
                     <SubMenu key="sub2" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>
                         <Item key="2_1">
                             <a href="platform/home.html#/app/slider-config">
@@ -87,18 +101,6 @@ export default class Nav extends Component {
                         </Item>
                     </SubMenu>
 
-                    <SubMenu key="sub3" title={<span><Icon type="desktop"/><span>医生管理</span></span>}>
-                        <Item key="3_1">
-                            <a href="platform/home.html#/app/doctor-auditing">
-                                <span>医生管理</span>
-                            </a>
-                        </Item>
-                        <Item key="3_2">
-                            <Link to={getPath('hospital-manage')}>
-                                <span>医院管理</span>
-                            </Link>
-                        </Item>
-                    </SubMenu>
 
                     <Item key="5_1">
                         <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
@@ -106,7 +108,6 @@ export default class Nav extends Component {
                             <span style={{marginLeft: '8px'}}>聊天系统</span>
                         </a>
                     </Item>
-
 
                     <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
                         <Item key="6_1">

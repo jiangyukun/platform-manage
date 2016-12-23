@@ -19,3 +19,38 @@ export let updateRemark = dispatch => (id, updateRemarkId, remarkType, remark) =
         }, err => reject(err))
     })
 }
+
+export let fetchPositionList = dispatch => () => {
+    return new Promise((resolve, reject) => {
+        GET('/web/getDoctorTitles').then(result => {
+            const positionList = result.map(position=> {
+                return {
+                    value: position['title_Id'],
+                    text: position['title_Name']
+                }
+            })
+            resolve()
+            dispatch({
+                type: types.FETCH_POSITION_LIST + phase.SUCCESS, positionList
+            })
+        }, err => reject(err))
+    })
+
+}
+
+export let fetchDepartmentList = dispatch => () => {
+    return new Promise((resolve, reject) => {
+        GET('/web/getDepartments').then(result => {
+            const departmentList = result.map(department=> {
+                return {
+                    value: department['department_Id'],
+                    text: department['department_Name']
+                }
+            })
+            resolve()
+            dispatch({
+                type: types.FETCH_DEPARTMENT_LIST + phase.SUCCESS, departmentList
+            })
+        }, err => reject(err))
+    })
+}

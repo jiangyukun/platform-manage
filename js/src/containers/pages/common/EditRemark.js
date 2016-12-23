@@ -2,9 +2,9 @@
  * Created by jiangyukun on 2016/12/22.
  */
 import React, {Component, PropTypes} from 'react'
-import CommonDialog from '../../../../components/core/CommonDialog'
-import constants from '../../../../core/constants'
-import * as antdUtil from '../../../../core/utils/antdUtil'
+import CommonDialog from '../../../components/core/CommonDialog'
+
+import * as antdUtil from '../../../core/utils/antdUtil'
 
 class EditRemark extends Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class EditRemark extends Component {
     }
 
     confirm() {
-        this.props.updatePatientRemark(this.props.patientId, this.props.infoId, constants.remarkFlag.PATIENT_EDIT, this.state.value)
+        this.props.updateRemark(this.props.patientId, this.props.infoId, this.props.remarkType, this.state.value)
             .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err)).then(this.close())
     }
 
@@ -58,7 +58,8 @@ EditRemark.propTypes = {
     infoId: PropTypes.string,
     value: PropTypes.string,
     onExited: PropTypes.func,
-    updatePatientRemark: PropTypes.func
+    remarkType: PropTypes.number,
+    updateRemark: PropTypes.func
 }
 
 export default EditRemark
