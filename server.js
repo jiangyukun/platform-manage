@@ -27,6 +27,8 @@ app.get('/dev/node-auditing', toIndex)
 app.get('/dev/laboratory-sheet', toIndex)
 app.get('/dev/patient-situation-statistics', toIndex)
 app.get('/dev/hospital-manage', toIndex)
+app.get('/dev/patient-edit', toIndex)
+app.get('/dev/doctor-auditing', toIndex)
 
 
 configController(app)

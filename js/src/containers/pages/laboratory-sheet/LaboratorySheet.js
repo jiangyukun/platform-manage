@@ -80,20 +80,20 @@ class LaboratorySheet extends Component {
                 >
                     <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
-                    <FilterItem className="small-filter-item" item={this.props.visitDoctorFilterList} paramName="visit_Doctor_Name">
-                        <CustomTextInput placeholder="请输入随访医生姓名"/>
+                    <FilterItem className="small-filter-item" item={this.props.visitDoctorFilterList}>
+                        <CustomTextInput placeholder="请输入随访医生姓名" textName="visit_Doctor_Name"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.infectionDoctorFilterList} paramName="infection_Doctor_Name">
-                        <CustomTextInput placeholder="请输入感染科医生姓名"/>
+                    <FilterItem className="small-filter-item" item={this.props.infectionDoctorFilterList}>
+                        <CustomTextInput placeholder="请输入感染科医生姓名" textName="infection_Doctor_Name"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.obstetricsDoctorFilterList} paramName="obstetrics_Doctor_Name">
-                        <CustomTextInput placeholder="请输入妇产科医生姓名"/>
+                    <FilterItem className="small-filter-item" item={this.props.obstetricsDoctorFilterList}>
+                        <CustomTextInput placeholder="请输入妇产科医生姓名" textName="obstetrics_Doctor_Name"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.pediatricsDoctorFilterList} paramName="pediatrics_Doctor_Name">
-                        <CustomTextInput placeholder="请输入儿科医生姓名"/>
+                    <FilterItem className="small-filter-item" item={this.props.pediatricsDoctorFilterList}>
+                        <CustomTextInput placeholder="请输入儿科医生姓名" textName="pediatrics_Doctor_Name"/>
                     </FilterItem>
                 </QueryFilter>
 

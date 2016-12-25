@@ -2,14 +2,16 @@
  * Created by jiangyu2016 on 16/10/15.
  */
 import React, {Component} from 'react'
-import {Link} from 'react-router'
+import {Link, routerShape} from 'react-router'
 import Menu from 'antd/lib/menu'
 import Icon from 'antd/lib/icon'
 
-export default class Nav extends Component {
-    constructor() {
-        super()
-        this.state = {current: '1'}
+import {getPath} from '../../core/utils'
+
+export default class NavAdmin extends Component {
+    constructor(props, context) {
+        super(props, context)
+        this.state = {current: context.router.getCurrentLocation().pathname}
     }
 
     handleClick(e) {
@@ -19,25 +21,15 @@ export default class Nav extends Component {
     }
 
     render() {
-        let path = ''
-        let prefix = ''
-        if (process.env.NODE_ENV == 'production') {
-            prefix = 'platform/'
-        }
-        if (process.env.NODE_ENV == 'inline') {
-            prefix = 'platform/'
-            path = 'inline/'
-        }
-        if (process.env.NODE_ENV == 'dev') {
-            path = 'dev/'
-        }
-
-        function getPath(page) {
-            return prefix + path + page
-        }
-
         const SubMenu = Menu.SubMenu
         const Item = Menu.Item
+
+        const nodeAuditing = getPath('node-auditing')
+        const patientEdit = getPath('patient-edit')
+        const laboratorySheet = getPath('laboratory-sheet')
+        const doctorAuditing = getPath('doctor-auditing')
+        const hospitalManage = getPath('hospital-manage')
+        const patientSituationStatistics = getPath('patient-situation-statistics')
 
         return (
             <nav>
@@ -52,36 +44,35 @@ export default class Nav extends Component {
                       mode="inline"
                 >
                     <SubMenu key="sub1" title={<span><Icon type="desktop"/><span>患者管理</span></span>}>
-                        <Item key="1">
-                            <Link to={getPath('node-auditing')}>
+                        <Item key={nodeAuditing}>
+                            <Link to={nodeAuditing}>
                                 <span>病人审核</span>
                             </Link>
                         </Item>
-                        <Item key="2">
-                            <Link to={getPath('patient-edit')}>
+                        <Item key={patientEdit}>
+                            <Link to={patientEdit}>
                                 <span>病人修改</span>
                             </Link>
                         </Item>
-                        <Item key="3">
-                            <Link to={getPath('laboratory-sheet')}>
+                        <Item key={laboratorySheet}>
+                            <Link to={laboratorySheet}>
                                 <span>化验单查看</span>
                             </Link>
                         </Item>
                     </SubMenu>
 
                     <SubMenu key="sub3" title={<span><Icon type="desktop"/><span>医生管理</span></span>}>
-                        <Item key="3_1">
-                            <Link to={getPath('doctor-auditing')}>
+                        <Item key={doctorAuditing}>
+                            <Link to={doctorAuditing}>
                                 <span>医生管理</span>
                             </Link>
                         </Item>
-                        <Item key="3_2">
-                            <Link to={getPath('hospital-manage')}>
+                        <Item key={hospitalManage}>
+                            <Link to={hospitalManage}>
                                 <span>医院管理</span>
                             </Link>
                         </Item>
                     </SubMenu>
-
 
                     <SubMenu key="sub2" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>
                         <Item key="2_1">
@@ -110,8 +101,8 @@ export default class Nav extends Component {
                     </Item>
 
                     <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
-                        <Item key="6_1">
-                            <Link to={getPath('patient-situation-statistics')}>
+                        <Item key={patientSituationStatistics}>
+                            <Link to={patientSituationStatistics}>
                                 <span>病人情况报表</span>
                             </Link>
                         </Item>
@@ -155,4 +146,8 @@ export default class Nav extends Component {
             </nav>
         )
     }
+}
+
+NavAdmin.contextTypes = {
+    router: routerShape
 }

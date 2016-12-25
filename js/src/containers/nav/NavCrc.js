@@ -6,7 +6,9 @@ import Menu from 'antd/lib/menu'
 import Icon from 'antd/lib/icon'
 import {Link} from 'react-router'
 
-export default class Nav extends Component {
+import {getPath} from '../../core/utils'
+
+export default class NavCrc extends Component {
     constructor() {
         super()
         this.state = {current: '1'}
@@ -19,23 +21,6 @@ export default class Nav extends Component {
     }
 
     render() {
-        let path = ''
-        let prefix = ''
-        if (process.env.NODE_ENV == 'production') {
-            prefix = 'platform/'
-        }
-        if (process.env.NODE_ENV == 'inline') {
-            prefix = 'platform/'
-            path = 'inline/'
-        }
-        if (process.env.NODE_ENV == 'dev') {
-            path = 'dev/'
-        }
-
-        function getPath(page) {
-            return prefix + path + page
-        }
-
         const SubMenu = Menu.SubMenu
         return (
             <nav>

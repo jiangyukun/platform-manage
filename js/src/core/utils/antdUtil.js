@@ -14,10 +14,11 @@ export function tipErr(message) {
     tip('error', message)
 }
 
-export function confirm(message, okCallback) {
+export function confirm(message, okCallback, cancelCallback = () => {}) {
     Modal.confirm({
         title: '提示',
         content: message,
-        onOk: okCallback
+        onOk: okCallback,
+        onCancel: cancelCallback
     })
 }

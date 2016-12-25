@@ -5,7 +5,7 @@ import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
 import {pageSize} from '../../common/constants'
-import {calculatePageIndex} from '../../utils'
+import {calculatePageIndex} from '../../core/utils'
 
 class PaginateList extends Component {
     constructor(props) {
@@ -26,11 +26,6 @@ class PaginateList extends Component {
             this.setState({currentPage: page})
         }
         this.setState({draw: this.state.draw + 1}, () => this.props.doFetch())
-    }
-
-    // deprecated, 使用getParams
-    getPageInfo() {
-        this.getParams()
     }
 
     addSortBy(sortBy) {

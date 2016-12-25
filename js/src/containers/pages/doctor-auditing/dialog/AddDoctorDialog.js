@@ -21,6 +21,7 @@ class AddDoctorDialog extends Component {
         this.handleHoldCardPictureChange = this.handleHoldCardPictureChange.bind(this)
         this.checkFormValid = this.checkFormValid.bind(this)
 
+        this.showCancelTip = false
         this.state = {
             show: true,
             valid: false,
@@ -106,7 +107,34 @@ class AddDoctorDialog extends Component {
     }
 
     close() {
+        if (!this.empty()) {
+            if (this.showCancelTip) {
+                return
+            }
+            this.showCancelTip = true
+            antdUtil.confirm('确定放弃此次编辑吗？', () => this.setState({show: false}), () => this.showCancelTip = false)
+            return
+        }
         this.setState({show: false})
+    }
+
+    empty() {
+        const {
+            name,
+            hospital,
+            department,
+            position,
+            special,
+            mobile,
+            password,
+            headPictureUrl,
+            holdCardPictureUrl
+        } = this.state
+        return !(name || hospital || department || position || special || mobile || password || headPictureUrl || holdCardPictureUrl)
+    }
+
+    componentDidMount() {
+        this._name.getInput().focus()
     }
 
     render() {
@@ -122,7 +150,7 @@ class AddDoctorDialog extends Component {
                                 <label className="mt-5">医生姓名<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <Input type="text" className="form-control" placeholder="请输入姓名"
+                                <Input ref={c => this._name = c} type="text" className="form-control" placeholder="请输入姓名"
                                        required={true} value={this.state.name} onChange={this.handleNameChange}/>
                             </div>
                         </div>

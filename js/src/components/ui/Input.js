@@ -11,6 +11,10 @@ class Input extends Component {
         this.state = {invalid: true, touched: false, focus: false}
     }
 
+    getInput() {
+        return this._input
+    }
+
     handleBlur() {
         this.setState({touched: true, focus: false})
     }
@@ -18,12 +22,14 @@ class Input extends Component {
     handleChange(event) {
         this.props.onChange(event)
         const value = event.target.value
-        if (!this.props.format) {
-            this.setState({invalid: !value})
-        } else {
-            const regex = new RegExp(this.props.format)
-            this.setState({invalid: !regex.test(value)})
-        }
+        setTimeout(() => {
+            if (!this.props.format) {
+                this.setState({invalid: !value})
+            } else {
+                const regex = new RegExp(this.props.format)
+                this.setState({invalid: !regex.test(value)})
+            }
+        }, 0)
     }
 
     render() {
@@ -33,6 +39,7 @@ class Input extends Component {
             return (
                 <input {...props}
                        className={ classnames(className, {'invalid': this.state.invalid}, {'touched': this.state.touched})}
+                       ref={c => this._input = c}
                        onFocus={e => this.setState({focus: true})}
                        onBlur={ e => this.handleBlur()}
                        onChange={e => this.handleChange(e)}/>

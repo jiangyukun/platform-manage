@@ -26,6 +26,7 @@ class FilterItem extends Component {
     // QueryFilter 重置 FilterItem 调用方法
     reset() {
         this.setState({'selected': ''})
+        this.lastTypeItem = null
         this.subItemList.forEach(subItem => subItem.reset())
         this.customItemList.forEach(customItem => customItem.reset())
         if (this._select1) {
@@ -59,7 +60,7 @@ class FilterItem extends Component {
 
     selectCustom(typeItem) {
         this.lastTypeItem = null
-        this.setState({'selected': '__custom__'})
+        this.setState({'selected': null})
         let {typeCode, typeText} = this.props.item
         this.props.onSelect(typeItem)
         this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})

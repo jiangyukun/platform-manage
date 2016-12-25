@@ -2,7 +2,7 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import constants from '../../../../core/constants'
-import {getFilterItem, getStartEndDate} from '../../../../core/utils'
+import {getFilterItem} from '../../../../core/utils'
 
 export default function mapStateToProps(state) {
     let {auditingState} = constants
@@ -55,6 +55,6 @@ export default function mapStateToProps(state) {
         ]),
         backendMangerList: getFilterItem('backendManager', '后台管理人员', []),
         operationPersonList: getFilterItem('operationPerson', '运营人员', []),
-        register: getFilterItem('register', '注册日期', getStartEndDate())
+        register: getFilterItem('register', '注册日期', [])
     }
 }

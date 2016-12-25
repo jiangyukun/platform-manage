@@ -18,18 +18,6 @@ class QueryFilter extends Component {
         this.state = {more: false, filterConditions: []}
     }
 
-    getFilterCondition() {
-        return this.state.filterConditions
-    }
-
-    getSearchCondition() {
-        return {searchKey: this.searchKey}
-    }
-
-    getAllConditions() {
-        return merge({}, {filters: this.getFilterCondition()}, this.getSearchCondition())
-    }
-
     searchKeyChange(e) {
         this.searchKey = e.target.value
     }
