@@ -90,11 +90,14 @@ class DoctorAuditing extends Component {
 
                 {
                     this.state.showEdit && this.state.currentIndex != -1 && (
-                        <EditDoctorDialog patientId={this.props.list[this.state.currentIndex]['patient_Id']}
-                                          fetchPatientInfo={this.props.fetchPatientInfo}
-                                          updateAuditingState={this.props.updateAuditingState}
-                                          updatePatientInfo={this.props.updatePatientInfo}
-                                          patientInfoUpdated={() => this.beginFetch()}
+                        <EditDoctorDialog doctorId={this.props.list[this.state.currentIndex]['doctor_Id']}
+                                          doctorInfo={this.props.list[this.state.currentIndex]}
+                                          hospitalList={this.props.hospitalList}
+                                          positionList={this.props.positionList}
+                                          departmentList={this.props.departmentList}
+                                          updateDoctorAuditingState={this.props.updateDoctorAuditingState}
+                                          updateDoctorInfo={this.props.updateDoctorInfo}
+                                          updateDoctorInfoSuccess={() => this.beginFetch()}
                                           onExited={() => this.setState({showEdit: false})}/>
                     )
                 }

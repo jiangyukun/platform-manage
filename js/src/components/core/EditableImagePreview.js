@@ -76,7 +76,7 @@ class EditableImagePreview extends Component {
                 {
                     this.state.imageUrl && (
                         <ToolButton>
-                            <Upload beforeUpload={beforeUpload}
+                            <Upload beforeUpload={this.beforeUpload}
                                     customRequest={this.customRequest}
                                     onChange={this.handleChange}
                                     showUploadList={false}

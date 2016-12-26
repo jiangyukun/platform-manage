@@ -1,117 +1,260 @@
 /**
  * Created by jiangyu2016 on 2016/10/22.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
-import ImagePreview from '../../../../components/core/EditableImagePreview'
 
-export default  class EditDoctorDialog extends Component {
+import Input from '../../../../components/ui/Input'
+import Select1 from '../../../../components/core/Select1'
+import EditableImagePreview from '../../../../components/core/EditableImagePreview'
+import * as antdUtil from '../../../../core/utils/antdUtil'
+import constants from '../../../../core/constants'
+
+class EditDoctorDialog extends Component {
     constructor(props) {
         super(props)
-        this.state = {active: false, invalid: true}
-    }
+        this.handleNameChange = this.handleNameChange.bind(this)
+        this.handleHospitalChange = this.handleHospitalChange.bind(this)
+        this.handleDepartmentChange = this.handleDepartmentChange.bind(this)
+        this.handlePositionChange = this.handlePositionChange.bind(this)
+        this.handleSpecialChange = this.handleSpecialChange.bind(this)
+        this.checkFormValid = this.checkFormValid.bind(this)
+        this.handleHeadPictureChange = this.handleHeadPictureChange.bind(this)
+        this.handleHoldCardPictureChange = this.handleHoldCardPictureChange.bind(this)
+        const {doctorInfo} = props
+        this.state = {
+            show: true,
+            showHeadPicture: false,
+            showHoldCardPicture: false,
+            valid: false,
 
-    open(doctor) {
-        this.doctor = doctor
-        this.setState({active: true})
+            name: doctorInfo['doctor_Name'],
+            hospital: doctorInfo['hid'],
+            department: doctorInfo['did'],
+            position: doctorInfo['tid'],
+            isVisitDoctor: doctorInfo[''],
+            special: doctorInfo['doctor_Major'],
+            headPictureUrl: doctorInfo['doctor_Photo'],
+            holdCardPictureUrl: doctorInfo['doctor_Practicing_Photo'],
+            auditingState: doctorInfo['doctor_Is_Checked']
+        }
     }
 
     close() {
-        this.setState({active: false})
+        this.setState({show: false})
+    }
+
+    cancelAuditing() {
+        antdUtil.confirm('确定撤销审核吗？', () => {
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditing)
+                .then(() => antdUtil.tipSuccess('撤销审核成功!'), err => antdUtil.tipErr('撤销审核失败！'))
+                .then(this.setState({show: false}))
+        })
+    }
+
+    markUnPass() {
+        antdUtil.confirm('确定标为不通过吗？', () => {
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingUnPass)
+                .then(() => antdUtil.tipSuccess('标为不通过成功!'), err => antdUtil.tipErr('标为不通过失败！'))
+                .then(this.setState({show: false}))
+        })
+    }
+
+    markPass() {
+        antdUtil.confirm('确定标为已审核吗？', () => {
+            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingPass)
+                .then(() => antdUtil.tipSuccess('标为已审核成功!'), err => antdUtil.tipErr('标为已审核失败！'))
+                .then(this.setState({show: false}))
+        })
+    }
+
+    handleNameChange(event) {
+        this.setState({name: event.target.value}, this.checkFormValid)
+    }
+
+    handleHospitalChange({value}) {
+        this.setState({hospital: value}, this.checkFormValid)
+    }
+
+    handleDepartmentChange({value}) {
+        this.setState({department: value}, this.checkFormValid)
+    }
+
+    handlePositionChange({value}) {
+        this.setState({position: value}, this.checkFormValid)
+    }
+
+    handleSpecialChange(event) {
+        this.setState({special: event.target.value}, this.checkFormValid)
+    }
+
+    handleHeadPictureChange(url) {
+        this.setState({headPictureUrl: url}, this.checkFormValid)
+    }
+
+    handleHoldCardPictureChange(url) {
+        this.setState({holdCardPictureUrl: url}, this.checkFormValid)
+    }
+
+    checkFormValid() {
+        let valid = true
+        if (!this.state.name) valid = false
+        if (!this.state.hospital) valid = false
+        if (!this.state.department) valid = false
+        if (!this.state.position) valid = false
+        if (valid != this.state.valid) {
+            this.setState({valid})
+        }
+    }
+
+    updateDoctorInfo() {
+        this.props.updateDoctorInfo({
+            doctor_Id: this.props.doctorInfo['doctor_Id'],
+            doctor_Name: this.state.name,
+            hospital_Id: this.state.hospital,
+            doctor_Department: this.state.department,
+            doctor_Title: this.state.position,
+            doctor_Major: this.state.special,
+            doctor_Photo: this.state.headPictureUrl,
+            doctor_Practicing_Photo: this.state.holdCardPictureUrl,
+            is_Doctor_Purview: this.state.isVisitDoctor == '2' ? 2 : 1
+        }).then(() => this.close(), err => antdUtil.tipErr(err))
     }
 
     render() {
         return (
-            <Modal show={this.state.active} onHide={() => this.close()}>
+            <Modal show={this.state.show} onHide={() => this.close()} onExited={this.props.onExited}>
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>审核状态</Modal.Title>
+                    <Modal.Title>编辑医生信息</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {
+                        this.state.showHeadPicture && (
+                            <EditableImagePreview url={this.state.headPictureUrl}
+                                                  imageUrlUpdated={this.handleHeadPictureChange}
+                                                  onExited={() => this.setState({showHeadPicture: false})}/>
+                        )
+                    }
+                    {
+                        this.state.showHoldCardPicture && (
+                            <EditableImagePreview url={this.state.holdCardPictureUrl}
+                                                  imageUrlUpdated={this.handleHoldCardPictureChange}
+                                                  onExited={() => this.setState({showHoldCardPicture: false})}/>
+                        )
+                    }
                     <section className="container-fluid flex1">
                         <div className="row">
                             <div className="col-xs-3">
-                                <label className="mt-5">医生姓名：</label>
+                                <label className="mt-5">医生姓名<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <input ng-model="lookOrEditAuditing.doctorName" type="text" className="form-control" placeholder="请输入姓名"/>
+                                <Input type="text" className="form-control"
+                                       required={true} value={this.state.name}
+                                       onChange={this.handleNameChange}/>
                             </div>
                         </div>
 
                         <div className="row mt-10">
                             <div className="col-xs-3">
-                                <label className="mt-5">医院：</label>
+                                <label className="mt-5">医院<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <select ng-disabled="!lookOrEditAuditing.canEditHospital" className="form-control" ng-model="lookOrEditAuditing.hospital"
-                                        ng-options="hospital.value as hospital.text for hospital in lookOrEditAuditing.hospitalList"></select>
+                                <Select1 value={this.state.hospital} selectItems={this.props.hospitalList} required={true}
+                                         onSelect={this.handleHospitalChange}></Select1>
                             </div>
                         </div>
 
                         <div className="row mt-10">
                             <div className="col-xs-3">
-                                <label className="mt-5">科室：</label>
+                                <label className="mt-5">科室<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <select className="form-control"
-                                        ng-disabled="!lookOrEditAuditing.canEditHospital"
-                                        ng-model="lookOrEditAuditing.department"
-                                        ng-options="department.id as department.text for department in lookOrEditAuditing.departmentList"></select>
+                                <Select1 required={true}
+                                         selectItems={this.props.departmentList}
+                                         value={this.state.department}
+                                         onSelect={this.handleDepartmentChange}></Select1>
                             </div>
                         </div>
 
                         <div className="row mt-10">
                             <div className="col-xs-3">
-                                <label className="mt-5">职称：</label>
+                                <label className="mt-5">职称<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-6">
-                                <select className="form-control" ng-model="lookOrEditAuditing.position"
-                                        ng-options="position.id as position.text for position in lookOrEditAuditing.positionList"></select>
+                                <Select1 required={true} value={this.state.position}
+                                         selectItems={this.props.positionList}
+                                         onSelect={this.handlePositionChange}></Select1>
                             </div>
                         </div>
 
                         <div className="row mt-10">
                             <div className="col-xs-3">
-                                <label className="mt-5">专长：</label>
+                                <label className="mt-5">是否随访医生：</label>
+                            </div>
+                            <div className="col-xs-6">
+                                <select className="form-control" value={this.state.isVisitDoctor}>
+                                    <option value="">请选择</option>
+                                    <option value="1">否</option>
+                                    <option value="2">是</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-3">
+                                <label className="mt-5">专长<span className="red">*</span>：</label>
                             </div>
                             <div className="col-xs-9">
-                                <textarea ng-model="lookOrEditAuditing.special" className="form-control"></textarea>
+                                <textarea value={this.state.special} className="form-control" onChange={this.handleSpecialChange}></textarea>
+                            </div>
+                        </div>
+
+                        <div className="row mt-10">
+                            <div className="col-xs-6">
+                                <button className="btn btn-default" onClick={e => this.setState({showHeadPicture: true})}>查看用户头像</button>
+                            </div>
+                            <div className="col-xs-6">
+                                <button className="btn btn-default" onClick={e => this.setState({showHeadPicture: true})}>查看持证照片</button>
                             </div>
                         </div>
                     </section>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="row">
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-default btn-block" onClick={e => this.imagePreview.open()} value="查看修改头像"/>
-                            {
-                                this.doctor && <ImagePreview ref={c => this.imagePreview = c} url={this.doctor['doctor_Photo']}/>
-                            }
-                        </div>
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-default btn-block" ng-click="lookOrEditAuditing.lookCertificatePicture();" value="持证照片"/>
-                        </div>
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-success btn-block" ng-click="lookOrEditAuditing.edit();" value="保存修改"/>
-                        </div>
-                    </div>
-
                     <div className="row mt-10">
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-danger btn-block" ng-click="lookOrEditAuditing.cancelAuditing();"
-                                   ng-disabled="lookOrEditAuditing.doctor_Is_Checked == 1" value="撤销审核"/>
+                        <div className="col-xs-3">
+                            <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
+                                   disabled={this.state.auditingState == 1} value="撤销审核"/>
                         </div>
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-danger btn-block" ng-click="lookOrEditAuditing.markUnPass();"
-                                   ng-disabled="lookOrEditAuditing.doctor_Is_Checked == 3" value="标为不通过"/>
+                        <div className="col-xs-3">
+                            <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
+                                   disabled={this.state.auditingState == 3} value="标为不通过"/>
                         </div>
-                        <div className="col-xs-4">
-                            <input type="button" className="btn btn-success btn-block" ng-click="lookOrEditAuditing.markPass();"
-                                   ng-disabled="lookOrEditAuditing.doctor_Is_Checked == 2" value="标为已审核"/>
+                        <div className="col-xs-3">
+                            <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
+                                   disabled={this.state.auditingState == 2} value="标为已审核"/>
+                        </div>
+                        <div className="col-xs-3">
+                            <input type="button" className="btn btn-success btn-block"
+                                   onClick={e => this.updateDoctorInfo()}
+                                   disabled={!this.state.valid}
+                                   value="保存修改"/>
                         </div>
                     </div>
                 </Modal.Footer>
             </Modal>
         )
     }
-
 }
+
+EditDoctorDialog.propTypes = {
+    doctorId: PropTypes.string,
+    doctorInfo: PropTypes.object,
+    hospitalList: PropTypes.array,
+    positionList: PropTypes.array,
+    departmentList: PropTypes.array,
+    onExited: PropTypes.func,
+    updateDoctorInfo: PropTypes.func,
+    updateDoctorInfoSuccess: PropTypes.func
+}
+
+export default EditDoctorDialog

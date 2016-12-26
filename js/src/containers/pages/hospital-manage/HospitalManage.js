@@ -208,7 +208,7 @@ function mapStateToProps(state) {
         isProjectHospital: getFilterItem('isProjectHospital', '是否项目医院'),
         backendMangerList: getFilterItem('backendManager', '后台管理人员', []),
         operationPersonList: getFilterItem('operationPerson', '运营人员', []),
-        register: getFilterItem('register', '创建日期', getStartEndDate())
+        register: getFilterItem('register', '创建日期', [])
     }
 }
 
