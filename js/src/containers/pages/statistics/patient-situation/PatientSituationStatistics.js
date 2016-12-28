@@ -65,6 +65,7 @@ class PatientSituationStatistics extends Component {
                                     this.props.list.map((statistics, index) => {
                                         return (
                                             <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                                style={{height: '40px'}}
                                                 onClick={e => this.setState({currentIndex: index})}
                                             >
                                                 <li className="item flex2">{statistics['hospital_name']}</li>

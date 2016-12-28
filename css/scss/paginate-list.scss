@@ -1,6 +1,5 @@
 
 .paginate-list {
-    display: -webkit-flex;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -8,10 +7,9 @@
     font-size: 12px;
 
     & > .table {
-        display: -webkit-flex;
         display: flex;
         flex: 1;
-        overflow: auto;
+        overflow: hidden;
         margin-bottom: 0;
         flex-direction: column;
     }
@@ -40,7 +38,6 @@
         flex: 1;
         flex-direction: column;
         display: flex;
-        display: -webkit-flex;
         overflow: auto;
     }
 
@@ -118,7 +115,6 @@
         padding-top: 5px;
         margin-top: 5px;
         margin-left: 10px;
-        display: -webkit-flex;
         display: flex;
     }
 
@@ -156,10 +152,10 @@
     .js-fix-header-container {
         left: 0;
         right: 10px;
-        overflow: hidden;
         position: absolute;
         z-index: 11;
         top: 0;
+        overflow: hidden;
     }
 
     .fix-left-head {

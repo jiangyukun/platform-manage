@@ -18,6 +18,7 @@ class EditDoctorDialog extends Component {
         this.handleDepartmentChange = this.handleDepartmentChange.bind(this)
         this.handlePositionChange = this.handlePositionChange.bind(this)
         this.handleSpecialChange = this.handleSpecialChange.bind(this)
+        this.handleIsVisitDoctorChange = this.handleIsVisitDoctorChange.bind(this)
         this.checkFormValid = this.checkFormValid.bind(this)
         this.handleHeadPictureChange = this.handleHeadPictureChange.bind(this)
         this.handleHoldCardPictureChange = this.handleHoldCardPictureChange.bind(this)
@@ -32,7 +33,7 @@ class EditDoctorDialog extends Component {
             hospital: doctorInfo['hid'],
             department: doctorInfo['did'],
             position: doctorInfo['tid'],
-            isVisitDoctor: doctorInfo[''],
+            isVisitDoctor: doctorInfo['is_Doctor_Purview'],
             special: doctorInfo['doctor_Major'],
             headPictureUrl: doctorInfo['doctor_Photo'],
             holdCardPictureUrl: doctorInfo['doctor_Practicing_Photo'],
@@ -41,51 +42,72 @@ class EditDoctorDialog extends Component {
     }
 
     close() {
-        this.setState({show: false})
+        let edited = false
+        const {
+            doctor_Name, hid, did, tid, is_Doctor_Purview, doctor_Major, doctor_Photo, doctor_Practicing_Photo
+        } = this.props.doctorInfo
+        if (this.state.name != doctor_Name) edited = true
+        if (this.state.hospital != hid) edited = true
+        if (this.state.department != did) edited = true
+        if (this.state.position != tid) edited = true
+        if (this.state.isVisitDoctor != is_Doctor_Purview) edited = true
+        if (this.state.special != doctor_Major) edited = true
+        if (this.state.headPictureUrl != doctor_Photo) edited = true
+        if (this.state.holdCardPictureUrl != doctor_Practicing_Photo) edited = true
+
+        if (edited) {
+            if (this.showCancelEditTip) return
+            this.showCancelEditTip = true
+            antdUtil.confirm('您修改了医生信息，确定放弃此次操作吗？', () => this.setState({show: false}), () => this.showCancelEditTip = false)
+        } else {
+            this.setState({show: false})
+        }
     }
 
     cancelAuditing() {
-        antdUtil.confirm('确定撤销审核吗？', () => {
-            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditing)
-                .then(() => antdUtil.tipSuccess('撤销审核成功!'), err => antdUtil.tipErr('撤销审核失败！'))
-                .then(this.setState({show: false}))
-        })
+        this._updateAuditingState('撤销审核', constants.auditingState.auditing)
     }
 
     markUnPass() {
-        antdUtil.confirm('确定标为不通过吗？', () => {
-            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingUnPass)
-                .then(() => antdUtil.tipSuccess('标为不通过成功!'), err => antdUtil.tipErr('标为不通过失败！'))
-                .then(this.setState({show: false}))
-        })
+        this._updateAuditingState('标为不通过', constants.auditingState.auditingUnPass)
     }
 
     markPass() {
-        antdUtil.confirm('确定标为已审核吗？', () => {
-            this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingPass)
-                .then(() => antdUtil.tipSuccess('标为已审核成功!'), err => antdUtil.tipErr('标为已审核失败！'))
-                .then(this.setState({show: false}))
-        })
+        this._updateAuditingState('标为已审核', constants.auditingState.auditingPass)
+    }
+
+    _updateAuditingState(tip, state) {
+        antdUtil.confirm(`确定${tip}吗？`, () => this.props.updateDoctorAuditingState(this.props.doctorId, state)
+            .then(() => antdUtil.tipSuccess(`${tip}成功！`), err => antdUtil.tipErr(err))
+            .then(this.setState({show: false}))
+        )
     }
 
     handleNameChange(event) {
         this.setState({name: event.target.value}, this.checkFormValid)
     }
 
-    handleHospitalChange({value}) {
+    handleHospitalChange({value, text}) {
+        this.hospitalName = text
         this.setState({hospital: value}, this.checkFormValid)
     }
 
-    handleDepartmentChange({value}) {
+    handleDepartmentChange({value, text}) {
+        this.departmentName = text
         this.setState({department: value}, this.checkFormValid)
     }
 
-    handlePositionChange({value}) {
+    handlePositionChange({value, text}) {
+        this.positionName = text
         this.setState({position: value}, this.checkFormValid)
     }
 
     handleSpecialChange(event) {
         this.setState({special: event.target.value}, this.checkFormValid)
+    }
+
+    handleIsVisitDoctorChange(event) {
+        this.setState({isVisitDoctor: event.target.value}, this.checkFormValid)
     }
 
     handleHeadPictureChange(url) {
@@ -118,12 +140,20 @@ class EditDoctorDialog extends Component {
             doctor_Photo: this.state.headPictureUrl,
             doctor_Practicing_Photo: this.state.holdCardPictureUrl,
             is_Doctor_Purview: this.state.isVisitDoctor == '2' ? 2 : 1
-        }).then(() => this.close(), err => antdUtil.tipErr(err))
+        }, {
+            hospitalName: this.hospitalName,
+            positionName: this.positionName,
+            departmentName: this.departmentName
+        }).then(() => {
+            this.close()
+            antdUtil.tipSuccess('更新医生信息成功！')
+            this.props.handleIsVisitDoctorChange()
+        }, err => antdUtil.tipErr(err))
     }
 
     render() {
         return (
-            <Modal show={this.state.show} onHide={() => this.close()} onExited={this.props.onExited}>
+            <Modal show={this.state.show} onHide={() => this.close()} onExited={this.props.onExited} backdrop="static">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>编辑医生信息</Modal.Title>
                 </Modal.Header>
@@ -192,7 +222,7 @@ class EditDoctorDialog extends Component {
                                 <label className="mt-5">是否随访医生：</label>
                             </div>
                             <div className="col-xs-6">
-                                <select className="form-control" value={this.state.isVisitDoctor}>
+                                <select className="form-control" value={this.state.isVisitDoctor} onChange={this.handleIsVisitDoctorChange}>
                                     <option value="">请选择</option>
                                     <option value="1">否</option>
                                     <option value="2">是</option>
@@ -202,7 +232,7 @@ class EditDoctorDialog extends Component {
 
                         <div className="row mt-10">
                             <div className="col-xs-3">
-                                <label className="mt-5">专长<span className="red">*</span>：</label>
+                                <label className="mt-5">专长：</label>
                             </div>
                             <div className="col-xs-9">
                                 <textarea value={this.state.special} className="form-control" onChange={this.handleSpecialChange}></textarea>
@@ -246,15 +276,21 @@ class EditDoctorDialog extends Component {
     }
 }
 
+EditDoctorDialog.defaultProps = {
+    updateDoctorInfoSuccess: () => {
+    }
+}
+
 EditDoctorDialog.propTypes = {
     doctorId: PropTypes.string,
     doctorInfo: PropTypes.object,
     hospitalList: PropTypes.array,
     positionList: PropTypes.array,
     departmentList: PropTypes.array,
-    onExited: PropTypes.func,
     updateDoctorInfo: PropTypes.func,
-    updateDoctorInfoSuccess: PropTypes.func
+    updateDoctorAuditingState: PropTypes.func,
+    updateDoctorInfoSuccess: PropTypes.func,
+    onExited: PropTypes.func
 }
 
 export default EditDoctorDialog

@@ -25,6 +25,14 @@ export function doctorAuditingPaginateList(state = defaultValue, action) {
                 nextIState = updateRemarkSuccess()
                 break
 
+            case types.UPDATE_DOCTOR_INFO + phase.SUCCESS:
+                nextIState = updateDoctorInfoSuccess()
+                break
+
+            case types.UPDATE_DOCTOR_AUDITING_STATE + phase.SUCCESS:
+                nextIState = updateDoctorAuditingStateSuccess()
+                break
+
             default:
                 break
         }
@@ -46,7 +54,36 @@ export function doctorAuditingPaginateList(state = defaultValue, action) {
         if (remarkType != constants.remarkFlag.DOCTOR_AUDITING) {
             return iState
         }
-        return _updateList(iState, id, doctor => doctor.set('remark', remark))
+        return _updateList(iState, id, doctor => doctor.set('doctor_Info_Remark', remark))
+    }
+
+    function updateDoctorInfoSuccess() {
+        const {
+            doctor_Id,
+            doctor_Name,
+            doctor_Major,
+            doctor_Photo,
+            doctor_Practicing_Photo,
+            is_Doctor_Purview
+        } = action.option
+        const {
+            hospitalName, positionName, departmentName
+        } = action.option1
+        return _updateList(iState, doctor_Id, doctor => doctor
+            .set('doctor_Name', doctor_Name)
+            .set('hospital_Id', hospitalName)
+            .set('department_Id', departmentName)
+            .set('title_Id', positionName)
+            .set('doctor_Major', doctor_Major)
+            .set('doctor_Photo', doctor_Photo)
+            .set('doctor_Practicing_Photo', doctor_Practicing_Photo)
+            .set('is_Doctor_Purview', is_Doctor_Purview)
+        )
+    }
+
+    function updateDoctorAuditingStateSuccess() {
+        const {doctorId, newAuditingState} = action
+        return _updateList(iState, doctorId, doctor => doctor.set('doctor_Is_Checked', newAuditingState))
     }
 
     // -------------------------------------

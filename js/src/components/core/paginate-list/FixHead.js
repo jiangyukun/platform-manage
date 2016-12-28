@@ -9,10 +9,6 @@ class FixHead extends Component {
         this.state = {show: false}
     }
 
-    componentWillReceiveProps(nextProps) {
-        // this._fixHeadContainer.scrollLeft = nextProps.scrollLeft
-    }
-
     componentDidUpdate() {
         this._fixHeadContainer.scrollLeft = this.props.scrollLeft
     }
@@ -20,7 +16,7 @@ class FixHead extends Component {
     render() {
         return (
             <div className="js-fix-header-container" ref={c => this._fixHeadContainer = c}>
-                <div className="fix-header" style={{width: this.props.width}}>
+                <div className="fix-header" style={{width: this.props.width + 'px'}}>
                     {this.props.component}
                 </div>
             </div>

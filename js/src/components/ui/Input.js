@@ -6,9 +6,9 @@ import classnames from 'classnames'
 import ToolTip from 'antd/lib/tooltip'
 
 class Input extends Component {
-    constructor() {
-        super()
-        this.state = {invalid: true, touched: false, focus: false}
+    constructor(props, context) {
+        super(props, context)
+        this.state = {valid: this.getIsValid(props.value), touched: false, focus: false}
     }
 
     getInput() {
@@ -22,14 +22,15 @@ class Input extends Component {
     handleChange(event) {
         this.props.onChange(event)
         const value = event.target.value
-        setTimeout(() => {
-            if (!this.props.format) {
-                this.setState({invalid: !value})
-            } else {
-                const regex = new RegExp(this.props.format)
-                this.setState({invalid: !regex.test(value)})
-            }
-        }, 0)
+        setTimeout(() => this.setState({valid: this.getIsValid(value)}), 0)
+    }
+
+    getIsValid(value) {
+        if (!this.props.format) {
+            return !!value
+        }
+        const regex = new RegExp(this.props.format)
+        return regex.test(value)
     }
 
     render() {
@@ -38,7 +39,7 @@ class Input extends Component {
         const getInput = () => {
             return (
                 <input {...props}
-                       className={ classnames(className, {'invalid': this.state.invalid}, {'touched': this.state.touched})}
+                       className={ classnames(className, {'invalid': !this.state.valid}, {'touched': this.state.touched})}
                        ref={c => this._input = c}
                        onFocus={e => this.setState({focus: true})}
                        onBlur={ e => this.handleBlur()}
@@ -48,7 +49,7 @@ class Input extends Component {
 
         if (this.props.format) {
             return (
-                <ToolTip overlay={errorTip} visible={this.props.format && this.state.invalid && this.state.touched && this.state.focus}>
+                <ToolTip overlay={errorTip} visible={this.props.format && !this.state.valid && this.state.touched && this.state.focus}>
                     {getInput()}
                 </ToolTip>
             )

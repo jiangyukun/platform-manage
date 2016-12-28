@@ -103,7 +103,7 @@ class LaboratorySheet extends Component {
                               lengthName="limit"
                               byName="order_By"
                 >
-                    <SmartList loading={this.state.loading} fixHead={true} style={{minWidth: '1200px'}} fixLeft={[0, 2]}>
+                    <SmartList loading={this.state.loading} fixHead={true} width={1200} fixLeft={[0, 2]}>
                         <HeadContainer>
                             <ul className="flex-list header">
                                 <li className="item" style={{width: '80px'}}>

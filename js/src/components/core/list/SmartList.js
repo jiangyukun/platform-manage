@@ -20,6 +20,7 @@ class SmartList extends Component {
         this.state = {
             showHead: false,
             showLeft: false,
+            actualWidth: 0,
             scrollLeft: 0,
             scrollTop: 0
         }
@@ -117,6 +118,9 @@ class SmartList extends Component {
 
     componentDidMount() {
         events.on(this._tableContainer, 'scroll', this.handleTableScroll)
+        if (this.state.actualWidth != this._listContainer.clientWidth) {
+            this.setState({actualWidth: this._listContainer.clientWidth})
+        }
     }
 
     componentDidUpdate() {
@@ -124,6 +128,9 @@ class SmartList extends Component {
 
         this.leftHeadItems = this.getLeftHeadItem()
         this.leftItems = this.getLeftItems()
+        if (this.state.actualWidth != this._listContainer.clientWidth) {
+            this.setState({actualWidth: this._listContainer.clientWidth})
+        }
     }
 
     componentWillUnmount() {
@@ -150,6 +157,7 @@ class SmartList extends Component {
         if (this.props.width) {
             listWrapStyle.width = this.props.width + 'px'
         }
+        listWrapStyle.minWidth = this.props.minWidth || '100%'
         if (this.props.style) {
             listWrapStyle = merge({}, listWrapStyle, this.props.style)
         }
@@ -159,7 +167,7 @@ class SmartList extends Component {
                 {this.props.loading && <Loading/>}
                 {this.context.total == 0 && !this.props.loading && <span className="no-list-data">暂无数据</span>}
 
-                {this.state.showHead && <FixHead width={this.props.width}
+                {this.state.showHead && <FixHead width={this.state.actualWidth}
                                                  scrollLeft={this.state.scrollLeft}
                                                  component={this.clonedHeadComponent}/>}
                 {
@@ -175,7 +183,7 @@ class SmartList extends Component {
                 }
 
                 <div className="js-table-container" ref={c => this._tableContainer = c}>
-                    <div className={this.props.className} style={listWrapStyle}>
+                    <div ref={c => this._listContainer = c} className={this.props.className} style={listWrapStyle}>
                         {handledChildren}
                     </div>
                 </div>
@@ -188,6 +196,7 @@ SmartList.propTypes = {
     loading: PropTypes.bool,
     total: PropTypes.number,
     width: PropTypes.number,
+    minWidth: PropTypes.number,
     fixHead: PropTypes.bool,
     fixLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array])
 }

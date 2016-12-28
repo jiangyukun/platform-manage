@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import {merge} from 'lodash'
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
+import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../../components/core/PaginateList'
 import SortBy from '../../../components/core/paginate-list/SortBy'
@@ -15,7 +16,7 @@ import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../../components/core/ImagePreview'
 import constants from '../../../core/constants'
-import {getFilterItem} from '../../../core/utils'
+import * as utils from '../../../core/utils'
 import {getAuditStatus, isVisitDoctor} from '../../../core/formatBusData'
 import {formatDateStr} from '../../../core/dateUtils'
 import * as commonActions from '../../../actions/pages/common'
@@ -57,7 +58,7 @@ class DoctorAuditing extends Component {
     }
 
     exportExcel() {
-
+        location.href = 'export/doctorInfoListExcel' + utils.urlParam(this._queryFilter.getParams())
     }
 
     componentDidMount() {
@@ -138,6 +139,14 @@ class DoctorAuditing extends Component {
 
                     <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="doctor_Is_Checked"/>
 
+                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                        <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
+                    </FilterItem>
+
+                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                        <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
+                    </FilterItem>
+
                     <FilterItem className="small-filter-item" item={this.props.registerFilter}>
                         <CustomDateRange startName="doctor_Info_Create_Begin_Time" endName="doctor_Info_Create_End_Time"/>
                     </FilterItem>
@@ -149,7 +158,7 @@ class DoctorAuditing extends Component {
                               lengthName="limit"
                               byName="order_By"
                 >
-                    <SmartList loading={this.state.loading} fixHead={true} style={{minWidth: '1600px'}} fixLeft={[0, 1]}>
+                    <SmartList loading={this.state.loading} fixHead={true} width={1600} fixLeft={[0, 1]}>
                         <HeadContainer>
                             <ul className="flex-list header">
                                 <li className="item" style={{width: '100px'}}>
@@ -256,12 +265,14 @@ function mapStateToProps(state) {
             typeText: '科室',
             typeItemList: state.departmentList
         },
-        auditingStateFilter: getFilterItem('auditingState', '审核状态', [
+        auditingStateFilter: utils.getFilterItem('auditingState', '审核状态', [
             {value: constants.auditingState.auditing, text: '审核中'},
             {value: constants.auditingState.auditingPass, text: '审核通过'},
             {value: constants.auditingState.auditingUnPass, text: '审核不通过'}
         ]),
-        registerFilter: getFilterItem('register', '创建日期', [])
+        backendMangerList: utils.getFilterItem('backendManager', '后台管理人员', []),
+        operationPersonList: utils.getFilterItem('operationPerson', '运营人员', []),
+        registerFilter: utils.getFilterItem('register', '创建日期', [])
     }
 }
 

@@ -36,14 +36,11 @@ export let updateDoctorAuditingState = dispatch => (doctorId, newAuditingState) 
     })
 }
 
-export let updateDoctorInfo = dispatch => option => {
-    dispatch({
-        type: types.UPDATE_DOCTOR_INFO + phase.START
-    })
+export let updateDoctorInfo = dispatch => (option, option1) => {
     return new Promise((resolve, reject) => {
         PATCH(`/web/updateDoctorInfo`, {body: option}).then(() => {
             dispatch({
-                type: types.UPDATE_DOCTOR_INFO + phase.SUCCESS, doctorId, newAuditingState
+                type: types.UPDATE_DOCTOR_INFO + phase.SUCCESS, option, option1
             })
             resolve()
         }, err => reject(err))
@@ -51,9 +48,6 @@ export let updateDoctorInfo = dispatch => option => {
 }
 
 export let addNewDoctor = dispatch => option => {
-    dispatch({
-        type: types.ADD_NEW_DOCTOR + phase.START
-    })
     return new Promise((resolve, reject) => {
         POST(`/web/addDoctorInfo`, {body: option}).then(() => {
             dispatch({

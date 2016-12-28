@@ -75,9 +75,7 @@ class NodeAuditing extends Component {
     }
 
     exportExcel() {
-        let handledConditionInfo = this._queryFilter.getParams()
-        let paramUrl = utils.urlParam(handledConditionInfo)
-        location.href = 'export/excel' + paramUrl
+        location.href = 'export/excel' + utils.urlParam(this._queryFilter.getParams())
     }
 
     componentDidMount() {
