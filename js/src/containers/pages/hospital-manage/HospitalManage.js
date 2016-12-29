@@ -17,7 +17,7 @@ import HeadContainer from '../../../components/core/list/HeadContainer'
 import BodyContainer from '../../../components/core/list/BodyContainer'
 import AddHospitalDialog from './dialog/AddHospitalDialog'
 import EditHospitalDialog from './dialog/EditHospitalDialog'
-import {getFilterItem, getStartEndDate} from '../../../core/utils'
+import {getFilterItem} from '../../../core/utils'
 import {getYesOrNoText} from '../../../core/formatBusData'
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/hospital-manage'
@@ -128,7 +128,7 @@ class HospitalManage extends Component {
                         <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
                     </FilterItem>
 
-                    <FilterItem className="big-filter-item" item={this.props.register} paramName="">
+                    <FilterItem className="big-filter-item" item={this.props.register}>
                         <CustomDateRange startName="hospital_Create_Begin_Time" endName="hospital_Create_End_Time"/>
                     </FilterItem>
                 </QueryFilter>

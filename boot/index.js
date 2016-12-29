@@ -8,17 +8,7 @@ import {syncHistoryWithStore} from 'react-router-redux'
 import configureStore from '../js/src/store/configureStore'
 import Root from '../js/src/containers/root/Root'
 
-import 'antd/lib/style/index.less'
-import 'antd/lib/button/style/index.less'
-import 'antd/lib/modal/style/index.less'
-import 'antd/lib/notification/style/index.less'
-import 'antd/lib/date-picker/style/index.less'
-import 'antd/lib/menu/style/index.less'
-import 'antd/lib/upload/style/index.less'
-import 'antd/lib/tooltip/style/index.less'
-
-import '../css/less/index.less'
-import '../css/scss/index.scss'
+import './import-style'
 
 let path
 switch (process.env.NODE_ENV) {

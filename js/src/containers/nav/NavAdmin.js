@@ -29,6 +29,7 @@ export default class NavAdmin extends Component {
         const laboratorySheet = getPath('laboratory-sheet')
         const doctorAuditing = getPath('doctor-auditing')
         const hospitalManage = getPath('hospital-manage')
+        const appUpdate = getPath('app-update')
         const patientSituationStatistics = getPath('patient-situation-statistics')
 
         return (
@@ -38,7 +39,7 @@ export default class NavAdmin extends Component {
                 </div>
 
                 <Menu theme="dark"
-                      defaultOpenKeys={['sub1', 'sub3']}
+                      defaultOpenKeys={['sub1', 'sub3', 'sub2']}
                       onClick={e => this.handleClick(e)}
                       selectedKeys={[this.state.current]}
                       mode="inline"
@@ -75,6 +76,11 @@ export default class NavAdmin extends Component {
                     </SubMenu>
 
                     <SubMenu key="sub2" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>
+                        <Item key={appUpdate}>
+                            <Link to={appUpdate}>
+                                <span>App更新</span>
+                            </Link>
+                        </Item>
                         <Item key="2_1">
                             <a href="platform/home.html#/app/slider-config">
                                 <span>轮播图管理</span>

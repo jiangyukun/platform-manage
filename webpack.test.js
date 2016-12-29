@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const moment = require('moment')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 process.env.NODE_ENV = 'test'
 
 module.exports = {
@@ -9,7 +11,7 @@ module.exports = {
 
     output: {
         path: __dirname + '/build/',
-        filename: 'bundle-' + moment().format('MMDD') + '.js',
+        filename: '[name]-[hash].js',
         publicPath: 'build/'
     },
 
@@ -17,8 +19,8 @@ module.exports = {
         loaders: [
             {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
             // {test: /\.css/, loader: 'style!css'},
-            {test: /\.less$/, loader: 'style!css!autoprefixer!less'},
-            {test: /\.scss$/, exclude: /node_modules/, loader: 'style!css!autoprefixer!sass?sourceMap'},
+            {test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!less')},
+            {test: /\.scss$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass')},
             {test: /\.(jpg|png)$/, loader: "url?limit=8192"},
             {test: /\.svg$/, loader: "file"}
         ]
@@ -31,5 +33,6 @@ module.exports = {
         }),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
+        new ExtractTextPlugin("styles.css")
     ]
 }

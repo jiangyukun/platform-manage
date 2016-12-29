@@ -114,7 +114,7 @@ class EditHospitalDialog extends Component {
                 provinceId: hospitalInfo['province'] || '',
                 cityId: hospitalInfo['city'] || '',
                 regionNumber: hospitalInfo['cityCode'] || '',
-                isProjectHospital: hospitalInfo['hospital_In_Project'] || '',
+                isProjectHospital: hospitalInfo['hospital_In_Project'],
                 manager: hospitalInfo['backend_Manager'] || '',
                 operationPerson: hospitalInfo['operation_Manager'] || ''
             }, this.onProvinceChange)

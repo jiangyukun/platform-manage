@@ -27,5 +27,9 @@ export default {
         SLIDER_CONFIG: 3,
         SCORE_STATISTICS: 4,
         KNOWLEDGE_BASE: 5
+    },
+    appSystemType: {
+        ios: 1,
+        android: 2
     }
 }
