@@ -111,7 +111,10 @@ class EditLaboratorySheet extends Component {
 
     render() {
         return (
-            <CommonDialog show={this.state.show} onHide={() => this.setState({show: false})} onExited={() => this.props.onExited()} width="60%">
+            <CommonDialog show={this.state.show}
+                          onHide={() => this.setState({show: false})}
+                          onExited={() => this.props.onExited()}
+                          className="ngdialog ngdialog-theme-full-container" width="75%">
                 {this.state.current == -1 && <h4>暂无化验单</h4>}
                 {this.state.current != -1 && <h4>{this.title}，第{this.state.current + 1}张，上传时间：{dateUtils.formatDateStr(this.state.uploadTime)}</h4>}
 

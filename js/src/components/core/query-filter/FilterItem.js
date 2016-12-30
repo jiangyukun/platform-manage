@@ -163,8 +163,13 @@ class FilterItem extends Component {
             style.width = labelLength * 12
         }
 
+        let sizeClass = ''
+        if (!this.props.className && this.props.size) {
+            sizeClass = this.props.size + sizeClass + '-filter-item'
+        }
+
         return (
-            <ul className={this.props.className}>
+            <ul className={classnames(sizeClass, this.props.className)}>
                 <li className="filter-item-label">
                     <label style={style}>{item.typeText}：</label>
                 </li>
@@ -195,6 +200,7 @@ class FilterItem extends Component {
 FilterItem.defaultProps = {
     paramName: '',
     useText: false,
+    size: 'middle',
     onSelect: () => {
     }
 }
@@ -204,6 +210,7 @@ FilterItem.propTypes = {
     className: PropTypes.string,
     onSelect: PropTypes.func,
 
+    size: PropTypes.oneOf(['small', 'middle', 'big']),
     paramName: PropTypes.string,
     useText: PropTypes.bool
 }

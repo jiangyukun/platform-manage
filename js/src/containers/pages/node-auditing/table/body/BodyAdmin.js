@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react'
 import classnames from 'classnames'
 import {getVisitCardState} from '../../../../../core/formatBusData'
 
-class Body extends Component {
+class BodyAdmin extends Component {
     render() {
         return (
             <div>
@@ -33,8 +33,8 @@ class Body extends Component {
                                 <li className="list-item w-120">{patient['is_Pregnant']}</li>
                                 <li className="list-item w-120">{patient['regrist_Time']}</li>
                                 <li className="list-item w-120">{patient['is_Checked']}</li>
-                                <li className="list-item w-120">{patient['pregnancy_week']}</li>
 
+                                <li className="list-item w-120">{patient['pregnancy_week']}</li>
                                 {this.props.open2 && <li className="list-item w-120">{patient['antiviral_Record']}</li>}
                                 {this.props.open2 && <li className="list-item w-120">{patient['blocking_Results']}</li>}
 
@@ -225,7 +225,7 @@ class Body extends Component {
     }
 }
 
-Body.propTypes = {
+BodyAdmin.propTypes = {
     list: PropTypes.array,
     currentIndex: PropTypes.number,
     open1: PropTypes.bool,
@@ -237,4 +237,4 @@ Body.propTypes = {
     openIsCompleteVisitDialog: PropTypes.func
 }
 
-export default Body
+export default BodyAdmin

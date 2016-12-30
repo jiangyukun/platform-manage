@@ -100,14 +100,14 @@ class AddDoctorDialog extends Component {
             phone: this.state.mobile,
             passWord: md5(this.state.password).toUpperCase()
         }).then(() => {
-            this.close()
+            this.close(true)
             this.props.addDoctorSuccess()
             antdUtil.tipSuccess('新增医生成功！')
         }, err => antdUtil.tipErr(err))
     }
 
-    close() {
-        if (!this.empty()) {
+    close(force) {
+        if (!this.empty() && !force) {
             if (this.showCancelTip) {
                 return
             }

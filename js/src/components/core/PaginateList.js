@@ -4,6 +4,8 @@
 import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import classnames from 'classnames'
+
+import SmartList from './list/SmartList'
 import {pageSize} from '../../common/constants'
 import {calculatePageIndex} from '../../core/utils'
 
@@ -146,5 +148,7 @@ PaginateList.childContextTypes = {
     sort: PropTypes.func,
     total: PropTypes.number
 }
+
+PaginateList.Layout = SmartList
 
 export default PaginateList

@@ -116,11 +116,11 @@ class HospitalManage extends Component {
                         <SubOptions title="城市" options={cityFilterList} paramName="city" useText={true}/>
                     </FilterItem>
 
-                    <FilterItem className="middle-filter-item" item={this.props.serialNumberList} paramName="hospital_Num"/>
+                    <FilterItem item={this.props.serialNumberList} paramName="hospital_Num"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.isProjectHospital} paramName="hospital_In_Project"/>
+                    <FilterItem item={this.props.isProjectHospital} paramName="hospital_In_Project"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                    <FilterItem item={this.props.backendMangerList}>
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
                     </FilterItem>
 

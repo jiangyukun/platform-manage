@@ -125,33 +125,33 @@ class NodeAuditing extends Component {
                     </button>
                     <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
 
-                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hsp_Name" useText={true}/>
+                    <FilterItem item={this.props.hospitalFilterList} paramName="hsp_Name" useText={true}/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.auditingStateList} paramName="check_Status"/>
+                    <FilterItem item={this.props.auditingStateList} paramName="check_Status"/>
 
-                    <FilterItem className="big-filter-item" item={this.props.nodeFilterList} paramName="note_Type">
+                    <FilterItem size="big" item={this.props.nodeFilterList} paramName="note_Type">
                         <SubDateSelect startName="note_Begin_Time" endName="note_End_Time"/>
                     </FilterItem>
 
-                    <FilterItem className="middle-filter-item" item={this.props.visitCardList} paramName="status"/>
+                    <FilterItem item={this.props.visitCardList} paramName="status"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.isPregnant12To14AcceptedVisit} paramName="visit_2_Accept_Visit"/>
+                    <FilterItem item={this.props.isPregnant12To14AcceptedVisit} paramName="visit_2_Accept_Visit"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.isBaby8MonthAcceptedVisit} paramName="visit_5_Accept_Visit"/>
+                    <FilterItem item={this.props.isBaby8MonthAcceptedVisit} paramName="visit_5_Accept_Visit"/>
 
-                    <FilterItem className="big-filter-item" item={this.props.checkResultFilterList} paramName="visit_Type">
+                    <FilterItem size="big" item={this.props.checkResultFilterList} paramName="visit_Type">
                         <SubOptions options={this.props.resultList} title="结果为" paramName="visit_Result_Type"/>
                     </FilterItem>
 
-                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                    <FilterItem item={this.props.backendMangerList}>
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                    <FilterItem size="small" item={this.props.operationPersonList}>
                         <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.register}>
+                    <FilterItem size="small" item={this.props.register}>
                         <CustomDateRange startName="registration_Begin_Time" endName="registration_End_Time"/>
                     </FilterItem>
                 </NodeAuditingQueryFilter>
@@ -163,7 +163,7 @@ class NodeAuditing extends Component {
                               byName="order_By"
                 >
 
-                    <SmartList className="paginate-list-data-container" width={listWidth}
+                    <SmartList width={listWidth}
                                loading={this.state.loading}
                                fixHead={true} fixLeft={[0, 1, 2]}>
                         <HeadContainer>
