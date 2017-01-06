@@ -12,6 +12,7 @@ import DoctorAuditing from '../containers/pages/doctor-auditing/DoctorAuditing'
 import HospitalManage from '../containers/pages/hospital-manage/HospitalManage'
 import AppUpdate from '../containers/pages/app-update/AppUpdate'
 import PatientSituationStatistics from '../containers/pages/statistics/patient-situation/PatientSituationStatistics'
+import HospitalAssayReport from '../containers/pages/statistics/hospital-assay-report/HospitalAssayReport'
 
 export default function getPageRoute(path) {
     return (
@@ -23,6 +24,7 @@ export default function getPageRoute(path) {
             <Route path="hospital-manage" component={HospitalManage}/>
             <Route path="app-update" component={AppUpdate}/>
             <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
+            <Route path="hospital-assay-report" component={HospitalAssayReport}/>
         </Route>
     )
 }

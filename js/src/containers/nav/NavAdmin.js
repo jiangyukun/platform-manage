@@ -31,6 +31,7 @@ export default class NavAdmin extends Component {
         const hospitalManage = getPath('hospital-manage')
         const appUpdate = getPath('app-update')
         const patientSituationStatistics = getPath('patient-situation-statistics')
+        const hospitalAssayReport = getPath('hospital-assay-report')
 
         return (
             <nav>
@@ -107,6 +108,11 @@ export default class NavAdmin extends Component {
                     </Item>
 
                     <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
+                        <Item key={hospitalAssayReport}>
+                            <Link to={hospitalAssayReport}>
+                                <span>中心验单情况表</span>
+                            </Link>
+                        </Item>
                         <Item key={patientSituationStatistics}>
                             <Link to={patientSituationStatistics}>
                                 <span>病人情况报表</span>
