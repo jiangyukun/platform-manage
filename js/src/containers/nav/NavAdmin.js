@@ -32,6 +32,7 @@ export default class NavAdmin extends Component {
         const appUpdate = getPath('app-update')
         const patientSituationStatistics = getPath('patient-situation-statistics')
         const hospitalAssayReport = getPath('hospital-assay-report')
+        const smsManage = getPath('sms-manage')
 
         return (
             <nav>
@@ -40,7 +41,7 @@ export default class NavAdmin extends Component {
                 </div>
 
                 <Menu theme="dark"
-                      defaultOpenKeys={['sub1', 'sub3', 'sub2']}
+                      defaultOpenKeys={['sub1', 'sub3', 'sub7']}
                       onClick={e => this.handleClick(e)}
                       selectedKeys={[this.state.current]}
                       mode="inline"
@@ -100,13 +101,6 @@ export default class NavAdmin extends Component {
                     </SubMenu>
 
 
-                    <Item key="5_1">
-                        <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
-                            <i className="glyphicon glyphicon-comment icon text-success"></i>
-                            <span style={{marginLeft: '8px'}}>聊天系统</span>
-                        </a>
-                    </Item>
-
                     <SubMenu key="sub6" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
                         <Item key={hospitalAssayReport}>
                             <Link to={hospitalAssayReport}>
@@ -140,13 +134,30 @@ export default class NavAdmin extends Component {
                         </Item>
                     </SubMenu>
 
-                    <SubMenu key="sub7" title={<span><Icon type="desktop"/><span>后台管理</span></span>}>
+                    <SubMenu key="sub7" title={<span><Icon type="desktop"/><span>系统管理</span></span>}>
                         <Item key="7_1">
+                            <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
+                                <i className="glyphicon glyphicon-comment icon text-success"></i>
+                                <span style={{marginLeft: '8px'}}>聊天系统</span>
+                            </a>
+                        </Item>
+
+                        <Item key={smsManage}>
+                            <Link to={smsManage}>
+                                <span>短信系统</span>
+                            </Link>
+                        </Item>
+
+                        <Item key="7_3">
                             <a >
                                 <span>后台账号管理</span>
                             </a>
                         </Item>
+
+
                     </SubMenu>
+
+
                 </Menu>
 
                 {/*患者管理*/}

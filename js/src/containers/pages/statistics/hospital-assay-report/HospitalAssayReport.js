@@ -52,12 +52,7 @@ class HospitalAssayReport extends Component {
                 <div>
                     <button className="btn btn-primary"
                             style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                            onClick={e => location.href = 'export/assayHospitalListReportExcel'}>导出excel
-                    </button>
-
-                    <button className="btn btn-primary"
-                            style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                            onClick={e => this.setState({showDialog: true})}>导出历史版本
+                            onClick={e => this.setState({showDialog: true})}>导出每周记录
                     </button>
                 </div>
                 <PaginateList ref={c => this._paginateList = c}

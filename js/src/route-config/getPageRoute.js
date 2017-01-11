@@ -13,6 +13,7 @@ import HospitalManage from '../containers/pages/hospital-manage/HospitalManage'
 import AppUpdate from '../containers/pages/app-update/AppUpdate'
 import PatientSituationStatistics from '../containers/pages/statistics/patient-situation/PatientSituationStatistics'
 import HospitalAssayReport from '../containers/pages/statistics/hospital-assay-report/HospitalAssayReport'
+import SmsManage from '../containers/pages/sms-manage/SmsManage'
 
 export default function getPageRoute(path) {
     return (
@@ -25,6 +26,7 @@ export default function getPageRoute(path) {
             <Route path="app-update" component={AppUpdate}/>
             <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
             <Route path="hospital-assay-report" component={HospitalAssayReport}/>
+            <Route path="sms-manage" component={SmsManage}/>
         </Route>
     )
 }

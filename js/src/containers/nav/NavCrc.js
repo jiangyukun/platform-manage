@@ -21,7 +21,13 @@ export default class NavCrc extends Component {
     }
 
     render() {
+
         const SubMenu = Menu.SubMenu
+        const Item = Menu.Item
+
+        const nodeAuditing = getPath('node-auditing')
+        const laboratorySheet = getPath('laboratory-sheet')
+
         return (
             <nav>
                 <div className="hidden-folded padder m-t m-b-sm text-muted text-xs">
@@ -35,16 +41,16 @@ export default class NavCrc extends Component {
                       mode="inline"
                 >
                     <SubMenu key="sub1" title={<span><Icon type="desktop"/><span>患者管理</span></span>}>
-                        <Menu.Item key="1">
-                            <Link to={getPath('node-auditing')}>
+                        <Item key={nodeAuditing}>
+                            <Link to={nodeAuditing}>
                                 <span>病人审核</span>
                             </Link>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <a href="platform/home.html#/app/laboratory-sheet">
+                        </Item>
+                        <Item key={laboratorySheet}>
+                            <Link to={laboratorySheet}>
                                 <span>化验单查看</span>
-                            </a>
-                        </Menu.Item>
+                            </Link>
+                        </Item>
                     </SubMenu>
                 </Menu>
             </nav>
