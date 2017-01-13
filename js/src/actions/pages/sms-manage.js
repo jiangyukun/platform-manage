@@ -18,3 +18,41 @@ export let fetchSmsPaginateList = dispatch => option => {
         }, err => reject(err))
     })
 }
+
+export let fetchUserTypeAndName = dispatch => mobile => {
+    return new Promise((resolve, reject) => {
+        POST(`/sms/userBasicInfo?mobile=${mobile}`).then(result => {
+            dispatch({
+                type: types.FETCH_USER_TYPE_AND_NAME + phase.SUCCESS
+            })
+            resolve(result)
+        }, err => reject(err))
+    })
+}
+
+export let fetchAllSmsTemplate = dispatch => () => {
+    return new Promise((resolve, reject) => {
+        POST('/sms/allSmsTemplate').then(result => {
+            const smsTemplateList = result.map(template => {
+                return {
+                    value: template['templateId'], text: template['templateContent']
+                }
+            })
+            dispatch({
+                type: types.FETCH_ALL_SMS_TEMPLATE + phase.SUCCESS, smsTemplateList
+            })
+            resolve(result)
+        }, err => reject(err))
+    })
+}
+
+export let sendSmsMessage = dispatch => (mobile, content) => {
+    return new Promise((resolve, reject) => {
+        POST(`/sms/sendSms?mobile=${mobile}&content=${content}`).then(result => {
+            dispatch({
+                type: types.SEND_SMS_MESSAGE + phase.SUCCESS
+            })
+            resolve(result)
+        }, err => reject(err))
+    })
+}

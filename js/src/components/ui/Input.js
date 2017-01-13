@@ -8,7 +8,7 @@ import ToolTip from 'antd/lib/tooltip'
 class Input extends Component {
     constructor(props, context) {
         super(props, context)
-        this.state = {valid: this.getIsValid(props.value), touched: false, focus: false}
+        this.state = {valid: this._getIsValid(props.value), touched: false, focus: false}
     }
 
     getInput() {
@@ -22,10 +22,14 @@ class Input extends Component {
     handleChange(event) {
         this.props.onChange(event)
         const value = event.target.value
-        setTimeout(() => this.setState({valid: this.getIsValid(value)}), 0)
+        setTimeout(() => this.setState({valid: this._getIsValid(value)}), 0)
     }
 
-    getIsValid(value) {
+    isValid(value) {
+        return this._getIsValid(value)
+    }
+
+    _getIsValid(value) {
         if (!this.props.format) {
             return !!value
         }
@@ -35,6 +39,9 @@ class Input extends Component {
 
     render() {
         let {className, errorTip, ...props} = this.props
+        if (errorTip && typeof errorTip == 'string') {
+            errorTip = <span>{errorTip}</span>
+        }
 
         const getInput = () => {
             return (
@@ -62,7 +69,7 @@ Input.propTypes = {
     required: PropTypes.bool,
     onChange: PropTypes.func,
     format: PropTypes.string,
-    errorTip: PropTypes.element
+    errorTip: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
 }
 
 export default Input

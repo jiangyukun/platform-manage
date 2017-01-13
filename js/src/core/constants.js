@@ -31,5 +31,9 @@ export default {
     appSystemType: {
         ios: 1,
         android: 2
+    },
+    userType: {
+        patient: 1,
+        doctor: 2
     }
 }

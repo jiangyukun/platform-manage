@@ -4,21 +4,18 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
-import moment from 'moment'
 import classnames from 'classnames'
+
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
-import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
-import SubOptions from '../../../components/core/query-filter/custom/SubOptions'
 import PaginateList from '../../../components/core/PaginateList'
 import SendMessageDialog from './SendMessageDialog'
 
 import {getFilterItem} from '../../../core/utils'
-import {getYesOrNoText} from '../../../core/formatBusData'
-import {fetchHospitalList} from '../../../actions/hospital'
+import {fetchBackendMemberList} from '../../../actions/backend-member'
+import * as formatBusData from '../../../core/formatBusData'
 import * as actions from '../../../actions/pages/sms-manage'
-
 
 class SmsManage extends Component {
     constructor() {
@@ -27,7 +24,7 @@ class SmsManage extends Component {
             currentIndex: -1,
             loading: false,
             showAdd: false,
-            showEdit: false
+            showApply: false
         }
     }
 
@@ -43,6 +40,7 @@ class SmsManage extends Component {
 
     componentDidMount() {
         this.beginFetch()
+        this.props.fetchBackendMemberList()
     }
 
     getHead() {
@@ -55,7 +53,7 @@ class SmsManage extends Component {
                 <Item weight={1}>接收人账号</Item>
                 <Item weight={1}>接收人姓名</Item>
                 <Item weight={1}>接收人身份</Item>
-                <Item weight={1}>短信内容</Item>
+                <Item weight={2}>短信内容</Item>
                 <Item weight={1}>发送时间</Item>
             </Head>
         )
@@ -68,10 +66,15 @@ class SmsManage extends Component {
                     this.props.list.map((sms, index) => {
                         return (
                             <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                style={{height: '40px'}}
+                                style={{minHeight: '40px'}}
                                 onClick={e => this.setState({currentIndex: index})}
-                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                             >
+                                <li className="item flex1">{sms['sender']}</li>
+                                <li className="item flex1">{sms['receiver']}</li>
+                                <li className="item flex1">{sms['receiverName']}</li>
+                                <li className="item flex1">{formatBusData.getUserType(sms['receiverType'])}</li>
+                                <li className="item flex2">{sms['content']}</li>
+                                <li className="item flex1">{sms['createDate']}</li>
                             </ul>
                         )
                     })
@@ -87,22 +90,26 @@ class SmsManage extends Component {
             <div className="app-function-page">
                 {
                     this.state.showAdd && (
-                        <SendMessageDialog onExited={() => this.setState({showAdd: false})}/>
+                        <SendMessageDialog
+                            fetchUserTypeAndName={this.props.fetchUserTypeAndName}
+                            smsTemplate={this.props.smsTemplate}
+                            fetchAllSmsTemplate={this.props.fetchAllSmsTemplate}
+                            sendSmsMessage={this.props.sendSmsMessage}
+                            onExited={() => this.setState({showAdd: false})}/>
                     )
                 }
 
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch(1)}
-                             searchKeyName="key_Words"
+                             searchKeyName="searchKey"
                 >
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>发送短信</button>
 
-                    <button className="btn btn-primary mr-20"
-                            onClick={() => this.setState({showEdit: true})}
-                            disabled={this.state.currentIndex == -1}>查看
-                    </button>
+                    <button className="btn btn-primary mr-20" onClick={() => this.setState({showApply: true})}>申请模板</button>
 
-                    <FilterItem item={this.props.receiverIdentityFilterList} paramName="receiver" useText={true}/>
+                    <FilterItem item={this.props.senderFilterList} paramName="sender"/>
+
+                    <FilterItem item={this.props.receiverIdentityFilterList} paramName="receiverType" useText={true}/>
 
                     <FilterItem item={this.props.sendDate}>
                         <CustomDateRange startName="startDate" endName="endDate"/>
@@ -112,7 +119,8 @@ class SmsManage extends Component {
                 <PaginateList ref={c => this._paginateList = c}
                               doFetch={() => this.doFetch()}
                               total={this.props.total}
-                              lengthName="limit"
+                              startName="page"
+                              lengthName="pageSize"
                               byName="order_By"
                 >
                     <Layout loading={this.state.loading} fixHead={true} fixLeft={[1, 2]} head={this.getHead()} body={this.getBody()}/>
@@ -122,12 +130,20 @@ class SmsManage extends Component {
     }
 }
 
-
 function mapStateToProps(state) {
-    let {total, list} = state['smsPaginateList']
+    const {total, list} = state['smsPaginateList']
+    const backendMemberList = state['backendMemberList']
+    const smsTemplate = state['smsTemplateList']
+
     return {
         total,
         list,
+        smsTemplate: smsTemplate,
+        senderFilterList: {
+            typeCode: 'sender',
+            typeText: '发送人',
+            typeItemList: backendMemberList.concat({value: 'system', text: '系统'})
+        },
         receiverIdentityFilterList: {
             typeCode: 'receiverIdentity',
             typeText: '接受人身份',
@@ -140,6 +156,10 @@ function mapStateToProps(state) {
 function mapActionToProps(dispatch) {
     return {
         fetchSmsPaginateList: actions.fetchSmsPaginateList(dispatch),
+        fetchBackendMemberList: fetchBackendMemberList(dispatch),
+        fetchAllSmsTemplate: actions.fetchAllSmsTemplate(dispatch),
+        sendSmsMessage: actions.sendSmsMessage(dispatch),
+        fetchUserTypeAndName: actions.fetchUserTypeAndName(dispatch)
     }
 }
 

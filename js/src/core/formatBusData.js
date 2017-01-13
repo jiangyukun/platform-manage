@@ -63,3 +63,14 @@ export function isVisitDoctor(value) {
     }
     return _unKnowData()
 }
+
+export function getUserType(value) {
+    if (!value) {
+        return '未知'
+    } else if (value == constants.userType.patient) {
+        return '患者'
+    } else if (value == constants.userType.doctor) {
+        return '医生'
+    }
+    return _unKnowData()
+}
