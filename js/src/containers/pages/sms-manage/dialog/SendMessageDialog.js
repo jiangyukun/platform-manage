@@ -4,20 +4,22 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 
-import Input from '../../../components/ui/Input'
-import Select1 from '../../../components/core/Select1'
-import * as antdUtil from '../../../core/utils/antdUtil'
-import * as formatBusData from '../../../core/formatBusData'
+import Input from '../../../../components/ui/Input'
+import Select1 from '../../../../components/core/Select1'
+import * as antdUtil from '../../../../core/utils/antdUtil'
+import * as formatBusData from '../../../../core/formatBusData'
 
 class SendMessageDialog extends Component {
     constructor() {
         super()
         this.state = {
             show: true,
+            valid: false,
 
             mobile: '',
             username: '',
             userType: '',
+            templateId: '',
             smsTemplate: '',
         }
     }
@@ -37,8 +39,22 @@ class SendMessageDialog extends Component {
         this.setState({mobile})
     }
 
-    handleSmsTemplateChange({value, text}) {
-        this.setState({smsTemplate: text})
+    handleTemplateIdChange(event) {
+        const templateId = event.target.value
+        const smsTemplate = this.props.smsTemplateList.find(template => template.value == templateId)
+        this.setState({templateId})
+        if (smsTemplate) {
+            this.setState({smsTemplate: smsTemplate.text})
+        } else {
+            this.setState({smsTemplate: ''})
+        }
+    }
+
+    checkValid() {
+        if (this._mobile.isValid(this.state.mobile) && this.state.smsTemplate != '') {
+            this.setState({valid: true})
+        }
+        this.setState({valid: false})
     }
 
     sendSMS() {
@@ -52,8 +68,8 @@ class SendMessageDialog extends Component {
     }
 
     componentDidMount() {
-        if (this.props.smsTemplate.length == 0) {
-            this.props.fetchAllSmsTemplate()
+        if (this.props.smsTemplateList.length == 0) {
+            this.props.fetchSmsTemplateList()
         }
     }
 
@@ -98,11 +114,10 @@ class SendMessageDialog extends Component {
 
                         <div className="row mt-10">
                             <div className="col-xs-4">
-                                <label className="mt-5">选择短信模板：<span className="red">*</span></label>
+                                <label className="mt-5">短信模板ID：<span className="red">*</span></label>
                             </div>
                             <div className="col-xs-8">
-                                <Select1 selectItems={this.props.smsTemplate}
-                                         onSelect={selected => this.handleSmsTemplateChange(selected)}/>
+                                <Input className="form-control" placeholder="请输入短信模板ID" onChange={e => this.handleTemplateIdChange(e)}/>
                             </div>
                         </div>
 
@@ -120,7 +135,10 @@ class SendMessageDialog extends Component {
                 <Modal.Footer>
                     <div className="row">
                         <div className="col-xs-6">
-                            <button className="btn btn-block btn-success" onClick={e => this.sendSMS()}>发送短信</button>
+                            <button className="btn btn-block btn-success" onClick={e => this.sendSMS()}
+                                    disabled={this.state.valid && !this.state.smsTemplate}>
+                                发送短信
+                            </button>
                         </div>
                         <div className="col-xs-6">
                             <button className="btn btn-block" onClick={e => this.close()}>取消</button>
@@ -134,8 +152,8 @@ class SendMessageDialog extends Component {
 
 SendMessageDialog.propTypes = {
     fetchUserTypeAndName: PropTypes.func,
-    smsTemplate: PropTypes.array,
-    fetchAllSmsTemplate: PropTypes.func,
+    smsTemplateList: PropTypes.array,
+    fetchSmsTemplateList: PropTypes.func,
     sendSmsMessage: PropTypes.func,
     onExited: PropTypes.func
 }

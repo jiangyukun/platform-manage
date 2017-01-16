@@ -21,7 +21,7 @@ export let fetchSmsPaginateList = dispatch => option => {
 
 export let fetchUserTypeAndName = dispatch => mobile => {
     return new Promise((resolve, reject) => {
-        POST(`/sms/userBasicInfo?mobile=${mobile}`).then(result => {
+        GET(`/sms/userBasicInfo?mobile=${mobile}`).then(result => {
             dispatch({
                 type: types.FETCH_USER_TYPE_AND_NAME + phase.SUCCESS
             })
@@ -30,12 +30,12 @@ export let fetchUserTypeAndName = dispatch => mobile => {
     })
 }
 
-export let fetchAllSmsTemplate = dispatch => () => {
+export let fetchSmsTemplateList = dispatch => () => {
     return new Promise((resolve, reject) => {
-        POST('/sms/allSmsTemplate').then(result => {
+        GET('/sms/allSmsTemplate').then(result => {
             const smsTemplateList = result.map(template => {
                 return {
-                    value: template['templateId'], text: template['templateContent']
+                    value: template['tpl_id'], text: template['tpl_content'], status: template['check_status']
                 }
             })
             dispatch({
@@ -46,9 +46,21 @@ export let fetchAllSmsTemplate = dispatch => () => {
     })
 }
 
+export let addSmsTemplate = dispatch => smsTemplateContent => {
+    return new Promise((resolve, reject) => {
+        POST('/sms/addSmsTemplate', {body: {content: smsTemplateContent}}).then(result => {
+            dispatch({
+                type: types.ADD_SMS_TEMPLATE + phase.SUCCESS
+            })
+            resolve(result)
+        }, err => reject(err))
+    })
+}
+
+
 export let sendSmsMessage = dispatch => (mobile, content) => {
     return new Promise((resolve, reject) => {
-        POST(`/sms/sendSms?mobile=${mobile}&content=${content}`).then(result => {
+        POST(`/sms/sendSms`, {body: {mobile, content}}).then(result => {
             dispatch({
                 type: types.SEND_SMS_MESSAGE + phase.SUCCESS
             })
