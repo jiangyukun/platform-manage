@@ -45,7 +45,12 @@ class NodeAuditing extends Component {
     doFetch() {
         this.setState({loading: true})
         this.props.fetchPatientList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
-            .then(() => this.setState({loading: false, currentIndex: -1}))
+            .then(() => {
+                if (this.unmountFlag) {
+                    return
+                }
+                this.setState({loading: false, currentIndex: -1})
+            })
     }
 
     editVisitCard(id, state) {
@@ -83,6 +88,10 @@ class NodeAuditing extends Component {
         if (this.props.hospitalList.length == 0) {
             this.props.fetchHospitalList()
         }
+    }
+
+    componentWillUnmount() {
+        this.unmountFlag = true
     }
 
     render() {

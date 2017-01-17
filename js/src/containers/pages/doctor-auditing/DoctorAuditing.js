@@ -158,7 +158,7 @@ class DoctorAuditing extends Component {
                               lengthName="limit"
                               byName="order_By"
                 >
-                    <SmartList loading={this.state.loading} fixHead={true} width={1600} fixLeft={[0, 1]}>
+                    <SmartList loading={this.state.loading} fixHead={true} width={1660} fixLeft={[0, 1]}>
                         <HeadContainer>
                             <ul className="flex-list header">
                                 <li className="item" style={{width: '100px'}}>
@@ -176,7 +176,7 @@ class DoctorAuditing extends Component {
                                 </li>
                                 <li className="item" style={{width: '100px'}}>专长</li>
                                 <li className="item" style={{width: '100px'}}>审核状态</li>
-                                <li className="item" style={{width: '80px'}}>备注</li>
+                                <li className="item" style={{width: '140px'}}>备注</li>
                                 <li className="item" style={{width: '110px'}}>后台管理人员</li>
                                 <li className="item" style={{width: '80px'}}>运营人员</li>
                                 <li className="item" style={{width: '120px'}}>
@@ -219,12 +219,12 @@ class DoctorAuditing extends Component {
                                                 <li className="item" style={{width: '120px'}}>{doctor['doctor_Practicing_Number']}</li>
                                                 <li className="item" style={{width: '100px'}}>{doctor['doctor_Major'] || ''}</li>
                                                 <li className="item" style={{width: '100px'}}>{getAuditStatus(doctor['doctor_Is_Checked'])}</li>
-                                                <li className="item" style={{width: '80px'}}>
+                                                <li className="item" style={{width: '140px'}}>
                                                     {doctor['doctor_Info_Remark']}
-                                                    <div>
+                                                    <span>
                                                         <i className="fa fa-edit"
                                                            onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
-                                                    </div>
+                                                    </span>
                                                 </li>
                                                 <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
                                                 <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>

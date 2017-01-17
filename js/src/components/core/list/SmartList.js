@@ -157,7 +157,7 @@ class SmartList extends Component {
         if (this.props.width) {
             listWrapStyle.width = this.props.width + 'px'
         }
-        listWrapStyle.minWidth = this.props.minWidth || '100%'
+        listWrapStyle.minWidth = this.props.minWidth ? (this.props.minWidth + 'px') : '100%'
         if (this.props.style) {
             listWrapStyle = merge({}, listWrapStyle, this.props.style)
         }

@@ -57,7 +57,6 @@ export let addSmsTemplate = dispatch => smsTemplateContent => {
     })
 }
 
-
 export let sendSmsMessage = dispatch => (mobile, content) => {
     return new Promise((resolve, reject) => {
         POST(`/sms/sendSms`, {body: {mobile, content}}).then(result => {

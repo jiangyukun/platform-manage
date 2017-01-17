@@ -13,7 +13,7 @@ import PaginateList from '../../../components/core/PaginateList'
 import SendMessageDialog from './dialog/SendMessageDialog'
 import SmsTemplateManage from './dialog/SmsTemplateManage'
 
-import {getFilterItem} from '../../../core/utils'
+import * as utils from '../../../core/utils'
 import {fetchBackendMemberList} from '../../../actions/backend-member'
 import * as formatBusData from '../../../core/formatBusData'
 import * as actions from '../../../actions/pages/sms-manage'
@@ -40,12 +40,14 @@ class SmsManage extends Component {
     }
 
     exportExcel() {
-
+        location.href = 'sms/exportExcel' + utils.urlParam(this._queryFilter.getParams())
     }
 
     componentDidMount() {
         this.beginFetch()
-        this.props.fetchBackendMemberList()
+        if (this.props.backendMemberList.length == 0) {
+            this.props.fetchBackendMemberList()
+        }
     }
 
     getHead() {
@@ -58,7 +60,7 @@ class SmsManage extends Component {
                 <Item weight={1}>接收人账号</Item>
                 <Item weight={1}>接收人姓名</Item>
                 <Item weight={1}>接收人身份</Item>
-                <Item weight={2}>短信内容</Item>
+                <Item weight={3}>短信内容</Item>
                 <Item weight={1}>发送时间</Item>
             </Head>
         )
@@ -78,7 +80,7 @@ class SmsManage extends Component {
                                 <li className="item flex1">{sms['receiver']}</li>
                                 <li className="item flex1">{sms['receiverName']}</li>
                                 <li className="item flex1">{formatBusData.getUserType(sms['receiverType'])}</li>
-                                <li className="item flex2">{sms['content']}</li>
+                                <li className="item flex3">{sms['content']}</li>
                                 <li className="item flex1">{sms['createDate']}</li>
                             </ul>
                         )
@@ -100,6 +102,7 @@ class SmsManage extends Component {
                             smsTemplateList={this.props.smsTemplateList}
                             fetchSmsTemplateList={this.props.fetchSmsTemplateList}
                             sendSmsMessage={this.props.sendSmsMessage}
+                            sendSmsMessageSuccess={() => this.beginFetch(1)}
                             onExited={() => this.setState({showAdd: false})}/>
                     )
                 }
@@ -122,7 +125,7 @@ class SmsManage extends Component {
 
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showSmsManage: true})}>短信模板管理</button>
 
-                    <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()}>导出excel</button>
+                    <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
 
                     <FilterItem item={this.props.senderFilterList} paramName="sender"/>
 
@@ -140,7 +143,12 @@ class SmsManage extends Component {
                               lengthName="pageSize"
                               byName="order_By"
                 >
-                    <Layout loading={this.state.loading} fixHead={true} fixLeft={[1, 2]} head={this.getHead()} body={this.getBody()}/>
+                    <Layout loading={this.state.loading}
+                            minWidth={1100}
+                            fixHead={true}
+                            fixLeft={[1, 2]}
+                            head={this.getHead()}
+                            body={this.getBody()}/>
                 </PaginateList>
             </div>
         )
@@ -155,6 +163,7 @@ function mapStateToProps(state) {
     return {
         total,
         list,
+        backendMemberList,
         smsTemplateList: smsTemplateList,
         senderFilterList: {
             typeCode: 'sender',
@@ -166,7 +175,7 @@ function mapStateToProps(state) {
             typeText: '接受人身份',
             typeItemList: [{value: '1', text: '患者'}, {value: '2', text: '医生'}]
         },
-        sendDate: getFilterItem('sendDate', '发送时间', [])
+        sendDate: utils.getFilterItem('sendDate', '发送时间', [])
     }
 }
 

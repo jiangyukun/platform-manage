@@ -1,17 +1,16 @@
 /**
  * Created by jiangyukun on 2017/1/11.
  */
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-
-import Input from '../../../../components/ui/Input'
-import Select1 from '../../../../components/core/Select1'
-import * as antdUtil from '../../../../core/utils/antdUtil'
-import * as formatBusData from '../../../../core/formatBusData'
+import React, {Component, PropTypes} from "react"
+import {Modal} from "react-bootstrap"
+import Input from "../../../../components/ui/Input"
+import * as antdUtil from "../../../../core/utils/antdUtil"
+import * as formatBusData from "../../../../core/formatBusData"
 
 class SendMessageDialog extends Component {
     constructor() {
         super()
+        this.checkValid = this.checkValid.bind(this)
         this.state = {
             show: true,
             valid: false,
@@ -36,13 +35,13 @@ class SendMessageDialog extends Component {
         } else {
             this.setState({username: '', userType: ''})
         }
-        this.setState({mobile})
+        this.setState({mobile}, this.checkValid)
     }
 
     handleTemplateIdChange(event) {
         const templateId = event.target.value
         const smsTemplate = this.props.smsTemplateList.find(template => template.value == templateId)
-        this.setState({templateId})
+        this.setState({templateId}, this.checkValid)
         if (smsTemplate) {
             this.setState({smsTemplate: smsTemplate.text})
         } else {
@@ -53,13 +52,18 @@ class SendMessageDialog extends Component {
     checkValid() {
         if (this._mobile.isValid(this.state.mobile) && this.state.smsTemplate != '') {
             this.setState({valid: true})
+            return
         }
         this.setState({valid: false})
     }
 
     sendSMS() {
         antdUtil.confirm('确定发送短信吗？', () => {
-            this.props.sendSmsMessage(this.state.mobile, this.state.smsTemplate)
+            this.props.sendSmsMessage(this.state.mobile, this.state.smsTemplate).then(() => {
+                this.props.sendSmsMessageSuccess()
+                antdUtil.tipSuccess('短信发送成功！')
+                this.close()
+            }, err => antdUtil.tipErr(err))
         })
     }
 
@@ -136,7 +140,7 @@ class SendMessageDialog extends Component {
                     <div className="row">
                         <div className="col-xs-6">
                             <button className="btn btn-block btn-success" onClick={e => this.sendSMS()}
-                                    disabled={this.state.valid && !this.state.smsTemplate}>
+                                    disabled={!this.state.valid}>
                                 发送短信
                             </button>
                         </div>
@@ -155,6 +159,7 @@ SendMessageDialog.propTypes = {
     smsTemplateList: PropTypes.array,
     fetchSmsTemplateList: PropTypes.func,
     sendSmsMessage: PropTypes.func,
+    sendSmsMessageSuccess: PropTypes.func,
     onExited: PropTypes.func
 }
 
