@@ -2,6 +2,7 @@
  * Created by jiangyukun on 2017/1/11.
  */
 import React, {Component, PropTypes} from 'react'
+import classnames from 'classnames'
 
 import SmartList from '../list/SmartList'
 import HeadContainer from '../list/HeadContainer'
@@ -10,6 +11,7 @@ import BodyContainer from '../list/BodyContainer'
 class Layout extends Component {
 
     render() {
+        const {weight, head, selected, list} = this.props.data
         return (
             <SmartList fixHead={this.props.fixHead}
                        fixLeft={this.props.fixLeft}
@@ -18,20 +20,40 @@ class Layout extends Component {
                        width={this.props.width}>
 
                 <HeadContainer>
-                    {this.props.head}
+                    <Head>
+                        {
+                            head.map((text, index) => {
+                                return (
+                                    <HeadItem key={index} weight={weight[index]}>{text}</HeadItem>
+                                )
+                            })
+                        }
+                    </Head>
                 </HeadContainer>
                 <BodyContainer>
-                    {this.props.body}
+                    {
+                        list.map((row, index) => {
+                            return (
+                                <Body selected={selected == index}>
+                                {
+                                    row.map(rowItem => {
+                                        return (
+                                            <BodyItem>{rowItem}</BodyItem>
+                                        )
+                                    })
+                                }
+                                </Body>
+                            )
+                        })
+                    }
                 </BodyContainer>
-
             </SmartList>
         )
     }
 }
 
 Layout.propTypes = {
-    head: PropTypes.element,
-    body: PropTypes.element
+    data: PropTypes.object
 }
 
 class Head extends Component {
@@ -69,13 +91,25 @@ HeadItem.propTypes = {
 
 class Body extends Component {
     render() {
-
+        return (
+            <ul className={classnames('flex-list body', {'selected': this.props.selected})}
+                style={{minHeight: '60px'}}
+                onClick={e => this.setState({currentIndex: index})}
+            >
+                {this.props.children}
+            </ul>
+        )
     }
 }
 
-Head.Item = HeadItem
-
-Layout.Head = Head
-Layout.Body = Body
+class BodyItem extends Component {
+    render() {
+        return (
+            <li className="item">
+                {this.props.children}
+            </li>
+        )
+    }
+}
 
 export default Layout

@@ -1,22 +1,19 @@
 /**
  * Created by jiangyukun on 2017/1/10.
  */
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {merge} from 'lodash'
-import classnames from 'classnames'
-
-import QueryFilter from '../../../components/core/QueryFilter'
-import FilterItem from '../../../components/core/query-filter/FilterItem'
-import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
-import PaginateList from '../../../components/core/PaginateList'
-import SendMessageDialog from './dialog/SendMessageDialog'
-import SmsTemplateManage from './dialog/SmsTemplateManage'
-
-import * as utils from '../../../core/utils'
-import {fetchBackendMemberList} from '../../../actions/backend-member'
-import * as formatBusData from '../../../core/formatBusData'
-import * as actions from '../../../actions/pages/sms-manage'
+import React, {Component, PropTypes} from "react"
+import {connect} from "react-redux"
+import {merge} from "lodash"
+import QueryFilter from "../../../components/core/QueryFilter"
+import FilterItem from "../../../components/core/query-filter/FilterItem"
+import CustomDateRange from "../../../components/core/query-filter/custom/CustomDateRange"
+import PaginateList from "../../../components/core/PaginateList"
+import SendMessageDialog from "./dialog/SendMessageDialog"
+import SmsTemplateManage from "./dialog/SmsTemplateManage"
+import * as utils from "../../../core/utils"
+import {fetchBackendMemberList} from "../../../actions/backend-member"
+import * as formatBusData from "../../../core/formatBusData"
+import * as actions from "../../../actions/pages/sms-manage"
 
 class SmsManage extends Component {
     constructor() {
@@ -50,49 +47,7 @@ class SmsManage extends Component {
         }
     }
 
-    getHead() {
-        const Head = PaginateList.Layout.Head
-        const Item = Head.Item
-
-        return (
-            <Head>
-                <Item weight={1}>发送人</Item>
-                <Item weight={1}>接收人账号</Item>
-                <Item weight={1}>接收人姓名</Item>
-                <Item weight={1}>接收人身份</Item>
-                <Item weight={3}>短信内容</Item>
-                <Item weight={1}>发送时间</Item>
-            </Head>
-        )
-    }
-
-    getBody() {
-        return (
-            <div>
-                {
-                    this.props.list.map((sms, index) => {
-                        return (
-                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                style={{minHeight: '60px'}}
-                                onClick={e => this.setState({currentIndex: index})}
-                            >
-                                <li className="item flex1">{sms['sender']}</li>
-                                <li className="item flex1">{sms['receiver']}</li>
-                                <li className="item flex1">{sms['receiverName']}</li>
-                                <li className="item flex1">{formatBusData.getUserType(sms['receiverType'])}</li>
-                                <li className="item flex3">{sms['content']}</li>
-                                <li className="item flex1">{sms['createDate']}</li>
-                            </ul>
-                        )
-                    })
-                }
-            </div>
-        )
-    }
-
     render() {
-        const Layout = PaginateList.Layout
-
         return (
             <div className="app-function-page">
                 {
@@ -143,12 +98,25 @@ class SmsManage extends Component {
                               lengthName="pageSize"
                               byName="order_By"
                 >
-                    <Layout loading={this.state.loading}
-                            minWidth={1100}
-                            fixHead={true}
-                            fixLeft={[1, 2]}
-                            head={this.getHead()}
-                            body={this.getBody()}/>
+                    <PaginateList.Layout loading={this.state.loading}
+                                         minWidth={1100}
+                                         fixHead={true}
+                                         fixLeft={[1, 2]}
+                                         data={{
+                                             weight: [1, 1, 1, 1, 3, 1],
+                                             head: ['发送人', '接收人账号', '接收人姓名', '接收人身份', '短信内容', '发送时间'],
+                                             selected: this.state.currentIndex,
+                                             list: this.props.list.map(sms => {
+                                                 return [
+                                                     sms['sender'],
+                                                     sms['receiver'],
+                                                     sms['receiverName'],
+                                                     formatBusData.getUserType(sms['receiverType']),
+                                                     sms['content'],
+                                                     sms['createDate']
+                                                 ]
+                                             })
+                                         }}/>
                 </PaginateList>
             </div>
         )
