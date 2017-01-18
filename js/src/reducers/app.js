@@ -1,17 +1,79 @@
 /**
  * Created by jiangyukun on 2016/10/20.
  */
-import {merge} from 'lodash'
+import {fromJS, Map} from 'immutable'
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 
-export function app(state = {}, action) {
-    if (action.type == 'TOGGLE_ASIDE') {
-        return merge({}, state, {settings: {asideFolded: !state.settings.asideFolded}})
+let errId = 1
+
+const initValue = {
+    settings: {
+        asideFolded: false,
+        asideMessage: true
+    },
+    errQueue: []
+}
+
+export function app(state = initValue, action) {
+    const iState = fromJS(state)
+    return nextState()
+
+    function nextState() {
+        let nextIState = iState
+        switch (action.type) {
+            case 'TOGGLE_ASIDE':
+                nextIState = toggleAside()
+                break
+            case 'TOGGLE_MESSAGE_PANEL':
+                nextIState = toggleMessagePanel()
+                break
+            case 'CLOSE_MESSAGE_PANEL':
+                nextIState = closeMessagePanel()
+                break
+            case types.DELETE_ERROR:
+                nextIState = deleteError()
+                break
+        }
+
+        if (action.type.indexOf(phase.FAILURE) != -1) {
+            nextIState = addError()
+        }
+        if (nextIState == iState) {
+            return state
+        }
+        return nextIState.toJS()
     }
-    if (action.type == 'TOGGLE_MESSAGE_PANEL') {
-        return merge({}, state, {settings: {asideMessage: !state.settings.asideMessage}})
+
+    function toggleAside() {
+        return _updateSettings(iState, settings => settings.set('asideFolded', !settings.get('asideFolded')))
     }
-    if (action.type == 'CLOSE_MESSAGE_PANEL') {
-        return merge({}, state, {settings: {asideMessage: true}})
+
+    function toggleMessagePanel() {
+        return _updateSettings(iState, settings => settings.set('asideMessage', !settings.get('asideMessage')))
     }
-    return state
+
+    function closeMessagePanel() {
+        return _updateSettings(iState, settings => settings.set('asideMessage', true))
+    }
+
+    function addError() {
+        const {err} = action
+        const errInfo = {
+            errId: errId++,
+            err
+        }
+        return iState.update('errQueue', errQueue => errQueue.push(Map(errInfo)))
+    }
+
+    function deleteError() {
+        const {errId} = action
+        //todo
+    }
+
+    //--------------------------------
+
+    function _updateSettings(curIState, callback) {
+        return curIState.update('settings', settings => callback(settings))
+    }
 }

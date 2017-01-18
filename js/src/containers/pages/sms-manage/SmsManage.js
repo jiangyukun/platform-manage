@@ -80,7 +80,9 @@ class SmsManage extends Component {
 
                     <button className="btn btn-primary mr-20" onClick={() => this.setState({showSmsManage: true})}>短信模板管理</button>
 
-                    <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
+                    <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>
+                        导出excel
+                    </button>
 
                     <FilterItem item={this.props.senderFilterList} paramName="sender"/>
 
@@ -115,7 +117,9 @@ class SmsManage extends Component {
                                                      sms['createDate']
                                                  ]
                                              })
-                                         }}/>
+                                         }}>
+
+                    </PaginateList.Layout>
                 </PaginateList>
             </div>
         )

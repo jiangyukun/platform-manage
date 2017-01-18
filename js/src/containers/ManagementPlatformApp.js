@@ -1,6 +1,6 @@
 /**
  * 登录成功引导页，权限控制
- * Created by jiangyu2016 on 16/10/15.
+ * Created by jiangyukun on 16/10/15.
  */
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
@@ -11,6 +11,8 @@ import AppContent from './AppContent'
 import Message from './Message'
 import Settings from './Settings'
 import * as utils from '../core/utils'
+import * as antdUtil from '../core/utils/antdUtil'
+import {deleteErr} from '../actions/app'
 
 class ManagementPlatformApp extends Component {
     openSettings() {
@@ -20,6 +22,15 @@ class ManagementPlatformApp extends Component {
     getChildContext() {
         return {
             role: this.props.role
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.errQueue.length != 0) {
+            this.props.errQueue.forEach(errInfo => {
+                antdUtil.tipErr(errInfo.err)
+                this.props.deleteErr(errInfo.errId)
+            })
         }
     }
 
@@ -62,8 +73,9 @@ function mapStateToProps(state) {
     }
     return {
         app: state.app,
+        errQueue: state.errQueue,
         role
     }
 }
 
-export default connect(mapStateToProps)(ManagementPlatformApp)
+export default connect(mapStateToProps, {deleteErr})(ManagementPlatformApp)

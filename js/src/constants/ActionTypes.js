@@ -2,6 +2,10 @@
  * Created by jiangyukun on 2016/12/1.
  */
 
+// error
+export const ADD_ERROR = 'ADD_ERROR'
+export const DELETE_ERROR = 'DELETE_ERROR'
+
 //通用
 export const FETCH_HOSPITAL_LIST = 'FETCH_HOSPITAL_LIST'
 export const UPDATE_REMARK = 'UPDATE_REMARK'
