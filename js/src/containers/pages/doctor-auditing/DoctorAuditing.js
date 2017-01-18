@@ -131,15 +131,15 @@ class DoctorAuditing extends Component {
                     </button>
                     <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()}>导出到excel</button>
 
-                    <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
+                    <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.positionFilterList} paramName="title_Name" useText={true}/>
+                    <FilterItem item={this.props.positionFilterList} paramName="title_Name" useText={true}/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.departmentFilterList} paramName="department_Name" useText={true}/>
+                    <FilterItem item={this.props.departmentFilterList} paramName="department_Name" useText={true}/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="doctor_Is_Checked"/>
+                    <FilterItem item={this.props.auditingStateFilter} paramName="doctor_Is_Checked"/>
 
-                    <FilterItem className="middle-filter-item" item={this.props.backendMangerList}>
+                    <FilterItem item={this.props.backendMangerList}>
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
                     </FilterItem>
 

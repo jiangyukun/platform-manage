@@ -6,7 +6,14 @@ import React, {Component, PropTypes} from 'react'
 class BodyContainer extends Component {
 
     render() {
-        return this.props.children
+        if (this.props.children.length == 0) {
+            return null
+        }
+        return (
+            <div>
+                {this.props.children}
+            </div>
+        )
     }
 }
 

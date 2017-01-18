@@ -9,9 +9,22 @@ import HeadContainer from '../list/HeadContainer'
 import BodyContainer from '../list/BodyContainer'
 
 class Layout extends Component {
+    constructor() {
+        super()
+        this.state = {
+            currentIndex: -1
+        }
+    }
+
+    onRowClick(index) {
+        this.setState({currentIndex: index})
+        if (this.props.onRowClick) {
+            this.props.onRowClick(index)
+        }
+    }
 
     render() {
-        const {weight, head, selected, list} = this.props.data
+        const {weight, head, list} = this.props.data
         return (
             <SmartList fixHead={this.props.fixHead}
                        fixLeft={this.props.fixLeft}
@@ -24,7 +37,7 @@ class Layout extends Component {
                         {
                             head.map((text, index) => {
                                 return (
-                                    <HeadItem key={index} weight={weight[index]}>{text}</HeadItem>
+                                    <HeadItem key={index} weight={weight[index] || 1}>{text}</HeadItem>
                                 )
                             })
                         }
@@ -34,15 +47,18 @@ class Layout extends Component {
                     {
                         list.map((row, index) => {
                             return (
-                                <Body selected={selected == index}>
-                                {
-                                    row.map(rowItem => {
-                                        return (
-                                            <BodyItem>{rowItem}</BodyItem>
-                                        )
-                                    })
-                                }
-                                </Body>
+                                <Row key={index}
+                                     selected={this.state.currentIndex == index}
+                                     onClick={() => this.onRowClick(index)}
+                                >
+                                    {
+                                        row.map((rowItem, index2) => {
+                                            return (
+                                                <RowItem key={index2} weight={weight[index2] || 1}>{rowItem}</RowItem>
+                                            )
+                                        })
+                                    }
+                                </Row>
                             )
                         })
                     }
@@ -53,7 +69,8 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    onRowClick: PropTypes.func
 }
 
 class Head extends Component {
@@ -89,23 +106,29 @@ HeadItem.propTypes = {
     weight: PropTypes.number
 }
 
-class Body extends Component {
+class Row extends Component {
     render() {
+        const {selected, ...props} = this.props
         return (
-            <ul className={classnames('flex-list body', {'selected': this.props.selected})}
-                style={{minHeight: '60px'}}
-                onClick={e => this.setState({currentIndex: index})}
-            >
+            <ul className={classnames('flex-list body', {'selected': selected})} {...props}>
                 {this.props.children}
             </ul>
         )
     }
 }
 
-class BodyItem extends Component {
+class RowItem extends Component {
     render() {
+        const style = {}
+        if (this.props.width) {
+            style.width = this.props.width
+        }
+        if (this.props.weight) {
+            style.flex = this.props.weight
+        }
+
         return (
-            <li className="item">
+            <li className="item" style={style}>
                 {this.props.children}
             </li>
         )

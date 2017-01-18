@@ -105,7 +105,6 @@ class SmsManage extends Component {
                                          data={{
                                              weight: [1, 1, 1, 1, 3, 1],
                                              head: ['发送人', '接收人账号', '接收人姓名', '接收人身份', '短信内容', '发送时间'],
-                                             selected: this.state.currentIndex,
                                              list: this.props.list.map(sms => {
                                                  return [
                                                      sms['sender'],

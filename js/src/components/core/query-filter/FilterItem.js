@@ -160,7 +160,7 @@ class FilterItem extends Component {
         let style = {}
         let labelLength = item.typeText.length
         if (labelLength > 6) {
-            style.width = labelLength * 12
+            style.width = labelLength * 15
         }
 
         let sizeClass = ''
