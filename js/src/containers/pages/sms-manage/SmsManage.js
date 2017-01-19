@@ -8,6 +8,8 @@ import QueryFilter from "../../../components/core/QueryFilter"
 import FilterItem from "../../../components/core/query-filter/FilterItem"
 import CustomDateRange from "../../../components/core/query-filter/custom/CustomDateRange"
 import PaginateList from "../../../components/core/PaginateList"
+import Layout from "../../../components/core/layout/Layout"
+
 import SendMessageDialog from "./dialog/SendMessageDialog"
 import SmsTemplateManage from "./dialog/SmsTemplateManage"
 import * as utils from "../../../core/utils"
@@ -48,6 +50,8 @@ class SmsManage extends Component {
     }
 
     render() {
+        const {Head, HeadItem, Row, RowItem} = Layout
+
         return (
             <div className="app-function-page">
                 {
@@ -100,26 +104,39 @@ class SmsManage extends Component {
                               lengthName="pageSize"
                               byName="order_By"
                 >
-                    <PaginateList.Layout loading={this.state.loading}
-                                         minWidth={1100}
-                                         fixHead={true}
-                                         fixLeft={[1, 2]}
-                                         data={{
-                                             weight: [1, 1, 1, 1, 3, 1],
-                                             head: ['发送人', '接收人账号', '接收人姓名', '接收人身份', '短信内容', '发送时间'],
-                                             list: this.props.list.map(sms => {
-                                                 return [
-                                                     sms['sender'],
-                                                     sms['receiver'],
-                                                     sms['receiverName'],
-                                                     formatBusData.getUserType(sms['receiverType']),
-                                                     sms['content'],
-                                                     sms['createDate']
-                                                 ]
-                                             })
-                                         }}>
+                    <Layout loading={this.state.loading}
+                            minWidth={1100}
+                            fixHead={true}
+                            fixLeft={[1, 2]}
+                            weight={[1, 1, 1, 1, 3, 1]}>
 
-                    </PaginateList.Layout>
+                        <Head>
+                            <HeadItem>发送人</HeadItem>
+                            <HeadItem>接收人账号</HeadItem>
+                            <HeadItem>接收人姓名</HeadItem>
+                            <HeadItem>接收人身份</HeadItem>
+                            <HeadItem>短信内容</HeadItem>
+                            <HeadItem>发送时间</HeadItem>
+                        </Head>
+                        {
+                            this.props.list.map((sms, index) => {
+                                return (
+                                    <Row key={sms['id']}
+                                         onClick={e => this.setState({currentIndex: index})}
+                                         selected={this.state.currentIndex == index}
+                                         style={{minHeight: '60px'}}
+                                    >
+                                        <RowItem>{sms['sender']}</RowItem>
+                                        <RowItem>{sms['receiver']}</RowItem>
+                                        <RowItem>{sms['receiverName']}</RowItem>
+                                        <RowItem>{formatBusData.getUserType(sms['receiverType'])}</RowItem>
+                                        <RowItem>{sms['content']}</RowItem>
+                                        <RowItem>{sms['createDate']}</RowItem>
+                                    </Row>
+                                )
+                            })
+                        }
+                    </Layout>
                 </PaginateList>
             </div>
         )

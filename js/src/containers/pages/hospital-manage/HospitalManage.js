@@ -155,29 +155,27 @@ class HospitalManage extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((hospital, index) => {
-                                        return (
-                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                style={{height: '40px'}}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
-                                            >
-                                                <li className="item flex2">{hospital['hospital_Name']}</li>
-                                                <li className="item flex1">{hospital['province']}</li>
-                                                <li className="item flex1">{hospital['city']}</li>
-                                                <li className="item flex1">{hospital['cityCode']}</li>
-                                                <li className="item flex1">{hospital['hospitalSerialNumber']}</li>
-                                                <li className="item flex1">{getYesOrNoText(hospital['hospital_In_Project'])}</li>
-                                                <li className="item flex1">{hospital['backend_Manager'] || '-'}</li>
-                                                <li className="item flex1">{hospital['operation_Manager'] || '-'}</li>
-                                                <li className="item flex1">{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((hospital, index) => {
+                                    return (
+                                        <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            style={{height: '40px'}}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                            onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
+                                        >
+                                            <li className="item flex2">{hospital['hospital_Name']}</li>
+                                            <li className="item flex1">{hospital['province']}</li>
+                                            <li className="item flex1">{hospital['city']}</li>
+                                            <li className="item flex1">{hospital['cityCode']}</li>
+                                            <li className="item flex1">{hospital['hospitalSerialNumber']}</li>
+                                            <li className="item flex1">{getYesOrNoText(hospital['hospital_In_Project'])}</li>
+                                            <li className="item flex1">{hospital['backend_Manager'] || '-'}</li>
+                                            <li className="item flex1">{hospital['operation_Manager'] || '-'}</li>
+                                            <li className="item flex1">{moment(hospital['hospital_Create_Time']).format('YYYY-MM-DD HH:mm')}</li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

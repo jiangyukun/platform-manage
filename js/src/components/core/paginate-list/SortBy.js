@@ -13,20 +13,6 @@ class SortBy extends Component {
         this.state = {active: false, order: 'default'}
     }
 
-    componentDidMount() {
-        events.on(document, 'click', this.handleDocumentClick)
-    }
-
-    componentWillUnmount() {
-        events.off(document, 'click', this.handleDocumentClick)
-    }
-
-    componentDidUpdate() {
-        if (this.state.active) {
-            this.activeFlag = true
-        }
-    }
-
     handleDocumentClick() {
         if (this.activeFlag) {
             this.activeFlag = false
@@ -52,6 +38,27 @@ class SortBy extends Component {
     reset(by) {
         if (by != this.props.by) {
             this.setState({order: 'default'})
+        }
+    }
+
+    componentDidMount() {
+        events.on(document, 'click', this.handleDocumentClick)
+    }
+
+    componentWillUnmount() {
+        events.off(document, 'click', this.handleDocumentClick)
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.active == this.state.active && nextState.order == this.state.order) {
+            return false
+        }
+        return true
+    }
+
+    componentDidUpdate() {
+        if (this.state.active) {
+            this.activeFlag = true
         }
     }
 

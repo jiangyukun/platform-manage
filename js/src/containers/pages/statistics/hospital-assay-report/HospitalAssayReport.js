@@ -78,30 +78,28 @@ class HospitalAssayReport extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((statistics, index) => {
-                                        return (
-                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                style={{height: '50px'}}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                            >
-                                                <li className="item flex1">{statistics['hospital_province']}</li>
-                                                <li className="item flex1">{statistics['hospital_name']}</li>
-                                                <li className="item flex1">{statistics['hospital_code']}</li>
-                                                <li className="item flex1">{statistics['patient_year']}</li>
-                                                <li className="item flex1">{statistics['patient_count']}</li>
-                                                <li className="item flex1">{statistics['assayUploadPersonCount']}</li>
-                                                <li className="item flex1">{statistics['assayCount']}</li>
-                                                <li className="item flex1">{statistics['is_Input']}</li>
-                                                <li className="item flex1">{statistics['invalid_Count']}</li>
-                                                <li className="item flex1">{statistics['is_No_Input']}</li>
-                                                <li className="item flex1">{statistics['delete_Count']}</li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((statistics, index) => {
+                                    return (
+                                        <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            style={{height: '50px'}}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                        >
+                                            <li className="item flex1">{statistics['hospital_province']}</li>
+                                            <li className="item flex1">{statistics['hospital_name']}</li>
+                                            <li className="item flex1">{statistics['hospital_code']}</li>
+                                            <li className="item flex1">{statistics['patient_year']}</li>
+                                            <li className="item flex1">{statistics['patient_count']}</li>
+                                            <li className="item flex1">{statistics['assayUploadPersonCount']}</li>
+                                            <li className="item flex1">{statistics['assayCount']}</li>
+                                            <li className="item flex1">{statistics['is_Input']}</li>
+                                            <li className="item flex1">{statistics['invalid_Count']}</li>
+                                            <li className="item flex1">{statistics['is_No_Input']}</li>
+                                            <li className="item flex1">{statistics['delete_Count']}</li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

@@ -4,8 +4,6 @@
 import React, {Component, PropTypes} from 'react'
 import CommonDialog from '../../../components/core/CommonDialog'
 
-import * as antdUtil from '../../../core/utils/antdUtil'
-
 class EditRemark extends Component {
     constructor(props) {
         super(props)
@@ -25,8 +23,7 @@ class EditRemark extends Component {
     }
 
     confirm() {
-        this.props.updateRemark(this.props.patientId, this.props.infoId, this.props.remarkType, this.state.value)
-            .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err)).then(this.close())
+        this.props.updateRemark(this.state.value)
     }
 
     render() {
@@ -54,12 +51,9 @@ EditRemark.defaultProps = {
 }
 
 EditRemark.propTypes = {
-    patientId: PropTypes.string,
-    infoId: PropTypes.string,
     value: PropTypes.string,
-    onExited: PropTypes.func,
-    remarkType: PropTypes.number,
-    updateRemark: PropTypes.func
+    onExited: PropTypes.func.isRequired,
+    updateRemark: PropTypes.func.isRequired
 }
 
 export default EditRemark

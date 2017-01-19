@@ -6,10 +6,13 @@ import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import {bindActionCreators} from 'redux'
 
-import QueryFilter from "../../../components/core/QueryFilter"
-import FilterItem from "../../../components/core/query-filter/FilterItem"
+import QueryFilter from '../../../components/core/QueryFilter'
+import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
-import PaginateList from "../../../components/core/PaginateList"
+import PaginateList from '../../../components/core/PaginateList'
+import Layout from "../../../components/core/layout/Layout"
+import DoctorDateDetailDialog from './dialog/DoctorDateDetailDialog'
+import EditRemark from '../common/EditRemark'
 
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as utils from '../../../core/utils'
@@ -22,7 +25,8 @@ class OutPatientTime extends Component {
         this.state = {
             currentIndex: -1,
             loading: false,
-            showAdd: false
+            showDetail: false,
+            showEditRemark: false
         }
     }
 
@@ -33,6 +37,11 @@ class OutPatientTime extends Component {
     doFetch() {
         this.setState({currentIndex: -1})
         this.props.fetchOutPatientTimePaginateList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+    }
+
+    updateRemark(newRemark) {
+        const doctorOutPatient = this.props.list[this.state.currentIndex]
+        this.props.updateRemark(doctorOutPatient['user_id'], doctorOutPatient['user_Name'], newRemark)
     }
 
     exportExcel() {
@@ -50,13 +59,32 @@ class OutPatientTime extends Component {
     }
 
     render() {
-        const head = ['医生账号', '姓名', '医院', '科室', '后台管理人员', '运营人员', '备注', '门诊时间',
-            '周一', '周二', '周三', '周四', '周五', '周六', '周日', '生效临时通知', '临时通知记录']
+        const {Head, HeadItem, Row, RowItem} = Layout
+        const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
+
         return (
             <div className="app-function-page">
+                {
+                    this.state.showDetail && this.state.currentIndex != -1 && (
+                        <DoctorDateDetailDialog
+                            userId={this.props.list[this.state.currentIndex]['user_id']}
+                            fetchDoctorDateDetail={this.props.fetchDoctorDateDetail}
+                            doctorDateDetail={this.props.doctorDateDetail}
+                            onExited={() => this.setState({showDetail: false})}/>
+                    )
+                }
+
+                {
+                    this.state.showEditRemark && this.state.currentIndex != -1 && (
+                        <EditRemark
+                            updateRemark={newRemark => this.updateRemark(newRemark)}
+                            onExited={() => this.setState({showEditRemark: false})}/>
+                    )
+                }
+
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch(1)}
-                             searchKeyName="searchKey"
+                             searchKeyName="search_key"
                 >
 
                     <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
@@ -83,24 +111,67 @@ class OutPatientTime extends Component {
                               lengthName="rows"
                               byName="order_By"
                 >
-                    <PaginateList.Layout loading={this.state.loading}
-                                         minWidth={1400}
-                                         fixHead={true}
-                                         fixLeft={[1, 2]}
-                                         data={{
-                                             weight: [],
-                                             head: head,
-                                             list: this.props.list.map(sms => {
-                                                 return [
-                                                     sms['sender'],
-                                                     sms['receiver'],
-                                                     sms['receiverName'],
-                                                     sms['receiverType'],
-                                                     sms['content'],
-                                                     sms['createDate']
-                                                 ]
-                                             })
-                                         }}/>
+                    <Layout loading={this.state.loading}
+                            minWidth={1400}
+                            fixHead={true}
+                            fixLeft={[0, 2]}
+                            weight={weight}
+                    >
+                        <Head>
+                            <HeadItem>医生账号</HeadItem>
+                            <HeadItem>姓名</HeadItem>
+                            <HeadItem>医院</HeadItem>
+                            <HeadItem>科室</HeadItem>
+                            <HeadItem>后台管理人员</HeadItem>
+                            <HeadItem>运营人员</HeadItem>
+                            <HeadItem>备注</HeadItem>
+                            <HeadItem>门诊时间</HeadItem>
+                            <HeadItem>周一</HeadItem>
+                            <HeadItem>周二</HeadItem>
+                            <HeadItem>周三</HeadItem>
+                            <HeadItem>周四</HeadItem>
+                            <HeadItem>周五</HeadItem>
+                            <HeadItem>周六</HeadItem>
+                            <HeadItem>周日</HeadItem>
+                            <HeadItem>生效临时通知</HeadItem>
+                            <HeadItem>临时通知记录</HeadItem>
+                        </Head>
+                        {
+                            this.props.list.map((outPatient, index) => {
+                                return (
+                                    <Row key={outPatient['user_id']}
+                                         onClick={e => this.setState({currentIndex: index})}
+                                         selected={this.state.currentIndex == index}
+                                         style={{minHeight: '60px'}}
+                                    >
+                                        <RowItem>{outPatient['user_Name']}</RowItem>
+                                        <RowItem>{outPatient['doctor_name']}</RowItem>
+                                        <RowItem>{outPatient['hospital_name']}</RowItem>
+                                        <RowItem>{outPatient['department_id']}</RowItem>
+                                        <RowItem>{outPatient['backend_manager']}</RowItem>
+                                        <RowItem>{outPatient['operation_manager']}</RowItem>
+                                        <RowItem>
+                                            {outPatient['remark']}
+                                            <i className="fa fa-edit"
+                                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                                        </RowItem>
+                                        <RowItem>{outPatient['doctor_clinic_time']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['day1']}</RowItem>
+                                        <RowItem>{outPatient['l1']}</RowItem>
+                                        <RowItem>
+                                            <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
+                                        </RowItem>
+                                    </Row>
+                                )
+                            })
+                        }
+                    </Layout>
                 </PaginateList>
             </div>
         )
@@ -108,11 +179,12 @@ class OutPatientTime extends Component {
 }
 
 function mapStateToProps(state) {
-    const {total, list} = state['smsPaginateList']
+    const {total, list, detail} = state['outPatientTimePaginateList']
 
     return {
         total,
         list,
+        doctorDateDetail: detail,
         hospitalList: state.hospitalList,
         departmentList: state.departmentList,
         temporaryNotifyFilter: utils.getFilterItem('temporaryNotify', '有无生效临时通知'),
@@ -133,7 +205,9 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return merge(bindActionCreators({
-        fetchOutPatientTimePaginateList: actions.fetchOutPatientTimePaginateList
+        fetchOutPatientTimePaginateList: actions.fetchOutPatientTimePaginateList,
+        fetchDoctorDateDetail: actions.fetchDoctorDateDetail,
+        updateRemark: actions.updateRemark
     }, dispatch), {
         fetchHospitalList: fetchHospitalList(dispatch),
         fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),

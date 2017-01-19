@@ -103,7 +103,7 @@ class LaboratorySheet extends Component {
                               lengthName="limit"
                               byName="order_By"
                 >
-                    <SmartList loading={this.state.loading} fixHead={true} width={1200} fixLeft={[0, 2]}>
+                    <SmartList loading={this.state.loading} fixHead={true} minWidth={1200} fixLeft={[0, 2]}>
                         <HeadContainer>
                             <ul className="flex-list header">
                                 <li className="item" style={{width: '80px'}}>
@@ -116,16 +116,16 @@ class LaboratorySheet extends Component {
                                 <li className="item flex2">感染科医生</li>
                                 <li className="item flex2">妇产科医生</li>
                                 <li className="item flex2">儿科医生</li>
-                                <li className="item" style={{width: '70px'}}>
+                                <li className="item" style={{width: '75px'}}>
                                     <SortBy by="visit_doctor_upload_count" activeWidth={85}>医生上传</SortBy>
                                 </li>
-                                <li className="item" style={{width: '70px'}}>
+                                <li className="item" style={{width: '75px'}}>
                                     <SortBy by="patient_count" activeWidth={85}>患者上传</SortBy>
                                 </li>
-                                <li className="item" style={{width: '70px'}}>
+                                <li className="item" style={{width: '75px'}}>
                                     <SortBy by="is_input" activeWidth={80}>已录入</SortBy>
                                 </li>
-                                <li className="item" style={{width: '70px'}}>
+                                <li className="item" style={{width: '75px'}}>
                                     <SortBy by="is_no_input" activeWidth={80}>未录入</SortBy>
                                 </li>
                                 <li className="item" style={{width: '50px'}}>
@@ -137,46 +137,44 @@ class LaboratorySheet extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((sheet, index) => {
-                                        return (
-                                            <ul key={index}
-                                                style={{minHeight: '60px'}}
-                                                className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                            >
-                                                <li className="item" style={{width: '80px'}}>{sheet['assay_Owner_Phone']}</li>
-                                                <li className="item flex2">{sheet['patient_Code']}</li>
-                                                <li className="item flex2">{sheet['patient_Name']}</li>
-                                                <li className="item flex2">{sheet['hospital_Name']}</li>
-                                                <li className="item flex2">{sheet['visit_Doctor_Name']}</li>
-                                                <li className="item flex2">{sheet['infection_Doctor']}</li>
-                                                <li className="item flex2">{sheet['obstetrics_Doctor']}</li>
-                                                <li className="item flex2">{sheet['pediatrics_Doctor']}</li>
-                                                <li className="item" style={{width: '70px'}}>
-                                                    {getSheetNumber(sheet, 'visit_Doctor_Upload_Count', 1)}
-                                                </li>
-                                                <li className="item" style={{width: '70px'}}>
-                                                    {getSheetNumber(sheet, 'patient_Count', 2)}
-                                                </li>
-                                                <li className="item" style={{width: '70px'}}>
-                                                    {getSheetNumber(sheet, 'is_Input', 3)}
-                                                </li>
-                                                <li className="item" style={{width: '70px'}}>
-                                                    {getSheetNumber(sheet, 'is_No_Input', 4)}
-                                                </li>
-                                                <li className="item" style={{width: '50px'}}>
-                                                    {getSheetNumber(sheet, 'invalid_Count', 5)}
-                                                </li>
-                                                <li className="item" style={{width: '70px'}}>
-                                                    {getSheetNumber(sheet, 'delete_List', 6)}
-                                                </li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((sheet, index) => {
+                                    return (
+                                        <ul key={index}
+                                            style={{minHeight: '60px'}}
+                                            className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                        >
+                                            <li className="item" style={{width: '80px'}}>{sheet['assay_Owner_Phone']}</li>
+                                            <li className="item flex2">{sheet['patient_Code']}</li>
+                                            <li className="item flex2">{sheet['patient_Name']}</li>
+                                            <li className="item flex2">{sheet['hospital_Name']}</li>
+                                            <li className="item flex2">{sheet['visit_Doctor_Name']}</li>
+                                            <li className="item flex2">{sheet['infection_Doctor']}</li>
+                                            <li className="item flex2">{sheet['obstetrics_Doctor']}</li>
+                                            <li className="item flex2">{sheet['pediatrics_Doctor']}</li>
+                                            <li className="item" style={{width: '75px'}}>
+                                                {getSheetNumber(sheet, 'visit_Doctor_Upload_Count', 1)}
+                                            </li>
+                                            <li className="item" style={{width: '75px'}}>
+                                                {getSheetNumber(sheet, 'patient_Count', 2)}
+                                            </li>
+                                            <li className="item" style={{width: '75px'}}>
+                                                {getSheetNumber(sheet, 'is_Input', 3)}
+                                            </li>
+                                            <li className="item" style={{width: '75px'}}>
+                                                {getSheetNumber(sheet, 'is_No_Input', 4)}
+                                            </li>
+                                            <li className="item" style={{width: '50px'}}>
+                                                {getSheetNumber(sheet, 'invalid_Count', 5)}
+                                            </li>
+                                            <li className="item" style={{width: '70px'}}>
+                                                {getSheetNumber(sheet, 'delete_List', 6)}
+                                            </li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

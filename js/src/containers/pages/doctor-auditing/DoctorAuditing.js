@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
+
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
@@ -15,10 +16,12 @@ import AddDoctorDialog from './dialog/AddDoctorDialog'
 import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../../components/core/ImagePreview'
+
 import constants from '../../../core/constants'
 import * as utils from '../../../core/utils'
-import {getAuditStatus, isVisitDoctor} from '../../../core/formatBusData'
+import * as antdUtil from '../../../core/utils/antdUtil'
 import {formatDateStr} from '../../../core/dateUtils'
+import {getAuditStatus, isVisitDoctor} from '../../../core/formatBusData'
 import * as commonActions from '../../../actions/pages/common'
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/doctor-auditing'
@@ -51,10 +54,17 @@ class DoctorAuditing extends Component {
         this.setState({showImage: true})
     }
 
-    editRemark(patientId, remark) {
-        this.patientId = patientId
+    editRemark(doctorId, remark) {
+        console.log(doctorId)
+        this.doctorId = doctorId
         this.remark = remark
         this.setState({showEditMark: true})
+    }
+
+    updateDoctorRemark(newRemark) {
+        this.props.updateDoctorRemark(this.doctorId, this.doctorId, constants.remarkFlag.DOCTOR_AUDITING, newRemark)
+            .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err))
+            .then(() => this.setState({showEditMark: false}))
     }
 
     exportExcel() {
@@ -105,11 +115,8 @@ class DoctorAuditing extends Component {
 
                 {
                     this.state.showEditMark && (
-                        <EditRemark patientId={this.patientId}
-                                    infoId={this.patientId}
-                                    value={this.remark}
-                                    remarkType={constants.remarkFlag.DOCTOR_AUDITING}
-                                    updateRemark={this.props.updateDoctorRemark}
+                        <EditRemark value={this.remark}
+                                    updateRemark={newRemark => this.updateDoctorRemark(newRemark)}
                                     onExited={() => this.setState({showEditMark: false})}/>
                     )
                 }
@@ -185,55 +192,53 @@ class DoctorAuditing extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((doctor, index) => {
-                                        return (
-                                            <ul key={doctor['doctor_Id'] || index}
-                                                style={{minHeight: '50px'}}
-                                                className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
-                                            >
+                            {
+                                this.props.list.map((doctor, index) => {
+                                    return (
+                                        <ul key={doctor['doctor_Id'] || index}
+                                            style={{minHeight: '50px'}}
+                                            className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                            onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
+                                        >
 
-                                                <li className="item" style={{width: '100px'}}>{doctor['phone']}</li>
-                                                <li className="item" style={{width: '100px'}}>{doctor['doctor_Name']}</li>
-                                                <li className="item" style={{width: '120px'}}>{doctor['hospital_Id']}</li>
-                                                <li className="item" style={{width: '100px'}}>{doctor['department_Id']}</li>
-                                                <li className="item" style={{width: '130px'}}>{isVisitDoctor(doctor['is_Doctor_Purview'])}</li>
-                                                <li className="item" style={{width: '100px'}}>{doctor['title_Id']}</li>
-                                                <li className="item" style={{width: '80px'}}>
-                                                    {
-                                                        doctor['doctor_Photo'] && (
-                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Photo'])}>查看</span>
-                                                        )
-                                                    }
-                                                </li>
-                                                <li className="item" style={{width: '80px'}}>
-                                                    {
-                                                        doctor['doctor_Practicing_Photo'] && (
-                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Practicing_Photo'])}>查看</span>
-                                                        )
-                                                    }
-                                                </li>
-                                                <li className="item" style={{width: '120px'}}>{doctor['doctor_Practicing_Number']}</li>
-                                                <li className="item" style={{width: '100px'}}>{doctor['doctor_Major'] || ''}</li>
-                                                <li className="item" style={{width: '100px'}}>{getAuditStatus(doctor['doctor_Is_Checked'])}</li>
-                                                <li className="item" style={{width: '140px'}}>
-                                                    {doctor['doctor_Info_Remark']}
-                                                    <span>
+                                            <li className="item" style={{width: '100px'}}>{doctor['phone']}</li>
+                                            <li className="item" style={{width: '100px'}}>{doctor['doctor_Name']}</li>
+                                            <li className="item" style={{width: '120px'}}>{doctor['hospital_Id']}</li>
+                                            <li className="item" style={{width: '100px'}}>{doctor['department_Id']}</li>
+                                            <li className="item" style={{width: '130px'}}>{isVisitDoctor(doctor['is_Doctor_Purview'])}</li>
+                                            <li className="item" style={{width: '100px'}}>{doctor['title_Id']}</li>
+                                            <li className="item" style={{width: '80px'}}>
+                                                {
+                                                    doctor['doctor_Photo'] && (
+                                                        <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Photo'])}>查看</span>
+                                                    )
+                                                }
+                                            </li>
+                                            <li className="item" style={{width: '80px'}}>
+                                                {
+                                                    doctor['doctor_Practicing_Photo'] && (
+                                                        <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Practicing_Photo'])}>查看</span>
+                                                    )
+                                                }
+                                            </li>
+                                            <li className="item" style={{width: '120px'}}>{doctor['doctor_Practicing_Number']}</li>
+                                            <li className="item" style={{width: '100px'}}>{doctor['doctor_Major'] || ''}</li>
+                                            <li className="item" style={{width: '100px'}}>{getAuditStatus(doctor['doctor_Is_Checked'])}</li>
+                                            <li className="item" style={{width: '140px'}}>
+                                                {doctor['doctor_Info_Remark']}
+                                                <span>
                                                         <i className="fa fa-edit"
                                                            onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
                                                     </span>
-                                                </li>
-                                                <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
-                                                <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>
-                                                <li className="item" style={{width: '120px'}}>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                                            </li>
+                                            <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
+                                            <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>
+                                            <li className="item" style={{width: '120px'}}>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

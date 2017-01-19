@@ -1,335 +1,335 @@
 
 .paginate-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 12px;
+
+  & > .table {
     display: flex;
     flex: 1;
-    flex-direction: column;
     overflow: hidden;
-    font-size: 12px;
+    margin-bottom: 0;
+    flex-direction: column;
+  }
 
-    & > .table {
-        display: flex;
-        flex: 1;
-        overflow: hidden;
-        margin-bottom: 0;
-        flex-direction: column;
+  .js-table-container {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selected .group-desc .icon-more-select, .icon-more-select-block {
+    background-position: 0 -976px;
+    height: 12px;
+    width: 13px;
+  }
+
+  .arrow {
+    position: static;
+    border-style: none;
+  }
+
+  .fix-header-list {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    overflow: auto;
+  }
+
+  .fix-header-list .list-header, .fix-header-list .list-item {
+    width: 100%;
+  }
+
+  .fix-header-list .list-item-wrap {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+  }
+
+  .fix-header-list .list-item-wrap ul {
+    width: 4800px;
+    padding: 5px 11px;
+  }
+
+  .fix-header-list .list-item-wrap ul {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .fix-header-list li {
+    display: inline-block;
+  }
+
+  .fix-header-list .list-header {
+    width: 4800px;
+
+  }
+
+  .fix-header-list .list-item li {
+    vertical-align: middle;
+    overflow: hidden;
+  }
+
+  .fix-header-list .list-item.selected {
+    background-color: rgba(46, 213, 86, 0.5);
+  }
+
+  .scroll-bar-container {
+    overflow: auto;
+  }
+
+  .scroll-bar-container.vertical {
+    height: 100%;
+  }
+
+  .scroll-bar.horizontal {
+    height: 1px;
+  }
+
+  .scroll-bar.vertical {
+    width: 10px;
+  }
+
+  .scroll-bar-vertical-wrap {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .no-list-data {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -40px;
+    font-size: 20px;
+  }
+
+  .list-info {
+    border-top: 1px solid #ddd;
+    padding-top: 5px;
+    margin-top: 5px;
+    margin-left: 10px;
+    display: flex;
+  }
+
+  .list-count-info {
+    margin-top: 5px;
+  }
+
+  .list-nav-button {
+    margin-left: 50px;
+    flex: 1;
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table i.fa.fa-edit {
+    cursor: pointer;
+  }
+
+  .fix-header {
+    background-color: #b9def0;
+    overflow: hidden;
+  }
+
+  .fix-left {
+    float: left;
+  }
+
+  .fix-header-item {
+    padding: 9px 0 9px 15px;
+    float: left;
+  }
+
+  .js-fix-header-container {
+    left: 0;
+    right: 10px;
+    position: absolute;
+    z-index: 11;
+    top: 0;
+    overflow: hidden;
+  }
+
+  .fix-left-head {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 12;
+    background-color: rgba(225, 183, 40, 0.95);
+    .fix-left-head-item {
+      color: #000;
+      padding: 9px 15px;
+      float: left;
     }
+  }
 
-    .js-table-container {
-        position: relative;
-        width: 100%;
-        flex: 1;
-        overflow: auto;
-        display: flex;
-        flex-direction: column;
+  .fix-left-container {
+    background-color: rgba(225, 183, 40, 0.9);
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    bottom: 10px;
+    .fix-left-item {
+      padding: 9px 15px;
+      color: #000;
     }
-
-    .selected .group-desc .icon-more-select, .icon-more-select-block {
-        background-position: 0 -976px;
-        height: 12px;
-        width: 13px;
-    }
-
-    .arrow {
-        position: static;
-        border-style: none;
-    }
-
-    .fix-header-list {
-        flex: 1;
-        flex-direction: column;
-        display: flex;
-        overflow: auto;
-    }
-
-    .fix-header-list .list-header, .fix-header-list .list-item {
-        width: 100%;
-    }
-
-    .fix-header-list .list-item-wrap {
-        flex: 1;
-        overflow: auto;
-        position: relative;
-    }
-
-    .fix-header-list .list-item-wrap ul {
-        width: 4800px;
-        padding: 5px 11px;
-    }
-
-    .fix-header-list .list-item-wrap ul {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .fix-header-list li {
-        display: inline-block;
-    }
-
-    .fix-header-list .list-header {
-        width: 4800px;
-
-    }
-
-    .fix-header-list .list-item li {
-        vertical-align: middle;
-        overflow: hidden;
-    }
-
-    .fix-header-list .list-item.selected {
-        background-color: rgba(46, 213, 86, 0.5);
-    }
-
-    .scroll-bar-container {
-        overflow: auto;
-    }
-
-    .scroll-bar-container.vertical {
-        height: 100%;
-    }
-
-    .scroll-bar.horizontal {
-        height: 1px;
-    }
-
-    .scroll-bar.vertical {
-        width: 10px;
-    }
-
-    .scroll-bar-vertical-wrap {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-    }
-
-    .no-list-data {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -20px;
-        margin-left: -40px;
-        font-size: 20px;
-    }
-
-    .list-info {
-        border-top: 1px solid #ddd;
-        padding-top: 5px;
-        margin-top: 5px;
-        margin-left: 10px;
-        display: flex;
-    }
-
-    .list-count-info {
-        margin-top: 5px;
-    }
-
-    .list-nav-button {
-        margin-left: 50px;
-        flex: 1;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .table i.fa.fa-edit {
-        cursor: pointer;
-    }
-
-    .fix-header {
-        background-color: #b9def0;
-        overflow: hidden;
-    }
-
-    .fix-left {
-        float: left;
-    }
-
-    .fix-header-item {
-        padding: 9px 0 9px 15px;
-        float: left;
-    }
-
-    .js-fix-header-container {
-        left: 0;
-        right: 10px;
-        position: absolute;
-        z-index: 11;
-        top: 0;
-        overflow: hidden;
-    }
-
-    .fix-left-head {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 12;
-        background-color: rgba(225, 183, 40, 0.95);
-        .fix-left-head-item {
-            color: #000;
-            padding: 9px 15px;
-            float: left;
-        }
-    }
-
-    .fix-left-container {
-        background-color: rgba(225, 183, 40, 0.9);
-        overflow: hidden;
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        left: 0;
-        bottom: 10px;
-        .fix-left-item {
-            padding: 9px 15px;
-            color: #000;
-        }
-    }
+  }
 }
 
 .paginate-list {
 
-    .look-picture-txt {
+  .look-picture-txt {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .flex-list {
+
+    &.header {
+      display: flex;
+      background-color: #b9def0;
+      .item {
+        margin: 10px;
+        &:first-child {
+          margin-left: 15px;
+        }
+      }
+    }
+    &.body {
+      display: flex;
+      .item {
+        margin: 5px 10px;
+        overflow: hidden;
+        word-break: break-all;
+        &:first-child {
+          margin-left: 15px;
+        }
+      }
+      &:nth-of-type(odd) {
+        background-color: rgba(220, 230, 240, 0.4);
+      }
+      &:nth-of-type(even) {
+        background-color: rgba(200, 210, 220, 0.1);
+      }
+      &:hover {
+        background-color: rgba(46, 213, 86, 0.1);
+      }
+      &.selected {
+        background-color: rgba(46, 213, 86, 0.5);
+      }
+    }
+  }
+
+  .list-header {
+    padding: 10px 15px;
+    background-color: #b9def0;
+    .list-header-item {
+      float: left;
+    }
+  }
+
+  .list {
+    &:nth-of-type(odd) {
+      background-color: #f9f9f9;
+    }
+    &:hover {
+      background-color: rgba(46, 213, 86, 0.1);
+    }
+    .list-item {
+      vertical-align: middle;
+      padding: 10px 0 10px 15px;
+      float: left;
+    }
+    &.selected {
+      background-color: rgba(46, 213, 86, 0.5);
+    }
+  }
+
+  .sort {
+    position: relative;
+    a {
+      color: #666;
+    }
+
+    &.active {
+      margin-top: -10px;
+      margin-left: -10px;
+      .sort-container {
+        z-index: 99;
+        border: 1px solid #bbc8e2;
+        background-color: #fff;
+        padding: 9px;
+      }
+    }
+
+    .sort-container {
+      position: absolute;
+      top: 0;
+
+      .current-sort {
+        margin-bottom: 8px;
+        .link {
+          float: left;
+        }
+      }
+      .icon-more-select {
+        margin-left: 4px;
+        margin-top: 2px;
+        display: inline-block;
+        background-position: 0 -988px;
+        height: 12px;
+        width: 13px;
+      }
+    }
+
+    .icon-arrow-asc, .icon-arrow-desc {
+      display: inline-block;
+      margin: 4px 0 0 4px;
+      height: 10px;
+      width: 7px;
+    }
+
+    .icon-arrow-asc {
+      background-position: 0 -35px;
+    }
+
+    .icon-arrow-desc {
+      background-position: 0 -55px;
+    }
+
+    .icon-arrow-asc-red, .icon-arrow-desc-red {
+      display: inline-block;
+      height: 10px;
+      width: 7px;
+    }
+
+    .icon-arrow-asc-red {
+      background-position: 0 -25px;
+    }
+
+    .icon-arrow-desc-red {
+      background-position: 0 -45px;
+    }
+
+    .more {
+      clear: both;
+
+      .asc, .desc, .default {
         cursor: pointer;
-        text-decoration: underline;
+
+        height: 39px;
+        line-height: 39px;
+      }
     }
-
-    .flex-list {
-
-        &.header {
-            display: flex;
-            background-color: #b9def0;
-            .item {
-                margin: 10px;
-                &:first-child {
-                    margin-left: 15px;
-                }
-            }
-        }
-        &.body {
-            display: flex;
-            .item {
-                margin: 5px 10px;
-                overflow: hidden;
-                word-break: break-all;
-                &:first-child {
-                    margin-left: 15px;
-                }
-            }
-            &:nth-of-type(odd) {
-                background-color: #fff;
-            }
-            &:nth-of-type(even) {
-                background-color: #efefef;
-            }
-            &:hover {
-                background-color: rgba(46, 213, 86, 0.1);
-            }
-            &.selected {
-                background-color: rgba(46, 213, 86, 0.5);
-            }
-        }
-    }
-
-    .list-header {
-        padding: 10px 15px;
-        background-color: #b9def0;
-        .list-header-item {
-            float: left;
-        }
-    }
-
-    .list {
-        &:nth-of-type(odd) {
-            background-color: #f9f9f9;
-        }
-        &:hover {
-            background-color: rgba(46, 213, 86, 0.1);
-        }
-        .list-item {
-            vertical-align: middle;
-            padding: 10px 0 10px 15px;
-            float: left;
-        }
-        &.selected {
-            background-color: rgba(46, 213, 86, 0.5);
-        }
-    }
-
-    .sort {
-        position: relative;
-        a {
-            color: #666;
-        }
-
-        &.active {
-            margin-top: -10px;
-            margin-left: -10px;
-            .sort-container {
-                z-index: 99;
-                border: 1px solid #bbc8e2;
-                background-color: #fff;
-                padding: 9px;
-            }
-        }
-
-        .sort-container {
-            position: absolute;
-            top: 0;
-
-            .current-sort {
-                margin-bottom: 8px;
-                .link {
-                    float: left;
-                }
-            }
-            .icon-more-select {
-                margin-left: 4px;
-                margin-top: 2px;
-                display: inline-block;
-                background-position: 0 -988px;
-                height: 12px;
-                width: 13px;
-            }
-        }
-
-        .icon-arrow-asc, .icon-arrow-desc {
-            display: inline-block;
-            margin: 4px 0 0 4px;
-            height: 10px;
-            width: 7px;
-        }
-
-        .icon-arrow-asc {
-            background-position: 0 -35px;
-        }
-
-        .icon-arrow-desc {
-            background-position: 0 -55px;
-        }
-
-        .icon-arrow-asc-red, .icon-arrow-desc-red {
-            display: inline-block;
-            height: 10px;
-            width: 7px;
-        }
-
-        .icon-arrow-asc-red {
-            background-position: 0 -25px;
-        }
-
-        .icon-arrow-desc-red {
-            background-position: 0 -45px;
-        }
-
-        .more {
-            clear: both;
-
-            .asc, .desc, .default {
-                cursor: pointer;
-
-                height: 39px;
-                line-height: 39px;
-            }
-        }
-    }
+  }
 }

@@ -26,8 +26,9 @@ class ManagementPlatformApp extends Component {
     }
 
     componentDidMount() {
-        if (this.props.errQueue.length != 0) {
-            this.props.errQueue.forEach(errInfo => {
+        const {errQueue} = this.props.app
+        if (errQueue.length != 0) {
+            errQueue.forEach(errInfo => {
                 antdUtil.tipErr(errInfo.err)
                 this.props.deleteErr(errInfo.errId)
             })

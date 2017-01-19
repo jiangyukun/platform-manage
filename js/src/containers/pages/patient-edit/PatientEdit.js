@@ -1,28 +1,31 @@
 /**
- * Created by jiangyu2016 on 16/10/15.
+ * Created by jiangyukun on 16/10/15.
  */
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import classnames from 'classnames'
-import {merge} from 'lodash'
-import QueryFilter from '../../../components/core/QueryFilter'
-import FilterItem from '../../../components/core/query-filter/FilterItem'
-import CustomDateRange from '../../../components/core/query-filter/custom/CustomDateRange'
-import PaginateList from '../../../components/core/PaginateList'
-import SortBy from '../../../components/core/paginate-list/SortBy'
-import SmartList from '../../../components/core/list/SmartList'
-import HeadContainer from '../../../components/core/list/HeadContainer'
-import BodyContainer from '../../../components/core/list/BodyContainer'
-import EditPatientInfo from './EditPatientInfo'
-import EditRemark from '../common/EditRemark'
-import ImagePreview from '../../../components/core/ImagePreview'
-import constants from '../../../core/constants'
-import {getFilterItem} from '../../../core/utils'
-import {getAuditStatus, getYesOrNoText} from '../../../core/formatBusData'
-import {formatDateStr} from '../../../core/dateUtils'
-import * as commonActions from '../../../actions/pages/common'
-import * as actions from '../../../actions/pages/patient-edit'
-import * as editActions from '../../../actions/pages/node-auditing'
+import React, {Component, PropTypes} from "react"
+import {connect} from "react-redux"
+import classnames from "classnames"
+import {merge} from "lodash"
+
+import QueryFilter from "../../../components/core/QueryFilter"
+import FilterItem from "../../../components/core/query-filter/FilterItem"
+import CustomDateRange from "../../../components/core/query-filter/custom/CustomDateRange"
+import PaginateList from "../../../components/core/PaginateList"
+import SortBy from "../../../components/core/paginate-list/SortBy"
+import SmartList from "../../../components/core/list/SmartList"
+import HeadContainer from "../../../components/core/list/HeadContainer"
+import BodyContainer from "../../../components/core/list/BodyContainer"
+import EditPatientInfo from "./EditPatientInfo"
+import EditRemark from "../common/EditRemark"
+import ImagePreview from "../../../components/core/ImagePreview"
+
+import constants from "../../../core/constants"
+import {getFilterItem} from "../../../core/utils"
+import * as antdUtil from "../../../core/utils/antdUtil"
+import {formatDateStr} from "../../../core/dateUtils"
+import {getAuditStatus, getYesOrNoText} from "../../../core/formatBusData"
+import * as commonActions from "../../../actions/pages/common"
+import * as actions from "../../../actions/pages/patient-edit"
+import * as editActions from "../../../actions/pages/node-auditing"
 
 class PatientEdit extends Component {
     constructor() {
@@ -58,6 +61,12 @@ class PatientEdit extends Component {
         this.setState({showEditMark: true})
     }
 
+    updatePatientRemark(newRemark) {
+        this.props.updatePatientRemark(this.patientId, this.infoId, constants.remarkFlag.PATIENT_EDIT, newRemark)
+            .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err))
+            .then(() => this.setState({showEditMark: false}))
+    }
+
     componentDidMount() {
         this.beginFetch()
     }
@@ -78,11 +87,8 @@ class PatientEdit extends Component {
 
                 {
                     this.state.showEditMark && (
-                        <EditRemark patientId={this.patientId}
-                                    infoId={this.infoId}
-                                    value={this.remark}
-                                    updateRemark={this.props.updatePatientRemark}
-                                    remarkType={constants.remarkFlag.PATIENT_EDIT}
+                        <EditRemark value={this.remark}
+                                    updateRemark={newRemark => this.updatePatientRemark(newRemark)}
                                     onExited={() => this.setState({showEditMark: false})}/>
                     )
                 }
@@ -148,44 +154,42 @@ class PatientEdit extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((patient, index) => {
-                                        return (
-                                            <ul key={patient['patient_Id']}
-                                                style={{minHeight: '50px'}}
-                                                className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
-                                            >
-                                                <li className="item" style={{width: '100px'}}>{patient['patient_Phone']}</li>
-                                                <li className="item" style={{width: '100px'}}>{patient['patient_Name']}</li>
-                                                <li className="item" style={{width: '100px'}}>{patient['patient_BirthDate']}</li>
-                                                <li className="item flex1">{patient['patient_Nation']}</li>
-                                                <li className="item flex1">{getYesOrNoText(patient['patient_Is_Hepatitis'], '未知')}</li>
-                                                <li className="item flex1">{getYesOrNoText(patient['patient_Is_Pregnant'], '未知')}</li>
-                                                <li className="item flex1">
-                                                    {
-                                                        patient['patient_Photo'] && (
-                                                            <span className="look-picture-txt" onClick={e => this.imagePreview(patient['patient_Photo'])}>查看</span>
-                                                        )
-                                                    }
-                                                </li>
-                                                <li className="item" style={{width: '100px'}}>{patient['id_Num']}</li>
-                                                <li className="item flex1">{getAuditStatus(patient['checked'])}</li>
-                                                <li className="item flex1">
-                                                    {patient['remark']}
-                                                    <div>
-                                                        <i className="fa fa-edit"
-                                                           onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
-                                                    </div>
-                                                </li>
-                                                <li className="item" style={{width: '120px'}}>{formatDateStr(patient['creatTime'])}</li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((patient, index) => {
+                                    return (
+                                        <ul key={patient['patient_Id']}
+                                            style={{minHeight: '50px'}}
+                                            className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                            onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
+                                        >
+                                            <li className="item" style={{width: '100px'}}>{patient['patient_Phone']}</li>
+                                            <li className="item" style={{width: '100px'}}>{patient['patient_Name']}</li>
+                                            <li className="item" style={{width: '100px'}}>{patient['patient_BirthDate']}</li>
+                                            <li className="item flex1">{patient['patient_Nation']}</li>
+                                            <li className="item flex1">{getYesOrNoText(patient['patient_Is_Hepatitis'], '未知')}</li>
+                                            <li className="item flex1">{getYesOrNoText(patient['patient_Is_Pregnant'], '未知')}</li>
+                                            <li className="item flex1">
+                                                {
+                                                    patient['patient_Photo'] && (
+                                                        <span className="look-picture-txt" onClick={e => this.imagePreview(patient['patient_Photo'])}>查看</span>
+                                                    )
+                                                }
+                                            </li>
+                                            <li className="item" style={{width: '100px'}}>{patient['id_Num']}</li>
+                                            <li className="item flex1">{getAuditStatus(patient['checked'])}</li>
+                                            <li className="item flex1">
+                                                {patient['remark']}
+                                                <div>
+                                                    <i className="fa fa-edit"
+                                                       onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
+                                                </div>
+                                            </li>
+                                            <li className="item" style={{width: '120px'}}>{formatDateStr(patient['creatTime'])}</li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

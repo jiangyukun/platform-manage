@@ -1,0 +1,71 @@
+/**
+ * Created by jiangyukun on 2017/1/11.
+ */
+import React, {Component, PropTypes, Children} from 'react'
+
+import SmartList from '../list/SmartList'
+import HeadContainer from '../list/HeadContainer'
+import BodyContainer from '../list/BodyContainer'
+import Head from './Head'
+import HeadItem from './HeadItem'
+import Row from './Row'
+import RowItem from './RowItem'
+
+class Layout extends Component {
+    constructor() {
+        super()
+        this.state = {
+            currentIndex: -1
+        }
+    }
+
+    render() {
+        let header, rows = []
+        Children.forEach(this.props.children, child => {
+            if (child.type == Head) {
+                header = child
+            } else if (child.type == Row) {
+                rows.push(child)
+            }
+        })
+
+        return (
+            <SmartList fixHead={this.props.fixHead}
+                       fixLeft={this.props.fixLeft}
+                       loading={this.props.loading}
+                       minWidth={this.props.minWidth}
+                       width={this.props.width}>
+
+                <HeadContainer>
+                    {header && header}
+                </HeadContainer>
+                <BodyContainer>
+                    {rows}
+                </BodyContainer>
+            </SmartList>
+        )
+    }
+
+    getChildContext() {
+        return {
+            weight: this.props.weight
+        }
+    }
+}
+
+
+Layout.childContextTypes = {
+    weight: PropTypes.array
+}
+
+Layout.propTypes = {
+    data: PropTypes.object,
+    onRowClick: PropTypes.func
+}
+
+Layout.Head = Head
+Layout.HeadItem = HeadItem
+Layout.Row = Row
+Layout.RowItem = RowItem
+
+export default Layout

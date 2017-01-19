@@ -60,25 +60,23 @@ class PatientSituationStatistics extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((statistics, index) => {
-                                        return (
-                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                style={{height: '40px'}}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                            >
-                                                <li className="item flex2">{statistics['hospital_name']}</li>
-                                                <li className="item flex1">{statistics['hospital_code']}</li>
-                                                <li className="item flex1">{statistics['is_project_hospital']}</li>
-                                                <li className="item flex1">{statistics['non_clinical_patient_count']}</li>
-                                                <li className="item flex1">{statistics['clinical_patient_count']}</li>
-                                                <li className="item flex1">{statistics['patient_count']}</li>
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((statistics, index) => {
+                                    return (
+                                        <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            style={{height: '40px'}}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                        >
+                                            <li className="item flex2">{statistics['hospital_name']}</li>
+                                            <li className="item flex1">{statistics['hospital_code']}</li>
+                                            <li className="item flex1">{statistics['is_project_hospital']}</li>
+                                            <li className="item flex1">{statistics['non_clinical_patient_count']}</li>
+                                            <li className="item flex1">{statistics['clinical_patient_count']}</li>
+                                            <li className="item flex1">{statistics['patient_count']}</li>
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

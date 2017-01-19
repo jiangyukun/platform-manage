@@ -83,20 +83,18 @@ class AppUpdate extends Component {
                             </ul>
                         </HeadContainer>
                         <BodyContainer>
-                            <div>
-                                {
-                                    this.props.list.map((update, index) => {
-                                        return (
-                                            <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                                                style={{height: '40px'}}
-                                                onClick={e => this.setState({currentIndex: index})}
-                                                onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
-                                            >
-                                            </ul>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                this.props.list.map((update, index) => {
+                                    return (
+                                        <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                                            style={{height: '40px'}}
+                                            onClick={e => this.setState({currentIndex: index})}
+                                            onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
+                                        >
+                                        </ul>
+                                    )
+                                })
+                            }
                         </BodyContainer>
                     </SmartList>
                 </PaginateList>

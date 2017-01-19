@@ -127,11 +127,11 @@ export default class NavAdmin extends Component {
                                 <span>知识库维护</span>
                             </a>
                         </Item>
-                        <Item key="2_3">
+                        {/*<Item key="2_3">
                             <a>
                                 <span>群组维护</span>
                             </a>
-                        </Item>
+                        </Item>*/}
                     </SubMenu>
 
 

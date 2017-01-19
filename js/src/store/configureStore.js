@@ -34,7 +34,8 @@ export default function configureStore() {
                 asideDock: false,
                 container: false,
                 asideMessage: true
-            }
+            },
+            errQueue: []
         }
     }, applyMiddleware(thunk))
 }
