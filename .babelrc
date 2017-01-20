@@ -33,6 +33,7 @@
         "loose": true
       }
     ],
+    "transform-class-properties",
     "transform-es2015-literals",
     "transform-es2015-function-name",
     "transform-es2015-arrow-functions",

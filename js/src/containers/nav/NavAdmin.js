@@ -31,12 +31,17 @@ export default class NavAdmin extends Component {
         const nodeAuditing = getPath('node-auditing') // 节点审核
         const patientEdit = getPath('patient-edit') // 病人编辑
         const laboratorySheet = getPath('laboratory-sheet') // 化验单查看
+
         const doctorAuditing = getPath('doctor-auditing') // 医生审核
         const outPatientTime = getPath('out-patient-time') // 医生门诊时间
         const hospitalManage = getPath('hospital-manage') // 医院管理
+
         const appUpdate = getPath('app-update') // app更新
+
         const patientSituationStatistics = getPath('patient-situation-statistics') //病人情况统计
         const hospitalAssayReport = getPath('hospital-assay-report') // 中心验单情况表
+        const doctorComprehensiveScore = getPath('doctor-comprehensive-score')
+
         const smsManage = getPath('sms-manage') // 短信
 
         const openMenu = []
@@ -56,6 +61,7 @@ export default class NavAdmin extends Component {
                 break
             case patientSituationStatistics:
             case hospitalAssayReport:
+            case doctorComprehensiveScore:
                 openMenu.push('-STATISTICS-')
                 break
             case smsManage:
@@ -128,12 +134,11 @@ export default class NavAdmin extends Component {
                             </a>
                         </Item>
                         {/*<Item key="2_3">
-                            <a>
-                                <span>群组维护</span>
-                            </a>
-                        </Item>*/}
+                         <a>
+                         <span>群组维护</span>
+                         </a>
+                         </Item>*/}
                     </SubMenu>
-
 
                     <SubMenu key="-STATISTICS-" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
                         <Item key={hospitalAssayReport}>
@@ -144,6 +149,11 @@ export default class NavAdmin extends Component {
                         <Item key={patientSituationStatistics}>
                             <Link to={patientSituationStatistics}>
                                 <span>病人情况报表</span>
+                            </Link>
+                        </Item>
+                        <Item key={doctorComprehensiveScore}>
+                            <Link to={doctorComprehensiveScore}>
+                                <span>医生综合评分</span>
                             </Link>
                         </Item>
                         {/*<Item key="6_2">
