@@ -97,7 +97,7 @@ class PaginateList extends Component {
                                 pageIndexes.map(page => {
                                     return (
                                         <li key={page} className={classnames({'active': this.state.currentPage == page})}>
-                                            <a onClick={e => this.toPage(page)}>{page}</a>
+                                            <a onClick={e => this.toPage(page)} disabled={page == '...'}>{page}</a>
                                         </li>
                                     )
                                 })

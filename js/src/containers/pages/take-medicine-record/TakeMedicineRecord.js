@@ -1,23 +1,29 @@
 /**
- * Created by jiangyukun on 2017/1/20.
+ * Created by jiangyukun on 2017/1/22.
  */
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import {merge} from 'lodash'
+import {bindActionCreators} from 'redux'
 
-import QueryFilter from '../../../../components/core/QueryFilter'
-import FilterItem from '../../../../components/core/query-filter/FilterItem'
-import CustomTextInput from '../../../../components/core/query-filter/custom/CustomTextInput'
-import PaginateList from '../../../../components/core/PaginateList'
-import Layout from "../../../../components/core/layout/Layout"
+import QueryFilter from '../../../components/core/QueryFilter'
+import FilterItem from '../../../components/core/query-filter/FilterItem'
+import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
+import PaginateList from '../../../components/core/PaginateList'
+import Layout from "../../../components/core/layout/Layout"
 
-import * as utils from '../../../../core/utils'
-import {fetchHospitalList} from '../../../../actions/hospital'
+import {fetchHospitalList} from '../../../actions/hospital'
+import * as utils from '../../../core/utils'
 
-class DoctorComprehensiveScore extends Component {
-    state = {
-        showExport: false
+class TakeMedicineRecord extends Component {
+    constructor() {
+        super()
+        this.state = {
+            currentIndex: -1,
+            loading: false,
+            showDetail: false,
+            showEditRemark: false
+        }
     }
 
     beginFetch(newPageIndex) {
@@ -37,16 +43,15 @@ class DoctorComprehensiveScore extends Component {
     }
 
     render() {
-        const {Head, HeadItem, Row, RowItem} = Layout
+        const {Head, Row} = Layout
 
         return (
             <div className="app-function-page">
-                {this.state.showExport && (<div>a</div>)}
-
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch(1)}
                              searchKeyName="search_key"
                 >
+
                     <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
 
                     <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
@@ -55,10 +60,9 @@ class DoctorComprehensiveScore extends Component {
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_manager"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                    <FilterItem size="small" item={this.props.operationPersonList}>
                         <CustomTextInput placeholder="请输入运营人员" textName="operation_manager"/>
                     </FilterItem>
-
                 </QueryFilter>
 
                 <PaginateList ref={c => this._paginateList = c}
@@ -69,72 +73,71 @@ class DoctorComprehensiveScore extends Component {
                               byName="order_By"
                 >
                     <Layout loading={this.state.loading}
-                            minWidth={1000}
+                            minWidth={1200}
                             fixHead={true}
                             fixLeft={[0, 2]}
-                            weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+                            weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
                     >
                         <Head>
-                            <HeadItem>医生账号</HeadItem>
-                            <HeadItem>姓名</HeadItem>
-                            <HeadItem>医院</HeadItem>
-                            <HeadItem>科室</HeadItem>
-                            <HeadItem>后台管理人员</HeadItem>
-                            <HeadItem>运营人员</HeadItem>
-                            <HeadItem>备注</HeadItem>
-                            <HeadItem>上周五评分</HeadItem>
-                            <HeadItem>上周五排名</HeadItem>
-                            <HeadItem>评分排名记录</HeadItem>
+                            <Head.Item>患者编号</Head.Item>
+                            <Head.Item>手机号码</Head.Item>
+                            <Head.Item>患者姓名</Head.Item>
+                            <Head.Item>主治医生</Head.Item>
+                            <Head.Item>医院</Head.Item>
+                            <Head.Item>科室</Head.Item>
+                            <Head.Item>后台管理人员</Head.Item>
+                            <Head.Item>运营人员</Head.Item>
+                            <Head.Item>备注</Head.Item>
+                            <Head.Item>服药状态</Head.Item>
+                            <Head.Item>放弃服药原因</Head.Item>
+                            <Head.Item>医生确认时间</Head.Item>
                         </Head>
                         {
-                            this.props.list.map((comprehensiveScore, index) => {
+                            this.props.list.map((outPatient, index) => {
                                 return (
-                                    <Row key={comprehensiveScore['id']}
+                                    <Row key={outPatient['user_id']}
                                          onClick={e => this.setState({currentIndex: index})}
                                          selected={this.state.currentIndex == index}
                                          style={{minHeight: '60px'}}
                                     >
-                                        <RowItem>{comprehensiveScore['user_Name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['doctor_name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['hospital_name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['department_id']}</RowItem>
-                                        <RowItem>{comprehensiveScore['backend_manager']}</RowItem>
-                                        <RowItem>{comprehensiveScore['operation_manager']}</RowItem>
-                                        <RowItem>
-                                            {comprehensiveScore['remark']}
+                                        <Row.Item>{outPatient['user_Name']}</Row.Item>
+                                        <Row.Item>{outPatient['doctor_name']}</Row.Item>
+                                        <Row.Item>{outPatient['hospital_name']}</Row.Item>
+                                        <Row.Item>{outPatient['department_id']}</Row.Item>
+                                        <Row.Item>{outPatient['backend_manager']}</Row.Item>
+                                        <Row.Item>{outPatient['operation_manager']}</Row.Item>
+                                        <Row.Item>
+                                            {outPatient['remark']}
                                             <i className="fa fa-edit"
                                                onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
-                                        </RowItem>
-                                        <RowItem>{comprehensiveScore['rate']}</RowItem>
-                                        <RowItem>{comprehensiveScore['rate']}</RowItem>
-                                        <RowItem>
-                                            <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
-                                        </RowItem>
+                                        </Row.Item>
+                                        <Row.Item>{outPatient['doctor_clinic_time']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
                                     </Row>
                                 )
                             })
                         }
                     </Layout>
                 </PaginateList>
-
             </div>
         )
     }
 }
 
-
 function mapStateToProps(state) {
-    const {total, list} = {}
-
     return {
         total: 0,
         list: [],
-        hospitalList: state.hospitalList,
+        hospitalList: state['hospitalList'],
         hospitalFilterList: {
             typeCode: 'hospital',
             typeText: '医院',
             typeItemList: state.hospitalList
         },
+
         backendMangerList: utils.getFilterItem('backendManager', '后台管理人员', []),
         operationPersonList: utils.getFilterItem('operationPerson', '运营人员', [])
     }
@@ -142,8 +145,8 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return merge(bindActionCreators({}, dispatch), {
-        fetchHospitalList: fetchHospitalList(dispatch),
+        fetchHospitalList: fetchHospitalList(dispatch)
     })
 }
 
-export default connect(mapStateToProps, mapActionToProps)(DoctorComprehensiveScore)
+export default connect(mapStateToProps, mapActionToProps)(TakeMedicineRecord)

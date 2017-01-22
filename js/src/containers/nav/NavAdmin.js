@@ -8,7 +8,7 @@ import Icon from 'antd/lib/icon'
 
 import {getPath} from '../../core/utils'
 
-export default class NavAdmin extends Component {
+class NavAdmin extends Component {
     constructor(props, context) {
         super(props, context)
         this.state = {current: context.router.getCurrentLocation().pathname}
@@ -31,6 +31,7 @@ export default class NavAdmin extends Component {
         const nodeAuditing = getPath('node-auditing') // 节点审核
         const patientEdit = getPath('patient-edit') // 病人编辑
         const laboratorySheet = getPath('laboratory-sheet') // 化验单查看
+        const takeMedicineRecord = getPath('take-medicine-record') // 服药记录
 
         const doctorAuditing = getPath('doctor-auditing') // 医生审核
         const outPatientTime = getPath('out-patient-time') // 医生门诊时间
@@ -49,6 +50,7 @@ export default class NavAdmin extends Component {
             case nodeAuditing:
             case patientEdit:
             case laboratorySheet:
+            case takeMedicineRecord:
                 openMenu.push('-PATIENT-')
                 break
             case doctorAuditing:
@@ -95,6 +97,11 @@ export default class NavAdmin extends Component {
                         <Item key={laboratorySheet}>
                             <Link to={laboratorySheet}>
                                 <span>化验单查看</span>
+                            </Link>
+                        </Item>
+                        <Item key={takeMedicineRecord}>
+                            <Link to={takeMedicineRecord}>
+                                <span>服药确认记录</span>
                             </Link>
                         </Item>
                     </SubMenu>
@@ -198,18 +205,8 @@ export default class NavAdmin extends Component {
                          </a>
                          </Item>*/}
 
-
                     </SubMenu>
-
-
                 </Menu>
-
-                {/*患者管理*/}
-
-                {/*医生管理*/}
-
-                {/*报表统计*/}
-
             </nav>
         )
     }
@@ -218,3 +215,5 @@ export default class NavAdmin extends Component {
 NavAdmin.contextTypes = {
     router: routerShape
 }
+
+export default NavAdmin

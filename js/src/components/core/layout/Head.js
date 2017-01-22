@@ -2,6 +2,7 @@
  * Created by jiangyukun on 2017/1/19.
  */
 import React, {Component, PropTypes, Children, cloneElement} from 'react'
+import HeadItem from './HeadItem'
 
 class Head extends Component {
     render() {
@@ -23,5 +24,7 @@ class Head extends Component {
 Head.contextTypes = {
     weight: PropTypes.array
 }
+
+Head.Item = HeadItem
 
 export default Head

@@ -45,7 +45,7 @@ class OutPatientTime extends Component {
     }
 
     exportExcel() {
-        location.href = ''
+        location.href = 'clinicTime/DoctorClinicExportExcel'
     }
 
     componentDidMount() {
@@ -59,7 +59,7 @@ class OutPatientTime extends Component {
     }
 
     render() {
-        const {Head, HeadItem, Row, RowItem} = Layout
+        const {Head, Row} = Layout
         const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
 
         return (
@@ -99,7 +99,7 @@ class OutPatientTime extends Component {
                         <CustomTextInput placeholder="请输入后台管理人员" textName="backend_manager"/>
                     </FilterItem>
 
-                    <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+                    <FilterItem size="small" item={this.props.operationPersonList}>
                         <CustomTextInput placeholder="请输入运营人员" textName="operation_manager"/>
                     </FilterItem>
                 </QueryFilter>
@@ -118,23 +118,23 @@ class OutPatientTime extends Component {
                             weight={weight}
                     >
                         <Head>
-                            <HeadItem>医生账号</HeadItem>
-                            <HeadItem>姓名</HeadItem>
-                            <HeadItem>医院</HeadItem>
-                            <HeadItem>科室</HeadItem>
-                            <HeadItem>后台管理人员</HeadItem>
-                            <HeadItem>运营人员</HeadItem>
-                            <HeadItem>备注</HeadItem>
-                            <HeadItem>门诊时间</HeadItem>
-                            <HeadItem>周一</HeadItem>
-                            <HeadItem>周二</HeadItem>
-                            <HeadItem>周三</HeadItem>
-                            <HeadItem>周四</HeadItem>
-                            <HeadItem>周五</HeadItem>
-                            <HeadItem>周六</HeadItem>
-                            <HeadItem>周日</HeadItem>
-                            <HeadItem>生效临时通知</HeadItem>
-                            <HeadItem>临时通知记录</HeadItem>
+                            <Head.Item>医生账号</Head.Item>
+                            <Head.Item>姓名</Head.Item>
+                            <Head.Item>医院</Head.Item>
+                            <Head.Item>科室</Head.Item>
+                            <Head.Item>后台管理人员</Head.Item>
+                            <Head.Item>运营人员</Head.Item>
+                            <Head.Item>备注</Head.Item>
+                            <Head.Item>门诊时间</Head.Item>
+                            <Head.Item>周一</Head.Item>
+                            <Head.Item>周二</Head.Item>
+                            <Head.Item>周三</Head.Item>
+                            <Head.Item>周四</Head.Item>
+                            <Head.Item>周五</Head.Item>
+                            <Head.Item>周六</Head.Item>
+                            <Head.Item>周日</Head.Item>
+                            <Head.Item>生效临时通知</Head.Item>
+                            <Head.Item>临时通知记录</Head.Item>
                         </Head>
                         {
                             this.props.list.map((outPatient, index) => {
@@ -144,29 +144,29 @@ class OutPatientTime extends Component {
                                          selected={this.state.currentIndex == index}
                                          style={{minHeight: '60px'}}
                                     >
-                                        <RowItem>{outPatient['user_Name']}</RowItem>
-                                        <RowItem>{outPatient['doctor_name']}</RowItem>
-                                        <RowItem>{outPatient['hospital_name']}</RowItem>
-                                        <RowItem>{outPatient['department_id']}</RowItem>
-                                        <RowItem>{outPatient['backend_manager']}</RowItem>
-                                        <RowItem>{outPatient['operation_manager']}</RowItem>
-                                        <RowItem>
+                                        <Row.Item>{outPatient['user_Name']}</Row.Item>
+                                        <Row.Item>{outPatient['doctor_name']}</Row.Item>
+                                        <Row.Item>{outPatient['hospital_name']}</Row.Item>
+                                        <Row.Item>{outPatient['department_id']}</Row.Item>
+                                        <Row.Item>{outPatient['backend_manager']}</Row.Item>
+                                        <Row.Item>{outPatient['operation_manager']}</Row.Item>
+                                        <Row.Item>
                                             {outPatient['remark']}
                                             <i className="fa fa-edit"
                                                onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
-                                        </RowItem>
-                                        <RowItem>{outPatient['doctor_clinic_time']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['day1']}</RowItem>
-                                        <RowItem>{outPatient['l1']}</RowItem>
-                                        <RowItem>
+                                        </Row.Item>
+                                        <Row.Item>{outPatient['doctor_clinic_time']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>{outPatient['l1']}</Row.Item>
+                                        <Row.Item>
                                             <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
-                                        </RowItem>
+                                        </Row.Item>
                                     </Row>
                                 )
                             })
@@ -198,8 +198,7 @@ function mapStateToProps(state) {
             typeText: '科室',
             typeItemList: state.departmentList
         },
-        backendMangerList: utils.getFilterItem('backendManager', '后台管理人员', []),
-        operationPersonList: utils.getFilterItem('operationPerson', '运营人员', [])
+
     }
 }
 
