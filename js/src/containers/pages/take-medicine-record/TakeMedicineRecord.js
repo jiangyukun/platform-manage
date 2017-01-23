@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import {bindActionCreators} from 'redux'
 
+import AppFunctionPage from '../common/AppFunctionPage'
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
@@ -46,7 +47,7 @@ class TakeMedicineRecord extends Component {
         const {Head, Row} = Layout
 
         return (
-            <div className="app-function-page">
+            <AppFunctionPage>
                 <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                              beginFilter={() => this.beginFetch(1)}
                              searchKeyName="search_key"
@@ -122,7 +123,7 @@ class TakeMedicineRecord extends Component {
                         }
                     </Layout>
                 </PaginateList>
-            </div>
+            </AppFunctionPage>
         )
     }
 }

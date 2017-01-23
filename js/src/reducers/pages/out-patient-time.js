@@ -8,9 +8,6 @@ import * as phase from '../../constants/PhaseConstant'
 const defaultValue = {
     total: 0,
     list: [],
-    loading: {
-
-    },
     detail: {
         doctorName: '',
         hospital: '',
@@ -55,6 +52,7 @@ export function outPatientTimePaginateList(state = defaultValue, action) {
         const {hospital, doctorName, detailList} = action
         return _updateDetail(iState, detail => detail.set('doctorName', doctorName).set('hospital', hospital).set('dateList', detailList))
     }
+
 
     // ---------------------------
 

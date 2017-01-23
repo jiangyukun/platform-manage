@@ -20,7 +20,7 @@ import * as commonActions from '../../../actions/pages/common'
 import * as actions from '../../../actions/pages/out-patient-time'
 
 class OutPatientTime extends Component {
-    constructor() {
+    constructor(props) {
         super()
         this.state = {
             currentIndex: -1,
@@ -77,6 +77,7 @@ class OutPatientTime extends Component {
                 {
                     this.state.showEditRemark && this.state.currentIndex != -1 && (
                         <EditRemark
+                            value={this.props.list[this.state.currentIndex]['remark']}
                             updateRemark={newRemark => this.updateRemark(newRemark)}
                             onExited={() => this.setState({showEditRemark: false})}/>
                     )

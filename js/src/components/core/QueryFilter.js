@@ -56,17 +56,6 @@ class QueryFilter extends Component {
         this.props.beginFilter()
     }
 
-    getSearchToolbar() {
-        return (
-            <div className="group-input">
-                <Form>
-                    <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
-                    <button className="icon-search-btn" onClick={e => this.filter()}></button>
-                </Form>
-            </div>
-        )
-    }
-
     addFilterItem(filterItem) {
         if (this.filterItemList.indexOf(filterItem) == -1) {
             this.filterItemList.push(filterItem)
@@ -90,6 +79,17 @@ class QueryFilter extends Component {
         return params
     }
 
+    getSearchToolbar() {
+        return (
+            <div className="group-input">
+                <Form>
+                    <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
+                    <button className="icon-search-btn" onClick={e => this.filter()}></button>
+                </Form>
+            </div>
+        )
+    }
+
     render() {
         let buttons = this.props.children.map(child => {
             if (child.type == 'button') {
@@ -104,21 +104,16 @@ class QueryFilter extends Component {
         })
 
         let showSelectFilterItem = () => {
-            let showErrorTipUI = filterCondition => {
-                if (filterCondition.invalidate) {
-                    return (
-                        <i className="fa fa-warning filter-item-warning" title={filterCondition.errorTip}></i>
-                    )
-                }
-                return null
-            }
-
             return this.state.filterConditions.map((filterCondition, index) => {
                 return (
                     <a key={index}
                        className={classnames('select-result select-result2 select-resultqage', {'invalidate': filterCondition.invalidate})}>
                         <span>{filterCondition.typeText}： {filterCondition.typeItem.text}</span>
-                        {showErrorTipUI(filterCondition)}
+                        {
+                            filterCondition.invalidate && (
+                                <i className="fa fa-warning filter-item-warning" title={filterCondition.errorTip}></i>
+                            )
+                        }
                         <i className="icon-close" onClick={e => this.removeFilterItem(filterCondition.typeCode)}></i>
                     </a>
                 )

@@ -12,7 +12,6 @@ export function fetchOutPatientTimePaginateList(option) {
         })
 
         POST(`/clinicTime/getDoctorListByScreen`, {body: option}).then(result => {
-
             const list = result['allDoctorInfoList']
             const total = result['count']
             dispatch({
@@ -57,12 +56,8 @@ export function updateRemark(userId, doctorMobile, newRemark) {
         })
 
         POST(`/clinicTime/updateBackendRemark`, {body: {'user_id': userId, 'doctor_phone': doctorMobile, 'remark': newRemark}}).then(result => {
-            const doctorName = result['doctor_name']
-            const hospital = result['hospital']
-            const detailList = result['shortNoticeRecordList']
-
             dispatch({
-                type: types.UPDATE_OUT_PATIENT_REMARK + phase.SUCCESS, doctorName, hospital, detailList
+                type: types.UPDATE_OUT_PATIENT_REMARK + phase.SUCCESS
             })
         }, err => {
             dispatch({

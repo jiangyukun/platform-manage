@@ -10,11 +10,6 @@ class FilterItem extends Component {
     constructor(props, context) {
         super(props, context)
 
-        this.selectCustom = this.selectCustom.bind(this)
-        this.selectSubItem = this.selectSubItem.bind(this)
-        this.addCustomItem = this.addCustomItem.bind(this)
-        this.addSubItem = this.addSubItem.bind(this)
-
         context.addFilterItem(this)
         this.defaultItem = {value: '', text: '不限'}
         this.customItemList = []
@@ -24,7 +19,7 @@ class FilterItem extends Component {
     }
 
     // QueryFilter 重置 FilterItem 调用方法
-    reset() {
+    reset = () => {
         this.setState({'selected': ''})
         this.lastTypeItem = null
         this.subItemList.forEach(subItem => subItem.reset())
@@ -34,69 +29,12 @@ class FilterItem extends Component {
         }
     }
 
-    // 添加自定义选项
-    addCustomItem(customItem) {
-        if (this.customItemList.indexOf(customItem) == -1) {
-            this.customItemList.push(customItem)
-        }
-    }
+    getSelectInfo = () => {
 
-    // 添加子选项
-    addSubItem(subItem) {
-        if (this.subItemList.indexOf(subItem) == -1) {
-            this.subItemList.push(subItem)
-        }
-    }
-
-    // 选择选项
-    select(typeItem) {
-        this.lastTypeItem = typeItem
-        this.subItemList.forEach(subItem => subItem.onChange(typeItem))
-        this.setState({'selected': typeItem.value})
-        let {typeCode, typeText} = this.props.item
-        this.props.onSelect(typeItem)
-        this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
-    }
-
-    selectCustom(typeItem) {
-        this.lastTypeItem = null
-        this.setState({'selected': null})
-        let {typeCode, typeText} = this.props.item
-        this.props.onSelect(typeItem)
-        this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
-    }
-
-    // 选择子选项
-    selectSubItem(title, value, text, errorTip) {
-        let {typeCode, typeText} = this.props.item
-        this.context.updateFilterItem({
-            typeCode,
-            typeText,
-            typeItem: {
-                value: {
-                    main: this.lastTypeItem,
-                    custom: {value, text}
-                },
-                text: this.lastTypeItem.text + title,
-                errorTip: errorTip
-            },
-            filterItem: this
-        })
-    }
-
-    // 点击“不限”
-    selectDefault() {
-        this.setState({'selected': ''})
-        this.subItemList.forEach(subItem => subItem.onChange(this.defaultItem))
-        this.customItemList.forEach(customItem => customItem.reset())
-        this.context.removeFilterItem(this.props.item.typeCode)
-        if (this._select1) {
-            this._select1.reset()
-        }
     }
 
     // QueryFilter 调用此方法合成所有过滤请求参数
-    getParam() {
+    getParam = () => {
         let result = {}
         const {paramName, useText} = this.props
         if (paramName && this.lastTypeItem) {
@@ -117,6 +55,67 @@ class FilterItem extends Component {
             }
         })
         return result
+    }
+
+    // 添加自定义选项
+    addCustomItem = (customItem) => {
+        if (this.customItemList.indexOf(customItem) == -1) {
+            this.customItemList.push(customItem)
+        }
+    }
+
+    // 添加子选项
+    addSubItem = (subItem) => {
+        if (this.subItemList.indexOf(subItem) == -1) {
+            this.subItemList.push(subItem)
+        }
+    }
+
+    // 选择选项
+    select = (typeItem) => {
+        this.lastTypeItem = typeItem
+        this.subItemList.forEach(subItem => subItem.onChange(typeItem))
+        this.setState({'selected': typeItem.value})
+        let {typeCode, typeText} = this.props.item
+        this.props.onSelect(typeItem)
+        this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
+    }
+
+    selectCustom = (typeItem) => {
+        this.lastTypeItem = null
+        this.setState({'selected': null})
+        let {typeCode, typeText} = this.props.item
+        this.props.onSelect(typeItem)
+        this.context.updateFilterItem({typeCode, typeText, typeItem, filterItem: this})
+    }
+
+    // 选择子选项
+    selectSubItem = (title, value, text, errorTip) => {
+        let {typeCode, typeText} = this.props.item
+        this.context.updateFilterItem({
+            typeCode,
+            typeText,
+            typeItem: {
+                value: {
+                    main: this.lastTypeItem,
+                    custom: {value, text}
+                },
+                text: this.lastTypeItem.text + title,
+                errorTip: errorTip
+            },
+            filterItem: this
+        })
+    }
+
+    // 点击“不限”
+    selectDefault = () => {
+        this.setState({'selected': ''})
+        this.subItemList.forEach(subItem => subItem.onChange(this.defaultItem))
+        this.customItemList.forEach(customItem => customItem.reset())
+        this.context.removeFilterItem(this.props.item.typeCode)
+        if (this._select1) {
+            this._select1.reset()
+        }
     }
 
     render() {

@@ -35,6 +35,7 @@ class NavAdmin extends Component {
 
         const doctorAuditing = getPath('doctor-auditing') // 医生审核
         const outPatientTime = getPath('out-patient-time') // 医生门诊时间
+        const todoWorkTrack = getPath('todo-work-track') // 医生门诊时间
         const hospitalManage = getPath('hospital-manage') // 医院管理
 
         const appUpdate = getPath('app-update') // app更新
@@ -55,6 +56,7 @@ class NavAdmin extends Component {
                 break
             case doctorAuditing:
             case hospitalManage:
+            case todoWorkTrack:
             case outPatientTime:
                 openMenu.push('-DOCTOR-')
                 break
@@ -115,6 +117,11 @@ class NavAdmin extends Component {
                         <Item key={outPatientTime}>
                             <Link to={outPatientTime}>
                                 <span>医生门诊时间</span>
+                            </Link>
+                        </Item>
+                        <Item key={todoWorkTrack}>
+                            <Link to={todoWorkTrack}>
+                                <span>代办跟踪</span>
                             </Link>
                         </Item>
                         <Item key={hospitalManage}>

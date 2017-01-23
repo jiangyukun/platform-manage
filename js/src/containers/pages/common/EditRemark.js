@@ -7,23 +7,21 @@ import CommonDialog from '../../../components/core/CommonDialog'
 class EditRemark extends Component {
     constructor(props) {
         super(props)
-        this.close = this.close.bind(this)
-        this.confirm = this.confirm.bind(this)
-        this.handleChange = this.handleChange.bind(this)
         this.originalValue = props.value
         this.state = {show: true, value: props.value || ''}
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({value: event.target.value.trim()})
     }
 
-    close() {
+    close = () => {
         this.setState({show: false})
     }
 
-    confirm() {
+    confirm = () => {
         this.props.updateRemark(this.state.value)
+        this.close()
     }
 
     render() {
