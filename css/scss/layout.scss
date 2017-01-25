@@ -26,3 +26,10 @@ ul {
 .ngdialog {
     z-index: 2000;
 }
+
+.time-forenoon, .time-afternoon, .forenoon, .afternoon {
+    height: 50%;
+    line-height: 1.8;
+    background: #fff;
+    text-align: center;
+}

@@ -3,6 +3,7 @@
  */
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
+import onceValidValue from '../middleware/once_valid_value'
 import {routerReducer as routing} from 'react-router-redux'
 import * as reducers from '../reducers/'
 
@@ -37,5 +38,5 @@ export default function configureStore() {
             },
             errQueue: []
         }
-    }, applyMiddleware(thunk))
+    }, applyMiddleware(thunk, onceValidValue))
 }

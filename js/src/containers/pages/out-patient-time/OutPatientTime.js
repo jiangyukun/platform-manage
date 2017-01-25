@@ -78,6 +78,7 @@ class OutPatientTime extends Component {
                     this.state.showEditRemark && this.state.currentIndex != -1 && (
                         <EditRemark
                             value={this.props.list[this.state.currentIndex]['remark']}
+                            remarkUpdated={this.props.remarkUpdated}
                             updateRemark={newRemark => this.updateRemark(newRemark)}
                             onExited={() => this.setState({showEditRemark: false})}/>
                     )
@@ -156,8 +157,14 @@ class OutPatientTime extends Component {
                                             <i className="fa fa-edit"
                                                onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                                         </Row.Item>
-                                        <Row.Item>{outPatient['doctor_clinic_time']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
+                                        <Row.Item>
+                                            <div className="time-forenoon">上午</div>
+                                            <div className="time-afternoon">下午</div>
+                                        </Row.Item>
+                                        <Row.Item>
+                                            <div className="forenoon">班</div>
+                                            <div className="afternoon">班</div>
+                                        </Row.Item>
                                         <Row.Item>{outPatient['day1']}</Row.Item>
                                         <Row.Item>{outPatient['day1']}</Row.Item>
                                         <Row.Item>{outPatient['day1']}</Row.Item>
@@ -180,11 +187,12 @@ class OutPatientTime extends Component {
 }
 
 function mapStateToProps(state) {
-    const {total, list, detail} = state['outPatientTimePaginateList']
+    const {total, list, detail, remarkUpdated} = state['outPatientTimePaginateList']
 
     return {
         total,
         list,
+        remarkUpdated,
         doctorDateDetail: detail,
         hospitalList: state.hospitalList,
         departmentList: state.departmentList,

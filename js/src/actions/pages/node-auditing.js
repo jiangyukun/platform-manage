@@ -118,7 +118,7 @@ export let updateAuditingState = dispatch => (infoId, patientId, newAuditingStat
 
 export let updatePatientInfo = dispatch => (patientInfo) => {
     return new Promise((resolve, reject) => {
-        POST('/web/updatePatientInfo', {body: patientInfo}).then(result => {
+        POST('/web/updatePatientInfo_version_3', {body: patientInfo}).then(result => {
             dispatch({
                 type: types.UPDATE_PATIENT_INFO + phase.SUCCESS, patientInfo
             })

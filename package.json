@@ -26,6 +26,7 @@
   },
   "homepage": "http://jiangyu.me",
   "dependencies": {
+    "app": "^1.0",
     "antd": "^2.5.0",
     "babel-polyfill": "^6.20.0",
     "classnames": "^2.2.5",

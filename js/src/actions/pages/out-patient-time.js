@@ -57,7 +57,7 @@ export function updateRemark(userId, doctorMobile, newRemark) {
 
         POST(`/clinicTime/updateBackendRemark`, {body: {'user_id': userId, 'doctor_phone': doctorMobile, 'remark': newRemark}}).then(result => {
             dispatch({
-                type: types.UPDATE_OUT_PATIENT_REMARK + phase.SUCCESS
+                type: types.UPDATE_OUT_PATIENT_REMARK + phase.SUCCESS, userId, newRemark
             })
         }, err => {
             dispatch({

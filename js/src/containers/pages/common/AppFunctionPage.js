@@ -7,7 +7,7 @@ class AppFunctionPage extends Component {
 
     render() {
         return (
-            <div>
+            <div className="app-function-page">
                 {this.props.children}
             </div>
         )

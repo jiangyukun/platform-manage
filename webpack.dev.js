@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+var ExtractTextPlugin = require('ExtractTextPlugin')
 
 module.exports = {
     // devtool: 'cheap-module-eval-source-map',
@@ -20,6 +21,7 @@ module.exports = {
         publicPath: 'http://localhost:3000/static/'
     },
     plugins: [
+        new ExtractTextPlugin("style.css"),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"dev"'
         }),
@@ -29,8 +31,8 @@ module.exports = {
     module: {
         loaders: [
             {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
-            {test: /\.less$/, loader: 'style!css!autoprefixer!less'},
-            {test: /\.scss$/, loader: 'style!css!autoprefixer!sass?sourceMap'},
+            {test: /\.less$/, loader: ExtractTextPlugin.extract('style!css!autoprefixer!less')},
+            {test: /\.scss$/, loader: ExtractTextPlugin.extract('style!css!autoprefixer!sass?sourceMap')},
             {test: /\.(jpg|png)$/, loader: "url?limit=8192"}
         ]
     }
