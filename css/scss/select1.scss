@@ -23,6 +23,13 @@
         height: 34px;
         cursor: pointer;
         position: relative;
+
+    }
+
+    &.disabled {
+        .selected-item {
+            cursor: not-allowed;
+        }
     }
 
     .selected-item.invalid {

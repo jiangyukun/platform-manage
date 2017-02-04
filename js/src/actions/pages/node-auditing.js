@@ -8,6 +8,8 @@ import {toRemarkTypeRequestKey, toCompleteVisitTypeRequestKey} from '../../core/
 
 export let fetchPatientList = dispatch => option => {
     let url = '/web/patient/check/list/'
+
+    dispatch({type: types.FETCH_PATIENT_LIST + phase.START})
     return new Promise((resolve, reject) => {
         http(url, {
             method: 'POST',

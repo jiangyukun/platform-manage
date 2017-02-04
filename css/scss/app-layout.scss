@@ -357,7 +357,6 @@ table .table-cell-look a:hover {
 
 .list-picture-container {
     flex: 1;
-    -webkit-flex: 1;
     height: 100%;
     border: 2px solid #5c798f;
     border-radius: 5px;
@@ -375,14 +374,8 @@ table .table-cell-look a:hover {
 }
 
 .app-function-page {
-    /*overflow: auto;*/
     flex-direction: column;
     height: 100%;
-
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
 }
 

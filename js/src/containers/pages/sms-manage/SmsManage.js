@@ -50,7 +50,7 @@ class SmsManage extends Component {
     }
 
     render() {
-        const {Head, HeadItem, Row, RowItem} = Layout
+        const {Head, Row} = Layout
 
         return (
             <div className="app-function-page">
@@ -111,31 +111,33 @@ class SmsManage extends Component {
                             weight={[1, 1, 1, 1, 3, 1]}>
 
                         <Head>
-                            <HeadItem>发送人</HeadItem>
-                            <HeadItem>接收人账号</HeadItem>
-                            <HeadItem>接收人姓名</HeadItem>
-                            <HeadItem>接收人身份</HeadItem>
-                            <HeadItem>短信内容</HeadItem>
-                            <HeadItem>发送时间</HeadItem>
+                            <Head.Item>发送人</Head.Item>
+                            <Head.Item>接收人账号</Head.Item>
+                            <Head.Item>接收人姓名</Head.Item>
+                            <Head.Item>接收人身份</Head.Item>
+                            <Head.Item>短信内容</Head.Item>
+                            <Head.Item>发送时间</Head.Item>
                         </Head>
-                        {
-                            this.props.list.map((sms, index) => {
-                                return (
-                                    <Row key={sms['id']}
-                                         onClick={e => this.setState({currentIndex: index})}
-                                         selected={this.state.currentIndex == index}
-                                         style={{minHeight: '60px'}}
-                                    >
-                                        <RowItem>{sms['sender']}</RowItem>
-                                        <RowItem>{sms['receiver']}</RowItem>
-                                        <RowItem>{sms['receiverName']}</RowItem>
-                                        <RowItem>{formatBusData.getUserType(sms['receiverType'])}</RowItem>
-                                        <RowItem>{sms['content']}</RowItem>
-                                        <RowItem>{sms['createDate']}</RowItem>
-                                    </Row>
-                                )
-                            })
-                        }
+                        <div>
+                            {
+                                this.props.list.map((sms, index) => {
+                                    return (
+                                        <Row key={sms['id']}
+                                             onClick={e => this.setState({currentIndex: index})}
+                                             selected={this.state.currentIndex == index}
+                                             style={{minHeight: '60px'}}
+                                        >
+                                            <Row.Item>{sms['sender']}</Row.Item>
+                                            <Row.Item>{sms['receiver']}</Row.Item>
+                                            <Row.Item>{sms['receiverName']}</Row.Item>
+                                            <Row.Item>{formatBusData.getUserType(sms['receiverType'])}</Row.Item>
+                                            <Row.Item>{sms['content']}</Row.Item>
+                                            <Row.Item>{sms['createDate']}</Row.Item>
+                                        </Row>
+                                    )
+                                })
+                            }
+                        </div>
                     </Layout>
                 </PaginateList>
             </div>

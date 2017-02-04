@@ -138,47 +138,49 @@ class OutPatientTime extends Component {
                             <Head.Item>生效临时通知</Head.Item>
                             <Head.Item>临时通知记录</Head.Item>
                         </Head>
-                        {
-                            this.props.list.map((outPatient, index) => {
-                                return (
-                                    <Row key={outPatient['user_id']}
-                                         onClick={e => this.setState({currentIndex: index})}
-                                         selected={this.state.currentIndex == index}
-                                         style={{minHeight: '60px'}}
-                                    >
-                                        <Row.Item>{outPatient['user_Name']}</Row.Item>
-                                        <Row.Item>{outPatient['doctor_name']}</Row.Item>
-                                        <Row.Item>{outPatient['hospital_name']}</Row.Item>
-                                        <Row.Item>{outPatient['department_id']}</Row.Item>
-                                        <Row.Item>{outPatient['backend_manager']}</Row.Item>
-                                        <Row.Item>{outPatient['operation_manager']}</Row.Item>
-                                        <Row.Item>
-                                            {outPatient['remark']}
-                                            <i className="fa fa-edit"
-                                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
-                                        </Row.Item>
-                                        <Row.Item>
-                                            <div className="time-forenoon">上午</div>
-                                            <div className="time-afternoon">下午</div>
-                                        </Row.Item>
-                                        <Row.Item>
-                                            <div className="forenoon">班</div>
-                                            <div className="afternoon">班</div>
-                                        </Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['day1']}</Row.Item>
-                                        <Row.Item>{outPatient['l1']}</Row.Item>
-                                        <Row.Item>
-                                            <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
-                                        </Row.Item>
-                                    </Row>
-                                )
-                            })
-                        }
+                        <div>
+                            {
+                                this.props.list.map((outPatient, index) => {
+                                    return (
+                                        <Row key={outPatient['user_id']}
+                                             onClick={e => this.setState({currentIndex: index})}
+                                             selected={this.state.currentIndex == index}
+                                             style={{minHeight: '60px'}}
+                                        >
+                                            <Row.Item>{outPatient['user_Name']}</Row.Item>
+                                            <Row.Item>{outPatient['doctor_name']}</Row.Item>
+                                            <Row.Item>{outPatient['hospital_name']}</Row.Item>
+                                            <Row.Item>{outPatient['department_id']}</Row.Item>
+                                            <Row.Item>{outPatient['backend_manager']}</Row.Item>
+                                            <Row.Item>{outPatient['operation_manager']}</Row.Item>
+                                            <Row.Item>
+                                                {outPatient['remark']}
+                                                <i className="fa fa-edit"
+                                                   onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                                            </Row.Item>
+                                            <Row.Item>
+                                                <div className="time-forenoon">上午</div>
+                                                <div className="time-afternoon">下午</div>
+                                            </Row.Item>
+                                            <Row.Item>
+                                                <div className="forenoon">班</div>
+                                                <div className="afternoon">班</div>
+                                            </Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['day1']}</Row.Item>
+                                            <Row.Item>{outPatient['l1']}</Row.Item>
+                                            <Row.Item>
+                                                <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
+                                            </Row.Item>
+                                        </Row>
+                                    )
+                                })
+                            }
+                        </div>
                     </Layout>
                 </PaginateList>
             </div>

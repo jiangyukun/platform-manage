@@ -163,16 +163,16 @@
     left: 0;
     top: 0;
     z-index: 12;
-    background-color: rgba(221, 240, 228, 1);
+    background-color: #1C2B36;
     .fix-left-head-item {
-      color: #000;
+      color: #fff;
       padding: 9px 15px;
       float: left;
     }
   }
 
   .fix-left-container {
-    background-color: rgba(221, 240, 228, 0.9);
+    background-color: #1C2B36;
     overflow: hidden;
     position: absolute;
     z-index: 10;
@@ -181,7 +181,7 @@
     bottom: 10px;
     .fix-left-item {
       padding: 9px 15px;
-      color: #000;
+      color: #fff;
     }
   }
 }

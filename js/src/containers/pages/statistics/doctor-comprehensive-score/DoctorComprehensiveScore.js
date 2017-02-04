@@ -86,34 +86,36 @@ class DoctorComprehensiveScore extends Component {
                             <HeadItem>上周五排名</HeadItem>
                             <HeadItem>评分排名记录</HeadItem>
                         </Head>
-                        {
-                            this.props.list.map((comprehensiveScore, index) => {
-                                return (
-                                    <Row key={comprehensiveScore['id']}
-                                         onClick={e => this.setState({currentIndex: index})}
-                                         selected={this.state.currentIndex == index}
-                                         style={{minHeight: '60px'}}
-                                    >
-                                        <RowItem>{comprehensiveScore['user_Name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['doctor_name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['hospital_name']}</RowItem>
-                                        <RowItem>{comprehensiveScore['department_id']}</RowItem>
-                                        <RowItem>{comprehensiveScore['backend_manager']}</RowItem>
-                                        <RowItem>{comprehensiveScore['operation_manager']}</RowItem>
-                                        <RowItem>
-                                            {comprehensiveScore['remark']}
-                                            <i className="fa fa-edit"
-                                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
-                                        </RowItem>
-                                        <RowItem>{comprehensiveScore['rate']}</RowItem>
-                                        <RowItem>{comprehensiveScore['rate']}</RowItem>
-                                        <RowItem>
-                                            <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
-                                        </RowItem>
-                                    </Row>
-                                )
-                            })
-                        }
+                        <div>
+                            {
+                                this.props.list.map((comprehensiveScore, index) => {
+                                    return (
+                                        <Row key={comprehensiveScore['id']}
+                                             onClick={e => this.setState({currentIndex: index})}
+                                             selected={this.state.currentIndex == index}
+                                             style={{minHeight: '60px'}}
+                                        >
+                                            <RowItem>{comprehensiveScore['user_Name']}</RowItem>
+                                            <RowItem>{comprehensiveScore['doctor_name']}</RowItem>
+                                            <RowItem>{comprehensiveScore['hospital_name']}</RowItem>
+                                            <RowItem>{comprehensiveScore['department_id']}</RowItem>
+                                            <RowItem>{comprehensiveScore['backend_manager']}</RowItem>
+                                            <RowItem>{comprehensiveScore['operation_manager']}</RowItem>
+                                            <RowItem>
+                                                {comprehensiveScore['remark']}
+                                                <i className="fa fa-edit"
+                                                   onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                                            </RowItem>
+                                            <RowItem>{comprehensiveScore['rate']}</RowItem>
+                                            <RowItem>{comprehensiveScore['rate']}</RowItem>
+                                            <RowItem>
+                                                <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
+                                            </RowItem>
+                                        </Row>
+                                    )
+                                })
+                            }
+                        </div>
                     </Layout>
                 </PaginateList>
 

@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/12/1.
  */
-import {fromJS} from 'immutable'
+import {fromJS, List} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import * as nodeAuditingHelper from '../../core/pages/nodeAuditingHelper'
@@ -18,6 +18,10 @@ export function patientListInfo(state = defaultValue, action) {
         let nextIState = iState
 
         switch (action.type) {
+            case types.FETCH_PATIENT_LIST + phase.START:
+                nextIState = fetchPatientListStart()
+                break
+
             case types.FETCH_PATIENT_LIST + phase.SUCCESS:
                 nextIState = fetchPatientListSuccess()
                 break
@@ -69,6 +73,10 @@ export function patientListInfo(state = defaultValue, action) {
     function updateAuditingStatusSuccess() {
         const {patientId, newAuditingState} = action
         return _updateList(iState, patientId, patient => patient.set('is_Checked', formatBusData.getAuditStatus(newAuditingState)))
+    }
+
+    function fetchPatientListStart() {
+        return iState.set('list', List([]))
     }
 
     function fetchPatientListSuccess() {

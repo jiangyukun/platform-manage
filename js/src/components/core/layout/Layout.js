@@ -20,12 +20,12 @@ class Layout extends Component {
     }
 
     render() {
-        let header, rows = []
+        let header, row
         Children.forEach(this.props.children, child => {
             if (child.type == Head) {
                 header = child
-            } else if (child.type == Row) {
-                rows.push(child)
+            } else {
+                row = child
             }
         })
 
@@ -40,7 +40,7 @@ class Layout extends Component {
                     {header && header}
                 </HeadContainer>
                 <BodyContainer>
-                    {rows}
+                    {row}
                 </BodyContainer>
             </SmartList>
         )

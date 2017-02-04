@@ -28,6 +28,9 @@ export default class Select1 extends Component {
     }
 
     toggle() {
+        if (this.props.disabled) {
+            return
+        }
         this.setState({active: !this.state.active})
     }
 
@@ -36,6 +39,9 @@ export default class Select1 extends Component {
     }
 
     open() {
+        if (this.props.disabled) {
+            return
+        }
         this.setState({active: true, touchIndex: this.state.selectIndex})
     }
 
@@ -178,7 +184,7 @@ export default class Select1 extends Component {
 
         return (
             <div ref={c => this._container = c}
-                 className={classnames('select1-container', this.props.className)}
+                 className={classnames('select1-container', {'disabled': this.props.disabled}, this.props.className)}
                  onClick={e => this.activeOpenFlag(e)}
                  tabIndex="-1">
                 <div onClick={e => this.toggle()}
@@ -226,6 +232,7 @@ export default class Select1 extends Component {
 
 Select1.defaultProps = {
     value: '',
+    disabled: false,
     selectItems: [],
     onSelect: function () {
     },
@@ -238,5 +245,6 @@ Select1.propTypes = {
     selectItems: PropTypes.array,
     required: PropTypes.bool,
     onSelect: PropTypes.func,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    disabled: PropTypes.bool
 }

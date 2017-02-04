@@ -41,7 +41,7 @@ class EditDoctorDialog extends Component {
         }
     }
 
-    close() {
+    close(force) {
         let edited = false
         const {
             doctor_Name, hid, did, tid, is_Doctor_Purview, doctor_Major, doctor_Photo, doctor_Practicing_Photo
@@ -55,7 +55,7 @@ class EditDoctorDialog extends Component {
         if (this.state.headPictureUrl != doctor_Photo) edited = true
         if (this.state.holdCardPictureUrl != doctor_Practicing_Photo) edited = true
 
-        if (edited) {
+        if (!force && edited) {
             if (this.showCancelEditTip) return
             this.showCancelEditTip = true
             antdUtil.confirm('您修改了医生信息，确定放弃此次操作吗？', () => this.setState({show: false}), () => this.showCancelEditTip = false)
@@ -145,7 +145,7 @@ class EditDoctorDialog extends Component {
             positionName: this.positionName,
             departmentName: this.departmentName
         }).then(() => {
-            this.close()
+            this.close(true)
             antdUtil.tipSuccess('更新医生信息成功！')
             this.props.handleIsVisitDoctorChange()
         }, err => antdUtil.tipErr(err))
@@ -190,7 +190,7 @@ class EditDoctorDialog extends Component {
                             </div>
                             <div className="col-xs-6">
                                 <Select1 value={this.state.hospital} selectItems={this.props.hospitalList} required={true}
-                                         onSelect={this.handleHospitalChange}></Select1>
+                                         onSelect={this.handleHospitalChange} disabled={this.state.auditingState == constants.auditingState.auditingPass}></Select1>
                             </div>
                         </div>
 
