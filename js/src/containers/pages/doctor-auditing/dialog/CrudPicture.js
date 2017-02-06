@@ -6,20 +6,20 @@ import AddPicture from './AddPicture'
 
 class CrudPicture extends Component {
 
-    render() {
-        if (this.props.url) {
-            return (
-                <div className="picture-container">
-                    <img src={this.props.url}/>
-                </div>
-            )
-        }
-        return <AddPicture onPictureUpdated={this.props.onPictureUpdated}/>
+  render() {
+    if (this.props.url) {
+      return (
+        <div className="picture-container">
+          <img src={this.props.url}/>
+        </div>
+      )
     }
+    return <AddPicture onPictureUpdated={this.props.onPictureUpdated}/>
+  }
 }
 
 CrudPicture.propTypes = {
-    url: PropTypes.string
+  url: PropTypes.string
 }
 
 export default CrudPicture

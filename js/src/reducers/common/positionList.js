@@ -6,26 +6,26 @@ import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
 export function positionList(state = [], action) {
-    const iState = fromJS(state)
-    return nextState()
+  const iState = fromJS(state)
+  return nextState()
 
-    function nextState() {
-        let nextIState = iState
-        switch (action.type) {
-            case types.FETCH_POSITION_LIST + phase.SUCCESS:
-                nextIState = fetchPositionListSuccess()
-                break
-        }
-        if (nextIState == iState) {
-            return state
-        }
-        return nextIState.toJS()
+  function nextState() {
+    let nextIState = iState
+    switch (action.type) {
+      case types.FETCH_POSITION_LIST + phase.SUCCESS:
+        nextIState = fetchPositionListSuccess()
+        break
     }
-
-    //-----------------------------------------
-
-    function fetchPositionListSuccess() {
-        let {positionList} = action
-        return fromJS(positionList)
+    if (nextIState == iState) {
+      return state
     }
+    return nextIState.toJS()
+  }
+
+  //-----------------------------------------
+
+  function fetchPositionListSuccess() {
+    let {positionList} = action
+    return fromJS(positionList)
+  }
 }

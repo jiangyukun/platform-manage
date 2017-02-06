@@ -25,25 +25,25 @@ import DoctorComprehensiveScore from '../containers/pages/statistics/doctor-comp
 import SmsManage from '../containers/pages/sms-manage/SmsManage'
 
 export default function getPageRoute(path) {
-    return (
-        <Route path={path} component={ManagementPlatformApp}>
-            <Route path="node-auditing" component={NodeAuditing}/>
-            <Route path="patient-edit" component={PatientEdit}/>
-            <Route path="laboratory-sheet" component={LaboratorySheet}/>
-            <Route path="take-medicine-record" component={TakeMedicineRecord}/>
+  return (
+    <Route path={path} component={ManagementPlatformApp}>
+      <Route path="node-auditing" component={NodeAuditing}/>
+      <Route path="patient-edit" component={PatientEdit}/>
+      <Route path="laboratory-sheet" component={LaboratorySheet}/>
+      <Route path="take-medicine-record" component={TakeMedicineRecord}/>
 
-            <Route path="doctor-auditing" component={DoctorAuditing}/>
-            <Route path="hospital-manage" component={HospitalManage}/>
-            <Route path="out-patient-time" component={OutPatientTime}/>
-            <Route path="todo-work-track" component={TodoWorkTrack}/>
+      <Route path="doctor-auditing" component={DoctorAuditing}/>
+      <Route path="hospital-manage" component={HospitalManage}/>
+      <Route path="out-patient-time" component={OutPatientTime}/>
+      <Route path="todo-work-track" component={TodoWorkTrack}/>
 
-            <Route path="app-update" component={AppUpdate}/>
+      <Route path="app-update" component={AppUpdate}/>
 
-            <Route path="hospital-assay-report" component={HospitalAssayReport}/>
-            <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
-            <Route path="doctor-comprehensive-score" component={DoctorComprehensiveScore}/>
+      <Route path="hospital-assay-report" component={HospitalAssayReport}/>
+      <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
+      <Route path="doctor-comprehensive-score" component={DoctorComprehensiveScore}/>
 
-            <Route path="sms-manage" component={SmsManage}/>
-        </Route>
-    )
+      <Route path="sms-manage" component={SmsManage}/>
+    </Route>
+  )
 }

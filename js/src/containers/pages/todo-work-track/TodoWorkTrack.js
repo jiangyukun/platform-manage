@@ -15,13 +15,13 @@ import PaginateList from '../../../components/core/PaginateList'
 import Layout from "../../../components/core/layout/Layout"
 
 class TodoWorkTrack extends Component {
-    render() {
-        return (
-            <AppFunctionPage>
+  render() {
+    return (
+      <AppFunctionPage>
 
-            </AppFunctionPage>
-        )
-    }
+      </AppFunctionPage>
+    )
+  }
 }
 
 export default TodoWorkTrack

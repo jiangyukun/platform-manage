@@ -3,7 +3,7 @@
  */
 
 export function addNewDoctor() {
-    return {
-        type: ''
-    }
+  return {
+    type: ''
+  }
 }

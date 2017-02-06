@@ -12,111 +12,111 @@ import * as utils from '../../core/utils'
 import * as uploadUtil from '../../core/utils/uploadUtil'
 
 class EditableImagePreview extends Component {
-    constructor(props) {
-        super()
-        this.beforeUpload = this.beforeUpload.bind(this)
-        this.customRequest = this.customRequest.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.cancel = this.cancel.bind(this)
-        this.confirm = this.confirm.bind(this)
-        this.state = {imageUrl: props.url, isEdited: false}
+  constructor(props) {
+    super()
+    this.beforeUpload = this.beforeUpload.bind(this)
+    this.customRequest = this.customRequest.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.cancel = this.cancel.bind(this)
+    this.confirm = this.confirm.bind(this)
+    this.state = {imageUrl: props.url, isEdited: false}
+  }
+
+  beforeUpload(file) {
+    const {status, message} = utils.beforeUpload(file)
+    if (status != 0) {
+      antdUtil.tipErr(message)
     }
+    return status == 0
+  }
 
-    beforeUpload(file) {
-        const {status, message} = utils.beforeUpload(file)
-        if (status != 0) {
-            antdUtil.tipErr(message)
-        }
-        return status == 0
+  customRequest(fileInfo) {
+    uploadUtil.upload(fileInfo.file).then(url => fileInfo.onSuccess(url), err => fileInfo.onError(err))
+  }
+
+  handleChange(info) {
+    if (info.file.status === 'done') {
+      const file = info.file.originFileObj
+      this.httpUrl = info.file.response
+      utils.getBase64(file, imageUrl => this.setState({imageUrl, isEdited: true}))
     }
+  }
 
-    customRequest(fileInfo) {
-        uploadUtil.upload(fileInfo.file).then(url => fileInfo.onSuccess(url), err => fileInfo.onError(err))
-    }
+  cancel() {
+    this._imagePreview.close()
+  }
 
-    handleChange(info) {
-        if (info.file.status === 'done') {
-            const file = info.file.originFileObj
-            this.httpUrl = info.file.response
-            utils.getBase64(file, imageUrl => this.setState({imageUrl, isEdited: true}))
-        }
-    }
+  confirm() {
+    this._imagePreview.close()
+    this.props.imageUrlUpdated(this.httpUrl)
+  }
 
-    cancel() {
-        this._imagePreview.close()
-    }
+  render() {
+    const ToolButton = ImagePreview.ToolButton
 
-    confirm() {
-        this._imagePreview.close()
-        this.props.imageUrlUpdated(this.httpUrl)
-    }
-
-    render() {
-        const ToolButton = ImagePreview.ToolButton
-
-        return (
-            <ImagePreview ref={c => this._imagePreview = c}
-                          url={this.state.imageUrl}
-                          onExited={this.props.onExited}
-                          showEmptyText={false}
-                          showCloseButton={!this.state.isEdited}
+    return (
+      <ImagePreview ref={c => this._imagePreview = c}
+                    url={this.state.imageUrl}
+                    onExited={this.props.onExited}
+                    showEmptyText={false}
+                    showCloseButton={!this.state.isEdited}
+      >
+        {
+          !this.state.imageUrl && (
+            <Upload className="avatar-uploader"
+                    showUploadList={false}
+                    beforeUpload={this.beforeUpload}
+                    customRequest={this.customRequest}
+                    onChange={this.handleChange}
             >
-                {
-                    !this.state.imageUrl && (
-                        <Upload className="avatar-uploader"
-                                showUploadList={false}
-                                beforeUpload={this.beforeUpload}
-                                customRequest={this.customRequest}
-                                onChange={this.handleChange}
-                        >
-                            <Icon type="plus" className="avatar-uploader-trigger"/>
-                        </Upload>
-                    )
-                }
-                {
-                    this.state.imageUrl && (
-                        <ToolButton>
-                            <Upload beforeUpload={this.beforeUpload}
-                                    customRequest={this.customRequest}
-                                    onChange={this.handleChange}
-                                    showUploadList={false}
-                            >
-                                <Button type="ghost">
-                                    <Icon type="upload"/> 修改图片
-                                </Button>
-                            </Upload>
-                        </ToolButton>
-                    )
-                }
+              <Icon type="plus" className="avatar-uploader-trigger"/>
+            </Upload>
+          )
+        }
+        {
+          this.state.imageUrl && (
+            <ToolButton>
+              <Upload beforeUpload={this.beforeUpload}
+                      customRequest={this.customRequest}
+                      onChange={this.handleChange}
+                      showUploadList={false}
+              >
+                <Button type="ghost">
+                  <Icon type="upload"/> 修改图片
+                </Button>
+              </Upload>
+            </ToolButton>
+          )
+        }
 
-                {
-                    this.state.isEdited && (
-                        <ToolButton>
-                            <input type="button" className="ngdialog-button ngdialog-button-secondary"
-                                   onClick={this.cancel}
-                                   value="取消修改"/>
-                        </ToolButton>
-                    )
-                }
+        {
+          this.state.isEdited && (
+            <ToolButton>
+              <input type="button" className="ngdialog-button ngdialog-button-secondary"
+                     onClick={this.cancel}
+                     value="取消修改"/>
+            </ToolButton>
+          )
+        }
 
-                {
-                    this.state.isEdited && (
-                        <ToolButton>
-                            <input type="button" className="ngdialog-button ngdialog-button-secondary"
-                                   onClick={this.confirm}
-                                   value="确定修改"/>
-                        </ToolButton>
-                    )
-                }
-            </ImagePreview>
-        )
-    }
+        {
+          this.state.isEdited && (
+            <ToolButton>
+              <input type="button" className="ngdialog-button ngdialog-button-secondary"
+                     onClick={this.confirm}
+                     value="确定修改"/>
+            </ToolButton>
+          )
+        }
+      </ImagePreview>
+    )
+  }
 }
 
 EditableImagePreview.propTypes = {
-    url: PropTypes.string,
-    onExited: PropTypes.func,
-    imageUrlUpdated: PropTypes.func
+  url: PropTypes.string,
+  onExited: PropTypes.func,
+  imageUrlUpdated: PropTypes.func
 }
 
 export default EditableImagePreview

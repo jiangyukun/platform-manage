@@ -4,26 +4,26 @@
 import React, {Component, PropTypes} from 'react'
 
 class RowItem extends Component {
-    render() {
-        const style = {}
-        if (this.props.width) {
-            style.width = this.props.width
-        }
-        if (this.props.flex) {
-            style.flex = this.props.flex
-        }
-
-        return (
-            <li className="item" style={style}>
-                {this.props.children}
-            </li>
-        )
+  render() {
+    const style = {}
+    if (this.props.width) {
+      style.width = this.props.width
     }
+    if (this.props.flex) {
+      style.flex = this.props.flex
+    }
+
+    return (
+      <li className="item" style={style}>
+        {this.props.children}
+      </li>
+    )
+  }
 }
 
 RowItem.propTypes = {
-    width: PropTypes.number,
-    flex: PropTypes.number
+  width: PropTypes.number,
+  flex: PropTypes.number
 }
 
 

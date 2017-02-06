@@ -6,21 +6,21 @@ import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
 export let fetchPatientSituationList = dispatch => pageInfo => {
-    let {start, limit} = pageInfo
-    dispatch({
-        type: types.FETCH_PATIENT_SITUATION_LIST + phase.START
-    })
+  let {start, limit} = pageInfo
+  dispatch({
+    type: types.FETCH_PATIENT_SITUATION_LIST + phase.START
+  })
 
-    return new Promise((resolve, reject) => {
-        GET(`/patientReport/getPatientInfoReport/${start}/${limit}`).then(result => {
-            let total = result['totalCount']
-            let list = result['list']
-            dispatch({
-                type: types.FETCH_PATIENT_SITUATION_LIST + phase.SUCCESS, total, list
-            })
-            resolve(result)
-        }, err => {
-            reject(err)
-        })
+  return new Promise((resolve, reject) => {
+    GET(`/patientReport/getPatientInfoReport/${start}/${limit}`).then(result => {
+      let total = result['totalCount']
+      let list = result['list']
+      dispatch({
+        type: types.FETCH_PATIENT_SITUATION_LIST + phase.SUCCESS, total, list
+      })
+      resolve(result)
+    }, err => {
+      reject(err)
     })
+  })
 }

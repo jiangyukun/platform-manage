@@ -4,9 +4,9 @@
 import React, {Component} from 'react'
 
 class HeadContainer extends Component {
-    render() {
-        return this.props.children
-    }
+  render() {
+    return this.props.children
+  }
 }
 
 export default HeadContainer

@@ -5,13 +5,13 @@ import React, {Component, PropTypes} from 'react'
 
 class AppFunctionPage extends Component {
 
-    render() {
-        return (
-            <div className="app-function-page">
-                {this.props.children}
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="app-function-page">
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
 export default AppFunctionPage

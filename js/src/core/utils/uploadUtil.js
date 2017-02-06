@@ -3,24 +3,24 @@
  */
 
 export function upload(file) {
-    const form = new FormData()
-    form.append('file', file)
+  const form = new FormData()
+  form.append('file', file)
 
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest()
-        xhr.open('post', 'file/saveBackendTempFile', true)
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                const result = eval('(' + xhr.responseText + ')')
-                if (result.status == 0) {
-                    resolve(result['data'][0])
-                    return
-                }
-                reject(result['rspMsg'])
-            }
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('post', 'file/saveBackendTempFile', true)
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        const result = eval('(' + xhr.responseText + ')')
+        if (result.status == 0) {
+          resolve(result['data'][0])
+          return
         }
-        // xhr.setRequestHeader('Accept', 'application/json;charset=utf-8')
-        xhr.send(form)
-    })
+        reject(result['rspMsg'])
+      }
+    }
+    // xhr.setRequestHeader('Accept', 'application/json;charset=utf-8')
+    xhr.send(form)
+  })
 
 }

@@ -12,23 +12,23 @@ import './import-style'
 
 let path
 switch (process.env.NODE_ENV) {
-    case 'dev':
-        path = '/'
-        break
+  case 'dev':
+    path = '/'
+    break
 
-    case 'inline':
-    case 'test':
-    case 'production':
-        path = '/backend/'
-        break
+  case 'inline':
+  case 'test':
+  case 'production':
+    path = '/backend/'
+    break
 
-    default:
-        throw new Error('illegal NODE_ENV value!')
+  default:
+    throw new Error('illegal NODE_ENV value!')
 }
 let store = configureStore()
 let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
 
 render(
-    <Root store={store} history={browserHistory}/>,
-    document.getElementById('root')
+  <Root store={store} history={browserHistory}/>,
+  document.getElementById('root')
 )

@@ -8,72 +8,72 @@ import * as phase from '../constants/PhaseConstant'
 let errId = 1
 
 const initValue = {
-    settings: {
-        asideFolded: false,
-        asideMessage: true
-    },
-    errQueue: []
+  settings: {
+    asideFolded: false,
+    asideMessage: true
+  },
+  errQueue: []
 }
 
 export function app(state = initValue, action) {
-    const iState = fromJS(state)
-    return nextState()
+  const iState = fromJS(state)
+  return nextState()
 
-    function nextState() {
-        let nextIState = iState
-        switch (action.type) {
-            case 'TOGGLE_ASIDE':
-                nextIState = toggleAside()
-                break
-            case 'TOGGLE_MESSAGE_PANEL':
-                nextIState = toggleMessagePanel()
-                break
-            case 'CLOSE_MESSAGE_PANEL':
-                nextIState = closeMessagePanel()
-                break
-            case types.DELETE_ERROR:
-                nextIState = deleteError()
-                break
-        }
-
-        if (action.type.indexOf(phase.FAILURE) != -1) {
-            nextIState = addError()
-        }
-        if (nextIState == iState) {
-            return state
-        }
-        return nextIState.toJS()
+  function nextState() {
+    let nextIState = iState
+    switch (action.type) {
+      case 'TOGGLE_ASIDE':
+        nextIState = toggleAside()
+        break
+      case 'TOGGLE_MESSAGE_PANEL':
+        nextIState = toggleMessagePanel()
+        break
+      case 'CLOSE_MESSAGE_PANEL':
+        nextIState = closeMessagePanel()
+        break
+      case types.DELETE_ERROR:
+        nextIState = deleteError()
+        break
     }
 
-    function toggleAside() {
-        return _updateSettings(iState, settings => settings.set('asideFolded', !settings.get('asideFolded')))
+    if (action.type.indexOf(phase.FAILURE) != -1) {
+      nextIState = addError()
     }
-
-    function toggleMessagePanel() {
-        return _updateSettings(iState, settings => settings.set('asideMessage', !settings.get('asideMessage')))
+    if (nextIState == iState) {
+      return state
     }
+    return nextIState.toJS()
+  }
 
-    function closeMessagePanel() {
-        return _updateSettings(iState, settings => settings.set('asideMessage', true))
+  function toggleAside() {
+    return _updateSettings(iState, settings => settings.set('asideFolded', !settings.get('asideFolded')))
+  }
+
+  function toggleMessagePanel() {
+    return _updateSettings(iState, settings => settings.set('asideMessage', !settings.get('asideMessage')))
+  }
+
+  function closeMessagePanel() {
+    return _updateSettings(iState, settings => settings.set('asideMessage', true))
+  }
+
+  function addError() {
+    const {err} = action
+    const errInfo = {
+      errId: errId++,
+      err
     }
+    return iState.update('errQueue', errQueue => errQueue.push(Map(errInfo)))
+  }
 
-    function addError() {
-        const {err} = action
-        const errInfo = {
-            errId: errId++,
-            err
-        }
-        return iState.update('errQueue', errQueue => errQueue.push(Map(errInfo)))
-    }
+  function deleteError() {
+    const {errId} = action
+    //todo
+  }
 
-    function deleteError() {
-        const {errId} = action
-        //todo
-    }
+  //--------------------------------
 
-    //--------------------------------
-
-    function _updateSettings(curIState, callback) {
-        return curIState.update('settings', settings => callback(settings))
-    }
+  function _updateSettings(curIState, callback) {
+    return curIState.update('settings', settings => callback(settings))
+  }
 }

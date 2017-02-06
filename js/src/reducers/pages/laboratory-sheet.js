@@ -8,33 +8,33 @@ import * as phase from '../../constants/PhaseConstant'
 const defaultValue = {total: 0, list: []}
 
 export function laboratorySheetList(state = defaultValue, action) {
-    const iState = fromJS(state)
+  const iState = fromJS(state)
 
-    return nextState()
+  return nextState()
 
-    function nextState() {
-        let nextIState = iState
+  function nextState() {
+    let nextIState = iState
 
-        switch (action.type) {
-            case types.FETCH_LABORATORY_SHEET_LIST + phase.SUCCESS:
-                nextIState = fetchLaboratorySheetListSuccess()
-                break
+    switch (action.type) {
+      case types.FETCH_LABORATORY_SHEET_LIST + phase.SUCCESS:
+        nextIState = fetchLaboratorySheetListSuccess()
+        break
 
 
-            default:
-                break
-        }
-        if (nextIState == iState) {
-            return state
-        }
-        return nextIState.toJS()
+      default:
+        break
     }
-
-    // --------------------------------------
-
-    function fetchLaboratorySheetListSuccess() {
-        let {totalCount, list} = action
-        return iState.set('total', totalCount).set('list', list)
+    if (nextIState == iState) {
+      return state
     }
+    return nextIState.toJS()
+  }
+
+  // --------------------------------------
+
+  function fetchLaboratorySheetListSuccess() {
+    let {totalCount, list} = action
+    return iState.set('total', totalCount).set('list', list)
+  }
 
 }

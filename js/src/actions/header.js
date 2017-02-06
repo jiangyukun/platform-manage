@@ -4,20 +4,20 @@
 
 export function toggleAside() {
 
-    return {
-        type: 'TOGGLE_ASIDE'
-    }
+  return {
+    type: 'TOGGLE_ASIDE'
+  }
 }
 
 
 export function toggleMessagePanel() {
-    return {
-        type: 'TOGGLE_MESSAGE_PANEL'
-    }
+  return {
+    type: 'TOGGLE_MESSAGE_PANEL'
+  }
 }
 
 export function closeMessagePanel() {
-    return {
-        type: 'CLOSE_MESSAGE_PANEL'
-    }
+  return {
+    type: 'CLOSE_MESSAGE_PANEL'
+  }
 }

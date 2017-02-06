@@ -7,11 +7,11 @@ import {Provider} from 'react-redux'
 import routes from '../../route-config/routes'
 
 export default class Root extends Component {
-    render() {
-        return (
-            <Provider store={this.props.store}>
-                <Router routes={routes} history={this.props.history}/>
-            </Provider>
-        )
-    }
+  render() {
+    return (
+      <Provider store={this.props.store}>
+        <Router routes={routes} history={this.props.history}/>
+      </Provider>
+    )
+  }
 }

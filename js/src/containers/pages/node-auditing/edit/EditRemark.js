@@ -6,45 +6,45 @@ import Modal from 'antd/lib/modal'
 import {toRemarkTypeResponseKey} from '../../../../core/pages/nodeAuditingHelper'
 
 class EditRemark extends Component {
-    constructor() {
-        super()
-        this.handleOk = this.handleOk.bind(this)
-        this.state = {show: false, remark: ''}
-    }
+  constructor() {
+    super()
+    this.handleOk = this.handleOk.bind(this)
+    this.state = {show: false, remark: ''}
+  }
 
-    open(patient, remarkType) {
-        this.id = patient['patient_Id']
-        this.remarkType = remarkType
-        let key = toRemarkTypeResponseKey(remarkType)
-        console.log(patient[key])
+  open(patient, remarkType) {
+    this.id = patient['patient_Id']
+    this.remarkType = remarkType
+    let key = toRemarkTypeResponseKey(remarkType)
+    console.log(patient[key])
 
-        this.setState({show: true, remark: patient[key]})
-    }
+    this.setState({show: true, remark: patient[key]})
+  }
 
-    handleChange(event) {
-        this.setState({remark: event.target.value})
-    }
+  handleChange(event) {
+    this.setState({remark: event.target.value})
+  }
 
-    handleOk() {
-        this.props.editRemark(this.id, this.remarkType, this.state.remark)
-        this.setState({show: false})
-    }
+  handleOk() {
+    this.props.editRemark(this.id, this.remarkType, this.state.remark)
+    this.setState({show: false})
+  }
 
-    render() {
-        return (
-            <Modal title="修改备注" visible={this.state.show}
-                   onOk={this.handleOk} onCancel={() => this.setState({show: false})}
-            >
-                <p style={{marginTop: '15px', marginBottom: '15px'}}>
-                    <textarea className="form-control" rows="4" value={this.state.remark} onChange={e => this.handleChange(e)}></textarea>
-                </p>
-            </Modal>
-        )
-    }
+  render() {
+    return (
+      <Modal title="修改备注" visible={this.state.show}
+             onOk={this.handleOk} onCancel={() => this.setState({show: false})}
+      >
+        <p style={{marginTop: '15px', marginBottom: '15px'}}>
+          <textarea className="form-control" rows="4" value={this.state.remark} onChange={e => this.handleChange(e)}></textarea>
+        </p>
+      </Modal>
+    )
+  }
 }
 
 EditRemark.propTypes = {
-    editRemark: PropTypes.func
+  editRemark: PropTypes.func
 }
 
 export default EditRemark

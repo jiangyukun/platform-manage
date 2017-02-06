@@ -9,34 +9,34 @@ import * as phase from '../../constants/PhaseConstant'
 const defaultValue = {}
 
 export function cityMapper(state = defaultValue, action) {
-    const iState = fromJS(state)
-    return nextState()
+  const iState = fromJS(state)
+  return nextState()
 
-    function nextState() {
-        let nextIState = iState
-        switch (action.type) {
-            case types.FETCH_CITY_LIST + phase.START:
-                nextIState = fetchCityListStart()
-                break
+  function nextState() {
+    let nextIState = iState
+    switch (action.type) {
+      case types.FETCH_CITY_LIST + phase.START:
+        nextIState = fetchCityListStart()
+        break
 
-            case types.FETCH_CITY_LIST + phase.SUCCESS:
-                nextIState = fetchCityListSuccess()
-                break
-        }
-        if (nextIState == iState) {
-            return state
-        }
-        return nextIState.toJS()
+      case types.FETCH_CITY_LIST + phase.SUCCESS:
+        nextIState = fetchCityListSuccess()
+        break
     }
-
-    //-----------------------------------------
-
-    function fetchCityListStart() {
-        return iState
+    if (nextIState == iState) {
+      return state
     }
+    return nextIState.toJS()
+  }
 
-    function fetchCityListSuccess() {
-        let {provinceId, cityList} = action
-        return iState.set(provinceId, fromJS(cityList))
-    }
+  //-----------------------------------------
+
+  function fetchCityListStart() {
+    return iState
+  }
+
+  function fetchCityListSuccess() {
+    let {provinceId, cityList} = action
+    return iState.set(provinceId, fromJS(cityList))
+  }
 }

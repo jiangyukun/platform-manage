@@ -8,39 +8,39 @@ import * as phase from '../../constants/PhaseConstant'
 const defaultValue = {total: 0, list: []}
 
 export function appUpdatePaginateList(state = defaultValue, action) {
-    const iState = fromJS(state)
+  const iState = fromJS(state)
 
-    return nextState()
+  return nextState()
 
-    function nextState() {
-        let nextIState = iState
+  function nextState() {
+    let nextIState = iState
 
-        switch (action.type) {
-            case types.FETCH_APP_UPDATE_LIST + phase.SUCCESS:
-                nextIState = fetchAppUpdatePaginateListSuccess()
-                break
+    switch (action.type) {
+      case types.FETCH_APP_UPDATE_LIST + phase.SUCCESS:
+        nextIState = fetchAppUpdatePaginateListSuccess()
+        break
 
-            default:
-                break
-        }
-        if (nextIState == iState) {
-            return state
-        }
-        return nextIState.toJS()
+      default:
+        break
     }
-
-    // --------------------------------------
-
-    function fetchAppUpdatePaginateListSuccess() {
-        let {total, list} = action
-        return iState.set('total', total).set('list', list)
+    if (nextIState == iState) {
+      return state
     }
+    return nextIState.toJS()
+  }
 
-    // ---------------------------
+  // --------------------------------------
 
-    function _updateList(curIState, id, callback) {
-        const list = curIState.get('list')
-        const match = list.find(hospital => hospital.get('id') == id)
-        return curIState.update('list', list => list.update(list.indexOf(match), hospital => callback(hospital)))
-    }
+  function fetchAppUpdatePaginateListSuccess() {
+    let {total, list} = action
+    return iState.set('total', total).set('list', list)
+  }
+
+  // ---------------------------
+
+  function _updateList(curIState, id, callback) {
+    const list = curIState.get('list')
+    const match = list.find(hospital => hospital.get('id') == id)
+    return curIState.update('list', list => list.update(list.indexOf(match), hospital => callback(hospital)))
+  }
 }
