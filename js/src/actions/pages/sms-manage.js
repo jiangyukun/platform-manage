@@ -26,7 +26,12 @@ export let fetchUserTypeAndName = dispatch => mobile => {
         type: types.FETCH_USER_TYPE_AND_NAME + phase.SUCCESS
       })
       resolve(result)
-    }, err => reject(err))
+    }, err => {
+      dispatch({
+        type: types.FETCH_USER_TYPE_AND_NAME + phase.FAILURE
+      })
+      reject(err)
+    })
   })
 }
 

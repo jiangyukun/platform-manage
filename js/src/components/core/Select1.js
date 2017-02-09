@@ -7,8 +7,6 @@ import {select1, keyboard} from '../../common/constants'
 export default class Select1 extends Component {
   constructor(props) {
     super(props)
-    this.handleWindowClick = this.handleWindowClick.bind(this)
-    this.handleContainerKeyDown = this.handleContainerKeyDown.bind(this)
     this.state = {
       active: false,
       value: props.value + '',
@@ -29,6 +27,10 @@ export default class Select1 extends Component {
 
   toggle() {
     if (this.props.disabled) {
+      return
+    }
+    if (this.closeFlag) {
+      this.closeFlag = false
       return
     }
     this.setState({active: !this.state.active})
@@ -79,7 +81,7 @@ export default class Select1 extends Component {
     this.openFlag = true
   }
 
-  handleWindowClick() {
+  handleDocumentClick = () => {
     if (this.openFlag) {
       this.openFlag = false
       return
@@ -89,7 +91,7 @@ export default class Select1 extends Component {
     }
   }
 
-  handleContainerKeyDown(event) {
+  handleContainerKeyDown = (event) => {
     if (!this.state.active) {
       switch (event.which) {
         case keyboard.ENTER:
@@ -127,9 +129,15 @@ export default class Select1 extends Component {
     }
   }
 
+  handleClearBtnClick = () => {
+    this.closeFlag = true
+    this.setState({value: '', showClose: false})
+    this.props.onClear()
+  }
+
   componentDidMount() {
     events.on(findDOMNode(this._container), 'keyup', this.handleContainerKeyDown)
-    events.on(document, 'click', this.handleWindowClick)
+    events.on(document, 'click', this.handleDocumentClick)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -141,7 +149,7 @@ export default class Select1 extends Component {
 
   componentWillUnmount() {
     events.off(findDOMNode(this._container), 'keyup', this.handleContainerKeyDown)
-    events.off(document, 'click', this.handleWindowClick)
+    events.off(document, 'click', this.handleDocumentClick)
   }
 
   render() {
@@ -186,6 +194,8 @@ export default class Select1 extends Component {
       <div ref={c => this._container = c}
            className={classnames('select1-container', {'disabled': this.props.disabled}, this.props.className)}
            onClick={e => this.activeOpenFlag(e)}
+           onMouseEnter={e => this.setState({showClose: true})}
+           onMouseLeave={e => this.setState({showClose: false})}
            tabIndex="-1">
         <div onClick={e => this.toggle()}
              className={classnames('selected-item',
@@ -194,6 +204,13 @@ export default class Select1 extends Component {
         >
           <span className="select-item-text">{selectText}</span>
           <span className="dropdown"><b></b></span>
+          {
+            this.props.showClear && this.state.showClose && this.state.value && (
+              <span className="close-btn" onClick={this.handleClearBtnClick}>
+                <i className="fa fa-close"></i>
+              </span>
+            )
+          }
         </div>
 
         {
@@ -232,18 +249,19 @@ export default class Select1 extends Component {
 
 Select1.defaultProps = {
   value: '',
+  showClear: false,
   disabled: false,
   selectItems: [],
-  onSelect: function () {
-  },
-  onValueChange: function () {
-  }
+  onSelect: function () {},
+  onValueChange: function () {},
+  onClear: function () {}
 }
 
 Select1.propTypes = {
   title: PropTypes.string,
   selectItems: PropTypes.array,
   required: PropTypes.bool,
+  showClear: PropTypes.bool,
   onSelect: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.bool

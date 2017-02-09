@@ -96,7 +96,6 @@ class EditPatientAdmin extends Component {
     this.props.fetchPatientInfo(this.props.patientId).then(patientInfo => {
       this.infoId = patientInfo['info_Id']
       this.hospitalId = patientInfo['hospital_Id']
-      this.hospitalName = patientInfo['hospital_Name']
       this.doctorList1 = patientInfo['infection_doctor_list'].map(doctor => {
         return {value: doctor['user_id'], text: doctor['doctor_name']}
       })
@@ -109,14 +108,15 @@ class EditPatientAdmin extends Component {
       this.setState({
         name: patientInfo['full_Name'] || '',
         idCard: patientInfo['id_Number'] || '',
-        birthday: patientInfo['birth_Date'] ? moment(patientInfo['birth_Date']) : null,
+        birthday: patientInfo['birth_date'] ? moment(patientInfo['birth_date']) : null,
         minority: patientInfo['nation'] || '',
-        isHepatitisB: patientInfo['is_Hepatitis'],
-        isPregnantWomen: patientInfo['is_Pregnant'],
+        isHepatitisB: patientInfo['is_Hepatitis'] || '',
+        isPregnantWomen: patientInfo['is_Pregnant'] || '',
         auditingState: patientInfo['is_Checked'] || '',
         lastUpdateDate: patientInfo['updateTime'] || '',
         createDate: patientInfo['creatTime'] || '',
         photo: patientInfo['info_Photo'] || '',
+        hospitalName: patientInfo['hospital_Name'] || '',
         doctor1: patientInfo['infection_Doctor_User_Id'] || '',
         doctor2: patientInfo['obstetrics_Doctor_User_Id'] || '',
         doctor3: patientInfo['pediatrics_Doctor_User_Id'] || ''
@@ -239,7 +239,7 @@ class EditPatientAdmin extends Component {
                   <label className="mt-5">医院：</label>
                 </div>
                 <div className="col-xs-8">
-                  <input className="form-control" disabled={true} value={this.hospitalName}/>
+                  <input type="text" className="form-control" disabled={true} value={this.state.hospitalName}/>
                 </div>
               </div>
 
@@ -248,7 +248,11 @@ class EditPatientAdmin extends Component {
                   <label className="mt-5">感染科医生：</label>
                 </div>
                 <div className="col-xs-8">
-                  <Select1 selectItems={this.doctorList1} value={this.state.doctor1} onSelect={this.handleDoctor1Change}/>
+                  <Select1 selectItems={this.doctorList1}
+                           value={this.state.doctor1}
+                           onSelect={this.handleDoctor1Change}
+                           showClear={true}
+                           onClear={() => this.setState({doctor1: null})}/>
                 </div>
               </div>
               <div className="row mt-10">
@@ -256,7 +260,11 @@ class EditPatientAdmin extends Component {
                   <label className="mt-5">妇产科医生：</label>
                 </div>
                 <div className="col-xs-8">
-                  <Select1 selectItems={this.doctorList2} value={this.state.doctor2} onSelect={this.handleDoctor2Change}/>
+                  <Select1 selectItems={this.doctorList2}
+                           value={this.state.doctor2}
+                           onSelect={this.handleDoctor2Change}
+                           showClear={true}
+                           onClear={() => this.setState({doctor2: null})}/>
                 </div>
               </div>
               <div className="row mt-10">
@@ -264,7 +272,11 @@ class EditPatientAdmin extends Component {
                   <label className="mt-5">儿科医生：</label>
                 </div>
                 <div className="col-xs-8">
-                  <Select1 selectItems={this.doctorList3} value={this.state.doctor3} onSelect={this.handleDoctor3Change}/>
+                  <Select1 selectItems={this.doctorList3}
+                           value={this.state.doctor3}
+                           onSelect={this.handleDoctor3Change}
+                           showClear={true}
+                           onClear={() => this.setState({doctor3: null})}/>
                 </div>
               </div>
             </div>
