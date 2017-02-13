@@ -14,6 +14,7 @@ import PaginateList from '../../../components/core/PaginateList'
 import Layout from "../../../components/core/layout/Layout"
 
 import {fetchHospitalList} from '../../../actions/hospital'
+import * as actions from '../../../actions/pages/take-medicine-record'
 import * as utils from '../../../core/utils'
 
 class TakeMedicineRecord extends Component {
@@ -33,7 +34,11 @@ class TakeMedicineRecord extends Component {
 
   doFetch() {
     this.setState({currentIndex: -1})
-    // this.props.fetchOutPatientTimePaginateList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+    this.props.fetchTakeMedicineRecordPaginateList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+  }
+
+  exportExcel() {
+    location.href= 'take-medicine-record/takeMedicineRecordListExcel'
   }
 
   componentDidMount() {
@@ -77,7 +82,7 @@ class TakeMedicineRecord extends Component {
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
-                  weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+                  weight={[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
           >
             <Head>
               <Head.Item>患者编号</Head.Item>
@@ -97,15 +102,17 @@ class TakeMedicineRecord extends Component {
               {
                 this.props.list.map((outPatient, index) => {
                   return (
-                    <Row key={outPatient['user_id']}
+                    <Row key={outPatient['patient_User_Id']}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
                     >
-                      <Row.Item>{outPatient['user_Name']}</Row.Item>
-                      <Row.Item>{outPatient['doctor_name']}</Row.Item>
-                      <Row.Item>{outPatient['hospital_name']}</Row.Item>
+                      <Row.Item>{outPatient['patient_Code']}</Row.Item>
+                      <Row.Item>{outPatient['patient_Phone']}</Row.Item>
+                      <Row.Item>{outPatient['patient_Name']}</Row.Item>
                       <Row.Item>{outPatient['department_id']}</Row.Item>
+                      <Row.Item>{outPatient['hospital_Name']}</Row.Item>
+                      <Row.Item>{outPatient['department_Name']}</Row.Item>
                       <Row.Item>{outPatient['backend_manager']}</Row.Item>
                       <Row.Item>{outPatient['operation_manager']}</Row.Item>
                       <Row.Item>
@@ -113,11 +120,10 @@ class TakeMedicineRecord extends Component {
                         <i className="fa fa-edit"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
-                      <Row.Item>{outPatient['doctor_clinic_time']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
+                      <Row.Item>{outPatient['takeMedicine_Status']}</Row.Item>
+                      <Row.Item>{outPatient['give_Up_Reason_Content']}</Row.Item>
+                      <Row.Item>{outPatient['doctor_Confirm_Time']}</Row.Item>
+
                     </Row>
                   )
                 })
@@ -131,9 +137,11 @@ class TakeMedicineRecord extends Component {
 }
 
 function mapStateToProps(state) {
+  const {list, total} = state['takeMedicineRecordPaginateList']
+  console.log(list)
   return {
-    total: 0,
-    list: [],
+    total,
+    list,
     hospitalList: state['hospitalList'],
     hospitalFilterList: {
       typeCode: 'hospital',
@@ -147,7 +155,9 @@ function mapStateToProps(state) {
 }
 
 function mapActionToProps(dispatch) {
-  return merge(bindActionCreators({}, dispatch), {
+  return merge(bindActionCreators({
+    fetchTakeMedicineRecordPaginateList: actions.fetchTakeMedicineRecordPaginateList
+  }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch)
   })
 }
