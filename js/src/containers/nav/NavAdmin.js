@@ -114,6 +114,11 @@ class NavAdmin extends Component {
                 <span>医生管理</span>
               </Link>
             </Item>
+            <Item key={hospitalManage}>
+              <Link to={hospitalManage}>
+                <span>医院管理</span>
+              </Link>
+            </Item>
             <Item key={outPatientTime}>
               <Link to={outPatientTime}>
                 <span>医生门诊时间</span>
@@ -121,14 +126,10 @@ class NavAdmin extends Component {
             </Item>
             <Item key={todoWorkTrack}>
               <Link to={todoWorkTrack}>
-                <span>代办跟踪</span>
+                <span>待办跟踪</span>
               </Link>
             </Item>
-            <Item key={hospitalManage}>
-              <Link to={hospitalManage}>
-                <span>医院管理</span>
-              </Link>
-            </Item>
+
           </SubMenu>
 
           <SubMenu key="-APP-" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>

@@ -2,25 +2,44 @@
  * Created by jiangyukun on 2016/11/26.
  */
 
+import {bodyParam} from '../core/utils'
+
 function preHandle(url, option) {
   if (process.env.NODE_ENV != 'dev') {
     url = '/backend' + url
   }
   option = option || {}
+  if (!option.type) {
+    option.type = 'json'
+  }
+  if (!option.method) {
+    option.method = 'GET'
+  }
   const body = option.body
 
-  option = {
-    ...option,
+  let contentType = 'application/x-www-form-urlencoded'
+  if (option.body && option.type == 'json') {
+    contentType = 'application/json;charset=utf-8'
+  }
+
+  const request = {
+    method: option.method,
     credentials: 'include',
     headers: {
       'ajax': 'ajax',
       'Accept': 'application/json;charset=utf-8',
-      'Content-Type': 'application/json;charset=utf-8'
-    },
-    body: JSON.stringify(body),
+      'Content-Type': contentType
+    }
   }
 
-  return {url, option}
+  if (body) {
+    if (option.type == 'text') {
+      request.body = bodyParam(body)
+    } else {
+      request.body = JSON.stringify(body)
+    }
+  }
+  return {url, request}
 }
 
 function method(type) {
@@ -30,7 +49,7 @@ function method(type) {
     let handleArg = preHandle(url, option)
 
     return new Promise((resolve, reject) => {
-      fetch(handleArg.url, handleArg.option).then(response => {
+      fetch(handleArg.url, handleArg.request).then(response => {
         if (response.status == 200) {
           return response.json()
         }
@@ -58,6 +77,13 @@ export let PUT = method('PUT')
 export let PATCH = method('PATCH')
 export let DELETE = method('DELETE')
 export let HEAD = method('HEAD')
+
+export let _get = GET
+export let _post = POST
+export let _put = PUT
+export let _patch = PATCH
+export let _delete = DELETE
+export let _head = HEAD
 
 export default function http(url, option) {
   //http://admin.vongihealth.com:85

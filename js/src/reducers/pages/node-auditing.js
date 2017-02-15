@@ -80,8 +80,8 @@ export function patientListInfo(state = defaultValue, action) {
   }
 
   function fetchPatientListSuccess() {
-    let {data} =action.patientListInfo
-    return iState.set('total', data['total_Patient_Count']).set('list', fromJS(data['patientCheckList']))
+    let {patientListInfo} =action
+    return iState.set('total', patientListInfo['total_Patient_Count']).set('list', fromJS(patientListInfo['patientCheckList']))
   }
 
   //-------------------------------------

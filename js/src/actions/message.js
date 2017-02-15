@@ -1,14 +1,14 @@
 /**
  * Created by jiangyukun on 2016/10/20.
  */
-import http, {PUT} from '../services/http'
+import {GET, PUT} from '../services/http'
 
 export const fetchMessageInfo = dispatch => option => {
   let {start, length} = option
-  http('/archives/assay/assayNote/' + start + '/' + length).then(response => response.json()).then(result => {
-    let count = result.data['totalCount']
-    let unreadTotal = result.data['unReadCount']
-    let messageList = result.data.list.map(message => {
+  GET('/archives/assay/assayNote/' + start + '/' + length).then(result => {
+    let count = result['totalCount']
+    let unreadTotal = result['unReadCount']
+    let messageList = result.list.map(message => {
       return {
         id: message['assay_Note_Id'],
         name: message['patient_Name'],

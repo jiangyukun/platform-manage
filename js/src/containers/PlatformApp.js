@@ -14,10 +14,11 @@ import * as utils from '../core/utils'
 import * as antdUtil from '../core/utils/antdUtil'
 import {deleteErr} from '../actions/app'
 
-class ManagementPlatformApp extends Component {
+class PlatformApp extends Component {
   openSettings() {
     this._settings.open()
   }
+
 
   getChildContext() {
     return {
@@ -25,7 +26,7 @@ class ManagementPlatformApp extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const {errQueue} = this.props.app
     if (errQueue.length != 0) {
       errQueue.forEach(errInfo => {
@@ -63,7 +64,7 @@ class ManagementPlatformApp extends Component {
   }
 }
 
-ManagementPlatformApp.childContextTypes = {
+PlatformApp.childContextTypes = {
   role: PropTypes.string
 }
 
@@ -72,11 +73,11 @@ function mapStateToProps(state) {
   if (utils.getSession('userId') == 'crc001') {
     role = 'crc'
   }
+
   return {
     app: state.app,
-    errQueue: state.errQueue,
     role
   }
 }
 
-export default connect(mapStateToProps, {deleteErr})(ManagementPlatformApp)
+export default connect(mapStateToProps, {deleteErr})(PlatformApp)

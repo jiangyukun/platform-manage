@@ -1,23 +1,32 @@
 /**
  * Created by jiangyukun on 2016/12/29.
  */
-import {GET, POST} from '../../services/http'
+import {POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
-import * as phase from '../../constants/PhaseConstant'
+import {THREE_PHASE} from '../../middleware/request_3_phase'
 
-//获取省列表
-export function fetchTakeMedicineRecordPaginateList(option) {
-  return dispatch => {
-
-    dispatch({type: types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST})
-
-    POST('/take-medicine-record/getTakeMedicineRecordList', {body: option}).then(result => {
-      const list = result['takeMedicineRecordList']
-      const total = result['count']
-      dispatch({
-        type: types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST + phase.SUCCESS, list, total
-      })
-    })
+export const fetchTakeMedicineRecordPaginateList = option => {
+  return {
+    [THREE_PHASE]: {
+      type: types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST,
+      http: state => POST('/take-medicine-record/getTakeMedicineRecordList', {body: option}),
+      handleResponse: response => ({list: response['takeMedicineRecordList'], total: response['count']})
+    }
   }
+}
 
+export function clearRemarkUpdated() {
+  return {
+    type: types.CLEAR_TAKE_MEDICINE_RECORD_REMARK_UPDATED
+  }
+}
+
+export const updateRemark = (userId, newRemark) => {
+  return {
+    [THREE_PHASE]: {
+      type: types.UPDATE_TAKE_MEDICINE_RECORD_REMARK,
+      http: state => POST(`/take-medicine-record/updateTakeMedicineRemark/${userId}`, {type: 'text', body: {"takeMedicine_Remark": newRemark}}),
+      handleResponse: response => ({userId, newRemark})
+    }
+  }
 }

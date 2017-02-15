@@ -4,7 +4,7 @@
 import React from 'react'
 import {Route} from 'react-router'
 
-import ManagementPlatformApp from '../containers/ManagementPlatformApp'
+import PlatformApp from '../containers/PlatformApp'
 
 import NodeAuditing from '../containers/pages/node-auditing/NodeAuditing'
 import PatientEdit from '../containers/pages/patient-edit/PatientEdit'
@@ -26,7 +26,7 @@ import SmsManage from '../containers/pages/sms-manage/SmsManage'
 
 export default function getPageRoute(path) {
   return (
-    <Route path={path} component={ManagementPlatformApp}>
+    <Route path={path} component={PlatformApp}>
       <Route path="node-auditing" component={NodeAuditing}/>
       <Route path="patient-edit" component={PatientEdit}/>
       <Route path="laboratory-sheet" component={LaboratorySheet}/>

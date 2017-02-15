@@ -21,7 +21,6 @@ class EditRemark extends Component {
 
   confirm = () => {
     this.props.updateRemark(this.state.value)
-    this.close()
   }
 
   componentWillUpdate() {

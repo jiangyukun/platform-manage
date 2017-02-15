@@ -12,10 +12,12 @@ import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import PaginateList from '../../../components/core/PaginateList'
 import Layout from "../../../components/core/layout/Layout"
+import EditRemark from '../common/EditRemark'
 
+import * as utils from '../../../core/utils'
+import * as antdUtil from '../../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/take-medicine-record'
-import * as utils from '../../../core/utils'
 
 class TakeMedicineRecord extends Component {
   constructor() {
@@ -38,7 +40,11 @@ class TakeMedicineRecord extends Component {
   }
 
   exportExcel() {
-    location.href= 'take-medicine-record/takeMedicineRecordListExcel'
+    location.href = 'take-medicine-record/takeMedicineRecordListExcel'
+  }
+
+  updateRemark = (newRemark) => {
+    this.props.updateRemark(this.props.list[this.state.currentIndex]['patient_User_Id'], newRemark)
   }
 
   componentDidMount() {
@@ -48,11 +54,29 @@ class TakeMedicineRecord extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.remarkUpdated) {
+      if (this._editRemark) {
+        this._editRemark.close()
+      }
+      this.props.clearRemarkUpdated()
+      antdUtil.tipSuccess('更新备注成功！')
+    }
+  }
+
   render() {
     const {Head, Row} = Layout
 
     return (
       <AppFunctionPage>
+        {
+          this.state.showEditRemark && this.state.currentIndex != -1 && (
+            <EditRemark ref={c => this._editRemark = c}
+                        updateRemark={this.updateRemark}
+                        value={this.props.list[this.state.currentIndex]['takeMedicine_Remark']}
+                        onExited={() => this.setState({showEditRemark: false})}/>
+          )
+        }
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="search_key"
@@ -60,6 +84,7 @@ class TakeMedicineRecord extends Component {
 
           <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
 
+          <FilterItem item={this.props.takeMedicineStatus} paramName="takeMedicine_Status" useText={true}/>
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
 
           <FilterItem item={this.props.backendMangerList}>
@@ -82,7 +107,7 @@ class TakeMedicineRecord extends Component {
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
-                  weight={[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+                  weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
           >
             <Head>
               <Head.Item>患者编号</Head.Item>
@@ -100,30 +125,29 @@ class TakeMedicineRecord extends Component {
             </Head>
             <div>
               {
-                this.props.list.map((outPatient, index) => {
+                this.props.list.map((record, index) => {
                   return (
-                    <Row key={outPatient['patient_User_Id']}
+                    <Row key={record['patient_User_Id']}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
                     >
-                      <Row.Item>{outPatient['patient_Code']}</Row.Item>
-                      <Row.Item>{outPatient['patient_Phone']}</Row.Item>
-                      <Row.Item>{outPatient['patient_Name']}</Row.Item>
-                      <Row.Item>{outPatient['department_id']}</Row.Item>
-                      <Row.Item>{outPatient['hospital_Name']}</Row.Item>
-                      <Row.Item>{outPatient['department_Name']}</Row.Item>
-                      <Row.Item>{outPatient['backend_manager']}</Row.Item>
-                      <Row.Item>{outPatient['operation_manager']}</Row.Item>
+                      <Row.Item>{record['patient_Code']}</Row.Item>
+                      <Row.Item>{record['patient_Phone']}</Row.Item>
+                      <Row.Item>{record['patient_Name']}</Row.Item>
+                      <Row.Item>{record['department_id']}</Row.Item>
+                      <Row.Item>{record['hospital_Name']}</Row.Item>
+                      <Row.Item>{record['department_Name']}</Row.Item>
+                      <Row.Item>{record['backend_manager']}</Row.Item>
+                      <Row.Item>{record['operation_manager']}</Row.Item>
                       <Row.Item>
-                        {outPatient['remark']}
+                        {record['takeMedicine_Remark']}
                         <i className="fa fa-edit"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
-                      <Row.Item>{outPatient['takeMedicine_Status']}</Row.Item>
-                      <Row.Item>{outPatient['give_Up_Reason_Content']}</Row.Item>
-                      <Row.Item>{outPatient['doctor_Confirm_Time']}</Row.Item>
-
+                      <Row.Item>{record['takeMedicine_Status']}</Row.Item>
+                      <Row.Item>{record['give_Up_Reason_Content']}</Row.Item>
+                      <Row.Item>{record['doctor_Confirm_Time']}</Row.Item>
                     </Row>
                   )
                 })
@@ -137,18 +161,14 @@ class TakeMedicineRecord extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total} = state['takeMedicineRecordPaginateList']
-  console.log(list)
+  const {list, total, remarkUpdated} = state['takeMedicineRecordPaginateList']
   return {
     total,
     list,
+    remarkUpdated,
     hospitalList: state['hospitalList'],
-    hospitalFilterList: {
-      typeCode: 'hospital',
-      typeText: '医院',
-      typeItemList: state.hospitalList
-    },
-
+    hospitalFilterList: utils.getFilterItem('hospital', '医院', state.hospitalList),
+    takeMedicineStatus: utils.getFilterItem('takeMedicineStatus', '服药状态', [{value: '1', text: '已服药'}, {value: '2', text: '放弃服药'}]),
     backendMangerList: utils.getFilterItem('backendManager', '后台管理人员', []),
     operationPersonList: utils.getFilterItem('operationPerson', '运营人员', [])
   }
@@ -156,7 +176,9 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
   return merge(bindActionCreators({
-    fetchTakeMedicineRecordPaginateList: actions.fetchTakeMedicineRecordPaginateList
+    fetchTakeMedicineRecordPaginateList: actions.fetchTakeMedicineRecordPaginateList,
+    updateRemark: actions.updateRemark,
+    clearRemarkUpdated: actions.clearRemarkUpdated
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch)
   })

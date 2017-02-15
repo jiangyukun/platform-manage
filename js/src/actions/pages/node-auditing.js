@@ -1,7 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/16.
  */
-import http, {GET, POST, PATCH} from '../../services/http'
+import {GET, POST, PATCH} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import {toRemarkTypeRequestKey, toCompleteVisitTypeRequestKey} from '../../core/pages/nodeAuditingHelper'
@@ -11,10 +11,7 @@ export let fetchPatientList = dispatch => option => {
 
   dispatch({type: types.FETCH_PATIENT_LIST + phase.START})
   return new Promise((resolve, reject) => {
-    http(url, {
-      method: 'POST',
-      body: option
-    }).then(response => response.json()).then((patientListInfo) => {
+    POST(url, {body: option}).then((patientListInfo) => {
       resolve()
       dispatch({
         type: types.FETCH_PATIENT_LIST + phase.SUCCESS, patientListInfo
