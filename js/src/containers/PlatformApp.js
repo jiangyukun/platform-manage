@@ -4,7 +4,6 @@
  */
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import classnames from 'classnames'
 import Header from './Header'
 import Aside from './Aside'
 import AppContent from './AppContent'
@@ -18,7 +17,6 @@ class PlatformApp extends Component {
   openSettings() {
     this._settings.open()
   }
-
 
   getChildContext() {
     return {
@@ -39,19 +37,8 @@ class PlatformApp extends Component {
   render() {
     let app = this.props.app
 
-    function getClassName() {
-      return classnames('app', {
-        'app-header-fixed': app.settings.headerFixed,
-        'app-aside-fixed': app.settings.asideFixed,
-        'app-aside-folded': app.settings.asideFolded,
-        'app-aside-dock': app.settings.asideDock,
-        'app-aside-message': app.settings.asideMessage,
-        'container': app.settings.container
-      })
-    }
-
     return (
-      <div className={getClassName()}>
+      <div className="app">
         <Header openSettings={() => this.openSettings()}/>
         <Aside/>
         <AppContent>

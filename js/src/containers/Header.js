@@ -26,17 +26,11 @@ class Header extends Component {
 
     return (
       <div className="app-header navbar">
-        <div className="navbar-header bg-black">
-          <button className="pull-right visible-xs dk">
-            <i className="glyphicon glyphicon-cog"></i>
-          </button>
-          <button className="pull-right visible-xs">
-            <i className="glyphicon glyphicon-align-justify"></i>
-          </button>
-          <a href="#/" className="navbar-brand text-lt">
+        <div className="navbar-header">
+
+          <a href="/" className="navbar-brand">
             <i className="fa fa-lemon-o"></i>
-            <img src="platform-new/img/logo.png" alt="." className="hide"/>
-            <span className="hidden-folded m-l-xs">{this.props.app.name}</span>
+            <span className="console-name">{this.props.app.name}</span>
           </a>
         </div>
 
@@ -51,15 +45,11 @@ class Header extends Component {
               <a onClick={e => this.toggleMessagePanel()}>
                 <span className="">消息通知</span>
                 <i className="icon-bell fa-fw"></i>
-                <span className="badge badge-sm up bg-danger pull-right-xs">{this.props.message.unreadTotal || ''}</span>
+                <span className="message-count">{this.props.message.unreadTotal || ''}</span>
               </a>
             </li>
             <Dropdown id="dropdown-system-menu" componentClass={CustomWrap}>
               <Dropdown.Toggle useAnchor={true}>
-                                    <span className="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                                        <img src="platform-new/img/a0.jpg" alt="..."/>
-                                        <i className="on md b-white bottom"></i>
-                                    </span>
                 <span className="hidden-sm hidden-md">管理员</span>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu animated fadeInRight w">

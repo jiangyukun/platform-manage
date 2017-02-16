@@ -28,5 +28,5 @@ export default function configureStore() {
       },
       errQueue: []
     }
-  }, applyMiddleware(thunk, onceValidValue, request_3_phase))
+  }, applyMiddleware(thunk, request_3_phase))
 }

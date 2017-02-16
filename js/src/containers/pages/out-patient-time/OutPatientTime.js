@@ -58,6 +58,15 @@ class OutPatientTime extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.remarkUpdated) {
+      if (this._editRemark) {
+        this._editRemark.close()
+        this.props.clearRemarkUpdated()
+      }
+    }
+  }
+
   render() {
     const {Head, Row} = Layout
     const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
@@ -76,11 +85,10 @@ class OutPatientTime extends Component {
 
         {
           this.state.showEditRemark && this.state.currentIndex != -1 && (
-            <EditRemark
-              value={this.props.list[this.state.currentIndex]['remark']}
-              remarkUpdated={this.props.remarkUpdated}
-              updateRemark={newRemark => this.updateRemark(newRemark)}
-              onExited={() => this.setState({showEditRemark: false})}/>
+            <EditRemark ref={c => this._editRemark = c}
+                        value={this.props.list[this.state.currentIndex]['remark']}
+                        updateRemark={newRemark => this.updateRemark(newRemark)}
+                        onExited={() => this.setState({showEditRemark: false})}/>
           )
         }
 
@@ -142,7 +150,7 @@ class OutPatientTime extends Component {
               {
                 this.props.list.map((outPatient, index) => {
                   return (
-                    <Row key={outPatient['user_id']}
+                    <Row key={outPatient['user_id'] + index}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
@@ -217,7 +225,8 @@ function mapActionToProps(dispatch) {
   return merge(bindActionCreators({
     fetchOutPatientTimePaginateList: actions.fetchOutPatientTimePaginateList,
     fetchDoctorDateDetail: actions.fetchDoctorDateDetail,
-    updateRemark: actions.updateRemark
+    updateRemark: actions.updateRemark,
+    clearRemarkUpdated: actions.clearRemarkUpdated
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch),
     fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),

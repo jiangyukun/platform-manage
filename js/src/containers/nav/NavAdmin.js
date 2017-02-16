@@ -75,7 +75,7 @@ class NavAdmin extends Component {
 
     return (
       <nav>
-        <div className="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <div className="navigate-text">
           <span>导航</span>
         </div>
 

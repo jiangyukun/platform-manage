@@ -66,3 +66,7 @@ export function updateRemark(userId, doctorMobile, newRemark) {
     })
   }
 }
+
+export function clearRemarkUpdated() {
+  return {type: types.RESET_OUT_PATIENT_REMARK}
+}

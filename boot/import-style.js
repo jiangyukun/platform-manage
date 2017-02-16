@@ -11,5 +11,5 @@ import 'antd/lib/menu/style/index.less'
 import 'antd/lib/upload/style/index.less'
 import 'antd/lib/tooltip/style/index.less'
 
-import '../css/less/index.less'
+// import '../css/less/index.less'
 import '../css/scss/index.scss'

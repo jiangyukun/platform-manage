@@ -27,16 +27,13 @@ import {fetchHospitalList} from '../../../actions/hospital'
 import * as actions from '../../../actions/pages/doctor-auditing'
 
 class DoctorAuditing extends Component {
-  constructor() {
-    super()
-    this.state = {
-      currentIndex: -1,
-      loading: false,
-      showAdd: false,
-      showEdit: false,
-      showImage: false,
-      showEditMark: false
-    }
+  state = {
+    currentIndex: -1,
+    loading: false,
+    showAdd: false,
+    showEdit: false,
+    showImage: false,
+    showEditMark: false
   }
 
   beginFetch(newPageIndex) {
@@ -55,7 +52,6 @@ class DoctorAuditing extends Component {
   }
 
   editRemark(doctorId, remark) {
-    console.log(doctorId)
     this.doctorId = doctorId
     this.remark = remark
     this.setState({showEditMark: true})
