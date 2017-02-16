@@ -37,7 +37,19 @@ class DoctorDateDetailDialog extends Component {
             </tr>
             </thead>
             <tbody>
-
+            {
+              dateList && dateList.map((detail, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{detail['start_time']}</td>
+                    <td>{detail['end_time']}</td>
+                    <td>{detail['context']}</td>
+                    <td>{detail['status']}</td>
+                    <td>{detail['create_time']}</td>
+                  </tr>
+                )
+              })
+            }
             </tbody>
           </table>
         </Modal.Body>

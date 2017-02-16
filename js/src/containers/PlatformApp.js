@@ -8,16 +8,10 @@ import Header from './Header'
 import Aside from './Aside'
 import AppContent from './AppContent'
 import Message from './Message'
-import Settings from './Settings'
-import * as utils from '../core/utils'
 import * as antdUtil from '../core/utils/antdUtil'
 import {deleteErr} from '../actions/app'
 
 class PlatformApp extends Component {
-  openSettings() {
-    this._settings.open()
-  }
-
   getChildContext() {
     return {
       role: this.props.role
@@ -39,13 +33,12 @@ class PlatformApp extends Component {
 
     return (
       <div className="app">
-        <Header openSettings={() => this.openSettings()}/>
+        <Header/>
         <Aside/>
         <AppContent>
           {this.props.children}
         </AppContent>
         <Message/>
-        <Settings ref={c => this._settings = c}/>
       </div>
     )
   }
@@ -57,7 +50,7 @@ PlatformApp.childContextTypes = {
 
 function mapStateToProps(state) {
   let role = 'admin'
-  if (utils.getSession('userId') == 'crc001') {
+  if (state.app.username == 'crc001') {
     role = 'crc'
   }
 

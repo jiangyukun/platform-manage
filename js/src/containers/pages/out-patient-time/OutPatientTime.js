@@ -71,6 +71,11 @@ class OutPatientTime extends Component {
     const {Head, Row} = Layout
     const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
 
+    const handleOutPatientTime = (outPatientStr, subStr) => {
+      if (!outPatientStr) return false
+      return outPatientStr.indexOf(subStr) != -1
+    }
+
     return (
       <div className="app-function-page">
         {
@@ -124,7 +129,7 @@ class OutPatientTime extends Component {
           <Layout loading={this.state.loading}
                   minWidth={1400}
                   fixHead={true}
-                  fixLeft={[0, 2]}
+                  fixLeft={[0, 1]}
                   weight={weight}
           >
             <Head>
@@ -149,8 +154,9 @@ class OutPatientTime extends Component {
             <div>
               {
                 this.props.list.map((outPatient, index) => {
+                  const outPatientTime = outPatient['doctor_clinic_time']
                   return (
-                    <Row key={outPatient['user_id'] + index}
+                    <Row key={outPatient['user_id']}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
@@ -171,18 +177,36 @@ class OutPatientTime extends Component {
                         <div className="time-afternoon">下午</div>
                       </Row.Item>
                       <Row.Item>
-                        <div className="forenoon">班</div>
-                        <div className="afternoon">班</div>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '10') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '11') && <span>班</span>}</div>
                       </Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['day1']}</Row.Item>
-                      <Row.Item>{outPatient['l1']}</Row.Item>
                       <Row.Item>
-                        <div onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '20') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '21') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '30') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '31') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '40') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '41') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '50') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '51') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '60') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '61') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>
+                        <div className="forenoon">{handleOutPatientTime(outPatientTime, '70') && <span>班</span>}</div>
+                        <div className="afternoon">{handleOutPatientTime(outPatientTime, '71') && <span>班</span>}</div>
+                      </Row.Item>
+                      <Row.Item>{outPatient['doctor_short_notice_statusString']}</Row.Item>
+                      <Row.Item>
+                        <div className="click-to-look" onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
                       </Row.Item>
                     </Row>
                   )
@@ -216,8 +240,7 @@ function mapStateToProps(state) {
       typeCode: 'department',
       typeText: '科室',
       typeItemList: state.departmentList
-    },
-
+    }
   }
 }
 

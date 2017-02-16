@@ -126,7 +126,7 @@ class NavAdmin extends Component {
             </Item>
             <Item key={todoWorkTrack}>
               <Link to={todoWorkTrack}>
-                <span>待办跟踪</span>
+                <span>待办工作跟踪</span>
               </Link>
             </Item>
 

@@ -10,9 +10,7 @@ class AppContent extends Component {
   render() {
     let show = !this.props.app.settings.asideMessage
     return (
-      <div className={classnames('app-content', {'open-message': show}, {'close-message': !show})}>
-        <div></div>
-        <a href className="off-screen-toggle hide"></a>
+      <div className="app-content">
         <div className="app-content-body fade-in-up">
           {this.props.children}
         </div>

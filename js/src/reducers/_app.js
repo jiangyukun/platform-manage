@@ -8,6 +8,7 @@ import * as phase from '../constants/PhaseConstant'
 let errId = 1
 
 const initValue = {
+  username: '',
   settings: {
     asideFolded: false,
     asideMessage: true
@@ -22,6 +23,10 @@ export function app(state = initValue, action) {
   function nextState() {
     let nextIState = iState
     switch (action.type) {
+      case types.INIT_USERNAME:
+        nextIState = initUsername()
+        break
+
       case 'TOGGLE_ASIDE':
         nextIState = toggleAside()
         break
@@ -43,6 +48,10 @@ export function app(state = initValue, action) {
       return state
     }
     return nextIState.toJS()
+  }
+
+  function initUsername() {
+    return iState.set('username', action.username)
   }
 
   function toggleAside() {

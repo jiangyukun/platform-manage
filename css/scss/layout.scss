@@ -8,11 +8,12 @@ html {
 }
 
 body {
-    font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Aril, sans-serif, 宋体;
     font-size: 14px;
     color: #58666e;
     background-color: transparent;
     line-height: 1.42857143;
+    -webkit-font-smoothing: antialiased;
 }
 
 label {
@@ -66,6 +67,7 @@ a {
         padding: 0 20px;
         color: #c4d0d9;
         .console-name {
+
             margin-left: 5px;
         }
     }
@@ -187,4 +189,9 @@ ul {
     line-height: 1.8;
     background: #fff;
     text-align: center;
+}
+
+.click-to-look {
+    padding:5px;
+    cursor: pointer;
 }

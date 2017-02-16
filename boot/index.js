@@ -8,6 +8,9 @@ import {syncHistoryWithStore} from 'react-router-redux'
 import configureStore from '../js/src/store/configureStore'
 import Root from '../js/src/containers/root/Root'
 
+import * as utils from '../js/src/core/utils'
+import * as types from '../js/src/constants/ActionTypes'
+
 import './import-style'
 
 let path
@@ -27,6 +30,10 @@ switch (process.env.NODE_ENV) {
 }
 let store = configureStore()
 let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
+store.dispatch({
+  type: types.INIT_USERNAME,
+  username: utils.getSession('userId')
+})
 
 render(
   <Root store={store} history={browserHistory}/>,

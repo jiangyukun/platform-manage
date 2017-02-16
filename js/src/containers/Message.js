@@ -68,7 +68,7 @@ class Message extends Component {
   render() {
     let show = !this.props.app.settings.asideMessage
     return (
-      <CssTransitionGroup transitionName="slide-left" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
+      <CssTransitionGroup transitionName="my-slide-left" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
         {
           this.state.showPhoto && (
             <ImagePreview url={this.state.photoUrl} onExited={() => this.setState({showPhoto: false})}/>
@@ -76,7 +76,7 @@ class Message extends Component {
         }
         {
           show && (
-            <div className="b-l hidden-xs app-message">
+            <div className="app-message">
               <aside className="message-container">
                 <div className="close-arrow" onClick={e => this.close()}></div>
                 <div className="message-wrap">

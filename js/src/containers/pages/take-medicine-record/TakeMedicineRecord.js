@@ -107,7 +107,7 @@ class TakeMedicineRecord extends Component {
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
-                  weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+                  weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
           >
             <Head>
               <Head.Item>患者编号</Head.Item>
@@ -119,8 +119,9 @@ class TakeMedicineRecord extends Component {
               <Head.Item>后台管理人员</Head.Item>
               <Head.Item>运营人员</Head.Item>
               <Head.Item>备注</Head.Item>
-              <Head.Item>服药状态</Head.Item>
-              <Head.Item>放弃服药原因</Head.Item>
+              <Head.Item>处理结果</Head.Item>
+              <Head.Item>处理原因</Head.Item>
+              <Head.Item>医生备注</Head.Item>
               <Head.Item>医生确认时间</Head.Item>
             </Head>
             <div>
@@ -147,6 +148,7 @@ class TakeMedicineRecord extends Component {
                       </Row.Item>
                       <Row.Item>{record['takeMedicine_Status']}</Row.Item>
                       <Row.Item>{record['give_Up_Reason_Content']}</Row.Item>
+                      <Row.Item>备注</Row.Item>
                       <Row.Item>{record['doctor_Confirm_Time']}</Row.Item>
                     </Row>
                   )

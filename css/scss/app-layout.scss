@@ -245,10 +245,20 @@ table .table-cell-look a:hover {
     padding-top: 15px;
 }
 
+.app-message {
+    position: fixed;
+    z-index: 99;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    background-color: #dee5e7;
+    border-left: 1px solid #dee5e7;
+}
+
 .message-container {
     position: relative;
     height: 100%;
-
 }
 
 .message-container .close-arrow {

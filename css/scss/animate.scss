@@ -1,18 +1,18 @@
-.slide-left-enter {
+.my-slide-left-enter {
     transform: translateX(200px);
     transition-duration: 250ms;
     opacity: 0;
-    &.slide-left-enter-active {
+    &.my-slide-left-enter-active {
         transform: translateX(0);
         opacity: 1;
     }
 }
 
-.slide-left-leave {
+.my-slide-left-leave {
     transform: translateX(0);
     transition-duration: 250ms;
     opacity: 1;
-    &.slide-left-leave-active {
+    &.my-slide-left-leave-active {
         transform: translateX(200px);
         opacity: 0;
     }
