@@ -24,7 +24,6 @@ class TakeMedicineRecord extends Component {
     super()
     this.state = {
       currentIndex: -1,
-      loading: false,
       showDetail: false,
       showEditRemark: false
     }
@@ -103,7 +102,7 @@ class TakeMedicineRecord extends Component {
                       lengthName="rows"
                       byName="order_By"
         >
-          <Layout loading={this.state.loading}
+          <Layout loading={this.props.loading}
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
@@ -163,11 +162,8 @@ class TakeMedicineRecord extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total, remarkUpdated} = state['takeMedicineRecordPaginateList']
   return {
-    total,
-    list,
-    remarkUpdated,
+    ...state['takeMedicineRecordList'],
     hospitalList: state['hospitalList'],
     hospitalFilterList: utils.getFilterItem('hospital', '医院', state.hospitalList),
     takeMedicineStatus: utils.getFilterItem('takeMedicineStatus', '服药状态', [{value: '1', text: '已服药'}, {value: '2', text: '放弃服药'}]),

@@ -5,9 +5,9 @@ import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
-const defaultValue = {total: 0, list: [], remarkUpdated: false}
+const defaultValue = {total: 0, list: [], loading: false, remarkUpdated: false}
 
-export function takeMedicineRecordPaginateList(state = defaultValue, action) {
+export function takeMedicineRecordList(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()
@@ -16,15 +16,24 @@ export function takeMedicineRecordPaginateList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
+      case types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
+      case types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST + phase.FAILURE:
+        nextIState = iState.set('loading', false)
+        break
+
       case types.FETCH_TAKE_MEDICINE_RECORD_PAGINATE_LIST + phase.SUCCESS:
-        nextIState = fetchTakeMedicineRecordPaginateListSuccess()
+        nextIState = fetchListSuccess()
         break
 
       case types.UPDATE_TAKE_MEDICINE_RECORD_REMARK + phase.SUCCESS:
-        nextIState = updateTakeMedicineRecordRemarkSuccess()
+        nextIState = updateRemarkSuccess()
         break
+
       case types.CLEAR_TAKE_MEDICINE_RECORD_REMARK_UPDATED:
-        nextIState = clearTakeMedicineRecordRemarkUpdated()
+        nextIState = clearRemark()
         break
 
       default:
@@ -38,17 +47,17 @@ export function takeMedicineRecordPaginateList(state = defaultValue, action) {
 
   // -------------------------------------------------
 
-  function fetchTakeMedicineRecordPaginateListSuccess() {
+  function fetchListSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 
-  function updateTakeMedicineRecordRemarkSuccess() {
+  function updateRemarkSuccess() {
     const {userId, newRemark} = action
     return _updateList(iState.set('remarkUpdated', true), userId, record => record.set('takeMedicine_Remark', newRemark))
   }
 
-  function clearTakeMedicineRecordRemarkUpdated() {
+  function clearRemark() {
     return iState.set('remarkUpdated', false)
   }
 

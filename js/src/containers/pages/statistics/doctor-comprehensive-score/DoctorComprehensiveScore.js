@@ -114,7 +114,7 @@ class DoctorComprehensiveScore extends Component {
                       lengthName="rows"
                       byName="order_By"
         >
-          <Layout loading={this.state.loading}
+          <Layout loading={this.props.loading}
                   minWidth={1000}
                   fixHead={true}
                   fixLeft={[0, 2]}
@@ -171,13 +171,8 @@ class DoctorComprehensiveScore extends Component {
 }
 
 function mapStateToProps(state) {
-  const {total, list, statisticsList, remarkUpdated} = state['doctorComprehensiveScoreList']
-
   return {
-    total,
-    list,
-    statisticsList,
-    remarkUpdated,
+    ...state['doctorComprehensiveScoreList'],
     hospitalList: state.hospitalList,
     hospitalFilterList: {
       typeCode: 'hospital',

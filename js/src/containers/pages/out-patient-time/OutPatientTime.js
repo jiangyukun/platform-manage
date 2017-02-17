@@ -14,8 +14,8 @@ import Layout from "../../../components/core/layout/Layout"
 import DoctorDateDetailDialog from './dialog/DoctorDateDetailDialog'
 import EditRemark from '../common/EditRemark'
 
-import {fetchHospitalList} from '../../../actions/hospital'
 import * as utils from '../../../core/utils'
+import {fetchHospitalList} from '../../../actions/hospital'
 import * as commonActions from '../../../actions/pages/common'
 import * as actions from '../../../actions/pages/out-patient-time'
 

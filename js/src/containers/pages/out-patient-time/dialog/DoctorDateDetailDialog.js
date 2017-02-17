@@ -4,6 +4,8 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 
+import {getYesOrNoText} from '../../../../core/formatBusData'
+
 class DoctorDateDetailDialog extends Component {
   constructor() {
     super()
@@ -19,11 +21,11 @@ class DoctorDateDetailDialog extends Component {
   }
 
   render() {
-    const {doctorName = '', hospital = '', dateList} = this.props.doctorDateDetail
+    const {doctorName, hospital, dateList} = this.props.doctorDateDetail
     return (
       <Modal show={this.state.show} onHide={() => this.close()} onExited={this.props.onExited} backdrop="static">
         <Modal.Header closeButton={true}>
-          <Modal.Title>{doctorName + ' ' + hospital}</Modal.Title>
+          <Modal.Title>{(doctorName || '') + ' ' + (hospital || '')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <table className="table table-bordered table-striped">
@@ -44,7 +46,7 @@ class DoctorDateDetailDialog extends Component {
                     <td>{detail['start_time']}</td>
                     <td>{detail['end_time']}</td>
                     <td>{detail['context']}</td>
-                    <td>{detail['status']}</td>
+                    <td>{getYesOrNoText(detail['status'])}</td>
                     <td>{detail['create_time']}</td>
                   </tr>
                 )

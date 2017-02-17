@@ -5,7 +5,7 @@ import {fromJS} from 'immutable'
 import * as types from '../../../constants/ActionTypes'
 import * as phase from '../../../constants/PhaseConstant'
 
-const defaultValue = {total: 0, list: [], statisticsList: [], remarkUpdated: false}
+const defaultValue = {total: 0, list: [], loading: false, statisticsList: [], remarkUpdated: false}
 
 export function doctorComprehensiveScoreList(state = defaultValue, action) {
   const iState = fromJS(state)
@@ -16,12 +16,20 @@ export function doctorComprehensiveScoreList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
+      case types.FETCH_DOCTOR_COMPREHENSIVE_SCORE_PAGINATE_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
+      case types.FETCH_DOCTOR_COMPREHENSIVE_SCORE_PAGINATE_LIST + phase.FAILURE:
+        nextIState = iState.set('loading', false)
+        break
+
       case types.FETCH_DOCTOR_COMPREHENSIVE_SCORE_PAGINATE_LIST + phase.SUCCESS:
-        nextIState = fetchDcotorComprehensiveScoreListSuccess()
+        nextIState = fetchListSuccess()
         break
 
       case types.CLEAR_DOCTOR_COMPREHENSIVE_SCORE_REMARK:
-        nextIState = clearDoctorComprehensiveScoreRemark()
+        nextIState = clearRemark()
         break
 
       case types.UPDATE_DOCTOR_COMPREHENSIVE_SCORE_REMARK + phase.SUCCESS:
@@ -43,9 +51,9 @@ export function doctorComprehensiveScoreList(state = defaultValue, action) {
 
   // -------------------------------------------------
 
-  function fetchDcotorComprehensiveScoreListSuccess() {
+  function fetchListSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 
   function updateRemarkSuccess() {
@@ -53,7 +61,7 @@ export function doctorComprehensiveScoreList(state = defaultValue, action) {
     return _updateList(iState.set('remarkUpdated', true), doctorId, record => record.set('doctor_Score_Remark', newRemark))
   }
 
-  function clearDoctorComprehensiveScoreRemark() {
+  function clearRemark() {
     return iState.set('remarkUpdated', false)
   }
 
