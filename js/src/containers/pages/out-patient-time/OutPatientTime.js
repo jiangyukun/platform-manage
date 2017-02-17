@@ -24,7 +24,6 @@ class OutPatientTime extends Component {
     super()
     this.state = {
       currentIndex: -1,
-      loading: false,
       showDetail: false,
       showEditRemark: false
     }
@@ -83,7 +82,7 @@ class OutPatientTime extends Component {
             <DoctorDateDetailDialog
               userId={this.props.list[this.state.currentIndex]['user_id']}
               fetchDoctorDateDetail={this.props.fetchDoctorDateDetail}
-              doctorDateDetail={this.props.doctorDateDetail}
+              doctorDateDetail={this.props.detail}
               onExited={() => this.setState({showDetail: false})}/>
           )
         }
@@ -126,7 +125,7 @@ class OutPatientTime extends Component {
                       lengthName="rows"
                       byName="order_By"
         >
-          <Layout loading={this.state.loading}
+          <Layout loading={this.props.loading}
                   minWidth={1400}
                   fixHead={true}
                   fixLeft={[0, 1]}
@@ -164,7 +163,7 @@ class OutPatientTime extends Component {
                       <Row.Item>{outPatient['user_Name']}</Row.Item>
                       <Row.Item>{outPatient['doctor_name']}</Row.Item>
                       <Row.Item>{outPatient['hospital_name']}</Row.Item>
-                      <Row.Item>{outPatient['department_id']}</Row.Item>
+                      <Row.Item>{outPatient['department_name']}</Row.Item>
                       <Row.Item>{outPatient['backend_manager']}</Row.Item>
                       <Row.Item>{outPatient['operation_manager']}</Row.Item>
                       <Row.Item>
@@ -221,13 +220,8 @@ class OutPatientTime extends Component {
 }
 
 function mapStateToProps(state) {
-  const {total, list, detail, remarkUpdated} = state['outPatientTimePaginateList']
-
   return {
-    total,
-    list,
-    remarkUpdated,
-    doctorDateDetail: detail,
+    ...state['outPatientTimePaginateList'],
     hospitalList: state.hospitalList,
     departmentList: state.departmentList,
     temporaryNotifyFilter: utils.getFilterItem('temporaryNotify', '有无生效临时通知'),

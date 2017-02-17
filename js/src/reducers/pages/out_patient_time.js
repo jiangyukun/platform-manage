@@ -8,6 +8,7 @@ import * as phase from '../../constants/PhaseConstant'
 const defaultValue = {
   total: 0,
   list: [],
+  loading: false,
   detail: {
     doctorName: '',
     hospital: '',
@@ -25,8 +26,16 @@ export function outPatientTimePaginateList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
+      case types.FETCH_OUT_PATIENT_TIME_PAGINATE_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
+      case types.FETCH_OUT_PATIENT_TIME_PAGINATE_LIST + phase.FAILURE:
+        nextIState = iState.set('loading', false)
+        break
+
       case types.FETCH_OUT_PATIENT_TIME_PAGINATE_LIST + phase.SUCCESS:
-        nextIState = fetchOutPatientTimePaginateListSuccess()
+        nextIState = fetchOutPatientTimeSuccess()
         break
 
       case types.FETCH_DOCTOR_DATE_DETAIL + phase.SUCCESS:
@@ -52,9 +61,9 @@ export function outPatientTimePaginateList(state = defaultValue, action) {
 
   // ----------------------------------------------
 
-  function fetchOutPatientTimePaginateListSuccess() {
+  function fetchOutPatientTimeSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 
   function fetchDoctorDateDetailSuccess() {

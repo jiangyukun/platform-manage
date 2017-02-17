@@ -29,6 +29,10 @@ class Layout extends Component {
       }
     })
 
+    if (!header && !row) {
+      return null
+    }
+
     return (
       <SmartList fixHead={this.props.fixHead}
                  fixLeft={this.props.fixLeft}
@@ -40,7 +44,7 @@ class Layout extends Component {
           {header && header}
         </HeadContainer>
         <BodyContainer>
-          {row}
+          {row && row}
         </BodyContainer>
       </SmartList>
     )

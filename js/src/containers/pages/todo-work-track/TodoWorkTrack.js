@@ -13,16 +13,18 @@ import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import PaginateList from '../../../components/core/PaginateList'
 import Layout from "../../../components/core/layout/Layout"
+import EditRemark from '../common/EditRemark'
 
 import * as utils from '../../../core/utils'
+import * as antdUtil from '../../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../../actions/hospital'
 import * as commonActions from '../../../actions/pages/common'
 import * as actions from '../../../actions/pages/todo-work-track'
 
 class TodoWorkTrack extends Component {
   state = {
-    loading: false,
-    currentIndex: -1
+    currentIndex: -1,
+    showEditRemark: false
   }
 
   beginFetch(newPageIndex) {
@@ -35,7 +37,11 @@ class TodoWorkTrack extends Component {
   }
 
   exportExcel() {
-    location.href = ''
+    location.href = 'doctorNeedTracking/doctorNeedListExcel'
+  }
+
+  updateRemark = (newRemark) => {
+    this.props.updateRemark(this.props.list[this.state.currentIndex]['doctor_User_Id'], newRemark)
   }
 
   componentDidMount() {
@@ -48,11 +54,30 @@ class TodoWorkTrack extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.remarkUpdated) {
+      if (this._editRemark) {
+        this._editRemark.close()
+      }
+      this.props.clearRemark()
+      antdUtil.tipSuccess('更新备注成功！')
+    }
+  }
+
   render() {
     const {Head, Row} = Layout
 
     return (
       <AppFunctionPage>
+        {
+          this.state.showEditRemark && this.state.currentIndex != -1 && (
+            <EditRemark ref={c => this._editRemark = c}
+                        updateRemark={this.updateRemark}
+                        value={this.props.list[this.state.currentIndex]['takeMedicine_Remark']}
+                        onExited={() => this.setState({showEditRemark: false})}/>
+          )
+        }
+
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="search_key"
@@ -60,15 +85,15 @@ class TodoWorkTrack extends Component {
 
           <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出Excel</button>
 
-          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
-          <FilterItem item={this.props.departmentFilterList} paramName="department_Name" useText={true}/>
+          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
+          <FilterItem item={this.props.departmentFilterList} paramName="department_Id"/>
 
           <FilterItem item={this.props.backendMangerList}>
-            <CustomTextInput placeholder="请输入后台管理人员" textName="backend_manager"/>
+            <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
           </FilterItem>
 
           <FilterItem size="small" item={this.props.operationPersonList}>
-            <CustomTextInput placeholder="请输入运营人员" textName="operation_manager"/>
+            <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
           </FilterItem>
         </QueryFilter>
 
@@ -79,7 +104,7 @@ class TodoWorkTrack extends Component {
                       lengthName="rows"
                       byName="order_By"
         >
-          <Layout loading={this.state.loading}
+          <Layout loading={this.props.loading}
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
@@ -103,28 +128,27 @@ class TodoWorkTrack extends Component {
               {
                 this.props.list.map((todo, index) => {
                   return (
-                    <Row key={index}
+                    <Row key={todo['doctor_User_Id']}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
                     >
-                      <Row.Item>{todo['patient_Code']}</Row.Item>
-                      <Row.Item>{todo['patient_Phone']}</Row.Item>
-                      <Row.Item>{todo['patient_Name']}</Row.Item>
-                      <Row.Item>{todo['department_id']}</Row.Item>
+                      <Row.Item>{todo['doctor_Phone']}</Row.Item>
+                      <Row.Item>{todo['doctor_Name']}</Row.Item>
                       <Row.Item>{todo['hospital_Name']}</Row.Item>
                       <Row.Item>{todo['department_Name']}</Row.Item>
-                      <Row.Item>{todo['backend_manager']}</Row.Item>
-                      <Row.Item>{todo['operation_manager']}</Row.Item>
+                      <Row.Item>{todo['backend_Manager']}</Row.Item>
+                      <Row.Item>{todo['operation_Manager']}</Row.Item>
                       <Row.Item>
-                        {todo['takeMedicine_Remark']}
+                        {todo['doctor_Need_Remark']}
                         <i className="fa fa-edit"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
-                      <Row.Item>{todo['takeMedicine_Status']}</Row.Item>
-                      <Row.Item>{todo['give_Up_Reason_Content']}</Row.Item>
-                      <Row.Item>备注</Row.Item>
-                      <Row.Item>{todo['doctor_Confirm_Time']}</Row.Item>
+                      <Row.Item>{todo['visit_Type_One_Need_Count']}</Row.Item>
+                      <Row.Item>{todo['visit_Type_Two_Need_Count']}</Row.Item>
+                      <Row.Item>{todo['visit_Type_Three_Need_Count']}</Row.Item>
+                      <Row.Item>{todo['visit_Type_Four_Need_Count']}</Row.Item>
+                      <Row.Item>{todo['visit_Type_Five_Need_Count']}</Row.Item>
                     </Row>
                   )
                 })
@@ -138,10 +162,11 @@ class TodoWorkTrack extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total, remarkUpdated} = state['todoWorkTrackList'] || {list: [], total: 0}
+  const {list, total, loading, remarkUpdated} = state['todoWorkTrackList']
   return {
     total,
     list,
+    loading,
     remarkUpdated,
     hospitalList: state['hospitalList'],
     departmentList: state['departmentList'],
@@ -158,7 +183,9 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
   return merge(bindActionCreators({
-    fetchTodoWorkList: actions.fetchTodoWorkList
+    fetchTodoWorkList: actions.fetchTodoWorkList,
+    updateRemark: actions.updateRemark,
+    clearRemark: actions.clearRemark
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch),
     fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),

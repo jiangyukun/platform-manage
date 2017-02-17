@@ -148,7 +148,7 @@ class TakeMedicineRecord extends Component {
                       </Row.Item>
                       <Row.Item>{record['takeMedicine_Status']}</Row.Item>
                       <Row.Item>{record['give_Up_Reason_Content']}</Row.Item>
-                      <Row.Item>备注</Row.Item>
+                      <Row.Item>{record['doctor_Remark']}</Row.Item>
                       <Row.Item>{record['doctor_Confirm_Time']}</Row.Item>
                     </Row>
                   )

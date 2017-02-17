@@ -19,7 +19,7 @@ class DoctorDateDetailDialog extends Component {
   }
 
   render() {
-    const {doctorName, hospital, dateList} = this.props.doctorDateDetail
+    const {doctorName = '', hospital = '', dateList} = this.props.doctorDateDetail
     return (
       <Modal show={this.state.show} onHide={() => this.close()} onExited={this.props.onExited} backdrop="static">
         <Modal.Header closeButton={true}>

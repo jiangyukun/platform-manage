@@ -9,24 +9,24 @@ export const fetchTodoWorkList = option => {
   return {
     [THREE_PHASE]: {
       type: types.FETCH_TODO_WORK_PAGINATE_LIST,
-      http: state => POST('/take-medicine-record/getTakeMedicineRecordList', {body: option}),
-      handleResponse: response => ({list: response['takeMedicineRecordList'], total: response['count']})
+      http: state => POST('/doctorNeedTracking/getDoctorNeedList', {body: option}),
+      handleResponse: response => ({list: response['list'], total: response['count']})
     }
   }
 }
 
-export function clearRemarkUpdated() {
+export function clearRemark() {
   return {
     type: types.CLEAR_UPDATE_TODO_WORK_REMARK
   }
 }
 
-export const updateRemark = (userId, newRemark) => {
+export const updateRemark = (doctorId, newRemark) => {
   return {
     [THREE_PHASE]: {
       type: types.UPDATE_TODO_WORK_REMARK,
-      http: state => POST(`/take-medicine-record/updateTakeMedicineRemark/${userId}`, {type: 'text', body: {"takeMedicine_Remark": newRemark}}),
-      handleResponse: response => ({userId, newRemark})
+      http: state => POST(`/doctorNeedTracking/updateDoctorNeedRemark/${doctorId}`, {type: 'text', body: {"doctor_Need_Remark": newRemark}}),
+      handleResponse: response => ({doctorId, newRemark})
     }
   }
 }
