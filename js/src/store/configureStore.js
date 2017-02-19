@@ -1,23 +1,18 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-import {createStore, combineReducers, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
-import onceValidValue from '../middleware/once_valid_value'
 import request_3_phase from '../middleware/request_3_phase'
-import {routerReducer as routing} from 'react-router-redux'
-import * as reducers from '../reducers/'
 
-const allReducers = combineReducers({...reducers, routing})
+import allReducers from '../reducers/'
 
 export default function configureStore() {
-  return createStore(allReducers, {
+  const store = createStore(allReducers, {
     app: {
       name: '小贝壳控制台',
       version: '1.0',
-      color: {
-
-      },
+      color: {},
       settings: {
         headerFixed: true,
         asideFixed: true,
@@ -29,4 +24,13 @@ export default function configureStore() {
       errQueue: []
     }
   }, applyMiddleware(thunk, request_3_phase))
+
+  if (module.hot) {
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers').default
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
+  return store
 }

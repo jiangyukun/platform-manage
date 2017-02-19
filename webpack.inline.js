@@ -35,7 +35,7 @@ module.exports = [
             loaders: [
                 {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
                 {test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer!less')},
-                {test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer!sass?sourceMap')},
+                {test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer!sass')},
                 {test: /\.(jpg|png)$/, loader: "url?limit=8192"}
             ]
         }

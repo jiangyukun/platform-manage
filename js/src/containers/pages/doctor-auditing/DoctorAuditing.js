@@ -225,9 +225,9 @@ class DoctorAuditing extends Component {
                         <li className="item" style={{width: '140px'}}>
                           {doctor['doctor_Info_Remark']}
                           <span>
-                                                        <i className="fa fa-edit"
-                                                           onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
-                                                    </span>
+                              <i className="fa fa-edit"
+                                 onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
+                          </span>
                         </li>
                         <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
                         <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>

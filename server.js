@@ -29,6 +29,10 @@ app.get('/dev/patient-situation-statistics', toIndex)
 app.get('/dev/hospital-manage', toIndex)
 app.get('/dev/patient-edit', toIndex)
 app.get('/dev/doctor-auditing', toIndex)
+app.get('/dev/take-medicine-record', toIndex)
+app.get('/dev/out-patient-time', toIndex)
+app.get('/dev/app-update', toIndex)
+app.get('/dev/todo-work-track', toIndex)
 
 
 configController(app)

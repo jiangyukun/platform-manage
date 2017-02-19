@@ -78,6 +78,7 @@ export function app(state = initValue, action) {
   function deleteError() {
     const {errId} = action
     //todo
+    return iState
   }
 
   //--------------------------------
