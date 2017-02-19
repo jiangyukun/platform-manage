@@ -23,15 +23,14 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"dev"'
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
     loaders: [
-      {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
-      {test: /\.less$/, loader: 'style!css!autoprefixer!less'},
-      {test: /\.scss$/, loader: 'style!css!autoprefixer!sass'},
-      {test: /\.(jpg|png)$/, loader: "url?limit=8192"}
+      {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/, include: __dirname},
+      {test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader']},
+      {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"}
     ]
   }
 }
