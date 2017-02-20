@@ -7,10 +7,7 @@ import {Modal} from 'react-bootstrap'
 import {getYesOrNoText} from '../../../../core/formatBusData'
 
 class DoctorDateDetailDialog extends Component {
-  constructor() {
-    super()
-    this.state = {show: true}
-  }
+  state = {show: true}
 
   close() {
     this.setState({show: false})

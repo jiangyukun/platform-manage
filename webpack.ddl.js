@@ -5,7 +5,6 @@
 const webpack = require('webpack')
 const moment = require('moment')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-process.env.NODE_ENV = 'production'
 
 const vendors = [
   "antd/lib/notification",
@@ -57,18 +56,17 @@ module.exports = {
 
   module: {
     loaders: [
-      {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: __dirname},
-      {test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer!less')},
-      {test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer!sass')},
-      {test: /\.(jpg|png)$/, loader: "url?limit=8192"},
-      {test: /\.svg$/, loader: "file"}
+      {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/, include: __dirname},
+      {test: /\.less$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'less-loader']})},
+      {test: /\.scss$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})},
+      {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"},
+      {test: /\.svg$/, loader: "file-loader"}
     ]
   },
 
   plugins: [
     new ExtractTextPlugin('common-' + moment().format('MMDD') + '.css'),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
+    new webpack.DefinePlugin({'process.env.NODE_ENV': 'production'}),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
