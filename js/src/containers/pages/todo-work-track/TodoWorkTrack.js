@@ -7,11 +7,11 @@ import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import {bindActionCreators} from 'redux'
 
-import AppFunctionPage from '../common/AppFunctionPage'
 import QueryFilter from '../../../components/core/QueryFilter'
 import FilterItem from '../../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../../components/core/query-filter/custom/CustomTextInput'
 import PaginateList from '../../../components/core/PaginateList'
+import AppFunctionPage from '../common/AppFunctionPage'
 import Layout from "../../../components/core/layout/Layout"
 import EditRemark from '../common/EditRemark'
 

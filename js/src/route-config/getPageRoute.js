@@ -21,6 +21,7 @@ import AppUpdate from '../containers/pages/app-update/AppUpdate'
 import PatientSituationStatistics from '../containers/pages/statistics/patient-situation/PatientSituationStatistics'
 import HospitalAssayReport from '../containers/pages/statistics/hospital-assay-report/HospitalAssayReport'
 import DoctorComprehensiveScore from '../containers/pages/statistics/doctor-comprehensive-score/DoctorComprehensiveScore'
+import EnrollmentSituationStatistics from '../containers/pages/statistics/enrollment-situation/EnrollmentSituationStatistics'
 
 import SmsManage from '../containers/pages/sms-manage/SmsManage'
 
@@ -42,6 +43,7 @@ export default function getPageRoute(path) {
       <Route path="hospital-assay-report" component={HospitalAssayReport}/>
       <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
       <Route path="doctor-comprehensive-score" component={DoctorComprehensiveScore}/>
+      <Route path="enrollment-situation" component={EnrollmentSituationStatistics}/>
 
       <Route path="sms-manage" component={SmsManage}/>
     </Route>

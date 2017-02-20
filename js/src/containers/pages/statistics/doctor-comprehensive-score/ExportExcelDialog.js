@@ -2,8 +2,9 @@
  * Created by jiangyukun on 2017/2/15.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
 import DatePicker from 'antd/lib/date-picker'
+import {Modal} from 'react-bootstrap'
+// import Modal from '../../../../components/modal/Modal'
 
 class ExportExcelDialog extends Component {
   state = {

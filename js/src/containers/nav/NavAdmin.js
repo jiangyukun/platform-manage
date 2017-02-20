@@ -43,6 +43,7 @@ class NavAdmin extends Component {
     const patientSituationStatistics = getPath('patient-situation-statistics') //病人情况统计
     const hospitalAssayReport = getPath('hospital-assay-report') // 中心验单情况表
     const doctorComprehensiveScore = getPath('doctor-comprehensive-score')
+    const enrollmentSituation = getPath('enrollment-situation') // 入组情况统计
 
     const smsManage = getPath('sms-manage') // 短信
 
@@ -66,6 +67,7 @@ class NavAdmin extends Component {
       case patientSituationStatistics:
       case hospitalAssayReport:
       case doctorComprehensiveScore:
+      case enrollmentSituation:
         openMenu.push('-STATISTICS-')
         break
       case smsManage:
@@ -171,14 +173,14 @@ class NavAdmin extends Component {
                 <span>医生综合评分</span>
               </Link>
             </Item>
+            <Item key={enrollmentSituation}>
+              <Link to={enrollmentSituation}>
+                <span>入组情况统计</span>
+              </Link>
+            </Item>
             {/*<Item key="6_2">
              <a>
              <span>用户统计</span>
-             </a>
-             </Item>
-             <Item key="6_3">
-             <a>
-             <span>入组情况统计</span>
              </a>
              </Item>
              <Item key="6_4">
