@@ -26,6 +26,7 @@ import * as smsManage from './pages/sms_manage'
 import * as outPatientTime from './pages/out_patient_time'
 import * as takeMedicineRecord from './pages/take_medicine_record'
 import * as todoWorkTrack from './pages/todo_work_track'
+import * as enrollment from '../containers/stats-enrollment-situation/enrollment_situation'
 
 import {routerReducer as routing} from 'react-router-redux'
 
@@ -53,5 +54,6 @@ export default combineReducers({
   ...outPatientTime,
   ...takeMedicineRecord,
   ...todoWorkTrack,
+  ...enrollment,
   routing
 })

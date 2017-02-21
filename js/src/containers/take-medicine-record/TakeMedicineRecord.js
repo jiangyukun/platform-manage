@@ -135,7 +135,7 @@ class TakeMedicineRecord extends Component {
                       <Row.Item>{record['patient_Code']}</Row.Item>
                       <Row.Item>{record['patient_Phone']}</Row.Item>
                       <Row.Item>{record['patient_Name']}</Row.Item>
-                      <Row.Item>{record['department_id']}</Row.Item>
+                      <Row.Item>{record['attending_Doctor_Name']}</Row.Item>
                       <Row.Item>{record['hospital_Name']}</Row.Item>
                       <Row.Item>{record['department_Name']}</Row.Item>
                       <Row.Item>{record['backend_manager']}</Row.Item>

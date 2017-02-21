@@ -1,42 +1,39 @@
 /**
  * Created by jiangyukun on 16/10/15.
  */
-import React, {Component, PropTypes} from "react"
-import {connect} from "react-redux"
-import classnames from "classnames"
-import {merge} from "lodash"
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import classnames from 'classnames'
+import {merge} from 'lodash'
 
-import QueryFilter from "../../components/core/QueryFilter"
-import FilterItem from "../../components/core/query-filter/FilterItem"
-import CustomDateRange from "../../components/core/query-filter/custom/CustomDateRange"
-import PaginateList from "../../components/core/PaginateList"
-import SortBy from "../../components/core/paginate-list/SortBy"
-import SmartList from "../../components/core/list/SmartList"
-import HeadContainer from "../../components/core/list/HeadContainer"
-import BodyContainer from "../../components/core/list/BodyContainer"
-import EditPatientInfo from "./EditPatientInfo"
-import EditRemark from "../common/EditRemark"
-import ImagePreview from "../../components/core/ImagePreview"
+import QueryFilter from '../../components/core/QueryFilter'
+import FilterItem from '../../components/core/query-filter/FilterItem'
+import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
+import PaginateList from '../../components/core/PaginateList'
+import SortBy from '../../components/core/paginate-list/SortBy'
+import SmartList from '../../components/core/list/SmartList'
+import HeadContainer from '../../components/core/list/HeadContainer'
+import BodyContainer from '../../components/core/list/BodyContainer'
+import EditPatientInfo from './EditPatientInfo'
+import EditRemark from '../common/EditRemark'
+import ImagePreview from '../../components/core/ImagePreview'
 
-import constants from "../../core/constants"
-import {getFilterItem} from "../../core/utils"
-import * as antdUtil from "../../core/utils/antdUtil"
-import {formatDateStr} from "../../core/dateUtils"
-import {getAuditStatus, getYesOrNoText} from "../../core/formatBusData"
-import * as commonActions from "../../actions/common"
-import * as editActions from "../node-auditing/node-auditing"
-import * as actions from "./patient-edit"
+import constants from '../../core/constants'
+import {getFilterItem} from '../../core/utils'
+import * as antdUtil from '../../core/utils/antdUtil'
+import {formatDateStr} from '../../core/dateUtils'
+import {getAuditStatus, getYesOrNoText} from '../../core/formatBusData'
+import * as commonActions from '../../actions/common'
+import * as editActions from '../node-auditing/node-auditing'
+import * as actions from './patient-edit'
 
 class PatientEdit extends Component {
-  constructor() {
-    super()
-    this.state = {
-      currentIndex: -1,
-      loading: false,
-      showEdit: false,
-      showImage: false,
-      showEditMark: false
-    }
+  state = {
+    currentIndex: -1,
+    loading: false,
+    showEdit: false,
+    showImage: false,
+    showEditMark: false
   }
 
   beginFetch(newPageIndex) {
@@ -108,15 +105,15 @@ class PatientEdit extends Component {
                   disabled={this.state.currentIndex == -1}>查看
           </button>
 
-          <FilterItem className="middle-filter-item" item={this.props.isHepatitisBFilter} paramName="patient_Is_Hepatitis"/>
+          <FilterItem item={this.props.isHepatitisBFilter} paramName="patient_Is_Hepatitis"/>
 
-          <FilterItem className="middle-filter-item" item={this.props.isPregnantWomenFilter} paramName="patient_Is_Pregnant"/>
+          <FilterItem item={this.props.isPregnantWomenFilter} paramName="patient_Is_Pregnant"/>
 
-          <FilterItem className="middle-filter-item" item={this.props.minorityFilter} paramName="nation"/>
+          <FilterItem item={this.props.minorityFilter} paramName="nation"/>
 
-          <FilterItem className="middle-filter-item" item={this.props.auditingStateFilter} paramName="checked"/>
+          <FilterItem item={this.props.auditingStateFilter} paramName="checked"/>
 
-          <FilterItem className="small-filter-item" item={this.props.registerFilter}>
+          <FilterItem size="small" item={this.props.registerFilter}>
             <CustomDateRange startName="patient_Info_Create_Begin_Time" endName="patient_Info_Create_End_Time"/>
           </FilterItem>
         </QueryFilter>
@@ -201,10 +198,8 @@ class PatientEdit extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total} = state['patientEditPaginateList']
   return {
-    list,
-    total,
+    ...state['patientEditPaginateList'],
     isHepatitisBFilter: getFilterItem('isHepatitisB', '是否乙肝'),
     isPregnantWomenFilter: getFilterItem('isPregnantWomen', '是否孕妇'),
     minorityFilter: getFilterItem('minority', '民族', [

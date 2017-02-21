@@ -23,3 +23,4 @@ export function deleteErr(errId) {
     type: types.DELETE_ERROR, errId
   }
 }
+

@@ -3,20 +3,38 @@
  */
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {merge} from 'lodash'
 
 import QueryFilter from '../../components/core/QueryFilter'
 import FilterItem from '../../components/core/query-filter/FilterItem'
-import CustomTextInput from '../../components/core/query-filter/custom/CustomTextInput'
+import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../components/core/PaginateList'
 import Layout from "../../components/core/layout/Layout"
 
-import Modal from '../../components/modal/Modal'
+import * as utils from '../../core/utils'
+import {fetchHospitalList1} from '../../actions/hospital'
+import * as actions from './enrolement-situation'
 
 class EnrollmentSituationStatistics extends Component {
   state = {
     show: false,
-    show1: true,
     showExport: false
+  }
+
+  beginFetch(newPageIndex) {
+    this._paginateList.beginFetch(newPageIndex)
+  }
+
+  doFetch() {
+    this.setState({currentIndex: -1})
+    this.props.fetchList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+  }
+
+  componentDidMount() {
+    this.beginFetch()
+    if (this.props.hospitalList.length == 0) {
+      this.props.fetchHospitalList1()
+    }
   }
 
   render() {
@@ -25,18 +43,6 @@ class EnrollmentSituationStatistics extends Component {
     return (
       <div className="app-function-page">
 
-        {
-          this.state.show && (
-            <Modal show={this.state.show1} onHide={() => this.setState({show1: false})} onExited={() => this.setState({show: false})}>
-              <Modal.Header closeButton={true}>
-                <Modal.Title>测测看看</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                xsjos
-              </Modal.Body>
-            </Modal>
-          )
-        }
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="search_key"
@@ -47,12 +53,8 @@ class EnrollmentSituationStatistics extends Component {
 
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
 
-          <FilterItem item={this.props.backendMangerList}>
-            <CustomTextInput placeholder="请输入后台管理人员" textName="backend_manager"/>
-          </FilterItem>
-
-          <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
-            <CustomTextInput placeholder="请输入运营人员" textName="operation_manager"/>
+          <FilterItem size="small" item={this.props.registerFilterList}>
+            <CustomDateRange startName="patient_Info_Create_Begin_Time" endName="patient_Info_Create_End_Time"/>
           </FilterItem>
         </QueryFilter>
 
@@ -75,15 +77,27 @@ class EnrollmentSituationStatistics extends Component {
             </Head>
             <div>
               {
-                this.props.list.map((comprehensiveScore, index) => {
+                this.props.list.map((enrollment, index) => {
+                  if (enrollment['isHospital'] == 1) {
+                    return (
+                      <Row key={index}
+                           onClick={e => this.setState({currentIndex: index})}
+                           selected={this.state.currentIndex == index}
+                           style={{height: '30px', fontSize: '14px', fontWeight: 'bold'}}
+                      >
+                        <Row.Item>{enrollment['hospital_Or_Doctor_Name']}</Row.Item>
+                        <Row.Item>{enrollment['hospital_Or_Doctor_Count']}</Row.Item>
+                      </Row>
+                    )
+                  }
                   return (
-                    <Row key={comprehensiveScore['doctor_User_Id']}
+                    <Row key={index}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
-                         style={{minHeight: '60px'}}
+                         style={{minHeight: '40px'}}
                     >
-                      <Row.Item>{comprehensiveScore['doctor_Phone']}</Row.Item>
-                      <Row.Item>{comprehensiveScore['doctor_Name']}</Row.Item>
+                      <Row.Item>{enrollment['hospital_Or_Doctor_Name']}</Row.Item>
+                      <Row.Item>{enrollment['hospital_Or_Doctor_Count']}</Row.Item>
                     </Row>
                   )
                 })
@@ -98,13 +112,14 @@ class EnrollmentSituationStatistics extends Component {
 
 function mapStateToProps(state) {
   return {
-    list: [],
-    total: 0
+    ...state['enrollmentList'],
+    hospitalList: state['hospitalList'],
+    hospitalFilterList: utils.getFilterItem('hospital', '医院', state.hospitalList),
+    registerFilterList: utils.getFilterItem('register', '注册日期', [])
   }
 }
 
-function mapActionToProps(dispatch) {
-  return {}
-}
-
-export default connect(mapStateToProps, mapActionToProps)(EnrollmentSituationStatistics)
+export default connect(mapStateToProps, {
+  fetchList: actions.fetchList,
+  fetchHospitalList1
+})(EnrollmentSituationStatistics)

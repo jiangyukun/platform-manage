@@ -5,6 +5,7 @@
 const webpack = require('webpack')
 const moment = require('moment')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+process.env.NODE_ENV = 'production'
 
 const vendors = [
   "antd/lib/notification",
@@ -66,7 +67,7 @@ module.exports = {
 
   plugins: [
     new ExtractTextPlugin('common-' + moment().format('MMDD') + '.css'),
-    new webpack.DefinePlugin({'process.env.NODE_ENV': 'production'}),
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
