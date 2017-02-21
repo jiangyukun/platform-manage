@@ -2,8 +2,8 @@
  * Created by jiangyu2016 on 16/10/15.
  */
 import React, {Component, PropTypes} from 'react'
-import NavAdmin from './nav/NavAdmin'
-import NavCrc from './nav/NavCrc'
+import NavAdmin from './common/nav/NavAdmin'
+import NavCrc from './common/nav/NavCrc'
 
 export default class Aside extends Component {
   render() {

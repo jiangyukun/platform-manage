@@ -6,7 +6,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './boot/index.js'
+    './js/src/boot/index.js'
   ],
   devServer: {
     historyApiFallback: true,

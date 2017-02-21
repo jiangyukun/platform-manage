@@ -7,7 +7,7 @@ import * as phase from '../../constants/PhaseConstant'
 import * as nodeAuditingHelper from '../../core/pages/nodeAuditingHelper'
 import * as formatBusData from '../../core/formatBusData'
 
-const defaultValue = {total: 0, list: []}
+const defaultValue = {total: 0, list: [], loading: false}
 export function patientListInfo(state = defaultValue, action) {
 
   const iState = fromJS(state)
@@ -53,6 +53,15 @@ export function patientListInfo(state = defaultValue, action) {
 
   // --------------------------------------
 
+  function fetchPatientListStart() {
+    return iState.set('list', List([])).set('loading', true)
+  }
+
+  function fetchPatientListSuccess() {
+    let {total, list} =action
+    return iState.set('total', total).set('list', fromJS(list)).set('loading', false)
+  }
+
   function updateVisitCardSuccess() {
     let {id, state} = action
     return _updateList(iState, id, patient => patient.set('visit_card_status', state))
@@ -73,15 +82,6 @@ export function patientListInfo(state = defaultValue, action) {
   function updateAuditingStatusSuccess() {
     const {patientId, newAuditingState} = action
     return _updateList(iState, patientId, patient => patient.set('is_Checked', formatBusData.getAuditStatus(newAuditingState)))
-  }
-
-  function fetchPatientListStart() {
-    return iState.set('list', List([]))
-  }
-
-  function fetchPatientListSuccess() {
-    let {patientListInfo} =action
-    return iState.set('total', patientListInfo['total_Patient_Count']).set('list', fromJS(patientListInfo['patientCheckList']))
   }
 
   //-------------------------------------

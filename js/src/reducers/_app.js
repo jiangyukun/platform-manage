@@ -77,7 +77,12 @@ export function app(state = initValue, action) {
 
   function deleteError() {
     const {errId} = action
-    //todo
+    const matchErr = iState.get('errQueue').find(err => err.get('errId') == errId)
+    if (matchErr) {
+      const index = iState.get('errQueue').indexOf(matchErr)
+      return iState.update('errQueue', errQueue => errQueue.delete(index))
+    }
+
     return iState
   }
 
