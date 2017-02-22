@@ -42,8 +42,10 @@ class NavAdmin extends Component {
 
     const patientSituationStatistics = getPath('patient-situation-statistics') //病人情况统计
     const hospitalAssayReport = getPath('hospital-assay-report') // 中心验单情况表
-    const doctorComprehensiveScore = getPath('doctor-comprehensive-score')
+    const doctorComprehensiveScore = getPath('doctor-comprehensive-score') // 医生综合评分
     const enrollmentSituation = getPath('enrollment-situation') // 入组情况统计
+    const onlineDoctor = getPath('online-doctor') // 在线医生评分
+    const historyMessage = getPath('history-message') // 历史记录报表
 
     const smsManage = getPath('sms-manage') // 短信
 
@@ -68,6 +70,8 @@ class NavAdmin extends Component {
       case hospitalAssayReport:
       case doctorComprehensiveScore:
       case enrollmentSituation:
+      case onlineDoctor:
+      case historyMessage:
         openMenu.push('-STATISTICS-')
         break
       case smsManage:
@@ -178,20 +182,15 @@ class NavAdmin extends Component {
                 <span>入组情况统计</span>
               </Link>
             </Item>
-            {/*<Item key="6_2">
-             <a>
-             <span>用户统计</span>
-             </a>
-             </Item>
-             <Item key="6_4">
-             <a>
-             <span>聊天记录报表</span>
-             </a>
-             </Item>*/}
-            <Item key="6_5">
-              <a href="platform/home.html#/app.score-statistics">
+            <Item key={onlineDoctor}>
+              <Link to={onlineDoctor}>
                 <span>在线医生评分</span>
-              </a>
+              </Link>
+            </Item>
+            <Item key={historyMessage}>
+              <Link to={historyMessage}>
+                <span>聊天记录报表</span>
+              </Link>
             </Item>
           </SubMenu>
 

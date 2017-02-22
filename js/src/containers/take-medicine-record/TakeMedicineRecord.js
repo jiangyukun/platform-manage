@@ -39,7 +39,7 @@ class TakeMedicineRecord extends Component {
   }
 
   exportExcel() {
-    location.href = 'take-medicine-record/takeMedicineRecordListExcel'
+    utils.exportExcel('take-medicine-record/takeMedicineRecordListExcel', this._queryFilter.getParams())
   }
 
   updateRemark = (newRemark) => {

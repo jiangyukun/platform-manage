@@ -37,7 +37,7 @@ class TodoWorkTrack extends Component {
   }
 
   exportExcel() {
-    location.href = 'doctorNeedTracking/doctorNeedListExcel'
+    utils.exportExcel('doctorNeedTracking/doctorNeedListExcel', this._queryFilter.getParams())
   }
 
   updateRemark = (newRemark) => {

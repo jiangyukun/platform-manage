@@ -64,7 +64,7 @@ class DoctorAuditing extends Component {
   }
 
   exportExcel() {
-    location.href = 'export/doctorInfoListExcel' + utils.urlParam(this._queryFilter.getParams())
+    utils.exportExcel('export/doctorInfoListExcel', this._queryFilter.getParams())
   }
 
   componentDidMount() {

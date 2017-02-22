@@ -146,3 +146,11 @@ export function getPath(page) {
 
   return prefix + path + page
 }
+
+export function exportExcel(url, param) {
+  if (param) {
+    location.href = url + urlParam(param)
+  } else {
+    location.href = url
+  }
+}

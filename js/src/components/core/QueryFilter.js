@@ -83,7 +83,7 @@ class QueryFilter extends Component {
     return (
       <div className="group-input">
         <Form>
-          <input type="text" placeholder="搜索关键词" onChange={e => this.searchKeyChange(e)}/>
+          <input type="text" placeholder={this.props.placeholder} onChange={e => this.searchKeyChange(e)}/>
           <button className="icon-search-btn" onClick={e => this.filter()}></button>
         </Form>
       </div>
@@ -177,10 +177,15 @@ class QueryFilter extends Component {
   }
 }
 
+QueryFilter.defaultProps = {
+  placeholder: '搜索关键词'
+}
+
 QueryFilter.propTypes = {
   className: PropTypes.string,
   beginFilter: PropTypes.func.isRequired,
-  searchKeyName: PropTypes.string
+  searchKeyName: PropTypes.string,
+  placeholder: PropTypes.string
 }
 
 QueryFilter.childContextTypes = {

@@ -23,8 +23,8 @@ class HospitalAssayReport extends Component {
     }
   }
 
-  beginFetch() {
-    this._paginateList.beginFetch()
+  beginFetch(newPageIndex) {
+    this._paginateList.beginFetch(newPageIndex)
   }
 
   doFetch() {

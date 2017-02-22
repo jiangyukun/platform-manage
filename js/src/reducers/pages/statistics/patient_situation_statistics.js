@@ -5,7 +5,7 @@ import {fromJS} from 'immutable'
 import * as types from '../../../constants/ActionTypes'
 import * as phase from '../../../constants/PhaseConstant'
 
-const defaultValue = {total: 0, list: []}
+const defaultValue = {total: 0, list: [], loading: false}
 
 export function patientSituationList(state = defaultValue, action) {
   const iState = fromJS(state)
@@ -14,8 +14,16 @@ export function patientSituationList(state = defaultValue, action) {
   function nextState() {
     let nextIState = iState
     switch (action.type) {
+      case types.FETCH_PATIENT_SITUATION_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
       case types.FETCH_PATIENT_SITUATION_LIST + phase.SUCCESS:
-        nextIState = fetchPatientSituationListSuccess()
+        nextIState = fetchListSuccess()
+        break
+
+      case types.FETCH_PATIENT_SITUATION_LIST + phase.FAILURE:
+        nextIState = iState.set('loading', false)
         break
     }
     if (nextIState == iState) {
@@ -26,8 +34,8 @@ export function patientSituationList(state = defaultValue, action) {
 
 //
 
-  function fetchPatientSituationListSuccess() {
+  function fetchListSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 }

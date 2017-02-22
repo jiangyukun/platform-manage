@@ -22,6 +22,8 @@ import PatientSituationStatistics from '../containers/stats-patient-situation/Pa
 import HospitalAssayReport from '../containers/stats-hospital-assay-report/HospitalAssayReport'
 import DoctorComprehensiveScore from '../containers/stats-doctor-comprehensive-score/DoctorComprehensiveScore'
 import EnrollmentSituationStatistics from '../containers/stats-enrollment-situation/EnrollmentSituationStatistics'
+import OnlineDoctorStatistics from '../containers/stats-online-doctor/OnlineDoctorStatistics'
+import HistoryMessageStatistics from '../containers/stats-history-message/HistoryMessageStatistics'
 
 import SmsManage from '../containers/sms-manage/SmsManage'
 
@@ -44,6 +46,8 @@ export default function getPageRoute(path) {
       <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
       <Route path="doctor-comprehensive-score" component={DoctorComprehensiveScore}/>
       <Route path="enrollment-situation" component={EnrollmentSituationStatistics}/>
+      <Route path="online-doctor" component={OnlineDoctorStatistics}/>
+      <Route path="history-message" component={HistoryMessageStatistics}/>
 
       <Route path="sms-manage" component={SmsManage}/>
     </Route>

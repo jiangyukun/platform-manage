@@ -26,14 +26,17 @@ class EnrollmentSituationStatistics extends Component {
   }
 
   doFetch() {
-    this.setState({currentIndex: -1})
     this.props.fetchList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+  }
+
+  exportExcel = () => {
+    utils.exportExcel('webGroupStatement/groupStatementExcel', this._queryFilter.getParams())
   }
 
   componentDidMount() {
     this.beginFetch()
     if (this.props.hospitalList.length == 0) {
-      this.props.fetchHospitalList1()
+      this.props.fetchHospitalList()
     }
   }
 
@@ -43,18 +46,20 @@ class EnrollmentSituationStatistics extends Component {
     return (
       <div className="app-function-page">
 
-        <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
+        <QueryFilter ref={c => this._queryFilter = c}
+                     className="ex-big-label"
+                     placeholder="请输入医生姓名"
                      beginFilter={() => this.beginFetch(1)}
-                     searchKeyName="search_key"
+                     searchKeyName="doctor_Name"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showExport: true})}
+          <button className="btn btn-primary mr-20" onClick={this.exportExcel}
                   disabled={this.props.total == 0}>导出excel
           </button>
 
-          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
+          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
           <FilterItem size="small" item={this.props.registerFilterList}>
-            <CustomDateRange startName="patient_Info_Create_Begin_Time" endName="patient_Info_Create_End_Time"/>
+            <CustomDateRange startName="start_Time" endName="end_Time"/>
           </FilterItem>
         </QueryFilter>
 
@@ -73,17 +78,14 @@ class EnrollmentSituationStatistics extends Component {
           >
             <Head>
               <Head.Item>医院/医生</Head.Item>
-              <Head.Item>入组数2</Head.Item>
+              <Head.Item>入组数</Head.Item>
             </Head>
             <div>
               {
                 this.props.list.map((enrollment, index) => {
                   if (enrollment['isHospital'] == 1) {
                     return (
-                      <Row key={index}
-                           onClick={e => this.setState({currentIndex: index})}
-                           selected={this.state.currentIndex == index}
-                           style={{height: '30px', fontSize: '14px', fontWeight: 'bold'}}
+                      <Row key={index} style={{height: '30px', fontSize: '14px', fontWeight: 'bold'}}
                       >
                         <Row.Item>{enrollment['hospital_Or_Doctor_Name']}</Row.Item>
                         <Row.Item>{enrollment['hospital_Or_Doctor_Count']}</Row.Item>
@@ -91,10 +93,7 @@ class EnrollmentSituationStatistics extends Component {
                     )
                   }
                   return (
-                    <Row key={index}
-                         onClick={e => this.setState({currentIndex: index})}
-                         selected={this.state.currentIndex == index}
-                         style={{minHeight: '40px'}}
+                    <Row key={index} style={{minHeight: '30px'}}
                     >
                       <Row.Item>{enrollment['hospital_Or_Doctor_Name']}</Row.Item>
                       <Row.Item>{enrollment['hospital_Or_Doctor_Count']}</Row.Item>
@@ -121,5 +120,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   fetchList: actions.fetchList,
-  fetchHospitalList1
+  fetchHospitalList: fetchHospitalList1
 })(EnrollmentSituationStatistics)

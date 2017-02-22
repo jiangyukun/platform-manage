@@ -3,7 +3,7 @@
  */
 import moment from 'moment'
 
-export function formatDateStr(dateStr) {
+export function formatDateStr(dateStr, format) {
   if (!dateStr) return ''
-  return moment(dateStr).format('YYYY-MM-DD HH:mm')
+  return moment(dateStr).format(format || 'YYYY-MM-DD HH:mm')
 }

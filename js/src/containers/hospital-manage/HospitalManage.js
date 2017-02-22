@@ -2,10 +2,12 @@
  * Created by jiangyukun on 2016/11/30.
  */
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 import moment from 'moment'
 import classnames from 'classnames'
+
 import QueryFilter from '../../components/core/QueryFilter'
 import FilterItem from '../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../components/core/query-filter/custom/CustomTextInput'
@@ -19,7 +21,7 @@ import AddHospitalDialog from './dialog/AddHospitalDialog'
 import EditHospitalDialog from './dialog/EditHospitalDialog'
 import {getFilterItem} from '../../core/utils'
 import {getYesOrNoText} from '../../core/formatBusData'
-import {fetchHospitalList} from '../../actions/hospital'
+import {fetchHospitalList1} from '../../actions/hospital'
 import * as actions from './hospital-manage'
 
 class HospitalManage extends Component {
@@ -40,7 +42,7 @@ class HospitalManage extends Component {
 
   doFetch() {
     this.setState({currentIndex: -1, loading: true})
-    this.props.fetchHospitalList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+    this.props.fetchHospitalPaginateList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
       .then(() => this.setState({loading: false}))
   }
 
@@ -57,7 +59,7 @@ class HospitalManage extends Component {
       this.props.fetchProvinceList()
     }
     if (this.props.hospitalList.length == 0) {
-      this.props.fetchHospitalFilterList()
+      this.props.fetchHospitalList()
     }
   }
 
@@ -124,11 +126,11 @@ class HospitalManage extends Component {
             <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
           </FilterItem>
 
-          <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
+          <FilterItem size="small" item={this.props.operationPersonList}>
             <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
           </FilterItem>
 
-          <FilterItem className="big-filter-item" item={this.props.register}>
+          <FilterItem size="big" item={this.props.register}>
             <CustomDateRange startName="hospital_Create_Begin_Time" endName="hospital_Create_End_Time"/>
           </FilterItem>
         </QueryFilter>
@@ -187,10 +189,8 @@ class HospitalManage extends Component {
 }
 
 function mapStateToProps(state) {
-  let {total = 0, list = []} = state['hospitalManageList']
   return {
-    total,
-    list,
+    ...state['hospitalManageList'],
     hospitalList: state.hospitalList,
     provinceList: state.provinceList,
     cityMapper: state.cityMapper,
@@ -213,16 +213,17 @@ function mapStateToProps(state) {
 }
 
 function mapActionToProps(dispatch) {
-  return {
-    fetchHospitalFilterList: fetchHospitalList(dispatch),
-    fetchHospitalList: actions.fetchHospitalList(dispatch),
+  return merge({}, bindActionCreators({
+    fetchHospitalList: fetchHospitalList1
+  }, dispatch), {
+    fetchHospitalPaginateList: actions.fetchHospitalPaginateList(dispatch),
     fetchProvinceList: actions.fetchProvinceList(dispatch),
     fetchCityList: actions.fetchCityList(dispatch),
     fetchCityMaxSerialNumber: actions.fetchCityMaxSerialNumber(dispatch),
     addHospital: actions.addHospital(dispatch),
     fetchHospitalInfo: actions.fetchHospitalInfo(dispatch),
     updateHospitalInfo: actions.updateHospitalInfo(dispatch)
-  }
+  })
 }
 
 export default connect(mapStateToProps, mapActionToProps)(HospitalManage)

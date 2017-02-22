@@ -19,3 +19,15 @@
         border: 1px solid #aaa
     }
 }
+
+.online-doctor-statistics {
+    .my-start, .my-end {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 25px;
+        width: 100%;
+        &:focus {
+            border: 1px solid #00a0e9;
+        }
+    }
+}

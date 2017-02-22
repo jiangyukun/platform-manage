@@ -5,28 +5,34 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
+
 import PaginateList from '../../components/core/PaginateList'
 import SmartList from '../../components/core/list/SmartList'
 import HeadContainer from '../../components/core/list/HeadContainer'
 import BodyContainer from '../../components/core/list/BodyContainer'
-import * as actions from './patient-situation'
+
+import * as utils from '../../core/utils'
+import {fetchPatientSituationList} from './patient-situation'
 
 class PatientSituationStatistics extends Component {
   constructor() {
     super()
     this.state = {
       currentIndex: -1,
-      loading: false
     }
   }
 
-  beginFetch() {
-    this._paginateList.beginFetch()
+  beginFetch(newPageIndex) {
+    this._paginateList.beginFetch(newPageIndex)
   }
 
   doFetch() {
     this.setState({currentIndex: -1, loading: true})
-    this.props.fetchPatientSituationList(this._paginateList.getParams()).then(() => this.setState({loading: false}))
+    this.props.fetchPatientSituationList(this._paginateList.getParams())
+  }
+
+  exportExcel = () => {
+    utils.exportExcel('export/patientReportExcel')
   }
 
   componentDidMount() {
@@ -37,9 +43,8 @@ class PatientSituationStatistics extends Component {
     return (
       <div className="app-function-page">
         <div>
-          <button className="btn btn-primary"
-                  style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                  onClick={e => window.open('export/patientReportExcel')}>导出excel
+          <button className="btn btn-primary" style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
+                  onClick={this.exportExcel}>导出excel
           </button>
         </div>
         <PaginateList ref={c => this._paginateList = c}
@@ -48,7 +53,7 @@ class PatientSituationStatistics extends Component {
                       lengthName="limit"
         >
 
-          <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
+          <SmartList loading={this.props.loading} fixHead={true} fixLeft={[1, 2]}>
             <HeadContainer>
               <ul className="flex-list header">
                 <li className="item flex2">医院名称</li>
@@ -88,16 +93,11 @@ class PatientSituationStatistics extends Component {
 }
 
 function mapStateToProps(state) {
-  let {total, list} = state.patientSituationList
   return {
-    total, list
+    ...state.patientSituationList
   }
 }
 
-function mapActionToProps(dispatch) {
-  return {
-    fetchPatientSituationList: actions.fetchPatientSituationList(dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapActionToProps)(PatientSituationStatistics)
+export default connect(mapStateToProps, {
+  fetchPatientSituationList
+})(PatientSituationStatistics)

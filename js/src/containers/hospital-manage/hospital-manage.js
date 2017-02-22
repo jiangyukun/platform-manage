@@ -42,7 +42,7 @@ export let fetchCityList = dispatch => provinceId => {
 }
 
 //获取医院列表
-export let fetchHospitalList = dispatch => option => {
+export let fetchHospitalPaginateList = dispatch => option => {
   dispatch({
     type: types.FETCH_HOSPITAL_MANAGE_LIST + phase.START
   })
