@@ -77,6 +77,7 @@ class OutPatientTime extends Component {
 
     return (
       <div className="app-function-page">
+        <div draggable="true">xxx</div>
         {
           this.state.showDetail && this.state.currentIndex != -1 && (
             <DoctorDateDetailDialog

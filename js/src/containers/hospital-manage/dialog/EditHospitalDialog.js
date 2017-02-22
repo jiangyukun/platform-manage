@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
+import Modal from 'react-bootstrap/lib/Modal'
 import notification from 'antd/lib/notification'
 import Select1 from '../../../components/core/Select1'
 

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
+import Modal from 'react-bootstrap/lib/Modal'
 import moment from 'moment'
 import DatePicker from 'antd/lib/date-picker'
 

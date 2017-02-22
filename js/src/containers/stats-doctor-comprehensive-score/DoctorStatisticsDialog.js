@@ -2,7 +2,7 @@
  * Created by jiangyukun on 2017/2/15.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
+import Modal from 'react-bootstrap/lib/Modal'
 
 class DoctorStatisticsDialog extends Component {
   state = {

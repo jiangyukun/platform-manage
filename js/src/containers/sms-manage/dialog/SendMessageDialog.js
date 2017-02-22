@@ -2,7 +2,7 @@
  * Created by jiangyukun on 2017/1/11.
  */
 import React, {Component, PropTypes} from "react"
-import {Modal} from "react-bootstrap"
+import Modal from 'react-bootstrap/lib/Modal'
 import Input from "../../../components/ui/Input"
 import * as antdUtil from "../../../core/utils/antdUtil"
 import * as formatBusData from "../../../core/formatBusData"

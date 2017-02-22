@@ -76,9 +76,6 @@ class OnlineDoctorStatistics extends Component {
     if (this.props.remarkUpdated) {
       antdUtil.tipSuccess('更新备注成功！')
       this.props.clearRemark()
-      if (this._editRemark) {
-        this._editRemark.close()
-      }
     }
     if (this.props.statisticsValueUpdated) {
       antdUtil.tipSuccess('更新是否统计成功！')
@@ -94,9 +91,9 @@ class OnlineDoctorStatistics extends Component {
       <div className="app-function-page online-doctor-statistics">
         {
           this.state.showEditRemark && this.state.currentIndex != -1 && (
-            <EditRemark ref={c => this._editRemark = c}
-                        updateRemark={this.updateRemark}
+            <EditRemark updateRemark={this.updateRemark}
                         value={this.props.list[this.state.currentIndex]['score_Log_Remark']}
+                        remarkUpdated={this.props.remarkUpdated}
                         onExited={() => this.setState({showEditRemark: false})}/>
           )
         }
@@ -253,15 +250,11 @@ class OnlineDoctorStatistics extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    ...state['onlineDoctor'],
-    isStatisticsList: utils.getFilterItem('isStatistics', '是否统计'),
-    register: utils.getFilterItem('register', '创建日期', [])
-  }
-}
-
-export default connect(mapStateToProps, {
+export default connect(state => ({
+  ...state['onlineDoctor'],
+  isStatisticsList: utils.getFilterItem('isStatistics', '是否统计'),
+  register: utils.getFilterItem('register', '创建日期', [])
+}), {
   fetchPaginateList,
   fetchStatisticsInfo,
   updateIsStatistics,

@@ -2,7 +2,7 @@
  * Created by jiangyu2016 on 2016/10/22.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
+import Modal from 'react-bootstrap/lib/Modal'
 
 import Input from '../../../components/ui/Input'
 import Select1 from '../../../components/core/Select1'

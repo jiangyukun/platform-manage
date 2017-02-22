@@ -3,7 +3,8 @@
  */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Dropdown, MenuItem} from 'react-bootstrap'
+import Dropdown from 'react-bootstrap/lib/Dropdown'
+import MenuItem from 'react-bootstrap/lib/MenuItem'
 import classnames from 'classnames'
 import moment from 'moment'
 

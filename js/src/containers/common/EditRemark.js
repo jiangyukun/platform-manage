@@ -23,6 +23,12 @@ class EditRemark extends Component {
     this.props.updateRemark(this.state.value)
   }
 
+  componentDidUpdate() {
+    if (this.props.remarkUpdated) {
+      this.close()
+    }
+  }
+
   render() {
     return (
       <CommonDialog show={this.state.show} onHide={this.close} onExited={this.props.onExited} width="30%" className="ngdialog ngdialog-theme-default">
@@ -50,7 +56,8 @@ EditRemark.defaultProps = {
 EditRemark.propTypes = {
   value: PropTypes.string,
   onExited: PropTypes.func.isRequired,
-  updateRemark: PropTypes.func.isRequired
+  updateRemark: PropTypes.func.isRequired,
+  remarkUpdated: PropTypes.bool
 }
 
 export default EditRemark

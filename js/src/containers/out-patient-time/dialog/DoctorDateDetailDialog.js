@@ -2,7 +2,7 @@
  * Created by jiangyukun on 2017/1/19.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
+import Modal from 'react-bootstrap/lib/Modal'
 
 import {getYesOrNoText} from '../../../core/formatBusData'
 
