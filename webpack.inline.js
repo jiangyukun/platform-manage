@@ -27,7 +27,7 @@ module.exports = {
   ],
   module: {
     loaders: [
-      {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/, include: __dirname},
+      {test: /\.js$/, loaders: ['react-hot-loader', 'babel-loader'], exclude: /node_modules/, include: __dirname},
       {test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader']},
       {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
       {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"}

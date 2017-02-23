@@ -154,3 +154,22 @@ export function exportExcel(url, param) {
     location.href = url
   }
 }
+
+export function getMatchTextList(str, part) {
+  if (!str) {
+    return []
+  }
+  if (!part) {
+    return str
+  }
+  const index = str.indexOf(part)
+  if (index == -1) {
+    return [str]
+  }
+  let result = []
+  if (str.substring(0, index) != '') {
+    result.push(str.substring(0, index))
+  }
+  result.push(part)
+  return result.concat(getMatchTextList(str.substr(index + part.length), part))
+}

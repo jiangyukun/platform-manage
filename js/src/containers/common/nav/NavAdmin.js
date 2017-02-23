@@ -162,6 +162,11 @@ class NavAdmin extends Component {
           </SubMenu>
 
           <SubMenu key="-STATISTICS-" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
+            <Item key={historyMessage}>
+              <Link to={historyMessage}>
+                <span>聊天记录报表</span>
+              </Link>
+            </Item>
             <Item key={hospitalAssayReport}>
               <Link to={hospitalAssayReport}>
                 <span>中心验单情况表</span>
@@ -185,11 +190,6 @@ class NavAdmin extends Component {
             <Item key={onlineDoctor}>
               <Link to={onlineDoctor}>
                 <span>在线医生评分</span>
-              </Link>
-            </Item>
-            <Item key={historyMessage}>
-              <Link to={historyMessage}>
-                <span>聊天记录报表</span>
               </Link>
             </Item>
           </SubMenu>

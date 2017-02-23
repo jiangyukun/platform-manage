@@ -53,6 +53,11 @@ function method(type) {
         if (response.status == 200) {
           return response.json()
         }
+        if (response.status == 404) {
+          return Promise.resolve({
+            status: -1, rspMsg: '未找到指定接口，请联系开发人员'
+          })
+        }
         return Promise.resolve({
           status: -1, rspMsg: 'HTTP: ' + response.status
         })

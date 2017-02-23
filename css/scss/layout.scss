@@ -16,6 +16,17 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
+.flex-full {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 label {
     font-weight: normal;
 }
@@ -192,6 +203,6 @@ ul {
 }
 
 .click-to-look {
-    padding:5px;
+    padding: 5px;
     cursor: pointer;
 }

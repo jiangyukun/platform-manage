@@ -31,3 +31,16 @@
         }
     }
 }
+
+.history-message-statistics {
+    .tab-content, .tab-pane.active {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .nav-tabs {
+        margin-left: 10px;
+    }
+}

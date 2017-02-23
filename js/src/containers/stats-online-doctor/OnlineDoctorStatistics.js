@@ -49,7 +49,6 @@ class OnlineDoctorStatistics extends Component {
   }
 
   updateIsStatistics = (newValue) => {
-    console.log(newValue)
     this.props.updateIsStatistics(this.props.list[this.state.currentIndex]['score_Log_Id'], newValue)
   }
 

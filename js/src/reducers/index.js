@@ -28,6 +28,8 @@ import * as takeMedicineRecord from './pages/take_medicine_record'
 import * as todoWorkTrack from './pages/todo_work_track'
 import * as enrollment from '../containers/stats-enrollment-situation/enrollment_situation'
 import * as onlineDoctor from '../containers/stats-online-doctor/online_doctor'
+import * as historyMessageSingle from '../containers/stats-history-message/history_message_single'
+import * as historyMessageGroup from '../containers/stats-history-message/history_message_group'
 
 import {routerReducer as routing} from 'react-router-redux'
 
@@ -57,5 +59,7 @@ export default combineReducers({
   ...todoWorkTrack,
   ...enrollment,
   ...onlineDoctor,
+  ...historyMessageSingle,
+  ...historyMessageGroup,
   routing
 })
