@@ -160,7 +160,7 @@ export function getMatchTextList(str, part) {
     return []
   }
   if (!part) {
-    return str
+    return [str]
   }
   const index = str.indexOf(part)
   if (index == -1) {

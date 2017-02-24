@@ -2,6 +2,7 @@
  * Created by jiangyukun on 2016/12/15.
  */
 import React, {Component, PropTypes} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
@@ -14,20 +15,18 @@ import SortBy from '../../components/core/paginate-list/SortBy'
 import SmartList from '../../components/core/list/SmartList'
 import HeadContainer from '../../components/core/list/HeadContainer'
 import BodyContainer from '../../components/core/list/BodyContainer'
+import HighLight from '../../components/txt/HighLight'
 import EditLaboratorySheet from './EditLaboratorySheet'
 
 import {getFilterItem} from '../../core/utils'
-import {fetchHospitalList} from '../../actions/hospital'
+import {fetchHospitalList1} from '../../actions/hospital'
 import * as actions from './laboratory-sheet'
 
 class LaboratorySheet extends Component {
-  constructor() {
-    super()
-    this.state = {
-      currentIndex: -1,
-      loading: false,
-      showEdit: false
-    }
+  state = {
+    currentIndex: -1,
+    showEdit: false,
+    searchKey: ''
   }
 
   beginFetch(newPageIndex) {
@@ -37,7 +36,6 @@ class LaboratorySheet extends Component {
   doFetch() {
     this.setState({currentIndex: -1, loading: true})
     this.props.fetchLaboratorySheetList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
-      .then(() => this.setState({loading: false}))
   }
 
   editLaboratorySheet(sheet, type) {
@@ -79,6 +77,8 @@ class LaboratorySheet extends Component {
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="key_Words"
+                     placeholder="手机号码 / 姓名"
+                     onSearchKeyChange={searchKey => this.setState({searchKey})}
         >
           <FilterItem className="middle-filter-item" item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
@@ -105,7 +105,7 @@ class LaboratorySheet extends Component {
                       lengthName="limit"
                       byName="order_By"
         >
-          <SmartList loading={this.state.loading} fixHead={true} minWidth={1230} fixLeft={[0, 2]}>
+          <SmartList loading={this.props.loading} fixHead={true} minWidth={1230} fixLeft={[0, 2]}>
             <HeadContainer>
               <ul className="flex-list header">
                 <li className="item" style={{width: '80px'}}>
@@ -148,9 +148,17 @@ class LaboratorySheet extends Component {
                           className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
                           onClick={e => this.setState({currentIndex: index})}
                       >
-                        <li className="item" style={{width: '80px'}}>{sheet['assay_Owner_Phone']}</li>
+                        <li className="item" style={{width: '80px'}}>
+                          <HighLight match={this.state.searchKey}>
+                            {sheet['assay_Owner_Phone']}
+                          </HighLight>
+                        </li>
                         <li className="item flex2">{sheet['patient_Code']}</li>
-                        <li className="item flex2">{sheet['patient_Name']}</li>
+                        <li className="item flex2">
+                          <HighLight match={this.state.searchKey}>
+                            {sheet['patient_Name']}
+                          </HighLight>
+                        </li>
                         <li className="item flex2">{sheet['hospital_Name']}</li>
                         <li className="item flex2">{sheet['visit_Doctor_Name']}</li>
                         <li className="item flex2">{sheet['infection_Doctor']}</li>
@@ -188,10 +196,8 @@ class LaboratorySheet extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total} = state.laboratorySheetList
   return {
-    list,
-    total,
+    ...state.laboratorySheet,
     hospitalList: state.hospitalList,
     hospitalFilterList: {
       typeCode: 'hospital',
@@ -206,12 +212,13 @@ function mapStateToProps(state) {
 }
 
 function mapActionToProps(dispatch) {
-  return {
-    fetchLaboratorySheetList: actions.fetchLaboratorySheetList(dispatch),
-    fetchHospitalList: fetchHospitalList(dispatch),
+  return merge({}, bindActionCreators({
+    fetchLaboratorySheetList: actions.fetchLaboratorySheetList,
+    fetchHospitalList: fetchHospitalList1
+  }, dispatch), {
     fetchPictureUrlList: actions.fetchPictureUrlList(dispatch),
     markSheetItem: actions.markSheetItem(dispatch)
-  }
+  })
 }
 
 export default connect(mapStateToProps, mapActionToProps)(LaboratorySheet)

@@ -39,7 +39,7 @@ class TwoSearchKey extends QueryFilter {
     return (
       <div className="inline-block">
         <div className="group-input" style={{marginRight: '5px'}}>
-          <label className="search-label">消息内容:</label>
+          <label className="search-label">消息内容：</label>
           <Form className="input-form">
             <input type="text" placeholder="请输入消息内容" onChange={e => this.searchKey1Change(e)}/>
             <button className="icon-search-btn" onClick={e => this.filter()}></button>
@@ -47,7 +47,7 @@ class TwoSearchKey extends QueryFilter {
         </div>
 
         <div className="group-input">
-          <label className="search-label">患者:</label>
+          <label className="search-label">患者：</label>
           <Form className="input-form">
             <input type="text" placeholder="输入患者手机号码" onChange={e => this.searchKey2Change(e)}/>
             <button className="icon-search-btn" onClick={e => this.filter()}></button>

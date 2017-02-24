@@ -36,23 +36,22 @@ class NodeAuditingQueryFilter extends QueryFilter {
 
   getSearchToolbar() {
     return (
-      <div className="group-input2">
-        <label className="search-label">医生:</label>
-        <div className="group-input" style={{'marginRight': '10px'}}>
-          <Form>
+      <div className="inline-block">
+        <div className="group-input" style={{marginRight: '5px'}}>
+          <label className="search-label">医生:</label>
+          <Form className="input-form">
             <input type="text" placeholder="输入手机号码查询" onChange={e => this.searchKey1Change(e)}/>
             <button className="icon-search-btn" onClick={e => this.filter()}></button>
           </Form>
         </div>
 
-        <label className="search-label">患者:</label>
         <div className="group-input">
-          <Form>
+          <label className="search-label">患者:</label>
+          <Form className="input-form">
             <input type="text" placeholder="输入手机号码，编号查询" onChange={e => this.searchKey2Change(e)}/>
             <button className="icon-search-btn" onClick={e => this.filter()}></button>
           </Form>
         </div>
-
       </div>
     )
   }

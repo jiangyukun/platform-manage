@@ -80,7 +80,7 @@ class TodoWorkTrack extends Component {
 
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
-                     searchKeyName="search_key"
+                     searchKeyName="doctor_Phone"
         >
 
           <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出Excel</button>

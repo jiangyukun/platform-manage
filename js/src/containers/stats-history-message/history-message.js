@@ -6,7 +6,7 @@ import * as types from '../../constants/ActionTypes'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
 import constants from '../../core/constants'
 
-export const fetchSingleHistoryMessageList = option => {
+export function fetchSingleHistoryMessageList(option) {
   option['chat_Type'] = 'chat'
   return {
     [THREE_PHASE]: {
@@ -17,7 +17,7 @@ export const fetchSingleHistoryMessageList = option => {
   }
 }
 
-export const fetchGroupHistoryMessageList = option => {
+export function fetchGroupHistoryMessageList(option) {
   option['chat_Type'] = 'groupchat'
   return {
     [THREE_PHASE]: {
@@ -28,12 +28,22 @@ export const fetchGroupHistoryMessageList = option => {
   }
 }
 
-export const fetchGroupList = option => {
+export function fetchGroupList(option) {
   return {
     [THREE_PHASE]: {
       type: types.historyMessage.FETCH_HUANXIN_GROUP_LIST,
       http: () => _get('/chat/group/list'),
       handleResponse: response => ({list: response.map(group => ({value: group['chat_Group_Id'], text: group['chat_Group_Name']}))})
+    }
+  }
+}
+
+export function fetchHistoryExcelList(chatType) {
+  return {
+    [THREE_PHASE]: {
+      type: types.historyMessage.FETCH_HISTORY_EXCEL_LIST,
+      http: () => _get(`/chat/report/export/log/${chatType}/list`),
+      handleResponse: response => ({historyExcelList: response})
     }
   }
 }

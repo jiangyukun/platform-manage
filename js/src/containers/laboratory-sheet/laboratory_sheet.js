@@ -5,9 +5,9 @@ import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
-const defaultValue = {total: 0, list: []}
+const defaultValue = {total: 0, list: [], loading: false}
 
-export function laboratorySheetList(state = defaultValue, action) {
+export function laboratorySheet(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()
@@ -16,10 +16,13 @@ export function laboratorySheetList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
+      case types.FETCH_LABORATORY_SHEET_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
       case types.FETCH_LABORATORY_SHEET_LIST + phase.SUCCESS:
         nextIState = fetchLaboratorySheetListSuccess()
         break
-
 
       default:
         break
@@ -33,8 +36,7 @@ export function laboratorySheetList(state = defaultValue, action) {
   // --------------------------------------
 
   function fetchLaboratorySheetListSuccess() {
-    let {totalCount, list} = action
-    return iState.set('total', totalCount).set('list', list)
+    let {total, list} = action
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
-
 }

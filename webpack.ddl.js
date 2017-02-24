@@ -38,6 +38,8 @@ const vendors = [
   "react-bootstrap/lib/Dropdown",
   "react-bootstrap/lib/MenuItem",
   "react-bootstrap/lib/Modal",
+  "react-bootstrap/lib/Tabs",
+  "react-bootstrap/lib/Tab",
   "react-dom",
   "react-overlays",
   "react-redux",

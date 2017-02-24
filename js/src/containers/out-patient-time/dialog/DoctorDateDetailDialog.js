@@ -51,6 +51,11 @@ class DoctorDateDetailDialog extends Component {
             }
             </tbody>
           </table>
+          {
+            (!dateList || dateList.length == 0) && (
+              <div className="center-block" style={{width: '100px'}}>暂无数据</div>
+            )
+          }
         </Modal.Body>
       </Modal>
     )

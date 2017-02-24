@@ -19,7 +19,8 @@ class QueryFilter extends Component {
   }
 
   searchKeyChange(e) {
-    this.searchKey = e.target.value
+    this.searchKey = e.target.value.trim()
+    this.props.onSearchKeyChange(e.target.value.trim())
   }
 
   toggleMoreState() {
@@ -178,14 +179,16 @@ class QueryFilter extends Component {
 }
 
 QueryFilter.defaultProps = {
-  placeholder: '搜索关键词'
+  placeholder: '搜索关键词',
+  onSearchKeyChange: () => {}
 }
 
 QueryFilter.propTypes = {
   className: PropTypes.string,
   beginFilter: PropTypes.func.isRequired,
   searchKeyName: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  onSearchKeyChange: PropTypes.func
 }
 
 QueryFilter.childContextTypes = {

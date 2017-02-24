@@ -77,7 +77,6 @@ class OutPatientTime extends Component {
 
     return (
       <div className="app-function-page">
-        <div draggable="true">xxx</div>
         {
           this.state.showDetail && this.state.currentIndex != -1 && (
             <DoctorDateDetailDialog
@@ -225,7 +224,9 @@ function mapStateToProps(state) {
     ...state['outPatientTimePaginateList'],
     hospitalList: state.hospitalList,
     departmentList: state.departmentList,
-    temporaryNotifyFilter: utils.getFilterItem('temporaryNotify', '有无生效临时通知'),
+    temporaryNotifyFilter: utils.getFilterItem('temporaryNotify', '有无生效临时通知', [
+      {value: '1', text: '有'}, {value: '0', text: '无'}
+    ]),
     hospitalFilterList: {
       typeCode: 'hospital',
       typeText: '医院',

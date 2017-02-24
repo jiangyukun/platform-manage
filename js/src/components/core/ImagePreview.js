@@ -6,18 +6,14 @@ import {merge} from 'lodash'
 import CommonDialog from './CommonDialog'
 
 export default class ImagePreview extends Component {
-  constructor(props) {
-    super(props)
-    this.close = this.close.bind(this)
-    this.state = {
-      show: true,
-      width: 0,
-      angle: 0,
-      showReset: false
-    }
+  state = {
+    show: true,
+    width: 0,
+    angle: 0,
+    showReset: false
   }
 
-  close() {
+  close = () => {
     this.setState({show: false})
   }
 

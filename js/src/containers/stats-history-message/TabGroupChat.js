@@ -9,14 +9,21 @@ import TwoSearchKey from './query-filter/TwoSearchKey'
 import FilterItem from '../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../components/core/PaginateList'
-import Layout from "../../components/core/layout/Layout"
+import Layout from '../../components/core/layout/Layout'
+import HighLight from '../../components/txt/HighLight'
+import Message from './message/Message'
+import DownloadFileDialog from '../common/DownloadFileDialog'
 
 import * as utils from '../../core/utils'
 import {formatDateStr} from '../../core/dateUtils'
 import {fetchGroupHistoryMessageList, fetchGroupList} from './history-message'
 
 class TabGroupChat extends Component {
-  state = {}
+  state = {
+    searchKey1: '',
+    searchKey2: '',
+    showHistoryExcelDialog: false
+  }
 
   beginFetch(newPageIndex) {
     this._paginateList.beginFetch(newPageIndex)
@@ -28,6 +35,11 @@ class TabGroupChat extends Component {
   }
 
   exportExcel = () => {
+  }
+
+  historyExcelList = () => {
+    this.setState({showHistoryExcelDialog: true})
+    this.props.fetchHistoryExcelList('groupchat')
   }
 
   componentDidMount() {
@@ -43,12 +55,22 @@ class TabGroupChat extends Component {
 
     return (
       <div className="flex-full">
+        {
+          this.state.showHistoryExcelDialog && (
+            <DownloadFileDialog fileList={this.props.historyExcelList} onExited={() => this.setState({showHistoryExcelDialog: false})}/>
+          )
+        }
         <TwoSearchKey ref={c => this._queryFilter = c} className="ex-big-label"
                       beginFilter={() => this.beginFetch(1)}
                       searchKeyName1="chat_Msg_Content"
                       searchKeyName2="patient_Phone"
+                      onSearchKey1Change={searchKey1 => this.setState({searchKey1})}
+                      onSearchKey2Change={searchKey2 => this.setState({searchKey2})}
         >
-          <button className="btn btn-primary mr-20" onClick={this.exportExcel} disabled={this.props.total == 0}>导出Excel</button>
+          <button className="btn btn-primary mr-20" onClick={this.exportExcel} disabled={this.props.total == 0}>导出本月群聊Excel</button>
+          <button className="btn btn-default mr-20" onClick={this.historyExcelList}
+                  disabled={this.props.total == 0}>下载群聊历史
+          </button>
           <FilterItem size="small" item={this.props.filters.sendDate}>
             <CustomDateRange startName="chat_Send_Begin_Time" endName="chat_Send_End_Time"/>
           </FilterItem>
@@ -64,7 +86,7 @@ class TabGroupChat extends Component {
                   minWidth={1200}
                   fixHead={true}
                   fixLeft={[0, 2]}
-                  weight={[1, 1, 1, 1, 1]}
+                  weight={[1, 1, 1, 2, 1]}
           >
             <Head>
               <Head.Item>群组</Head.Item>
@@ -84,9 +106,18 @@ class TabGroupChat extends Component {
                          style={{minHeight: '40px'}}
                     >
                       <Row.Item>{historyMessage['chat_Group_Name']}</Row.Item>
-                      <Row.Item>{historyMessage['chat_From']}</Row.Item>
+                      <Row.Item>
+                        <HighLight match={this.state.searchKey2}>
+                          {historyMessage['chat_From']}
+                        </HighLight>
+                      </Row.Item>
                       <Row.Item>{historyMessage['chat_From_Name']}</Row.Item>
-                      <Row.Item>{historyMessage['chat_Msg_Content']}</Row.Item>
+                      <Row.Item>
+                        <Message type={historyMessage['chat_Msg_Type']}
+                                 data={historyMessage['chat_Msg_Content']}
+                                 match={this.state.searchKey1}
+                                 previewImage={this.props.previewImage}/>
+                      </Row.Item>
                       <Row.Item>{formatDateStr(historyMessage['chat_Time'])}</Row.Item>
                     </Row>
                   )
@@ -128,4 +159,3 @@ export default connect(state => {
   fetchGroupHistoryMessageList,
   fetchGroupList
 })(TabGroupChat)
-

@@ -4,22 +4,16 @@
 import {GET, POST, PUT} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
+import {THREE_PHASE} from '../../middleware/request_3_phase'
 
-export let fetchLaboratorySheetList = dispatch => options => {
-  return new Promise((resolve, reject) => {
-    POST('/archives/assay/queryAssayList', {body: options}).then(result => {
-      let {totalCount, list} = result
-      dispatch({
-        type: types.FETCH_LABORATORY_SHEET_LIST + phase.SUCCESS, totalCount, list
-      })
-      resolve()
-    }, err => {
-      dispatch({
-        type: types.FETCH_LABORATORY_SHEET_LIST + phase.FAILURE, err
-      })
-      reject(err)
-    })
-  })
+export function fetchLaboratorySheetList(options) {
+  return {
+    [THREE_PHASE]: {
+      type: types.FETCH_LABORATORY_SHEET_LIST,
+      http: () => POST('/archives/assay/queryAssayList', {body: options}),
+      handleResponse: response => ({total: response['totalCount'], list: response['list']})
+    }
+  }
 }
 
 export let fetchPictureUrlList = dispatch => (mobile, sheetType) => {

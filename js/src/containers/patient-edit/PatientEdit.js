@@ -14,6 +14,7 @@ import SortBy from '../../components/core/paginate-list/SortBy'
 import SmartList from '../../components/core/list/SmartList'
 import HeadContainer from '../../components/core/list/HeadContainer'
 import BodyContainer from '../../components/core/list/BodyContainer'
+import HighLight from '../../components/txt/HighLight'
 import EditPatientInfo from './EditPatientInfo'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
@@ -31,6 +32,7 @@ class PatientEdit extends Component {
   state = {
     currentIndex: -1,
     loading: false,
+    searchKey: '',
     showEdit: false,
     showImage: false,
     showEditMark: false
@@ -99,6 +101,8 @@ class PatientEdit extends Component {
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="key_Words"
+                     placeholder="手机号码 / 姓名"
+                     onSearchKeyChange={searchKey => this.setState({searchKey})}
         >
           <button className="btn btn-primary mr-20"
                   onClick={() => this.setState({showEdit: true})}
@@ -161,8 +165,16 @@ class PatientEdit extends Component {
                           onClick={e => this.setState({currentIndex: index})}
                           onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                       >
-                        <li className="item" style={{width: '100px'}}>{patient['patient_Phone']}</li>
-                        <li className="item" style={{width: '100px'}}>{patient['patient_Name']}</li>
+                        <li className="item" style={{width: '100px'}}>
+                          <HighLight match={this.state.searchKey}>
+                            {patient['patient_Phone']}
+                          </HighLight>
+                        </li>
+                        <li className="item" style={{width: '100px'}}>
+                          <HighLight match={this.state.searchKey}>
+                            {patient['patient_Name']}
+                          </HighLight>
+                        </li>
                         <li className="item" style={{width: '100px'}}>{patient['patient_BirthDate']}</li>
                         <li className="item flex1">{patient['patient_Nation']}</li>
                         <li className="item flex1">{getYesOrNoText(patient['patient_Is_Hepatitis'], '未知')}</li>
