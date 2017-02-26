@@ -4,7 +4,6 @@
 import {_get, _post, _patch} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
-import constants from '../../core/constants'
 
 export function fetchSingleHistoryMessageList(option) {
   option['chat_Type'] = 'chat'

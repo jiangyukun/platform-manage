@@ -18,14 +18,10 @@ import * as formatBusData from "../../core/formatBusData"
 import * as actions from "./sms-manage"
 
 class SmsManage extends Component {
-  constructor() {
-    super()
-    this.state = {
-      currentIndex: -1,
-      loading: false,
-      showAdd: false,
-      showSmsManage: false
-    }
+  state = {
+    currentIndex: -1,
+    showAdd: false,
+    showSmsManage: false
   }
 
   beginFetch(newPageIndex) {
@@ -35,7 +31,6 @@ class SmsManage extends Component {
   doFetch() {
     this.setState({currentIndex: -1, loading: true})
     this.props.fetchSmsPaginateList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
-      .then(() => this.setState({loading: false}))
   }
 
   exportExcel() {
@@ -104,7 +99,7 @@ class SmsManage extends Component {
                       lengthName="pageSize"
                       byName="order_By"
         >
-          <Layout loading={this.state.loading}
+          <Layout loading={this.props.loading}
                   minWidth={1100}
                   fixHead={true}
                   fixLeft={[1, 2]}
@@ -146,13 +141,11 @@ class SmsManage extends Component {
 }
 
 function mapStateToProps(state) {
-  const {total, list} = state['smsPaginateList']
   const backendMemberList = state['backendMemberList']
   const smsTemplateList = state['smsTemplateList']
 
   return {
-    total,
-    list,
+    ...state['smsPaginateList'],
     backendMemberList,
     smsTemplateList: smsTemplateList,
     senderFilterList: {
@@ -169,15 +162,11 @@ function mapStateToProps(state) {
   }
 }
 
-function mapActionToProps(dispatch) {
-  return {
-    fetchSmsPaginateList: actions.fetchSmsPaginateList(dispatch),
-    fetchBackendMemberList: fetchBackendMemberList(dispatch),
-    sendSmsMessage: actions.sendSmsMessage(dispatch),
-    fetchUserTypeAndName: actions.fetchUserTypeAndName(dispatch),
-    fetchSmsTemplateList: actions.fetchSmsTemplateList(dispatch),
-    addSmsTemplate: actions.addSmsTemplate(dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapActionToProps)(SmsManage)
+export default connect(mapStateToProps, {
+  fetchBackendMemberList,
+  fetchSmsPaginateList: actions.fetchSmsPaginateList,
+  sendSmsMessage: actions.sendSmsMessage,
+  fetchUserTypeAndName: actions.fetchUserTypeAndName,
+  fetchSmsTemplateList: actions.fetchSmsTemplateList,
+  addSmsTemplate: actions.addSmsTemplate
+})(SmsManage)

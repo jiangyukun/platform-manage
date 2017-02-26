@@ -4,6 +4,7 @@
 import {GET, POST} from '../services/http'
 import * as types from '../constants/ActionTypes'
 import * as phase from '../constants/PhaseConstant'
+import {THREE_PHASE} from '../middleware/request_3_phase'
 
 export let updateRemark = dispatch => (id, updateRemarkId, remarkType, remark) => {
   dispatch({

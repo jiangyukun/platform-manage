@@ -4,6 +4,7 @@
 import {GET, POST} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
+import {THREE_PHASE} from '../../middleware/request_3_phase'
 
 //获取省列表
 export let fetchProvinceList = dispatch => () => {

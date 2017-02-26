@@ -2,6 +2,7 @@
  * Created by jiangyukun on 2016/10/20.
  */
 import {GET, PUT} from '../services/http'
+import {THREE_PHASE} from '../middleware/request_3_phase'
 
 export const fetchMessageInfo = dispatch => option => {
   let {start, length} = option

@@ -3,7 +3,6 @@
  */
 
 export function toggleAside() {
-
   return {
     type: 'TOGGLE_ASIDE'
   }

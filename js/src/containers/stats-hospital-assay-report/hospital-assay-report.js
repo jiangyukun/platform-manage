@@ -4,6 +4,7 @@
 import {GET} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
+import {THREE_PHASE} from '../../middleware/request_3_phase'
 
 export let fetchHospitalAssayPaginateList = dispatch => pageInfo => {
   let {start, limit} = pageInfo

@@ -3,18 +3,21 @@
  */
 import {GET} from '../services/http'
 import * as types from '../constants/ActionTypes'
-import * as phase from '../constants/PhaseConstant'
+import {THREE_PHASE} from '../middleware/request_3_phase'
 
-export let fetchBackendMemberList = dispatch => () => {
-  GET('/sms/allBackendUser').then(backendMemberList => {
-    backendMemberList = backendMemberList.map(backendMember => {
-      return {
-        value: backendMember['id'],
-        text: backendMember['userName']
-      }
-    })
-    dispatch({
-      type: types.FETCH_BACKEND_MEMBER_LIST + phase.SUCCESS, backendMemberList
-    })
-  })
+export function fetchBackendMemberList() {
+  return {
+    [THREE_PHASE]: {
+      type: types.FETCH_BACKEND_MEMBER_LIST,
+      http: () => GET('/sms/allBackendUser'),
+      handleResponse: response => ({
+        backendMemberList: response.map(backendMember => {
+          return {
+            value: backendMember['id'],
+            text: backendMember['userName']
+          }
+        })
+      })
+    }
+  }
 }

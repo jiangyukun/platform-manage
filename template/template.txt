@@ -17,3 +17,12 @@ export function hospitalList(state, action) {
 
 //
 }
+
+
+return {
+    [THREE_PHASE]: {
+      type: '',
+      http: ()=>{},
+      handleResponse: response=>({})
+    }
+  }

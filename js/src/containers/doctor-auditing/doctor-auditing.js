@@ -4,6 +4,7 @@
 import {GET, POST, PUT, PATCH} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
+import {THREE_PHASE} from '../../middleware/request_3_phase'
 
 //获取分页列表
 export let fetchDoctorPaginateList = dispatch => option => {
