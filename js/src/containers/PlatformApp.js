@@ -34,7 +34,7 @@ class PlatformApp extends Component {
     return (
       <div className="app">
         <Header/>
-        <Aside/>
+        <Aside route={this.props.route}/>
         <AppContent>
           {this.props.children}
         </AppContent>

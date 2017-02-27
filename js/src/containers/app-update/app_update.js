@@ -7,7 +7,7 @@ import * as phase from '../../constants/PhaseConstant'
 
 const defaultValue = {total: 0, list: []}
 
-export function appUpdatePaginateList(state = defaultValue, action) {
+export function appUpdate(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()

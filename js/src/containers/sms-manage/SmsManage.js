@@ -13,6 +13,7 @@ import Layout from "../../components/core/layout/Layout"
 import SendMessageDialog from "./dialog/SendMessageDialog"
 import SmsTemplateManage from "./dialog/SmsTemplateManage"
 import * as utils from "../../core/utils"
+import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchBackendMemberList} from "../../actions/backend-member"
 import * as formatBusData from "../../core/formatBusData"
 import * as actions from "./sms-manage"
@@ -44,6 +45,18 @@ class SmsManage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.templateAddSuccessFlag) {
+      this.props.clearAddSmsTemplateFlag()
+      antdUtil.tipSuccess('模板已提交审核，请稍后查看审核结果!')
+    }
+    if (this.props.sendSmsSuccessFlag) {
+      this.props.clearSendSmsFlag()
+      antdUtil.tipSuccess('短信发送成功！')
+      this.beginFetch(1)
+    }
+  }
+
   render() {
     const {Head, Row} = Layout
 
@@ -53,10 +66,12 @@ class SmsManage extends Component {
           this.state.showAdd && (
             <SendMessageDialog
               fetchUserTypeAndName={this.props.fetchUserTypeAndName}
+              username={this.props.userInfo.username}
+              userType={this.props.userInfo.userType}
               smsTemplateList={this.props.smsTemplateList}
               fetchSmsTemplateList={this.props.fetchSmsTemplateList}
               sendSmsMessage={this.props.sendSmsMessage}
-              sendSmsMessageSuccess={() => this.beginFetch(1)}
+              sendSmsSuccessFlag={this.props.sendSmsSuccessFlag}
               onExited={() => this.setState({showAdd: false})}/>
           )
         }
@@ -67,6 +82,7 @@ class SmsManage extends Component {
               smsTemplateList={this.props.smsTemplateList}
               fetchSmsTemplateList={this.props.fetchSmsTemplateList}
               addSmsTemplate={this.props.addSmsTemplate}
+              templateAddSuccessFlag={this.props.templateAddSuccessFlag}
               onExited={() => this.setState({showSmsManage: false})}/>
           )
         }
@@ -145,7 +161,7 @@ function mapStateToProps(state) {
   const smsTemplateList = state['smsTemplateList']
 
   return {
-    ...state['smsPaginateList'],
+    ...state['smsManage'],
     backendMemberList,
     smsTemplateList: smsTemplateList,
     senderFilterList: {
@@ -168,5 +184,7 @@ export default connect(mapStateToProps, {
   sendSmsMessage: actions.sendSmsMessage,
   fetchUserTypeAndName: actions.fetchUserTypeAndName,
   fetchSmsTemplateList: actions.fetchSmsTemplateList,
-  addSmsTemplate: actions.addSmsTemplate
+  addSmsTemplate: actions.addSmsTemplate,
+  clearAddSmsTemplateFlag: actions.clearAddSmsTemplateFlag,
+  clearSendSmsFlag: actions.clearSendSmsFlag
 })(SmsManage)

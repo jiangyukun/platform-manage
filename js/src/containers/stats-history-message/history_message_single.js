@@ -9,7 +9,7 @@ const defaultValue = {
   total: 0,
   list: [],
   loading: false,
-  historyExcelList: []
+  singleHistoryExcelList: []
 }
 
 export function historyMessageSingle(state = defaultValue, action) {
@@ -30,7 +30,10 @@ export function historyMessageSingle(state = defaultValue, action) {
         break
 
       case types.historyMessage.FETCH_HISTORY_EXCEL_LIST + phase.SUCCESS:
-        nextIState = iState.set('historyExcelList', action.list)
+        if (action.chatType != 'chat') {
+          nextIState = iState
+        }
+        nextIState = iState.set('singleHistoryExcelList', action.historyExcelList)
         break
 
       default:

@@ -10,6 +10,7 @@ const defaultValue = {
   list: [],
   groupList: [],
   loading: false,
+  groupHistoryExcelList: []
 }
 
 export function historyMessageGroup(state = defaultValue, action) {
@@ -31,6 +32,13 @@ export function historyMessageGroup(state = defaultValue, action) {
 
       case types.historyMessage.FETCH_HUANXIN_GROUP_LIST + phase.SUCCESS:
         nextIState = iState.set('groupList', action.list)
+        break
+
+      case types.historyMessage.FETCH_HISTORY_EXCEL_LIST + phase.SUCCESS:
+        if (action.chatType != 'groupchat') {
+          nextIState = iState
+        }
+        nextIState = iState.set('groupHistoryExcelList', action.historyExcelList)
         break
 
       default:

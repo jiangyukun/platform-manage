@@ -11,13 +11,17 @@ export default class Aside extends Component {
       <div className="app-aside hidden-xs bg-black">
         <div className="aside-wrap">
           <div className="navi-wrap">
-            {this.context.role == 'admin' && <NavAdmin/>}
-            {this.context.role == 'crc' && <NavCrc/>}
+            {this.context.role == 'admin' && <NavAdmin route={this.props.route}/>}
+            {this.context.role == 'crc' && <NavCrc route={this.props.route}/>}
           </div>
         </div>
       </div>
     )
   }
+}
+
+Aside.propTypes = {
+  route: PropTypes.object
 }
 
 Aside.contextTypes = {

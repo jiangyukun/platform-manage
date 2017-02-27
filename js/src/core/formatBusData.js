@@ -74,3 +74,10 @@ export function getUserType(value) {
   }
   return _unKnowData()
 }
+
+export function getDisplayName(id) {
+  if (!id) {
+    return ''
+  }
+  return id.replace('zxys', '在线医生').replace('bkkf', '贝壳客服').replace('bkzs', '贝壳助手').replace('test', '测试')
+}

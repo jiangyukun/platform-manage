@@ -173,3 +173,8 @@ export function getMatchTextList(str, part) {
   result.push(part)
   return result.concat(getMatchTextList(str.substr(index + part.length), part))
 }
+
+let uid = 1
+export function getUUID() {
+  return uid++
+}

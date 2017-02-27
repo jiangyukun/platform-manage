@@ -2,8 +2,8 @@
  * Created by jiangyukun on 2017/01/13.
  */
 import {fromJS} from 'immutable'
-import * as types from '../../constants/ActionTypes'
-import * as phase from '../../constants/PhaseConstant'
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 
 const defaultValue = []
 

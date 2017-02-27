@@ -2,18 +2,18 @@
  * Created by jiangyukun on 2016/12/6.
  */
 import {fromJS} from 'immutable'
-import * as types from '../../constants/ActionTypes'
-import * as phase from '../../constants/PhaseConstant'
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 
-export function provinceList(state = [], action) {
+export function departmentList(state = [], action) {
   const iState = fromJS(state)
   return nextState()
 
   function nextState() {
     let nextIState = iState
     switch (action.type) {
-      case types.FETCH_PROVINCE_LIST + phase.SUCCESS:
-        nextIState = fetchProvinceListSuccess()
+      case types.FETCH_DEPARTMENT_LIST + phase.SUCCESS:
+        nextIState = fetchDepartmentListSuccess()
         break
     }
     if (nextIState == iState) {
@@ -24,8 +24,8 @@ export function provinceList(state = [], action) {
 
   //-----------------------------------------
 
-  function fetchProvinceListSuccess() {
-    let {provinceList} = action
-    return fromJS(provinceList)
+  function fetchDepartmentListSuccess() {
+    let {departmentList} = action
+    return fromJS(departmentList)
   }
 }

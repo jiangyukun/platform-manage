@@ -106,10 +106,8 @@ class AppUpdate extends Component {
 }
 
 function mapStateToProps(state) {
-  const {appUpdatePaginateList: {list, total}} = state
   return {
-    list,
-    total,
+    ...state['appUpdate'],
     systemTypeFilterList: getFilterItem('appType', '系统类型', [
       {value: constants.appSystemType.android, text: 'Android'},
       {value: constants.appSystemType.ios, text: 'IOS'}

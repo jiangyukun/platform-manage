@@ -3,37 +3,26 @@
  */
 import React, {Component, PropTypes} from "react"
 import Modal from 'react-bootstrap/lib/Modal'
+
 import Input from "../../../components/ui/Input"
 import * as antdUtil from "../../../core/utils/antdUtil"
-import * as formatBusData from "../../../core/formatBusData"
 
 class SendMessageDialog extends Component {
-  constructor() {
-    super()
-    this.checkValid = this.checkValid.bind(this)
-    this.state = {
-      show: true,
-      valid: false,
+  state = {
+    show: true,
+    valid: false,
+    mobileValid: false,
 
-      mobile: '',
-      username: '',
-      userType: '',
-      templateId: '',
-      smsTemplate: '',
-    }
+    mobile: '',
+    templateId: '',
+    smsTemplate: '',
   }
 
   handleMobileChange(event) {
     const mobile = event.target.value
     if (this._mobile.isValid(mobile)) {
-      this.props.fetchUserTypeAndName(mobile).then(info => {
-        const {name, userType} = info
-        this.setState({username: name || '未知', userType: formatBusData.getUserType(userType)})
-      }, err => {
-        this.setState({username: '无此用户', userType: '无此用户'})
-      })
-    } else {
-      this.setState({username: '', userType: ''})
+      this.setState({mobileValid: true})
+      this.props.fetchUserTypeAndName(mobile)
     }
     this.setState({mobile}, this.checkValid)
   }
@@ -49,7 +38,7 @@ class SendMessageDialog extends Component {
     }
   }
 
-  checkValid() {
+  checkValid = () => {
     if (this._mobile.isValid(this.state.mobile) && this.state.smsTemplate != '') {
       this.setState({valid: true})
       return
@@ -58,13 +47,7 @@ class SendMessageDialog extends Component {
   }
 
   sendSMS() {
-    antdUtil.confirm('确定发送短信吗？', () => {
-      this.props.sendSmsMessage(this.state.mobile, this.state.smsTemplate).then(() => {
-        this.props.sendSmsMessageSuccess()
-        antdUtil.tipSuccess('短信发送成功！')
-        this.close()
-      }, err => antdUtil.tipErr(err))
-    })
+    antdUtil.confirm('确定发送短信吗？', () => this.props.sendSmsMessage(this.state.mobile, this.state.smsTemplate))
   }
 
   close() {
@@ -74,6 +57,12 @@ class SendMessageDialog extends Component {
   componentDidMount() {
     if (this.props.smsTemplateList.length == 0) {
       this.props.fetchSmsTemplateList()
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.sendSmsSuccessFlag) {
+      this.close()
     }
   }
 
@@ -102,7 +91,7 @@ class SendMessageDialog extends Component {
               </div>
               <div className="col-xs-6">
                 <input type="text" className="form-control" placeholder="输入账号后自动获取"
-                       value={this.state.username} disabled={true}/>
+                       value={this.state.mobileValid ? this.props.username : ''} disabled={true}/>
               </div>
             </div>
 
@@ -112,7 +101,7 @@ class SendMessageDialog extends Component {
               </div>
               <div className="col-xs-6">
                 <input type="text" className="form-control" placeholder="输入账号后自动获取"
-                       value={this.state.userType} disabled={true}/>
+                       value={this.state.mobileValid ? this.props.userType : ''} disabled={true}/>
               </div>
             </div>
 
@@ -156,10 +145,12 @@ class SendMessageDialog extends Component {
 
 SendMessageDialog.propTypes = {
   fetchUserTypeAndName: PropTypes.func,
+  username: PropTypes.string,
+  userType: PropTypes.string,
   smsTemplateList: PropTypes.array,
   fetchSmsTemplateList: PropTypes.func,
   sendSmsMessage: PropTypes.func,
-  sendSmsMessageSuccess: PropTypes.func,
+  sendSmsSuccessFlag: PropTypes.bool,
   onExited: PropTypes.func
 }
 

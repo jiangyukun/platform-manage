@@ -1,5 +1,5 @@
 /**
- * Created by jiangyukun on 2016/12/29
+ * Created by jiangyukun on 2016/12/8.
  */
 import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
@@ -7,28 +7,23 @@ import * as phase from '../../constants/PhaseConstant'
 
 const defaultValue = {total: 0, list: [], loading: false}
 
-export function smsPaginateList(state = defaultValue, action) {
+export function patientSituationList(state = defaultValue, action) {
   const iState = fromJS(state)
-
   return nextState()
 
   function nextState() {
     let nextIState = iState
-
     switch (action.type) {
-      case types.FETCH_SMS_PAGINATE_LIST + phase.START:
+      case types.FETCH_PATIENT_SITUATION_LIST + phase.START:
         nextIState = iState.set('loading', true)
         break
 
-      case types.FETCH_SMS_PAGINATE_LIST + phase.FAILURE:
+      case types.FETCH_PATIENT_SITUATION_LIST + phase.SUCCESS:
+        nextIState = fetchListSuccess()
+        break
+
+      case types.FETCH_PATIENT_SITUATION_LIST + phase.FAILURE:
         nextIState = iState.set('loading', false)
-        break
-
-      case types.FETCH_SMS_PAGINATE_LIST + phase.SUCCESS:
-        nextIState = fetchSmsPaginateListSuccess()
-        break
-
-      default:
         break
     }
     if (nextIState == iState) {
@@ -37,9 +32,9 @@ export function smsPaginateList(state = defaultValue, action) {
     return nextIState.toJS()
   }
 
-  // --------------------------------------
+//
 
-  function fetchSmsPaginateListSuccess() {
+  function fetchListSuccess() {
     let {total, list} = action
     return iState.set('total', total).set('list', list).set('loading', false)
   }

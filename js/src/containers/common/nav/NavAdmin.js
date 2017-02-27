@@ -12,6 +12,11 @@ class NavAdmin extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {current: context.router.getCurrentLocation().pathname}
+    context.router.setRouteLeaveHook(this.props.route, this.routeLeaveHook)
+  }
+
+  routeLeaveHook = () => {
+    console.log(1)
   }
 
   handleClick(e) {
@@ -19,9 +24,7 @@ class NavAdmin extends Component {
     if (key == 'chat-system') {
       return
     }
-    this.setState({
-      current: e.key
-    })
+    this.setState({current: e.key})
   }
 
   render() {

@@ -42,7 +42,7 @@ export function fetchHistoryExcelList(chatType) {
     [THREE_PHASE]: {
       type: types.historyMessage.FETCH_HISTORY_EXCEL_LIST,
       http: () => _get(`/chat/report/export/log/${chatType}/list`),
-      handleResponse: response => ({historyExcelList: response})
+      handleResponse: response => ({chatType, historyExcelList: response})
     }
   }
 }

@@ -2,12 +2,34 @@
  * Created by jiangyukun on 2017/2/24.
  */
 import React, {PropTypes} from 'react'
-import HighLight from '../../../components/txt/HighLight'
+
+import LoadMoreAndHighLight from '../../../components/txt/LoadMoreAndHighLight'
+import {parseTextMessage} from '../../../core/utils/webImUtil'
 
 const Message = ({previewImage, type, data, match}) => {
   if (type == 'txt') {
+    let hasEmoji = false
+    let handledTxtMessage = parseTextMessage(data).reduce((result, item) => {
+      if (item.type == 'txt') {
+        return result + item.data
+      } else if (item.type == 'emotion') {
+        hasEmoji = true
+        return result + `<img class="emotion" src="${item.data}"/>`
+      } else {
+        return result + `<span data-key="unknown-type">${item.data}</span>`
+      }
+    }, '')
+    if (data.indexOf('[') != -1) {
+      console.log(parseTextMessage(data))
+      console.log(handledTxtMessage)
+    }
+    if (hasEmoji) {
+      return (
+        <span dangerouslySetInnerHTML={{__html: handledTxtMessage}}></span>
+      )
+    }
     return (
-      <HighLight match={match}>{data}</HighLight>
+      <LoadMoreAndHighLight match={match}>{data}</LoadMoreAndHighLight>
     )
   }
   else if (type == 'img') {

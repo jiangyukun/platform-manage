@@ -21,8 +21,6 @@ class SmsTemplateManage extends Component {
 
   componentDidMount() {
     this.props.fetchSmsTemplateList()
-    /*if (this.props.smsTemplateList.length == 0) {
-     }*/
   }
 
   render() {
@@ -36,7 +34,7 @@ class SmsTemplateManage extends Component {
             this.state.showAdd && (
               <NewSmsTemplate
                 addSmsTemplate={this.props.addSmsTemplate}
-                addSmsTemplateSuccess={() => this.props.fetchSmsTemplateList()}
+                templateAddSuccessFlag={this.props.templateAddSuccessFlag}
                 onExited={() => this.setState({showAdd: false})}/>
             )
           }
@@ -88,6 +86,7 @@ SmsTemplateManage.propTypes = {
   smsTemplateList: PropTypes.array,
   fetchSmsTemplateList: PropTypes.func,
   addSmsTemplate: PropTypes.func,
+  templateAddSuccessFlag: PropTypes.bool
 }
 
 export default SmsTemplateManage

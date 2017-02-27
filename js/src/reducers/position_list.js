@@ -2,8 +2,8 @@
  * Created by jiangyukun on 2016/12/6.
  */
 import {fromJS} from 'immutable'
-import * as types from '../../constants/ActionTypes'
-import * as phase from '../../constants/PhaseConstant'
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 
 export function positionList(state = [], action) {
   const iState = fromJS(state)

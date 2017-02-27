@@ -5,7 +5,7 @@ module.exports = {
   // devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/dev-server',
+    'webpack/hot/only-dev-server',
     './js/src/boot/index.js'
   ],
   devServer: {

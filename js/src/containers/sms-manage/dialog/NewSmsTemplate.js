@@ -25,13 +25,13 @@ class NewSmsTemplate extends Component {
   }
 
   confirm() {
-    antdUtil.confirm('确定新增模板吗？', () => {
-      this.props.addSmsTemplate(this.state.smsContent).then(() => {
-        antdUtil.tipSuccess('模板已提交审核，请稍后查看审核结果!')
-        this.props.addSmsTemplateSuccess()
-        this.close()
-      }, err => antdUtil.tipErr(err))
-    })
+    antdUtil.confirm('确定新增模板吗？', () => this.props.addSmsTemplate(this.state.smsContent))
+  }
+
+  componentDidUpdate() {
+    if (this.props.templateAddSuccessFlag) {
+      this.close()
+    }
   }
 
   render() {
@@ -61,7 +61,7 @@ class NewSmsTemplate extends Component {
 
 NewSmsTemplate.propTypes = {
   addSmsTemplate: PropTypes.func,
-  addSmsTemplateSuccess: PropTypes.func,
+  templateAddSuccessFlag: PropTypes.bool,
   onExited: PropTypes.func
 }
 

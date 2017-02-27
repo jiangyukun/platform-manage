@@ -63,3 +63,15 @@ export function sendSmsMessage(mobile, content) {
     }
   }
 }
+
+export function clearAddSmsTemplateFlag(mobile, content) {
+  return {
+    type: types.CLEAR_ADD_SMS_TEMPLATE_SUCCESS
+  }
+}
+
+export function clearSendSmsFlag(mobile, content) {
+  return {
+    type: types.CLEAR_SEND_SMS_SUCCESS
+  }
+}

@@ -16,6 +16,7 @@ import DownloadFileDialog from '../common/DownloadFileDialog'
 
 import * as utils from '../../core/utils'
 import {formatDateStr} from '../../core/dateUtils'
+import {getDisplayName} from '../../core/formatBusData'
 import {fetchSingleHistoryMessageList, fetchHistoryExcelList} from './history-message'
 
 class TabSingleChat extends Component {
@@ -51,12 +52,23 @@ class TabSingleChat extends Component {
 
   render() {
     const {Head, Row} = Layout
+    const getNameToDisplay = (name) => {
+      const displayName = getDisplayName(name)
+      if (name.indexOf('bkkf') != -1) {
+        return (
+          <span style={{color: 'green'}}>{displayName}</span>
+        )
+      }
+      return (
+        <span>{displayName}</span>
+      )
+    }
 
     return (
       <div className="flex-full">
         {
           this.state.showHistoryExcelDialog && (
-            <DownloadFileDialog fileList={this.props.historyExcelList} onExited={() => this.setState({showHistoryExcelDialog: false})}/>
+            <DownloadFileDialog fileList={this.props.singleHistoryExcelList} onExited={() => this.setState({showHistoryExcelDialog: false})}/>
           )
         }
         <TwoSearchKey ref={c => this._queryFilter = c}
@@ -83,7 +95,7 @@ class TabSingleChat extends Component {
                       lengthName="limit"
         >
           <Layout loading={this.props.loading}
-                  minWidth={1200}
+                  minWidth={1000}
                   fixHead={true}
                   fixLeft={[0, 2]}
                   weight={[1, 1, 1, 1, 2, 1]}
@@ -100,7 +112,7 @@ class TabSingleChat extends Component {
               {
                 this.props.list.map((historyMessage, index) => {
                   return (
-                    <Row key={index}
+                    <Row key={historyMessage['chat_From'] + historyMessage['chat_To'] + index}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '40px'}}
@@ -110,13 +122,13 @@ class TabSingleChat extends Component {
                           {historyMessage['chat_From']}
                         </HighLight>
                       </Row.Item>
-                      <Row.Item>{historyMessage['chat_From_Name']}</Row.Item>
+                      <Row.Item>{getNameToDisplay(historyMessage['chat_From_Name'])}</Row.Item>
                       <Row.Item>
                         <HighLight match={this.state.searchKey2}>
                           {historyMessage['chat_To']}
                         </HighLight>
                       </Row.Item>
-                      <Row.Item>{historyMessage['chat_To_Name']}</Row.Item>
+                      <Row.Item>{getNameToDisplay(historyMessage['chat_To_Name'])}</Row.Item>
                       <Row.Item>
                         <Message type={historyMessage['chat_Msg_Type']}
                                  data={historyMessage['chat_Msg_Content']}

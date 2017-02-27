@@ -16,7 +16,7 @@ import DownloadFileDialog from '../common/DownloadFileDialog'
 
 import * as utils from '../../core/utils'
 import {formatDateStr} from '../../core/dateUtils'
-import {fetchGroupHistoryMessageList, fetchGroupList} from './history-message'
+import {fetchGroupHistoryMessageList, fetchGroupList, fetchHistoryExcelList} from './history-message'
 
 class TabGroupChat extends Component {
   state = {
@@ -35,6 +35,8 @@ class TabGroupChat extends Component {
   }
 
   exportExcel = () => {
+    let chatType = 'groupchat'
+    location.href = `chat/report/currentMonth/export/${chatType}`
   }
 
   historyExcelList = () => {
@@ -44,10 +46,7 @@ class TabGroupChat extends Component {
 
   componentDidMount() {
     this.beginFetch()
-    if (this.props.groupList.length == 0) {
-      this.props.fetchGroupList()
-    }
-
+    this.props.fetchGroupList()
   }
 
   render() {
@@ -57,7 +56,7 @@ class TabGroupChat extends Component {
       <div className="flex-full">
         {
           this.state.showHistoryExcelDialog && (
-            <DownloadFileDialog fileList={this.props.historyExcelList} onExited={() => this.setState({showHistoryExcelDialog: false})}/>
+            <DownloadFileDialog fileList={this.props.groupHistoryExcelList} onExited={() => this.setState({showHistoryExcelDialog: false})}/>
           )
         }
         <TwoSearchKey ref={c => this._queryFilter = c} className="ex-big-label"
@@ -83,7 +82,7 @@ class TabGroupChat extends Component {
                       lengthName="limit"
         >
           <Layout loading={this.props.loading}
-                  minWidth={1200}
+                  minWidth={1000}
                   fixHead={true}
                   fixLeft={[0, 2]}
                   weight={[1, 1, 1, 2, 1]}
@@ -99,7 +98,7 @@ class TabGroupChat extends Component {
               {
                 this.props.list.map((historyMessage, index) => {
                   return (
-                    <Row key={index}
+                    <Row key={historyMessage['chat_From'] + index}
                          onClick={e => this.setState({currentIndex: index})}
                          onMouseEnter={() => this.setState({hoverIndex: index})}
                          selected={this.state.currentIndex == index}
@@ -136,7 +135,6 @@ TabGroupChat.propTypes = {
   filters: PropTypes.object,
   loading: PropTypes.bool,
   total: PropTypes.number,
-  groupList: PropTypes.array,
   fetchGroupHistoryMessageList: PropTypes.func
 }
 
@@ -149,7 +147,7 @@ const users = [
 export default connect(state => {
   const {historyMessageGroup: {total, list, loading, groupList}} = state
   return {
-    total, list, loading, groupList,
+    total, list, loading,
     filters: {
       sendDate: utils.getFilterItem('sendDate', '消息发送时间', []),
       user: utils.getFilterItem('user', '群组', groupList)
@@ -157,5 +155,6 @@ export default connect(state => {
   }
 }, {
   fetchGroupHistoryMessageList,
-  fetchGroupList
+  fetchGroupList,
+  fetchHistoryExcelList
 })(TabGroupChat)
