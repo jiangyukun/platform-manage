@@ -112,7 +112,7 @@ class TabSingleChat extends Component {
               {
                 this.props.list.map((historyMessage, index) => {
                   return (
-                    <Row key={historyMessage['chat_From'] + historyMessage['chat_To'] + index}
+                    <Row key={historyMessage['id']}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '40px'}}

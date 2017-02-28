@@ -10,7 +10,11 @@ class Head extends Component {
 
     const headItems = []
     Children.forEach(this.props.children, (child, index) => {
-      headItems.push(cloneElement(child, {key: index, flex: weight[index]}))
+      if (typeof weight[index] == 'string') {
+        headItems.push(cloneElement(child, {key: index, width: weight[index]}))
+      } else {
+        headItems.push(cloneElement(child, {key: index, flex: weight[index]}))
+      }
     })
 
     return (

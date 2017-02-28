@@ -9,7 +9,7 @@ class ShowMoreText extends Component {
   }
 
   getPartText() {
-    return this.props.children.substring(0, 199)
+    return this.props.children.substring(0, this.props.limit - 1)
   }
 
   getAllText() {
@@ -22,7 +22,7 @@ class ShowMoreText extends Component {
         <span>{this.props.children}</span>
       )
     }
-    let toMuch = this.props.children.length > 200
+    let toMuch = this.props.children.length > this.props.limit
     if (!toMuch || this.state.showMore) {
       return (
         <span>{this.getAllText()}</span>
@@ -32,10 +32,18 @@ class ShowMoreText extends Component {
       <span>
         {this.getPartText()}
         ...
-        <a style={{color: '#259'}} onClick={() => this.setState({showMore: true})}>加载更多</a>
+        <a className="load-more-text" onClick={() => this.setState({showMore: true})}>加载更多</a>
       </span>
     )
   }
+}
+
+ShowMoreText.defaultProps = {
+  limit: 100
+}
+
+ShowMoreText.propTypes = {
+  limit: PropTypes.number
 }
 
 export default ShowMoreText

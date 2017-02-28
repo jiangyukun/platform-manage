@@ -15,7 +15,14 @@ export default ({dispatch, getState}) => next => action => {
   next({type: type + phase.START})
 
   threePhase.http(getState()).then(
-    response => next({type: type + phase.SUCCESS, ...threePhase.handleResponse(response)}),
+    response => next({type: type + phase.SUCCESS, ...getDataReducerNeed(response)}),
     err => next({type: type + phase.FAILURE, err})
   ).catch(err => next({type: type + phase.FAILURE, err}))
+
+  function getDataReducerNeed(response) {
+    if (!threePhase.handleResponse) {
+      return {}
+    }
+    return threePhase.handleResponse(response)
+  }
 }

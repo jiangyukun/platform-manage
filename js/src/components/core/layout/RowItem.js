@@ -22,7 +22,7 @@ class RowItem extends Component {
 }
 
 RowItem.propTypes = {
-  width: PropTypes.number,
+  width: PropTypes.string,
   flex: PropTypes.number
 }
 

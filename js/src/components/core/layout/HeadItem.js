@@ -22,7 +22,7 @@ class HeadItem extends Component {
 }
 
 HeadItem.propTypes = {
-  width: PropTypes.number,
+  width: PropTypes.string,
   flex: PropTypes.number
 }
 

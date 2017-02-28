@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import classnames from 'classnames'
 import {merge} from 'lodash'
 
 import QueryFilter from '../../components/core/QueryFilter'
@@ -9,9 +8,9 @@ import CustomTextInput from '../../components/core/query-filter/custom/CustomTex
 import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../components/core/PaginateList'
 import SortBy from '../../components/core/paginate-list/SortBy'
-import SmartList from '../../components/core/list/SmartList'
-import HeadContainer from '../../components/core/list/HeadContainer'
-import BodyContainer from '../../components/core/list/BodyContainer'
+import Layout from '../../components/core/layout/Layout'
+import ShowMoreText from '../../components/txt/ShowMoreText'
+
 import AddDoctorDialog from './dialog/AddDoctorDialog'
 import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
@@ -29,7 +28,6 @@ import * as actions from './doctor-auditing'
 class DoctorAuditing extends Component {
   state = {
     currentIndex: -1,
-    loading: false,
     showAdd: false,
     showEdit: false,
     showImage: false,
@@ -81,6 +79,8 @@ class DoctorAuditing extends Component {
   }
 
   render() {
+    const {Head, Row} = Layout
+
     return (
       <div className="app-function-page">
         {
@@ -161,84 +161,86 @@ class DoctorAuditing extends Component {
                       lengthName="limit"
                       byName="order_By"
         >
-          <SmartList loading={this.state.loading} fixHead={true} width={1660} fixLeft={[0, 1]}>
-            <HeadContainer>
-              <ul className="flex-list header">
-                <li className="item" style={{width: '100px'}}>
-                  <SortBy by="phone">手机号码</SortBy>
-                </li>
-                <li className="item" style={{width: '100px'}}>医生姓名</li>
-                <li className="item" style={{width: '120px'}}>医院</li>
-                <li className="item" style={{width: '100px'}}>科室</li>
-                <li className="item" style={{width: '130px'}}>是否随访医生</li>
-                <li className="item" style={{width: '100px'}}>职称</li>
-                <li className="item" style={{width: '80px'}}>个人照片</li>
-                <li className="item" style={{width: '80px'}}>持证照片</li>
-                <li className="item" style={{width: '120px'}}>
-                  <SortBy by="doctor_practicing_number" activeWidth={100}>执业证编号</SortBy>
-                </li>
-                <li className="item" style={{width: '100px'}}>专长</li>
-                <li className="item" style={{width: '100px'}}>审核状态</li>
-                <li className="item" style={{width: '140px'}}>备注</li>
-                <li className="item" style={{width: '110px'}}>后台管理人员</li>
-                <li className="item" style={{width: '80px'}}>运营人员</li>
-                <li className="item" style={{width: '120px'}}>
-                  <SortBy by="doctor_info_creat_time" activeWidth={90}>创建日期</SortBy>
-                </li>
-              </ul>
-            </HeadContainer>
-            <BodyContainer>
-              <div>
-                {
-                  this.props.list.map((doctor, index) => {
-                    return (
-                      <ul key={doctor['doctor_Id'] || index}
-                          style={{minHeight: '50px'}}
-                          className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
-                          onClick={e => this.setState({currentIndex: index})}
-                          onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
-                      >
+          <Layout loading={this.props.loading}
+                  minWidth={1450}
+                  fixHead={true}
+                  fixLeft={[0, 1]}
+                  weight={[100, 100, 120, 90, 110, 100, 80, 80, 100, 80, 80, 140, 100, 80, 90]}
+          >
+            <Head>
+              <Head.Item>
+                <SortBy by="phone">手机号码</SortBy>
+              </Head.Item>
+              <Head.Item>医生姓名</Head.Item>
+              <Head.Item>医院</Head.Item>
+              <Head.Item>科室</Head.Item>
+              <Head.Item>是否随访医生</Head.Item>
+              <Head.Item>职称</Head.Item>
+              <Head.Item>个人照片</Head.Item>
+              <Head.Item>持证照片</Head.Item>
+              <Head.Item>
+                <SortBy by="doctor_practicing_number" activeWidth={100}>执业证编号</SortBy>
+              </Head.Item>
+              <Head.Item>专长</Head.Item>
+              <Head.Item>审核状态</Head.Item>
+              <Head.Item>备注</Head.Item>
+              <Head.Item>后台管理人员</Head.Item>
+              <Head.Item>运营人员</Head.Item>
+              <Head.Item>
+                <SortBy by="doctor_info_creat_time" activeWidth={90}>创建日期</SortBy>
+              </Head.Item>
+            </Head>
+            <div>
+              {
+                this.props.list.map((doctor, index) => {
+                  return (
+                    <Row key={doctor['doctor_Id'] || index}
+                         onClick={e => this.setState({currentIndex: index})}
+                         selected={this.state.currentIndex == index}
+                         style={{minHeight: '50px'}}
+                    >
 
-                        <li className="item" style={{width: '100px'}}>{doctor['phone']}</li>
-                        <li className="item" style={{width: '100px'}}>{doctor['doctor_Name']}</li>
-                        <li className="item" style={{width: '120px'}}>{doctor['hospital_Id']}</li>
-                        <li className="item" style={{width: '100px'}}>{doctor['department_Id']}</li>
-                        <li className="item" style={{width: '130px'}}>{isVisitDoctor(doctor['is_Doctor_Purview'])}</li>
-                        <li className="item" style={{width: '100px'}}>{doctor['title_Id']}</li>
-                        <li className="item" style={{width: '80px'}}>
-                          {
-                            doctor['doctor_Photo'] && (
-                              <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Photo'])}>查看</span>
-                            )
-                          }
-                        </li>
-                        <li className="item" style={{width: '80px'}}>
-                          {
-                            doctor['doctor_Practicing_Photo'] && (
-                              <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Practicing_Photo'])}>查看</span>
-                            )
-                          }
-                        </li>
-                        <li className="item" style={{width: '120px'}}>{doctor['doctor_Practicing_Number']}</li>
-                        <li className="item" style={{width: '100px'}}>{doctor['doctor_Major'] || ''}</li>
-                        <li className="item" style={{width: '100px'}}>{getAuditStatus(doctor['doctor_Is_Checked'])}</li>
-                        <li className="item" style={{width: '140px'}}>
-                          {doctor['doctor_Info_Remark']}
-                          <span>
-                              <i className="fa fa-edit"
-                                 onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
-                          </span>
-                        </li>
-                        <li className="item" style={{width: '110px'}}>{doctor['backend_Manager']}</li>
-                        <li className="item" style={{width: '80px'}}>{doctor['operation_Manager']}</li>
-                        <li className="item" style={{width: '120px'}}>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</li>
-                      </ul>
-                    )
-                  })
-                }
-              </div>
-            </BodyContainer>
-          </SmartList>
+                      <Row.Item>{doctor['phone']}</Row.Item>
+                      <Row.Item>{doctor['doctor_Name']}</Row.Item>
+                      <Row.Item>{doctor['hospital_Id']}</Row.Item>
+                      <Row.Item>{doctor['department_Id']}</Row.Item>
+                      <Row.Item>{isVisitDoctor(doctor['is_Doctor_Purview'])}</Row.Item>
+                      <Row.Item>{doctor['title_Id']}</Row.Item>
+                      <Row.Item>
+                        {
+                          doctor['doctor_Photo'] && (
+                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Photo'])}>查看</span>
+                          )
+                        }
+                      </Row.Item>
+                      <Row.Item>
+                        {
+                          doctor['doctor_Practicing_Photo'] && (
+                            <span className="look-picture-txt" onClick={e => this.imagePreview(doctor['doctor_Practicing_Photo'])}>查看</span>
+                          )
+                        }
+                      </Row.Item>
+                      <Row.Item>{doctor['doctor_Practicing_Number']}</Row.Item>
+                      <Row.Item>
+                        <ShowMoreText limit={20}>{doctor['doctor_Major'] || ''}</ShowMoreText>
+                      </Row.Item>
+                      <Row.Item>{getAuditStatus(doctor['doctor_Is_Checked'])}</Row.Item>
+                      <Row.Item>
+                        <ShowMoreText limit={50}>{doctor['doctor_Info_Remark']}</ShowMoreText>
+                        <span className="edit-remark-icon">
+                          <i className="fa fa-edit"
+                             onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
+                        </span>
+                      </Row.Item>
+                      <Row.Item>{doctor['backend_Manager']}</Row.Item>
+                      <Row.Item>{doctor['operation_Manager']}</Row.Item>
+                      <Row.Item>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</Row.Item>
+                    </Row>
+                  )
+                })
+              }
+            </div>
+          </Layout>
         </PaginateList>
       </div>
     )
@@ -246,10 +248,8 @@ class DoctorAuditing extends Component {
 }
 
 function mapStateToProps(state) {
-  const {list, total} = state['doctorAuditingPaginateList']
   return {
-    list,
-    total,
+    ...state['doctorAuditing'],
     hospitalList: state.hospitalList,
     positionList: state.positionList,
     departmentList: state.departmentList,

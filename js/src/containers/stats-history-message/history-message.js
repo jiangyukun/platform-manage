@@ -4,6 +4,7 @@
 import {_get, _post, _patch} from '../../services/http'
 import * as types from '../../constants/ActionTypes'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
+import {getUUID} from '../../core/utils'
 
 export function fetchSingleHistoryMessageList(option) {
   option['chat_Type'] = 'chat'
@@ -11,7 +12,10 @@ export function fetchSingleHistoryMessageList(option) {
     [THREE_PHASE]: {
       type: types.historyMessage.FETCH_SINGLE_HISTORY_MESSAGE_LIST,
       http: () => _post('/chat/report', {body: option}),
-      handleResponse: response => ({list: response['dataArray'], total: response['totalCount']})
+      handleResponse: response => ({
+        list: response['dataArray'].map(item => ({id: getUUID(), ...item})),
+        total: response['totalCount']
+      })
     }
   }
 }
@@ -22,7 +26,10 @@ export function fetchGroupHistoryMessageList(option) {
     [THREE_PHASE]: {
       type: types.historyMessage.FETCH_GROUP_HISTORY_MESSAGE_LIST,
       http: () => _post('/chat/report', {body: option}),
-      handleResponse: response => ({list: response['dataArray'], total: response['totalCount']})
+      handleResponse: response => ({
+        list: response['dataArray'].map(item => ({id: getUUID(), ...item})),
+        total: response['totalCount']
+      })
     }
   }
 }
@@ -42,7 +49,12 @@ export function fetchHistoryExcelList(chatType) {
     [THREE_PHASE]: {
       type: types.historyMessage.FETCH_HISTORY_EXCEL_LIST,
       http: () => _get(`/chat/report/export/log/${chatType}/list`),
-      handleResponse: response => ({chatType, historyExcelList: response})
+      handleResponse: response => ({
+        chatType, historyExcelList: response.map(item => ({
+          value: item['url'],
+          text: item['month']
+        }))
+      })
     }
   }
 }

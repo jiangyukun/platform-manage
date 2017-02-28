@@ -115,7 +115,7 @@ class OnlineDoctorStatistics extends Component {
                        value={this.state.startDay}
                        onChange={this.handleStartDayChange}/>
           </span>
-          到
+          <span className="start-to-end">到</span>
           <span className="select-date-wrap">
             <DatePicker inputPrefixCls="my-end"
                         placeholder="结束时间"

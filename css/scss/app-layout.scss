@@ -28,6 +28,10 @@
     margin-right: -15px;
 }
 
+.inline-form {
+    display: inline;
+}
+
 .app-content {
     overflow: hidden;
 }
@@ -410,4 +414,13 @@ table .table-cell-look a:hover {
 .btn.toolbar-btn.reset {
     background-color: #9acfea;
     color: #8a6d3b;
+}
+
+.audio-wrap {
+    audio {
+        display: none;
+    }
+    .volume-container {
+        cursor: pointer;
+    }
 }

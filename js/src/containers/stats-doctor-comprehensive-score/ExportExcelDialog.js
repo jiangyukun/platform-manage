@@ -54,7 +54,7 @@ class ExportExcelDialog extends Component {
           </div>
           <div style={{marginTop: '50px', marginBottom: '50px'}}>
             <div>*选择评分导出的起止日期，导出Excel表格将会把此时间段内的所有医生评分记录导出</div>
-            <div>*每周五对医生进行评分及排名</div>
+            <div>*每周日对医生进行评分及排名</div>
           </div>
         </Modal.Body>
         <Modal.Footer>

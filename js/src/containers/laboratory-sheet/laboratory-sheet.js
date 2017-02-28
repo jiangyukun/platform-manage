@@ -32,7 +32,6 @@ export let fetchPictureUrlList = dispatch => (mobile, sheetType) => {
   })
 }
 
-
 export let markSheetItem = dispatch => (sheetId, type) => {
   return new Promise((resolve, reject) => {
     PUT(`/archives/assay/updateAssayPicture/${sheetId}/${type}`).then(result => {
@@ -47,4 +46,20 @@ export let markSheetItem = dispatch => (sheetId, type) => {
       reject(err)
     })
   })
+}
+
+export function updateRemark(mobile, newRemark) {
+  return {
+    [THREE_PHASE]: {
+      type: types.EDIT_LABORATORY_SHEET_REMARK,
+      http: () => POST(`/archives/assay/updatePatientAssayRemark/${mobile}`, {type: 'text', body: {"patient_Assay_Remark": newRemark}}),
+      handleResponse: response => ({mobile, newRemark})
+    }
+  }
+}
+
+export function clearRemark(mobile, newRemark) {
+  return {
+    type: types.CLEAR_LABORATORY_SHEET_REMARK
+  }
 }

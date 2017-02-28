@@ -12,7 +12,11 @@ class Row extends Component {
 
     const rowItems = []
     Children.forEach(this.props.children, (child, index) => {
-      rowItems.push(cloneElement(child, {key: index, flex: weight[index]}))
+      if (typeof weight[index] == 'string') {
+        rowItems.push(cloneElement(child, {key: index, width: weight[index]}))
+      } else {
+        rowItems.push(cloneElement(child, {key: index, flex: weight[index]}))
+      }
     })
 
     const {selected, ...props} = this.props

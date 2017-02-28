@@ -17,7 +17,7 @@ const defaultValue = {
   remarkUpdated: false
 }
 
-export function outPatientTimePaginateList(state = defaultValue, action) {
+export function outPatientTime(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()

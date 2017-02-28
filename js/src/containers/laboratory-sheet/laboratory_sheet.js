@@ -5,7 +5,12 @@ import {fromJS} from 'immutable'
 import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 
-const defaultValue = {total: 0, list: [], loading: false}
+const defaultValue = {
+  total: 0,
+  list: [],
+  loading: false,
+  remarkUpdated: false
+}
 
 export function laboratorySheet(state = defaultValue, action) {
   const iState = fromJS(state)
@@ -24,6 +29,15 @@ export function laboratorySheet(state = defaultValue, action) {
         nextIState = fetchLaboratorySheetListSuccess()
         break
 
+      case types.EDIT_LABORATORY_SHEET_REMARK + phase.SUCCESS:
+        const {mobile, newRemark} = action
+        nextIState = _updateList(iState.set('remarkUpdated', true), mobile, sheet => sheet.set('patient_Assay_Remark', newRemark))
+        break
+
+      case types.CLEAR_LABORATORY_SHEET_REMARK:
+        nextIState = iState.set('remarkUpdated', false)
+        break
+
       default:
         break
     }
@@ -38,5 +52,16 @@ export function laboratorySheet(state = defaultValue, action) {
   function fetchLaboratorySheetListSuccess() {
     let {total, list} = action
     return iState.set('total', total).set('list', list).set('loading', false)
+  }
+
+  // -------------------------------------------------
+
+  function _updateList(curIState, mobile, callback) {
+    const list = curIState.get('list')
+    const match = list.find(todo => todo.get('assay_Owner_Phone') == mobile)
+    if (!match) {
+      console.log('item not found which the id specify')
+    }
+    return curIState.update('list', list => list.update(list.indexOf(match), todo => callback(todo)))
   }
 }

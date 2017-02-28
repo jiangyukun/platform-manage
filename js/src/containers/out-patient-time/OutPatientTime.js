@@ -15,18 +15,15 @@ import DoctorDateDetailDialog from './dialog/DoctorDateDetailDialog'
 import EditRemark from '../common/EditRemark'
 
 import * as utils from '../../core/utils'
-import {fetchHospitalList} from '../../actions/hospital'
-import * as commonActions from '../../actions/common'
+import {fetchHospitalList1} from '../../actions/hospital'
+import {fetchDepartmentList1} from '../../actions/common'
 import * as actions from './out-patient-time'
 
 class OutPatientTime extends Component {
-  constructor(props) {
-    super()
-    this.state = {
-      currentIndex: -1,
-      showDetail: false,
-      showEditRemark: false
-    }
+  state = {
+    currentIndex: -1,
+    showDetail: false,
+    showEditRemark: false
   }
 
   beginFetch(newPageIndex) {
@@ -44,7 +41,7 @@ class OutPatientTime extends Component {
   }
 
   exportExcel() {
-    location.href = 'clinicTime/DoctorClinicExportExcel'
+    utils.exportExcel('clinicTime/DoctorClinicExportExcel', this._queryFilter.getParams())
   }
 
   componentDidMount() {
@@ -59,10 +56,7 @@ class OutPatientTime extends Component {
 
   componentDidUpdate() {
     if (this.props.remarkUpdated) {
-      if (this._editRemark) {
-        this._editRemark.close()
-        this.props.clearRemarkUpdated()
-      }
+      this.props.clearRemarkUpdated()
     }
   }
 
@@ -92,6 +86,7 @@ class OutPatientTime extends Component {
             <EditRemark ref={c => this._editRemark = c}
                         value={this.props.list[this.state.currentIndex]['remark']}
                         updateRemark={newRemark => this.updateRemark(newRemark)}
+                        remarkUpdated={this.props.remarkUpdated}
                         onExited={() => this.setState({showEditRemark: false})}/>
           )
         }
@@ -221,7 +216,7 @@ class OutPatientTime extends Component {
 
 function mapStateToProps(state) {
   return {
-    ...state['outPatientTimePaginateList'],
+    ...state['outPatientTime'],
     hospitalList: state.hospitalList,
     departmentList: state.departmentList,
     temporaryNotifyFilter: utils.getFilterItem('temporaryNotify', '有无生效临时通知', [
@@ -240,16 +235,11 @@ function mapStateToProps(state) {
   }
 }
 
-function mapActionToProps(dispatch) {
-  return merge(bindActionCreators({
-    fetchOutPatientTimePaginateList: actions.fetchOutPatientTimePaginateList,
-    fetchDoctorDateDetail: actions.fetchDoctorDateDetail,
-    updateRemark: actions.updateRemark,
-    clearRemarkUpdated: actions.clearRemarkUpdated
-  }, dispatch), {
-    fetchHospitalList: fetchHospitalList(dispatch),
-    fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),
-  })
-}
-
-export default connect(mapStateToProps, mapActionToProps)(OutPatientTime)
+export default connect(mapStateToProps, {
+  fetchOutPatientTimePaginateList: actions.fetchOutPatientTimePaginateList,
+  fetchDoctorDateDetail: actions.fetchDoctorDateDetail,
+  updateRemark: actions.updateRemark,
+  clearRemarkUpdated: actions.clearRemarkUpdated,
+  fetchHospitalList: fetchHospitalList1,
+  fetchDepartmentList: fetchDepartmentList1
+})(OutPatientTime)

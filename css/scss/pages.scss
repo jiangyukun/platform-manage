@@ -1,4 +1,13 @@
 
+.edit-remark-icon {
+    margin-left: 3px;
+}
+
+.load-more-text {
+    color: #259;
+    margin-left: 4px;
+}
+
 .select-start-end-day {
     width: 300px;
     margin: 20px;
@@ -22,13 +31,18 @@
 
 .online-doctor-statistics {
     .my-start, .my-end {
-        border: 1px solid #ccc;
+        border: 1px solid #ddd;
         border-radius: 4px;
         height: 25px;
+        padding: 2px 8px;
         width: 100%;
         &:focus {
-            border: 1px solid #00a0e9;
+            border: 1px solid green;
         }
+    }
+    .start-to-end {
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
 

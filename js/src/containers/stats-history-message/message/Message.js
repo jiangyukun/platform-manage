@@ -4,6 +4,7 @@
 import React, {PropTypes} from 'react'
 
 import LoadMoreAndHighLight from '../../../components/txt/LoadMoreAndHighLight'
+import AudioUrl from '../../../components/media/AudioUrl'
 import {parseTextMessage} from '../../../core/utils/webImUtil'
 
 const Message = ({previewImage, type, data, match}) => {
@@ -19,10 +20,6 @@ const Message = ({previewImage, type, data, match}) => {
         return result + `<span data-key="unknown-type">${item.data}</span>`
       }
     }, '')
-    if (data.indexOf('[') != -1) {
-      console.log(parseTextMessage(data))
-      console.log(handledTxtMessage)
-    }
     if (hasEmoji) {
       return (
         <span dangerouslySetInnerHTML={{__html: handledTxtMessage}}></span>
@@ -31,13 +28,14 @@ const Message = ({previewImage, type, data, match}) => {
     return (
       <LoadMoreAndHighLight match={match}>{data}</LoadMoreAndHighLight>
     )
-  }
-  else if (type == 'img') {
+  } else if (type == 'img') {
     return (
       <a onClick={() => previewImage(data)}>
         <img src={data} style={{maxHeight: '75px'}}/>
       </a>
     )
+  } else if (type == 'audio') {
+    return <AudioUrl url={data}/>
   }
   return (
     <span>{`消息类型【${type}】`}</span>

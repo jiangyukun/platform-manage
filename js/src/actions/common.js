@@ -55,3 +55,20 @@ export let fetchDepartmentList = dispatch => () => {
     }, err => reject(err))
   })
 }
+
+export function fetchDepartmentList1() {
+  return {
+    [THREE_PHASE]: {
+      type: types.FETCH_DEPARTMENT_LIST,
+      http: () => GET('/web/getDepartments'),
+      handleResponse: response => ({
+        departmentList: response.map(department => {
+          return {
+            value: department['department_Id'],
+            text: department['department_Name']
+          }
+        })
+      })
+    }
+  }
+}

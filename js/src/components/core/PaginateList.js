@@ -9,18 +9,15 @@ import {pageSize} from '../../common/constants'
 import {calculatePageIndex} from '../../core/utils'
 
 class PaginateList extends Component {
-  constructor(props) {
-    super(props)
-    this.addSortBy = this.addSortBy.bind(this)
-    this.sort = this.sort.bind(this)
-    this.sortByList = []
-    this.state = {
-      draw: 1,
-      currentPage: 1,
-      by: '',
-      order: 'default'
-    }
+  state = {
+    draw: 1,
+    currentPage: 1,
+    jumpPage: '',
+    by: '',
+    order: 'default'
   }
+
+  sortByList = []
 
   beginFetch(page) {
     if (page) {
@@ -29,11 +26,11 @@ class PaginateList extends Component {
     this.setState({draw: this.state.draw + 1}, () => this.props.doFetch())
   }
 
-  addSortBy(sortBy) {
+  addSortBy = (sortBy) => {
     this.sortByList.push(sortBy)
   }
 
-  sort(by, order) {
+  sort = (by, order) => {
     if (order == 'default') {
       order = ''
     }
@@ -57,6 +54,16 @@ class PaginateList extends Component {
     if (this.state.currentPage != page) {
       this.setState({currentPage: page}, () => this.beginFetch())
     }
+  }
+
+  jumpToPage = (e) => {
+    e.preventDefault()
+    let jumpPage = parseInt(this.state.jumpPage)
+    if (!jumpPage || jumpPage < 0 || jumpPage > this.pageTotal) {
+      return
+    }
+    this.setState({jumpPage: ''})
+    this.toPage(jumpPage)
   }
 
   getParams() {
@@ -92,7 +99,6 @@ class PaginateList extends Component {
               <li className={classnames({'disabled': this.state.currentPage == 1})} onClick={e => this.beforePage()}>
                 <a>上一页</a>
               </li>
-
               {
                 pageIndexes.map((page, index) => {
                   return (
@@ -102,10 +108,18 @@ class PaginateList extends Component {
                   )
                 })
               }
-
               <li className={classnames({'disabled': this.state.currentPage == this.pageTotal})} onClick={e => this.nextPage()}>
                 <a>下一页</a>
               </li>
+              {
+                this.pageTotal >= 20 && (
+                  <form className="inline-form" onSubmit={this.jumpToPage}>
+                    <input type="text" className="to-page-input" placeholder="页数"
+                           value={this.state.jumpPage}
+                           onChange={e => this.setState({jumpPage: e.target.value})}/>
+                  </form>
+                )
+              }
             </ul>
           </nav>
         </div>

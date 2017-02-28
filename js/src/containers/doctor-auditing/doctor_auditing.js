@@ -6,9 +6,9 @@ import * as types from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import constants from '../../core/constants'
 
-const defaultValue = {total: 0, list: []}
+const defaultValue = {total: 0, list: [], loading: false}
 
-export function doctorAuditingPaginateList(state = defaultValue, action) {
+export function doctorAuditing(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()
@@ -17,6 +17,10 @@ export function doctorAuditingPaginateList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
+      case types.FETCH_DOCTOR_PAGINATE_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
       case types.FETCH_DOCTOR_PAGINATE_LIST + phase.SUCCESS:
         nextIState = fetchDoctorPaginateListSuccess()
         break
@@ -46,7 +50,7 @@ export function doctorAuditingPaginateList(state = defaultValue, action) {
 
   function fetchDoctorPaginateListSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 
   function updateRemarkSuccess() {

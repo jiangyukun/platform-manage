@@ -98,7 +98,7 @@ class TabGroupChat extends Component {
               {
                 this.props.list.map((historyMessage, index) => {
                   return (
-                    <Row key={historyMessage['chat_From'] + index}
+                    <Row key={historyMessage['id']}
                          onClick={e => this.setState({currentIndex: index})}
                          onMouseEnter={() => this.setState({hoverIndex: index})}
                          selected={this.state.currentIndex == index}

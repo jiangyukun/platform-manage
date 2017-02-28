@@ -8,19 +8,16 @@ import CommonDialog from '../../../components/core/CommonDialog'
 import * as antdUtil from '../../../core/utils/antdUtil'
 
 class NewSmsTemplate extends Component {
-  constructor() {
-    super()
-    this.state = {
-      show: true,
-      smsContent: ''
-    }
+  state = {
+    show: true,
+    smsContent: ''
   }
 
-  handleChange(event) {
-    this.setState({smsContent: event.target.value})
+  handleChange = (e) => {
+    this.setState({smsContent: e.target.value})
   }
 
-  close() {
+  close = () => {
     this.setState({show: false})
   }
 
@@ -42,7 +39,7 @@ class NewSmsTemplate extends Component {
 
         <p style={{marginTop: '15px', marginBottom: '15px'}}>
                     <textarea className="form-control" rows="4" value={this.state.smsContent}
-                              onChange={e => this.handleChange(e)}></textarea>
+                              onChange={this.handleChange}></textarea>
         </p>
         <div className="ngdialog-buttons">
           <button type="button" className="ngdialog-button ngdialog-button-secondary"

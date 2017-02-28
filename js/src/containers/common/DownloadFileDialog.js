@@ -1,4 +1,5 @@
 /**
+ * 通用的文件下载对话框
  * Created by jiangyukun on 2017/1/6.
  */
 import React, {Component, PropTypes} from 'react'

@@ -72,39 +72,41 @@ class DoctorComprehensiveScore extends Component {
           )
         }
 
-        {this.state.showExport && (
-          <ExportExcelDialog
-            onExited={() => this.setState({showExport: false})}/>
-        )}
+        {
+          this.state.showExport && (
+            <ExportExcelDialog
+              onExited={() => this.setState({showExport: false})}/>
+          )
+        }
 
-        {this.state.showStatistics && (
-          <DoctorStatisticsDialog
-            doctorId={this.props.list[this.state.currentIndex]['doctor_User_Id']}
-            doctorName={this.props.list[this.state.currentIndex]['doctor_Name']}
-            hospitalName={this.props.list[this.state.currentIndex]['hospital_Name']}
-            fetchDoctorStatisticsList={this.props.fetchDoctorStatisticsList}
-            doctorStatisticsList={this.props.statisticsList}
-            onExited={() => this.setState({showStatistics: false})}/>
-        )}
+        {
+          this.state.showStatistics && (
+            <DoctorStatisticsDialog
+              doctorId={this.props.list[this.state.currentIndex]['doctor_User_Id']}
+              doctorName={this.props.list[this.state.currentIndex]['doctor_Name']}
+              hospitalName={this.props.list[this.state.currentIndex]['hospital_Name']}
+              fetchDoctorStatisticsList={this.props.fetchDoctorStatisticsList}
+              doctorStatisticsList={this.props.statisticsList}
+              onExited={() => this.setState({showStatistics: false})}/>
+          )
+        }
 
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
-                     searchKeyName="search_key"
+                     searchKeyName="doctor_Phone"
+                     placeholder="医生手机号"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showExport: true})}
-                  disabled={this.props.total == 0}>导出excel
-          </button>
+          <button className="btn btn-primary mr-20" onClick={() => this.setState({showExport: true})}>选择开始结束时间，导出Excel</button>
 
-          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_id"/>
+          <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
           <FilterItem item={this.props.backendMangerList}>
-            <CustomTextInput placeholder="请输入后台管理人员" textName="backend_manager"/>
+            <CustomTextInput placeholder="请输入后台管理人员" textName="backend_Manager"/>
           </FilterItem>
 
           <FilterItem className="small-filter-item" item={this.props.operationPersonList}>
-            <CustomTextInput placeholder="请输入运营人员" textName="operation_manager"/>
+            <CustomTextInput placeholder="请输入运营人员" textName="operation_Manager"/>
           </FilterItem>
-
         </QueryFilter>
 
         <PaginateList ref={c => this._paginateList = c}
@@ -164,7 +166,6 @@ class DoctorComprehensiveScore extends Component {
             </div>
           </Layout>
         </PaginateList>
-
       </div>
     )
   }
