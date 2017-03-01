@@ -24,7 +24,7 @@ import * as actions from './laboratory-sheet'
 
 class LaboratorySheet extends Component {
   state = {
-    currentIndex: -1,
+    index: -1,
     showEdit: false,
     searchKey: '',
     editRemark: false
@@ -35,7 +35,7 @@ class LaboratorySheet extends Component {
   }
 
   doFetch() {
-    this.setState({currentIndex: -1, loading: true})
+    this.setState({index: -1, loading: true})
     this.props.fetchLaboratorySheetList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
   }
 
@@ -46,7 +46,7 @@ class LaboratorySheet extends Component {
   }
 
   updateRemark = (newRemark) => {
-    this.props.updateRemark(this.props.list[this.state.currentIndex]['assay_Owner_Phone'], newRemark)
+    this.props.updateRemark(this.props.list[this.state.index]['assay_Owner_Phone'], newRemark)
   }
 
   componentDidMount() {
@@ -88,7 +88,7 @@ class LaboratorySheet extends Component {
         }
 
         {
-          this.state.editRemark && this.state.currentIndex != -1 && (
+          this.state.editRemark && this.state.index != -1 && (
             <EditRemark updateRemark={this.updateRemark}
                         remarkUpdated={this.props.remarkUpdated}
                         onExited={() => this.setState({editRemark: false})}/>
@@ -168,8 +168,8 @@ class LaboratorySheet extends Component {
                 this.props.list.map((sheet, index) => {
                   return (
                     <Row key={index}
-                         onClick={e => this.setState({currentIndex: index})}
-                         selected={this.state.currentIndex == index}
+                         onClick={e => this.setState({index: index})}
+                         selected={this.state.index == index}
                          style={{minHeight: '50px'}}
                     >
                       <Row.Item>
@@ -190,10 +190,7 @@ class LaboratorySheet extends Component {
                       <Row.Item>{sheet['pediatrics_Doctor']}</Row.Item>
                       <Row.Item>
                         <ShowMoreText limit={50}>{sheet['patient_Assay_Remark']}</ShowMoreText>
-                        <span className="edit-remark-icon">
-                          <i className="fa fa-edit"
-                             onClick={() => this.setState({editRemark: true, currentIndex: index})}></i>
-                        </span>
+                        <i className="edit-remark-svg" onClick={() => this.setState({editRemark: true, index})}></i>
                       </Row.Item>
                       <Row.Item>{getSheetNumber(sheet, 'visit_Doctor_Upload_Count', 1)}</Row.Item>
                       <Row.Item>{getSheetNumber(sheet, 'patient_Count', 2)}</Row.Item>

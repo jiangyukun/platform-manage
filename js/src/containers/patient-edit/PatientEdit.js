@@ -191,7 +191,7 @@ class PatientEdit extends Component {
                         <li className="item flex1">
                           {patient['remark']}
                           <div>
-                            <i className="fa fa-edit"
+                            <i className="edit-remark-svg"
                                onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
                           </div>
                         </li>

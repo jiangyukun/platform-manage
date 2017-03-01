@@ -25,6 +25,7 @@ class LoadMoreAndHighLight extends ShowMoreText {
 }
 
 LoadMoreAndHighLight.propTypes = {
+  ...ShowMoreText.propTypes,
   match: PropTypes.string
 }
 

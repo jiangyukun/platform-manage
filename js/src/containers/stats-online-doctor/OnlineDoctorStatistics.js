@@ -228,13 +228,13 @@ class OnlineDoctorStatistics extends Component {
                         {getYesOrNoText(onlineDoctor['is_Statistics'])}
                         {
                           this.state.hoverIndex == index && (
-                            <i className="fa fa-edit" onClick={e => this.setState({showEditIsStatistics: true, currentIndex: index})}/>
+                            <i className="edit-remark-svg" onClick={e => this.setState({showEditIsStatistics: true, currentIndex: index})}/>
                           )
                         }
                       </Row.Item>
                       <Row.Item>
                         {onlineDoctor['score_Log_Remark']}
-                        <i className="fa fa-edit" onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
                       <Row.Item>{formatDateStr(onlineDoctor['score_Log_Time'])}</Row.Item>
                     </Row>

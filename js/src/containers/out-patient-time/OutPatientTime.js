@@ -163,7 +163,7 @@ class OutPatientTime extends Component {
                       <Row.Item>{outPatient['operation_manager']}</Row.Item>
                       <Row.Item>
                         {outPatient['remark']}
-                        <i className="fa fa-edit"
+                        <i className="edit-remark-svg"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
                       <Row.Item>

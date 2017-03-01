@@ -59,7 +59,7 @@ class DoctorComprehensiveScore extends Component {
   }
 
   render() {
-    const {Head, HeadItem, Row, RowItem} = Layout
+    const {Head, Row} = Layout
 
     return (
       <div className="app-function-page">
@@ -123,16 +123,16 @@ class DoctorComprehensiveScore extends Component {
                   weight={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
           >
             <Head>
-              <HeadItem>医生账号</HeadItem>
-              <HeadItem>姓名</HeadItem>
-              <HeadItem>医院</HeadItem>
-              <HeadItem>科室</HeadItem>
-              <HeadItem>后台管理人员</HeadItem>
-              <HeadItem>运营人员</HeadItem>
-              <HeadItem>备注</HeadItem>
-              <HeadItem>上周五评分</HeadItem>
-              <HeadItem>上周五排名</HeadItem>
-              <HeadItem>评分排名记录</HeadItem>
+              <Head.Item>医生账号</Head.Item>
+              <Head.Item>姓名</Head.Item>
+              <Head.Item>医院</Head.Item>
+              <Head.Item>科室</Head.Item>
+              <Head.Item>后台管理人员</Head.Item>
+              <Head.Item>运营人员</Head.Item>
+              <Head.Item>备注</Head.Item>
+              <Head.Item>上周评分</Head.Item>
+              <Head.Item>上周排名</Head.Item>
+              <Head.Item>评分排名记录</Head.Item>
             </Head>
             <div>
               {
@@ -143,22 +143,22 @@ class DoctorComprehensiveScore extends Component {
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '60px'}}
                     >
-                      <RowItem>{comprehensiveScore['doctor_Phone']}</RowItem>
-                      <RowItem>{comprehensiveScore['doctor_Name']}</RowItem>
-                      <RowItem>{comprehensiveScore['hospital_Name']}</RowItem>
-                      <RowItem>{comprehensiveScore['department_Name']}</RowItem>
-                      <RowItem>{comprehensiveScore['backend_Manager']}</RowItem>
-                      <RowItem>{comprehensiveScore['operation_Manager']}</RowItem>
-                      <RowItem>
+                      <Row.Item>{comprehensiveScore['doctor_Phone']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['doctor_Name']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['hospital_Name']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['department_Name']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['backend_Manager']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['operation_Manager']}</Row.Item>
+                      <Row.Item>
                         {comprehensiveScore['doctor_Score_Remark']}
-                        <i className="fa fa-edit"
+                        <i className="edit-remark-svg"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
-                      </RowItem>
-                      <RowItem>{comprehensiveScore['doctor_Last_Week_Score']}</RowItem>
-                      <RowItem>{comprehensiveScore['doctor_Last_Week_Ranking']}</RowItem>
-                      <RowItem>
+                      </Row.Item>
+                      <Row.Item>{comprehensiveScore['doctor_Last_Week_Score']}</Row.Item>
+                      <Row.Item>{comprehensiveScore['doctor_Last_Week_Ranking']}</Row.Item>
+                      <Row.Item>
                         <div className="click-to-look" onClick={e => this.setState({showStatistics: true, currentIndex: index})}>点击查看</div>
-                      </RowItem>
+                      </Row.Item>
                     </Row>
                   )
                 })

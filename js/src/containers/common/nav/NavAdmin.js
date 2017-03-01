@@ -12,11 +12,6 @@ class NavAdmin extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {current: context.router.getCurrentLocation().pathname}
-    context.router.setRouteLeaveHook(this.props.route, this.routeLeaveHook)
-  }
-
-  routeLeaveHook = () => {
-    console.log(1)
   }
 
   handleClick(e) {
@@ -138,15 +133,14 @@ class NavAdmin extends Component {
                 <span>待办工作跟踪</span>
               </Link>
             </Item>
-
           </SubMenu>
 
           <SubMenu key="-APP-" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>
-            <Item key={appUpdate}>
+            {/*<Item key={appUpdate}>
               <Link to={appUpdate}>
                 <span>App更新</span>
               </Link>
-            </Item>
+            </Item>*/}
             <Item key="2_1">
               <a href="platform/home.html#/app/slider-config">
                 <span>轮播图管理</span>

@@ -228,7 +228,7 @@ class DoctorAuditing extends Component {
                       <Row.Item>
                         <ShowMoreText limit={50}>{doctor['doctor_Info_Remark']}</ShowMoreText>
                         <span className="edit-remark-icon">
-                          <i className="fa fa-edit"
+                          <i className="edit-remark-svg"
                              onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
                         </span>
                       </Row.Item>

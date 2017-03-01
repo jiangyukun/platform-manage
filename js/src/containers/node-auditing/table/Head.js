@@ -4,7 +4,7 @@
 import React, {Component, PropTypes} from 'react'
 
 class Head extends Component {
-  handleContextMenu(e) {
+  handleContextMenu = (e) => {
     /*e.preventDefault()
      let target = e.target
 
@@ -14,7 +14,7 @@ class Head extends Component {
 
   render() {
     return (
-      <ul className="list-header clearfix" onContextMenu={e => this.handleContextMenu(e)}>
+      <ul className="list-header clearfix" onContextMenu={this.handleContextMenu}>
         <li className="list-header-item w-120">患者编号</li>
         <li className="list-header-item w-120">患者姓名</li>
         <li className="list-header-item w-120">手机号码</li>

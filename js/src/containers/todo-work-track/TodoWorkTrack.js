@@ -141,7 +141,7 @@ class TodoWorkTrack extends Component {
                       <Row.Item>{todo['operation_Manager']}</Row.Item>
                       <Row.Item>
                         {todo['doctor_Need_Remark']}
-                        <i className="fa fa-edit"
+                        <i className="edit-remark-svg"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
                       <Row.Item>{todo['visit_Type_One_Need_Count']}</Row.Item>

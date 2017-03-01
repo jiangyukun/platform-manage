@@ -61,7 +61,7 @@ class AudioUrl extends Component {
   }
 
   playAudio = () => {
-    this.setState({isPlay: !this.state.isPlay}, this.doPlayAudio())
+    this.setState({isPlay: !this.state.isPlay}, this.doPlayAudio)
   }
 
   doPlayAudio = () => {

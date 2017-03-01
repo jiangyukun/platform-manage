@@ -142,7 +142,7 @@ class TakeMedicineRecord extends Component {
                       <Row.Item>{record['operation_manager']}</Row.Item>
                       <Row.Item>
                         {record['takeMedicine_Remark']}
-                        <i className="fa fa-edit"
+                        <i className="edit-remark-svg"
                            onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
                       </Row.Item>
                       <Row.Item>{record['takeMedicine_Status']}</Row.Item>

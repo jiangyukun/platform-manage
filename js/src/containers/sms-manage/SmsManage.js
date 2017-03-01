@@ -90,6 +90,7 @@ class SmsManage extends Component {
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="searchKey"
+                     placeholder="短信内容"
         >
           <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>发送短信</button>
 

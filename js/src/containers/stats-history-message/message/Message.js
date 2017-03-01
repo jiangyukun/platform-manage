@@ -26,7 +26,7 @@ const Message = ({previewImage, type, data, match}) => {
       )
     }
     return (
-      <LoadMoreAndHighLight match={match}>{data}</LoadMoreAndHighLight>
+      <LoadMoreAndHighLight match={match} limit={200}>{data}</LoadMoreAndHighLight>
     )
   } else if (type == 'img') {
     return (

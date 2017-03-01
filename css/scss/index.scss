@@ -1,3 +1,4 @@
+@import "common.scss";
 @import "loading.scss";
 @import "spinner.scss";
 @import "layout.scss";
@@ -12,3 +13,6 @@
 @import "image-preivew.scss";
 @import "pages.scss";
 @import "my-modal.scss";
+@import "../ngDialog.scss";
+@import "../ngDialog-theme-default.scss";
+@import "../ngDialog-theme-full-container.scss";
