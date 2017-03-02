@@ -1,0 +1,52 @@
+@mixin svg-nav-icon() {
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin-top: 12px;
+    margin-right: 5px;
+    background-size: cover;
+    vertical-align: bottom;
+}
+
+.smart-analytic-system {
+    background-image: url(../../img/svg/analytic.svg);
+    @include svg-nav-icon();
+}
+
+.patient-manage {
+    background-image: url(../../img/svg/patient.svg);
+    @include svg-nav-icon();
+}
+
+.statistics-svg-icon {
+    background-image: url(../../img/svg/statistics.svg);
+    @include svg-nav-icon();
+}
+
+.system-manage-svg-icon {
+    background-image: url(../../img/svg/system-manage.svg);
+    @include svg-nav-icon();
+}
+
+.app-svg-icon {
+    background-image: url(../../img/svg/app.svg);
+    @include svg-nav-icon();
+}
+
+.doctor-svg-icon {
+    background-image: url(../../img/svg/doctor.svg);
+    @include svg-nav-icon();
+}
+
+.chat-svg-icon {
+    background-image: url(../../img/svg/chat.svg);
+    @include svg-nav-icon();
+}
+
+.console-svg-icon {
+    background-image: url(../../img/svg/console.svg);
+    @include svg-nav-icon();
+    margin-top: 14px;
+    width: 20px;
+    height: 20px;
+}

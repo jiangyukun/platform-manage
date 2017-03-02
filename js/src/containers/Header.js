@@ -43,24 +43,18 @@ class Header extends Component {
     } else if (dayHour < 24) {
       dayPhase = '晚上'
     }
-    let asideFolded = this.props.app.settings.asideFolded
 
     return (
       <div className="app-header navbar">
         <div className="navbar-header">
 
           <a href="/" className="navbar-brand">
-            <i className="fa fa-lemon-o"></i>
+            <i className="console-svg-icon"></i>
             <span className="console-name">{this.props.app.name}</span>
           </a>
         </div>
 
         <div className="collapse pos-rlt navbar-collapse box-shadow bg-white-only">
-          <div className="nav navbar-nav hidden-xs">
-            <a className="btn no-shadow navbar-btn" onClick={e => this.props.toggleAside()}>
-              <i className={classnames('fa', 'fa-fw', asideFolded ? 'fa-indent' : 'fa-dedent')}></i>
-            </a>
-          </div>
           <ul className="nav navbar-nav navbar-right">
             <li>
               <a onClick={e => this.toggleMessagePanel()}>

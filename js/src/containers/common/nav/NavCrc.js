@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react'
 import Menu from 'antd/lib/menu'
-import Icon from 'antd/lib/icon'
 import {Link} from 'react-router'
 
 import {getPath} from '../../../core/utils'
@@ -40,7 +39,7 @@ export default class NavCrc extends Component {
               selectedKeys={[this.state.current]}
               mode="inline"
         >
-          <SubMenu key="sub1" title={<span><Icon type="desktop"/><span>患者管理</span></span>}>
+          <SubMenu key="sub1" title={<span><i className="patient-manage"></i><span>患者管理</span></span>}>
             <Item key={nodeAuditing}>
               <Link to={nodeAuditing}>
                 <span>病人审核</span>

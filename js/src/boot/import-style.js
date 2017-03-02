@@ -1,15 +1,17 @@
 /**
  * Created by jiangyukun on 2016/12/29.
  */
-import 'antd/lib/style/index.less'
-import 'antd/lib/button/style/index.less'
-import 'antd/lib/modal/style/index.less'
-import 'antd/lib/notification/style/index.less'
-import 'antd/lib/date-picker/style/index.less'
-import 'antd/lib/menu/style/index.less'
-import 'antd/lib/upload/style/index.less'
-import 'antd/lib/tooltip/style/index.less'
-
-import '../../../css/boostrap/bootstrap.less'
 import '../../../css/font-awesome/scss/font-awesome.scss'
+import '../../../css/boostrap/bootstrap.less'
+
+import '../../../css/antd/style/index.less'
+import '../../../css/antd/button/style/index.less'
+import '../../../css/antd/modal/style/index.less'
+import '../../../css/antd/notification/style/index.less'
+import '../../../css/antd/date-picker/style/index.less'
+import '../../../css/antd/menu/style/index.less'
+import '../../../css/antd/upload/style/index.less'
+import '../../../css/antd/tooltip/style/index.less'
+
+
 import '../../../css/scss/index.scss'

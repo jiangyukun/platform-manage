@@ -24,6 +24,7 @@ import DoctorComprehensiveScore from '../containers/stats-doctor-comprehensive-s
 import EnrollmentSituationStatistics from '../containers/stats-enrollment-situation/EnrollmentSituationStatistics'
 import OnlineDoctorStatistics from '../containers/stats-online-doctor/OnlineDoctorStatistics'
 import HistoryMessageStatistics from '../containers/stats-history-message/HistoryMessageStatistics'
+import SmartAnalyticSystem from '../containers/smart-analytic-system/SmartAnalyticSystem'
 
 import SmsManage from '../containers/sms-manage/SmsManage'
 
@@ -50,6 +51,8 @@ export default function getPageRoute(path) {
       <Route path="history-message" component={HistoryMessageStatistics}/>
 
       <Route path="sms-manage" component={SmsManage}/>
+
+      <Route path="smart-analytic-system" component={SmartAnalyticSystem}/>
     </Route>
   )
 }

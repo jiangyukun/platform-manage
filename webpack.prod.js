@@ -12,7 +12,7 @@ module.exports = {
     // path: 'D:/2017/company/app-parent/backed-web/src/main/webapp/platform-new/build/',
     path: 'C:/Users/jiangyukun/WebstormProjects/platform-manage/build/prod/',
     filename: 'bundle-' + moment().format('MMDD') + '.min.js',
-    publicPath: 'build/'
+    publicPath: ''
   },
 
   module: {
@@ -21,7 +21,7 @@ module.exports = {
       {test: /\.less$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'less-loader']})},
       {test: /\.scss$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})},
       {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"},
-      {test: /\.svg$/, loader: "file-loader"}
+      {test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader"}
     ]
   },
 

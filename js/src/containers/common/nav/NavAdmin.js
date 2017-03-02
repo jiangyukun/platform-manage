@@ -4,7 +4,6 @@
 import React, {Component} from 'react'
 import {Link, routerShape} from 'react-router'
 import Menu from 'antd/lib/menu'
-import Icon from 'antd/lib/icon'
 
 import {getPath} from '../../../core/utils'
 
@@ -46,6 +45,8 @@ class NavAdmin extends Component {
     const historyMessage = getPath('history-message') // 历史记录报表
 
     const smsManage = getPath('sms-manage') // 短信
+
+    const smartAnalyticSystem = getPath('smart-analytic-system') // 短信
 
     const openMenu = []
     switch (this.state.current) {
@@ -89,7 +90,7 @@ class NavAdmin extends Component {
               selectedKeys={[this.state.current]}
               mode="inline"
         >
-          <SubMenu key="-PATIENT-" title={<span><Icon type="desktop"/><span>患者管理</span></span>}>
+          <SubMenu key="-PATIENT-" title={<span><i className="patient-manage"></i><span>患者管理</span></span>}>
             <Item key={nodeAuditing}>
               <Link to={nodeAuditing}>
                 <span>病人审核</span>
@@ -112,7 +113,7 @@ class NavAdmin extends Component {
             </Item>
           </SubMenu>
 
-          <SubMenu key="-DOCTOR-" title={<span><Icon type="desktop"/><span>医生管理</span></span>}>
+          <SubMenu key="-DOCTOR-" title={<span><i className="doctor-svg-icon"></i><span>医生管理</span></span>}>
             <Item key={doctorAuditing}>
               <Link to={doctorAuditing}>
                 <span>医生管理</span>
@@ -135,12 +136,12 @@ class NavAdmin extends Component {
             </Item>
           </SubMenu>
 
-          <SubMenu key="-APP-" title={<span><Icon type="desktop"/><span>APP管理</span></span>}>
+          <SubMenu key="-APP-" title={<span><i className="app-svg-icon"></i><span>APP管理</span></span>}>
             {/*<Item key={appUpdate}>
-              <Link to={appUpdate}>
-                <span>App更新</span>
-              </Link>
-            </Item>*/}
+             <Link to={appUpdate}>
+             <span>App更新</span>
+             </Link>
+             </Item>*/}
             <Item key="2_1">
               <a href="platform/home.html#/app/slider-config">
                 <span>轮播图管理</span>
@@ -158,7 +159,7 @@ class NavAdmin extends Component {
              </Item>*/}
           </SubMenu>
 
-          <SubMenu key="-STATISTICS-" title={<span><Icon type="desktop"/><span>报表统计</span></span>}>
+          <SubMenu key="-STATISTICS-" title={<span><i className="statistics-svg-icon"></i><span>报表统计</span></span>}>
             <Item key={historyMessage}>
               <Link to={historyMessage}>
                 <span>聊天记录报表</span>
@@ -191,14 +192,7 @@ class NavAdmin extends Component {
             </Item>
           </SubMenu>
 
-          <Item key="chat-system">
-            <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
-              <i className="glyphicon glyphicon-comment icon text-success"></i>
-              <span style={{marginLeft: '8px'}}>聊天系统</span>
-            </a>
-          </Item>
-
-          <SubMenu key="-SYSTEM-" title={<span><Icon type="desktop"/><span>系统管理</span></span>}>
+          <SubMenu key="-SYSTEM-" title={<span><i className="system-manage-svg-icon"></i><span>系统管理</span></span>}>
             <Item key={smsManage}>
               <Link to={smsManage}>
                 <span>短信系统</span>
@@ -212,6 +206,20 @@ class NavAdmin extends Component {
              </Item>*/}
 
           </SubMenu>
+
+          <Item key="chat-system">
+            <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
+              <i className="chat-svg-icon"></i>
+              <span style={{marginLeft: '8px'}}>聊天系统</span>
+            </a>
+          </Item>
+
+          <Item key={smartAnalyticSystem}>
+            <i className="smart-analytic-system"></i>
+            <Link to={smartAnalyticSystem}>
+              <span>智能分析系统</span>
+            </Link>
+          </Item>
         </Menu>
       </nav>
     )
