@@ -45,6 +45,7 @@ class NavAdmin extends Component {
     const historyMessage = getPath('history-message') // 历史记录报表
 
     const smsManage = getPath('sms-manage') // 短信
+    const chatSystem = getPath('chat-system') // 短信
 
     const smartAnalyticSystem = getPath('smart-analytic-system') // 短信
 
@@ -63,6 +64,7 @@ class NavAdmin extends Component {
         openMenu.push('-DOCTOR-')
         break
       case appUpdate:
+      case smartAnalyticSystem:
         openMenu.push('-APP-')
         break
       case patientSituationStatistics:
@@ -142,6 +144,13 @@ class NavAdmin extends Component {
              <span>App更新</span>
              </Link>
              </Item>*/}
+            <Item key={smartAnalyticSystem}>
+              {/*<i className="smart-analytic-system"></i>*/}
+              <Link to={smartAnalyticSystem}>
+                <span>智能分析系统</span>
+              </Link>
+            </Item>
+
             <Item key="2_1">
               <a href="platform/home.html#/app/slider-config">
                 <span>轮播图管理</span>
@@ -193,12 +202,17 @@ class NavAdmin extends Component {
           </SubMenu>
 
           <SubMenu key="-SYSTEM-" title={<span><i className="system-manage-svg-icon"></i><span>系统管理</span></span>}>
+            <Item key={chatSystem}>
+              <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
+                {/*<i className="chat-svg-icon"></i>*/}
+                <span>聊天系统</span>
+              </a>
+            </Item>
             <Item key={smsManage}>
               <Link to={smsManage}>
                 <span>短信系统</span>
               </Link>
             </Item>
-
             {/*<Item key="7_3">
              <a >
              <span>后台账号管理</span>
@@ -206,20 +220,6 @@ class NavAdmin extends Component {
              </Item>*/}
 
           </SubMenu>
-
-          <Item key="chat-system">
-            <a href="chat-system-new/chat.html" target="_blank" style={{display: 'block'}}>
-              <i className="chat-svg-icon"></i>
-              <span style={{marginLeft: '8px'}}>聊天系统</span>
-            </a>
-          </Item>
-
-          <Item key={smartAnalyticSystem}>
-            <i className="smart-analytic-system"></i>
-            <Link to={smartAnalyticSystem}>
-              <span>智能分析系统</span>
-            </Link>
-          </Item>
         </Menu>
       </nav>
     )

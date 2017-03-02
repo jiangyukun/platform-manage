@@ -8,7 +8,7 @@ body {
 }
 
 html, body {
-    font-family: "Helvetica Neue", Helvetica, Aril, sans-serif, 宋体;
+    font-family:  宋体, "Helvetica Neue", Helvetica, Aril, sans-serif;
     font-size: 14px;
     color: #58666e;
     background-color: transparent;
@@ -30,12 +30,6 @@ html, body {
 label {
     font-weight: normal;
 }
-
-/*
-.btn-primary {
-    background-color: #7266ba;
-    border-color: #7266ba;
-}*/
 
 a, a:focus, a:hover {
     text-decoration: none;

@@ -3,6 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
+import AppModal from '../../components/core/AppModal'
 
 class AddDialog extends Component {
 
@@ -16,11 +17,11 @@ class AddDialog extends Component {
 
   render() {
     return (
-      <Modal show={this.state.show} onHide={this.close} onExited={this.props.onExited} dropback="static">
+      <AppModal show={this.state.show} onHide={this.close} onExited={this.props.onExited} backdrop="static">
         <Modal.Header closeButton={true}>
           <Modal.Title>新增</Modal.Title>
         </Modal.Header>
-      </Modal>
+      </AppModal>
     )
   }
 }

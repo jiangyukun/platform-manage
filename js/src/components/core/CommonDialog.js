@@ -2,10 +2,12 @@
  * Created by jiangyukun on 2016/10/21.
  */
 import React, {Component, PropTypes} from 'react'
-import {Modal, Transition} from 'react-overlays'
+import {Modal} from 'react-overlays'
 import classnames from 'classnames'
 
-export default class CommonDialog extends Component {
+import Fly from '../transition/Fly'
+
+class CommonDialog extends Component {
   render() {
     return (
       <Modal show={this.props.show}
@@ -33,16 +35,4 @@ CommonDialog.propTypes = {
   onExited: PropTypes.func
 }
 
-//-----------------------------------
-
-class Fly extends Component {
-  render() {
-    return (
-      <Transition
-        {...this.props}
-        className={classnames(this.props.className, 'fly')}
-        enteredClassName="in"
-        enteringClassName="in"/>
-    )
-  }
-}
+export default CommonDialog

@@ -108,3 +108,12 @@
         background-color: rgba(200, 200, 200, 0.1);
     }
 }
+
+.app-modal {
+    .modal-close {
+        width: 20px;
+        height: 20px;
+        background-image: url(../../img/svg/close.svg);
+        background-size: cover;
+    }
+}
