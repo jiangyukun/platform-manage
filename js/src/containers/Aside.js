@@ -8,7 +8,7 @@ import NavCrc from './common/nav/NavCrc'
 export default class Aside extends Component {
   render() {
     return (
-      <div className="app-aside hidden-xs bg-black">
+      <div className="app-aside bg-black">
         <div className="aside-wrap">
           <div className="navi-wrap">
             {this.context.role == 'admin' && <NavAdmin route={this.props.route}/>}

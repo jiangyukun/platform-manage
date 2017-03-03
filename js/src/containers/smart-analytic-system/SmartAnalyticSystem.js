@@ -4,11 +4,11 @@
 import React, {Component, PropTypes} from 'react'
 
 import Button from '../../components/element/Button'
-import AddDialog from './AddDialog'
+import AddAnalyticDialog from './AddAnalyticDialog'
 
 class SmartAnalyticSystem extends Component {
   state = {
-    add: false
+    add: true
   }
 
   render() {
@@ -16,7 +16,7 @@ class SmartAnalyticSystem extends Component {
       <div className="app-function-page smart-analytic-system">
         {
           this.state.add && (
-            <AddDialog onExited={() => this.setState({add: false})}/>
+            <AddAnalyticDialog onExited={() => this.setState({add: false})}/>
           )
         }
         <div className="toolbar">

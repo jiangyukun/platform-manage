@@ -5,6 +5,7 @@ import '../../../css/font-awesome/scss/font-awesome.scss'
 import '../../../css/boostrap/bootstrap.less'
 
 import '../../../css/antd/style/index.less'
+import '../../../css/antd/radio/style/index.less'
 import '../../../css/antd/button/style/index.less'
 import '../../../css/antd/modal/style/index.less'
 import '../../../css/antd/notification/style/index.less'

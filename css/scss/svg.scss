@@ -8,6 +8,14 @@
     vertical-align: bottom;
 }
 
+@mixin svg-bg-icon() {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: cover;
+    vertical-align: sub;
+}
+
 /*.analytic-system-svg-icon {
     background-image: url(../../img/svg/analytic.svg);
     @include svg-nav-icon();
@@ -49,4 +57,14 @@
     margin-top: 14px;
     width: 20px;
     height: 20px;
+}
+
+.plus-svg-icon {
+    background-image: url(../../img/svg/plus.svg);
+    @include svg-bg-icon();
+}
+
+.minus-svg-icon {
+    background-image: url(../../img/svg/minus.svg);
+    @include svg-bg-icon();
 }
