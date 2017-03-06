@@ -2,6 +2,7 @@
  * Created by jiangyukun on 2017/1/19.
  */
 import React, {Component, PropTypes} from 'react'
+import classnames from 'classnames'
 
 class HeadItem extends Component {
   render() {
@@ -14,7 +15,7 @@ class HeadItem extends Component {
     }
 
     return (
-      <li className="item" style={style}>
+      <li className={classnames('item', this.props.className)} style={style}>
         {this.props.children}
       </li>
     )

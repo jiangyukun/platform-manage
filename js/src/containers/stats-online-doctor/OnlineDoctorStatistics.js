@@ -12,7 +12,7 @@ import FilterItem from '../../components/core/query-filter/FilterItem'
 import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../components/core/PaginateList'
 import SortBy from '../../components/core/paginate-list/SortBy'
-import Layout from "../../components/core/layout/Layout"
+import Layout from "../../components/table-layout/Layout"
 import EditRemark from '../common/EditRemark'
 import YesOrNoDialog from '../common/YesOrNoDialog'
 

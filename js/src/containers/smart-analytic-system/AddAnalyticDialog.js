@@ -44,7 +44,7 @@ class AddAnalyticDialog extends Component {
                 </Radio.Group>
               </div>
 
-              <section>
+              <section className="mother-situation-container">
                 <Tabs id="tabs" activeKey={this.state.key} onSelect={key => this.setState({key})} className="" style={{marginTop: '10px'}}>
                   <Tab title="母亲" eventKey={1}>
                     <Mother/>
@@ -67,6 +67,9 @@ class AddAnalyticDialog extends Component {
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <input type="button" className="btn btn-info btn-block" value="保存"/>
+        </Modal.Footer>
       </Modal>
     )
   }

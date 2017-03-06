@@ -10,7 +10,7 @@ import QueryFilter from '../../components/core/QueryFilter'
 import FilterItem from '../../components/core/query-filter/FilterItem'
 import CustomTextInput from '../../components/core/query-filter/custom/CustomTextInput'
 import PaginateList from '../../components/core/PaginateList'
-import Layout from "../../components/core/layout/Layout"
+import Layout from "../../components/table-layout/Layout"
 import AppFunctionPage from '../common/AppFunctionPage'
 import EditRemark from '../common/EditRemark'
 

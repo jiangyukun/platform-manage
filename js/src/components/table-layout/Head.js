@@ -2,7 +2,9 @@
  * Created by jiangyukun on 2017/1/19.
  */
 import React, {Component, PropTypes, Children, cloneElement} from 'react'
+
 import HeadItem from './HeadItem'
+import HeadCategory from './HeadCategory'
 
 class Head extends Component {
   render() {
@@ -30,5 +32,6 @@ Head.contextTypes = {
 }
 
 Head.Item = HeadItem
+Head.CategoryItem = HeadCategory
 
 export default Head

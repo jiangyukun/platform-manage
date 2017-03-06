@@ -8,7 +8,7 @@ import QueryFilter from "../../components/core/QueryFilter"
 import FilterItem from "../../components/core/query-filter/FilterItem"
 import CustomDateRange from "../../components/core/query-filter/custom/CustomDateRange"
 import PaginateList from "../../components/core/PaginateList"
-import Layout from "../../components/core/layout/Layout"
+import Layout from "../../components/table-layout/Layout"
 
 import SendMessageDialog from "./dialog/SendMessageDialog"
 import SmsTemplateManage from "./dialog/SmsTemplateManage"

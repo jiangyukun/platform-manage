@@ -193,42 +193,7 @@
         text-decoration: underline;
     }
 
-    .flex-list {
 
-        &.header {
-            display: flex;
-            background-color: #b9def0;
-            .item {
-                margin: 10px;
-                &:first-child {
-                    margin-left: 15px;
-                }
-            }
-        }
-        &.body {
-            display: flex;
-            .item {
-                margin: 5px 10px;
-                overflow: hidden;
-                word-break: break-all;
-                &:first-child {
-                    margin-left: 15px;
-                }
-            }
-            &:nth-of-type(odd) {
-                background-color: rgba(220, 230, 240, 0.4);
-            }
-            &:nth-of-type(even) {
-                background-color: rgba(200, 210, 220, 0.1);
-            }
-            &:hover {
-                background-color: rgba(46, 213, 86, 0.1);
-            }
-            &.selected {
-                background-color: rgba(46, 213, 86, 0.5);
-            }
-        }
-    }
 
     .list-header {
         padding: 10px 15px;

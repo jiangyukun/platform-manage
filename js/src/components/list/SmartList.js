@@ -6,12 +6,12 @@ import React, {Component, PropTypes, cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import {events} from 'dom-helpers'
 import {merge, throttle} from 'lodash'
-import Loading from '../../ui/Loading'
+import Loading from '../ui/Loading'
 import HeadContainer from './HeadContainer'
 import BodyContainer from './BodyContainer'
-import FixHead from '../paginate-list/FixHead'
-import FixLeftContainer from '../paginate-list/FixLeftContainer'
-import FixLeft from '../paginate-list/FixLeft'
+import FixHead from '../core/paginate-list/FixHead'
+import FixLeftContainer from '../core/paginate-list/FixLeftContainer'
+import FixLeft from '../core/paginate-list/FixLeft'
 
 class SmartList extends Component {
   constructor() {

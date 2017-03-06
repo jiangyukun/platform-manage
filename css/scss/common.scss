@@ -1,4 +1,130 @@
 
+html {
+    background-color: #f0f3f4;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+html, body {
+    font-family: 宋体, "Helvetica Neue", Helvetica, Aril, sans-serif;
+    font-size: 14px;
+    color: #58666e;
+    background-color: transparent;
+    line-height: 1.42857143;
+    -webkit-font-smoothing: antialiased;
+}
+
+.editable-number {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.break-all {
+    word-break: break-all;
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.flex2 {
+    flex: 2;
+}
+
+.flex3 {
+    flex: 3;
+}
+
+.flex4 {
+    flex: 4;
+}
+
+.flex5 {
+    flex: 5;
+}
+
+.full-row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.h-50 {
+    height: 50px;
+}
+
+.h-100-p {
+    height: 100%;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mr-20 {
+    margin-right: 20px;
+}
+
+.mh500 {
+    max-height: 500px;
+    overflow-x: hidden;
+}
+
+.mh400 {
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
+.w-100 {
+    width: 100px;
+}
+
+.w-120 {
+    width: 120px;
+}
+
+.w-140 {
+    width: 140px;
+}
+
+.w-150 {
+    width: 150px;
+}
+
+.w-175 {
+    width: 175px;
+}
+
+.w-300 {
+    width: 300px;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.h400 {
+    height: 400px;
+}
+
+ul {
+    list-style: none;
+}
+
 .icon-arrow-blue, .icon-close, .icon-more-select, .icon-arrow-asc, .icon-arrow-desc, .icon-arrow-asc-red, .icon-arrow-desc-red {
     background-image: url(../../img/relicons.png);
     background-repeat: no-repeat;
@@ -22,26 +148,42 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     color: red;
 }
 
-.v-center {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
+.inline-block {
+    display: inline-block;
+}
+
+.flex-full {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+a, a:focus, a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: #363f44;
+    cursor: pointer;
+}
+
+.flex-vertical-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background-color: rgba(200, 200, 200, 0.9);
+    background-color: rgba(200, 200, 200, 0.8);
 }
 
 ::-webkit-scrollbar-track {

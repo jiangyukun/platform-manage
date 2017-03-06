@@ -7,9 +7,9 @@ import classnames from 'classnames'
 import {merge} from 'lodash'
 
 import PaginateList from '../../components/core/PaginateList'
-import SmartList from '../../components/core/list/SmartList'
-import HeadContainer from '../../components/core/list/HeadContainer'
-import BodyContainer from '../../components/core/list/BodyContainer'
+import SmartList from '../../components/list/SmartList'
+import HeadContainer from '../../components/list/HeadContainer'
+import BodyContainer from '../../components/list/BodyContainer'
 
 import * as utils from '../../core/utils'
 import {fetchPatientSituationList} from './patient-situation'

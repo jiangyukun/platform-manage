@@ -5,6 +5,7 @@ import React, {Component, PropTypes, cloneElement, Children} from 'react'
 import classnames from 'classnames'
 
 import RowItem from './RowItem'
+import RowCategory from './RowCategory'
 
 class Row extends Component {
   render() {
@@ -33,5 +34,6 @@ Row.contextTypes = {
 }
 
 Row.Item = RowItem
+Row.CagetoryItem = RowCategory
 
 export default Row

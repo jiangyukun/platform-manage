@@ -2,6 +2,18 @@
  * Created by jiangyukun on 2016/11/28.
  */
 
+label {
+    font-weight: normal;
+}
+
+.ngdialog {
+    z-index: 2000;
+}
+
+.ngdialog.ngdialog-theme-default {
+    overflow: auto;
+}
+
 .ant-notification {
     z-index: 9999;
 }

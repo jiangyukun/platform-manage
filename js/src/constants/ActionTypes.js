@@ -111,3 +111,9 @@ export const historyMessage = {
   FETCH_HUANXIN_GROUP_LIST: 'FETCH_HUANXIN_GROUP_LIST',
   FETCH_HISTORY_EXCEL_LIST: 'FETCH_HISTORY_EXCEL_LIST'
 }
+
+// 智能分析系统
+export const smartAnalytic = {
+  FETCH_LIST: 'FETCH_SMART_ANALYTIC_LIST',
+
+}

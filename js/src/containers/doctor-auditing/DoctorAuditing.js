@@ -8,7 +8,7 @@ import CustomTextInput from '../../components/core/query-filter/custom/CustomTex
 import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
 import PaginateList from '../../components/core/PaginateList'
 import SortBy from '../../components/core/paginate-list/SortBy'
-import Layout from '../../components/core/layout/Layout'
+import Layout from '../../components/table-layout/Layout'
 import ShowMoreText from '../../components/txt/ShowMoreText'
 
 import AddDoctorDialog from './dialog/AddDoctorDialog'

@@ -12,13 +12,6 @@ import Row from './Row'
 import RowItem from './RowItem'
 
 class Layout extends Component {
-  constructor() {
-    super()
-    this.state = {
-      currentIndex: -1
-    }
-  }
-
   render() {
     let header, row
     Children.forEach(this.props.children, child => {
@@ -56,7 +49,6 @@ class Layout extends Component {
     }
   }
 }
-
 
 Layout.childContextTypes = {
   weight: PropTypes.array
