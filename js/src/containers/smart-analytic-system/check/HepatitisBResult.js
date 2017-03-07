@@ -5,19 +5,20 @@ import React, {Component, PropTypes} from 'react'
 import Radio from 'antd/lib/Radio'
 
 class HepatitisBResult extends Component {
-  state = {
-    empty: true
-  }
-
   render() {
     return (
-      <Radio.Group>
-        <Radio value={1} className="positive">阳性</Radio>
-        <Radio value={2} className="negative">阴性</Radio>
-        <Radio value={3} className="all">任意</Radio>
+      <Radio.Group value={this.props.value} onChange={this.props.onChange}>
+        <Radio value="阳性" className="positive">阳性</Radio>
+        <Radio value="阴性" className="negative">阴性</Radio>
+        <Radio value="任意" className="all">任意</Radio>
       </Radio.Group>
     )
   }
+}
+
+HepatitisBResult.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func
 }
 
 export default HepatitisBResult

@@ -4,8 +4,11 @@
 import React, {Component, PropTypes} from 'react'
 
 class CheckItem extends Component {
-  state = {
-    empty: true
+  constructor(props) {
+    super()
+    this.state = {
+      empty: props.empty
+    }
   }
 
   reset = () => {
@@ -42,10 +45,12 @@ class CheckItem extends Component {
 }
 
 CheckItem.defaultProps = {
+  empty: true,
   onReset: () => {}
 }
 
 CheckItem.propTypes = {
+  empty: PropTypes.bool,
   label: PropTypes.string,
   btnName: PropTypes.string,
   onReset: PropTypes.func

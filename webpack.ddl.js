@@ -16,6 +16,7 @@ const vendors = [
   "antd/lib/button",
   "antd/lib/tooltip",
   "antd/lib/upload",
+  "antd/lib/Radio",
 
   'antd/lib/style/index.less',
   'antd/lib/button/style/index.less',
@@ -25,6 +26,7 @@ const vendors = [
   'antd/lib/menu/style/index.less',
   'antd/lib/upload/style/index.less',
   'antd/lib/tooltip/style/index.less',
+  'antd/lib/Radio/style/index.less',
 
   "babel-polyfill",
   "classnames",

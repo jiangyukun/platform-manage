@@ -96,22 +96,29 @@ class EditPatientAdmin extends Component {
     this.props.fetchPatientInfo(this.props.patientId).then(patientInfo => {
       this.infoId = patientInfo['info_Id']
       this.hospitalId = patientInfo['hospital_Id']
-      this.doctorList1 = patientInfo['infection_doctor_list'].map(doctor => {
-        return {value: doctor['user_id'], text: doctor['doctor_name']}
-      })
-      this.doctorList2 = patientInfo['obstetrics_doctor_list'].map(doctor => {
-        return {value: doctor['user_id'], text: doctor['doctor_name']}
-      })
-      this.doctorList3 = patientInfo['pediatrics_doctor_list'].map(doctor => {
-        return {value: doctor['user_id'], text: doctor['doctor_name']}
-      })
+      this.doctorList1 = this.doctorList2 = this.doctorList3 = []
+      if (patientInfo['infection_doctor_list']) {
+        this.doctorList1 = patientInfo['infection_doctor_list'].map(doctor => {
+          return {value: doctor['user_id'], text: doctor['doctor_name']}
+        })
+      }
+      if (patientInfo['obstetrics_doctor_list']) {
+        this.doctorList2 = patientInfo['obstetrics_doctor_list'].map(doctor => {
+          return {value: doctor['user_id'], text: doctor['doctor_name']}
+        })
+      }
+      if (patientInfo['pediatrics_doctor_list']) {
+        this.doctorList3 = patientInfo['pediatrics_doctor_list'].map(doctor => {
+          return {value: doctor['user_id'], text: doctor['doctor_name']}
+        })
+      }
       this.setState({
         name: patientInfo['full_Name'] || '',
         idCard: patientInfo['id_Number'] || '',
         birthday: patientInfo['birth_date'] ? moment(patientInfo['birth_date']) : null,
         minority: patientInfo['nation'] || '',
-        isHepatitisB: patientInfo['is_Hepatitis'] || '',
-        isPregnantWomen: patientInfo['is_Pregnant'] || '',
+        isHepatitisB: patientInfo['is_Hepatitis'] != null ? patientInfo['is_Hepatitis'] : '',
+        isPregnantWomen: patientInfo['is_Pregnant'] != null ? patientInfo['is_Pregnant'] : '',
         auditingState: patientInfo['is_Checked'] || '',
         lastUpdateDate: patientInfo['updateTime'] || '',
         createDate: patientInfo['creatTime'] || '',

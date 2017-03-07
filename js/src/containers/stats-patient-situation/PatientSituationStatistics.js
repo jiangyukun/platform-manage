@@ -10,15 +10,17 @@ import PaginateList from '../../components/core/PaginateList'
 import SmartList from '../../components/list/SmartList'
 import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
+import DownloadFileDialog from '../common/DownloadFileDialog'
 
 import * as utils from '../../core/utils'
-import {fetchPatientSituationList} from './patient-situation'
+import {fetchPatientSituationList, fetchExcelHistory} from './patient-situation'
 
 class PatientSituationStatistics extends Component {
   constructor() {
     super()
     this.state = {
       currentIndex: -1,
+      excelHistory: false
     }
   }
 
@@ -32,7 +34,9 @@ class PatientSituationStatistics extends Component {
   }
 
   exportExcel = () => {
-    utils.exportExcel('export/patientReportExcel')
+    this.setState({excelHistory: true})
+    this.props.fetchExcelHistory()
+    // utils.exportExcel('export/patientReportExcel')
   }
 
   componentDidMount() {
@@ -42,9 +46,16 @@ class PatientSituationStatistics extends Component {
   render() {
     return (
       <div className="app-function-page">
+        {
+          this.state.excelHistory && (
+            <DownloadFileDialog fileList={this.props.excelHistoryList}
+                                onExited={() => this.setState({excelHistory: false})}
+            />
+          )
+        }
         <div>
           <button className="btn btn-primary" style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                  onClick={this.exportExcel}>导出excel
+                  onClick={this.exportExcel}>下载历史记录
           </button>
         </div>
         <PaginateList ref={c => this._paginateList = c}
@@ -99,5 +110,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  fetchPatientSituationList
+  fetchPatientSituationList,
+  fetchExcelHistory
 })(PatientSituationStatistics)

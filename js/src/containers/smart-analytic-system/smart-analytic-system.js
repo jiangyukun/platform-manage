@@ -15,6 +15,16 @@ export function fetchList(option) {
   }
 }
 
+export function addAnalyticItem(option) {
+  return {
+    [THREE_PHASE]: {
+      type: types.smartAnalytic.ADD_ANALYTIC_ITEM,
+      http: state => _post('/archives/analysis/system/add', {body: option}),
+      handleResponse: response => ({list: response['analysisSystemList'], total: response['totalCount']})
+    }
+  }
+}
+
 export function clearRemark() {
   return {
     type: types.CLEAR_UPDATE_TODO_WORK_REMARK

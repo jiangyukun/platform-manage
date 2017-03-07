@@ -15,3 +15,13 @@ export function fetchPatientSituationList(pageInfo) {
     }
   }
 }
+
+export function fetchExcelHistory() {
+  return {
+    [THREE_PHASE]: {
+      type: types.FETCH_PATIENT_SITUATION_EXCEL_HISTORY_LIST,
+      http: () => GET(`/patientReport/getPatientReportExcelFileDowloadUrl`),
+      handleResponse: response => ({list: response.map(item => ({value: item['file_name'], text: item['file_dowload_url']}))})
+    }
+  }
+}

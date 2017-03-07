@@ -11,12 +11,15 @@ import Head from '../../components/table-layout/Head'
 import Row from '../../components/table-layout/Row'
 
 import AddAnalyticDialog from './AddAnalyticDialog'
+import EditAnalyticDialog from './EditAnalyticDialog'
 
-import {fetchList} from './smart-analytic-system'
+import {fetchList, addAnalyticItem} from './smart-analytic-system'
 
 class SmartAnalyticSystem extends Component {
   state = {
-    add: false
+    index: -1,
+    add: false,
+    edit: false
   }
 
   handleMouseDown = () => {
@@ -56,12 +59,22 @@ class SmartAnalyticSystem extends Component {
       <div className="app-function-page smart-analytic-system">
         {
           this.state.add && (
-            <AddAnalyticDialog onExited={() => this.setState({add: false})}/>
+            <AddAnalyticDialog
+              addAnalyticItem={this.props.addAnalyticItem}
+              onExited={() => this.setState({add: false})}/>
           )
         }
+        {
+          this.state.edit && this.state.index != -1 && (
+            <EditAnalyticDialog
+              analyticItem={this.props.list[this.state.index]}
+              onExited={() => this.setState({edit: false})}/>
+          )
+        }
+
         <div className="toolbar">
           <Button type="primary" onClick={() => this.setState({add: true})}>新增</Button>
-          <Button type="info">查看</Button>
+          <Button type="info" onClick={() => this.setState({edit: true})} disabled={this.state.index == -1}>查看</Button>
           <div className="search-container">
             <input placeholder="输入关键字查询建议、备注"/>
             <button>搜索</button>
@@ -100,7 +113,7 @@ class SmartAnalyticSystem extends Component {
               <Head.Item>用药情况</Head.Item>
             </Head.CategoryItem>
             <Head.CategoryItem categoryName="宝宝情况">
-              <Head.Item>宝宝体重</Head.Item>
+              <Head.Item>出生体重</Head.Item>
               <Head.Item>HBsAg</Head.Item>
               <Head.Item>HBsAb</Head.Item>
               <Head.Item>HBeAg</Head.Item>
@@ -114,8 +127,9 @@ class SmartAnalyticSystem extends Component {
               this.props.list.map((item, index) => {
                 return (
                   <Row key={item['serial_Number']}
-                       onClick={e => this.setState({currentIndex: index})}
-                       selected={this.state.currentIndex == index}
+                       onClick={e => this.setState({index})}
+                       onDoubleClick={() => this.setState({index, edit: true})}
+                       selected={this.state.index == index}
                        onMouseDown={this.handleMouseDown}
                        onMouseMove={this.handleMouseMove}
                        onMouseUp={this.handleMouseUp}
@@ -127,7 +141,7 @@ class SmartAnalyticSystem extends Component {
                     <Row.Item>
                       {item['remark']}
                       <i className="edit-remark-svg"
-                         onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                         onClick={e => this.setState({showEditRemark: true, index})}/>
                     </Row.Item>
                     <Row.Item>{item['create_Time']}</Row.Item>
                     <Row.CagetoryItem>
@@ -168,4 +182,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {fetchList})(SmartAnalyticSystem)
+export default connect(mapStateToProps, {fetchList, addAnalyticItem})(SmartAnalyticSystem)

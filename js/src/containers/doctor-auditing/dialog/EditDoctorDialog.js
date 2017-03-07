@@ -26,6 +26,7 @@ class EditDoctorDialog extends Component {
     this.hospitalName = doctorInfo['hospital_Id']
     this.departmentName = doctorInfo['department_Id']
     this.positionName = doctorInfo['title_Id']
+    this.mobile = doctorInfo['phone']
     this.state = {
       show: true,
       showHeadPicture: false,
@@ -136,6 +137,7 @@ class EditDoctorDialog extends Component {
     this.props.updateDoctorInfo({
       doctor_Id: this.props.doctorInfo['doctor_Id'],
       doctor_Name: this.state.name,
+      phone: this.mobile,
       hospital_Id: this.state.hospital,
       doctor_Department: this.state.department,
       doctor_Title: this.state.position,

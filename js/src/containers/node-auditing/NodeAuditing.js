@@ -19,6 +19,7 @@ import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import Head from './table/Head'
 import Body from './table/Body'
+import EditPatientInfo from '../patient-edit/EditPatientInfo'
 import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
@@ -93,6 +94,17 @@ class NodeAuditing extends Component {
     }
     return (
       <div className="app-function-page">
+        {
+          this.state.showEdit && (
+            <EditPatientInfo
+              patientId={list[this.state.currentIndex]['patient_Id']}
+              fetchPatientInfo={this.props.fetchPatientInfo}
+              updateAuditingState={this.props.updateAuditingState}
+              updatePatientInfo={this.props.updatePatientInfo}
+              patientInfoUpdated={() => this.beginFetch()}
+              onExited={() => this.setState({showEdit: false})}/>
+          )
+        }
         <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
         <EditRemark ref={c => this._editRemark = c} editRemark={(...arg) => this.editRemark(...arg)}/>
         <EditIsCompleteVisit ref={c => this._editIsCompleteVisit = c} editIsCompleteVisit={(...arg) => this.editIsCompleteVisit(...arg)}/>
@@ -103,6 +115,10 @@ class NodeAuditing extends Component {
                                  searchKeyName1="doctor_key_Words"
                                  searchKeyName2="key_Words"
         >
+          <button className="btn btn-primary mr-20"
+                  onClick={e => this.setState({showEdit: true})}
+                  disabled={this.state.currentIndex == -1}>查看
+          </button>
           <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
 
           <FilterItem item={this.props.hospitalFilterList} paramName="hsp_Name" useText={true}/>
