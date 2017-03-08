@@ -17,6 +17,10 @@ class LiverB_Ultrasound extends React.Component {
     }
   }
 
+  getValue() {
+    return this.state
+  }
+
   render() {
     let empty = this.state.rule == all
 

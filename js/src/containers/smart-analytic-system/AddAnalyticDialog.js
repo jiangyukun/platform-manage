@@ -25,11 +25,21 @@ class AddAnalyticDialog extends Component {
   }
 
   add = () => {
-    this.props.addAnalyticItem(merge({
-      "visit_Type": this.state.visitType,
-      "suggest": this.state.suggest,
-      "remark": this.state.remark,
-    }, this._mother.getValue()))
+    this.props.addAnalyticItem(merge(
+      {
+        "visit_Type": this.state.visitType,
+        "suggest": this.state.suggest,
+        "remark": this.state.remark,
+      },
+      this._mother.getValue(),
+      this._baby.getValue()
+    ))
+  }
+
+  componentDidUpdate() {
+    if (this.props.addSuccess) {
+      this.close()
+    }
   }
 
   render() {
@@ -37,7 +47,7 @@ class AddAnalyticDialog extends Component {
       <Modal show={this.state.show}
              bsStyle="lg"
              backdrop="static"
-             onHide={() => this.setState({show: false})}
+             onHide={this.close}
              onExited={this.props.onExited}
       >
         <Modal.Header closeButton={true}>
@@ -64,7 +74,7 @@ class AddAnalyticDialog extends Component {
                     <AddMother ref={c => this._mother = c}/>
                   </Tab>
                   <Tab title="宝宝" eventKey={2}>
-                    <AddBaby/>
+                    <AddBaby ref={c => this._baby = c}/>
                   </Tab>
                 </Tabs>
               </section>
@@ -99,7 +109,8 @@ class AddAnalyticDialog extends Component {
 
 AddAnalyticDialog.propTypes = {
   addAnalyticItem: PropTypes.func,
-  onExited: PropTypes.func
+  addSuccess: PropTypes.bool,
+  onExited: PropTypes.func,
 }
 
 export default AddAnalyticDialog

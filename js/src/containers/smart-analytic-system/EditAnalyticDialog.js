@@ -2,6 +2,8 @@
  * Created by jiangyukun on 2017/3/2.
  */
 import React, {Component, PropTypes} from 'react'
+import {merge} from 'lodash'
+
 import Modal from 'react-bootstrap/lib/Modal'
 import Tabs from 'react-bootstrap/lib/Tabs'
 import Tab from 'react-bootstrap/lib/Tab'
@@ -13,10 +15,12 @@ import EditBaby from './edit/EditBaby'
 class EditAnalyticDialog extends Component {
   constructor(props) {
     super()
+    const {analyticItem} = props
+    this.id = analyticItem['info_Id']
     this.state = {
-      visitType: props.analyticItem['visit_Type'],
-      suggest: props.analyticItem['suggest'] || '',
-      remark: props.analyticItem['remark'] || '',
+      visitType: analyticItem['visit_Type'],
+      suggest: analyticItem['suggest'] || '',
+      remark: analyticItem['remark'] || '',
 
       show: true
     }
@@ -26,8 +30,31 @@ class EditAnalyticDialog extends Component {
     this.setState({show: false})
   }
 
+  update = () => {
+    this.props.updateAnalyticItem(merge(
+      {
+        "info_Id": this.id,
+        "visit_Type": this.state.visitType,
+        "suggest": this.state.suggest,
+        "remark": this.state.remark,
+      },
+      this._mother.getValue(),
+      this._baby.getValue()
+    ))
+  }
+
+  deleteAnalyticItem = () => {
+    this.props.deleteAnalyticItem(this.id)
+  }
+
+  componentDidUpdate() {
+    if (this.props.updateSuccess || this.props.deleteSuccess) {
+      this.close()
+    }
+  }
+
   render() {
-    console.log(this.props.analyticItem)
+    // console.log(this.props.analyticItem)
     return (
       <Modal show={this.state.show}
              bsStyle="lg"
@@ -54,18 +81,18 @@ class EditAnalyticDialog extends Component {
               <section className="mother-baby-tabs">
                 <Tabs id="tabs" style={{marginTop: '10px'}}>
                   <Tab title="母亲" eventKey={1}>
-                    <EditMother analyticItem={this.props.analyticItem}/>
+                    <EditMother ref={c => this._mother = c} analyticItem={this.props.analyticItem}/>
                   </Tab>
                   <Tab title="宝宝" eventKey={2}>
-                    <EditBaby analyticItem={this.props.analyticItem}/>
+                    <EditBaby ref={c => this._baby = c} analyticItem={this.props.analyticItem}/>
                   </Tab>
                 </Tabs>
               </section>
             </section>
-            <div className="suggest">
+            <div className="other-form">
               <label>
                 诊疗建议：
-                <textarea className="form-control"
+                <textarea className="form-control suggest"
                           rows="8"
                           placeholder="在此输入诊疗建议，不超过200字..."
                           value={this.state.suggest}
@@ -76,7 +103,7 @@ class EditAnalyticDialog extends Component {
               <label>
                 备注：
                 <textarea
-                  className="form-control"
+                  className="form-control remark"
                   rows="6"
                   placeholder="输入对此条的备注"
                   value={this.state.remark}
@@ -88,8 +115,8 @@ class EditAnalyticDialog extends Component {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <input type="button" className="btn btn-info" value="删除"/>
-          <input type="button" className="btn btn-info" value="保存"/>
+          <input type="button" className="btn btn-info" value="删除" onClick={this.deleteAnalyticItem}/>
+          <input type="button" className="btn btn-info" value="保存" onClick={this.update}/>
         </Modal.Footer>
       </Modal>
     )
@@ -98,6 +125,10 @@ class EditAnalyticDialog extends Component {
 
 EditAnalyticDialog.propTypes = {
   analyticItem: PropTypes.object,
+  updateAnalyticItem: PropTypes.func,
+  deleteAnalyticItem: PropTypes.func,
+  updateSuccess: PropTypes.bool,
+  deleteSuccess: PropTypes.bool,
   onExited: PropTypes.func,
 }
 

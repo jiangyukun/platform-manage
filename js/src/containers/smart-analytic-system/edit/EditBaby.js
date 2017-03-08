@@ -1,52 +1,70 @@
 /**
  * Created by jiangyukun on 2017/3/3.
  */
-import React, {Component, PropTypes} from 'react'
-import Radio from 'antd/lib/Radio'
+import React from 'react'
 
-import Select1 from '../../../components/core/Select1'
-import CheckItem from '../check/CheckItem'
+import PrematureBaby from '../check/baby/PrematureBaby'
+import BabyWeight from '../check/baby/BabyWeight'
 import FiveHepatitisBSituation from '../check/FiveHepatitisBSituation'
+import HBsAbQuantitativeResult from '../check/baby/HBsAbQuantitativeResult'
 
-const option = [
-  {value: 'all', text: '任意'},
-  {value: '>', text: '>'},
-  {value: '>=', text: '>='},
-  {value: '<=', text: '<='},
-  {value: '<', text: '<'},
-]
+import {checkNotEmpty} from '../../../constants/smart-analytic-constant'
 
-class EditBaby extends Component {
+class EditBaby extends React.Component {
+  getValue() {
+    let result = {}
+
+    let prematureBabyValue = this._prematureBaby.getValue()
+
+    result['baby_Premature_Children'] = prematureBabyValue.isPrematureBaby
+
+    let babyWeightValue = this._babyWeight.getValue()
+    result['baby_Birth_Weight_Prefix'] = babyWeightValue.rule
+    result['baby_Birth_Weight_Result'] = babyWeightValue.weight
+
+    const {first, second, third, four, five} = this._fiveHepatitisB.getValue()
+    result['baby_HBsAg'] = first
+    result['baby_HBsAb'] = second
+    result['baby_HBeAg'] = third
+    result['baby_HBeAb'] = four
+    result['baby_HBcAb'] = five
+
+    let quantitativeResultValue = this._quantitativeResult.getValue()
+    result['baby_HBsAb_Prefix'] = quantitativeResultValue.rule
+    result['baby_HBsAb_Result'] = quantitativeResultValue.number
+
+    return result
+  }
+
   render() {
+    const {analyticItem} = this.props
+
+    let isPrematureBaby = analyticItem['baby_Premature_Children']
+    let fiveHepatitisB = {
+      first: analyticItem['baby_HBsAg'],
+      second: analyticItem['baby_HBsAb'],
+      third: analyticItem['baby_HBeAg'],
+      four: analyticItem['baby_HBeAb'],
+      five: analyticItem['baby_HBcAb']
+    }
+
     return (
       <div className="baby-situation">
-        <CheckItem label="是否是早产儿" btnName="添加早产儿条件">
-          <Radio.Group>
-            <Radio value={1} className="positive">是</Radio>
-            <Radio value={2} className="negative">否</Radio>
-            <Radio value={3} className="all">任意</Radio>
-          </Radio.Group>
-        </CheckItem>
-
-        <CheckItem label="宝宝体重" btnName="添加体重条件">
-          <div className="baby-weight">
-            <Select1 selectItems={option}/>
-          </div>
-          <input placeholder="输入数值" className="input"/>
-          <span className="unit-txt">g</span>
-        </CheckItem>
-
-        <FiveHepatitisBSituation/>
-
-        <CheckItem label="HBsAb滴度" btnName="添加HBsAb滴度条件">
-          <div className="HBsAb">
-            <Select1 selectItems={option}/>
-          </div>
-          <input placeholder="输入数值" className="input"/>
-        </CheckItem>
+        <PrematureBaby ref={c => this._prematureBaby = c} isPrematureBaby={isPrematureBaby}/>
+        <BabyWeight ref={c => this._babyWeight = c}
+                    rule={analyticItem['baby_Birth_Weight_Prefix']}
+                    weight={analyticItem['baby_Birth_Weight_Result']}/>
+        <FiveHepatitisBSituation ref={c => this._fiveHepatitisB = c} {...fiveHepatitisB}/>
+        <HBsAbQuantitativeResult ref={c => this._quantitativeResult = c}
+                                 rule={analyticItem['baby_HBsAb_Prefix']}
+                                 number={analyticItem['baby_HBsAb_Result']}/>
       </div>
     )
   }
+}
+
+EditBaby.propTypes = {
+  analyticItem: React.PropTypes.object
 }
 
 export default EditBaby

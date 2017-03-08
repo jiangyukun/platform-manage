@@ -20,23 +20,61 @@ export function addAnalyticItem(option) {
     [THREE_PHASE]: {
       type: types.smartAnalytic.ADD_ANALYTIC_ITEM,
       http: state => _post('/archives/analysis/system/add', {body: option}),
-      handleResponse: response => ({list: response['analysisSystemList'], total: response['totalCount']})
+      handleResponse: response => ({})
     }
   }
 }
 
-export function clearRemark() {
-  return {
-    type: types.CLEAR_UPDATE_TODO_WORK_REMARK
-  }
-}
-
-export const updateRemark = (doctorId, newRemark) => {
+export function updateAnalyticItem(option) {
   return {
     [THREE_PHASE]: {
-      type: types.UPDATE_TODO_WORK_REMARK,
-      http: state => _post(`/doctorNeedTracking/updateDoctorNeedRemark/${doctorId}`, {type: 'text', body: {"doctor_Need_Remark": newRemark}}),
-      handleResponse: response => ({doctorId, newRemark})
+      type: types.smartAnalytic.UPDATE_ANALYTIC_ITEM,
+      http: state => _post('/archives/analysis/system/edit', {body: option}),
+      handleResponse: response => ({})
     }
+  }
+}
+
+export function deleteAnalyticItem(id) {
+  return {
+    [THREE_PHASE]: {
+      type: types.smartAnalytic.DELETE_ANALYTIC_ITEM,
+      http: state => _post(`/archives/analysis/system/del/${id}`),
+      handleResponse: response => ({})
+    }
+  }
+}
+
+export function updateRemark(id, newRemark) {
+  return {
+    [THREE_PHASE]: {
+      type: types.smartAnalytic.UPDATE_REMARK,
+      http: state => _post(`/archives/analysis/system/remark/edit/${id}`, {type: 'text', body: {"remark": newRemark}}),
+      handleResponse: response => ({id, newRemark})
+    }
+  }
+}
+
+export function clearAddSuccess() {
+  return {
+    type: types.smartAnalytic.CLEAR_ADD_SUCCESS
+  }
+}
+
+export function clearUpdateSuccess() {
+  return {
+    type: types.smartAnalytic.CLEAR_UPDATE_SUCCESS
+  }
+}
+
+export function clearDeleteSuccess() {
+  return {
+    type: types.smartAnalytic.CLEAR_DELETE_SUCCESS
+  }
+}
+
+export function clearUpdateRemarkSuccess() {
+  return {
+    type: types.smartAnalytic.CLEAR_UPDATE_REMARK_SUCCESS
   }
 }

@@ -124,7 +124,7 @@
             display: inline-block;
         }
 
-        .input {
+        .input, .dynamic-input {
             display: inline-block;
             width: 80px;
             border: 1px solid #ccc;
@@ -133,6 +133,9 @@
             &:focus {
                 border: 1px solid #6fa5d2;
             }
+        }
+        .dynamic-input {
+            margin-top: 5px;
         }
         .unit-txt {
             display: inline-block;
@@ -143,6 +146,7 @@
         .icon-wrap {
             display: inline-block;
             margin-left: 7px;
+            margin-top: 7px;
         }
     }
 

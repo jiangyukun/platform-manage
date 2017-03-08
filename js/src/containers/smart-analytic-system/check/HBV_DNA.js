@@ -55,7 +55,9 @@ class HBV_DNA extends React.Component {
 }
 
 HBV_DNA.defaultProps = {
-  rule: all
+  rule: all,
+  base: '',
+  power: '',
 }
 
 HBV_DNA.propTypes = {

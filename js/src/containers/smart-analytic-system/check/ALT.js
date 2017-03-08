@@ -17,6 +17,10 @@ class ALT extends React.Component {
     }
   }
 
+  getValue() {
+    return this.state.altList
+  }
+
   addAlt = () => {
     this.state.altList.splice(this.state.altList.length, 0, {
       id: this.uid++
@@ -67,7 +71,7 @@ class ALT extends React.Component {
                 </div>
                 <input placeholder="输入数值"
                        className="input"
-                       value={alt.number}
+                       value={alt.number || ''}
                        disabled={alt.rule == all}
                        onChange={e => this.handleNumberChange(e, index)}/>
                 <div className="inline-block">

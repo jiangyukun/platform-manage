@@ -17,7 +17,7 @@ class HeadCategory extends Component {
     const subCategoryItems = []
     Children.forEach(this.props.children, (child, index) => {
       // subCategoryItems.push(cloneElement(child, {key: index, width: weight[index]}))
-      subCategoryItems.push(cloneElement(child, {key: index, flex: 1}))
+      subCategoryItems.push(cloneElement(child, {key: index, flex: this.props.weight[index] || 1}))
     })
 
     return (
@@ -29,8 +29,13 @@ class HeadCategory extends Component {
   }
 }
 
+HeadCategory.defaultProps = {
+  weight: []
+}
+
 HeadCategory.propTypes = {
-  categoryName: PropTypes.string
+  categoryName: PropTypes.string,
+  weight: PropTypes.array
 }
 
 export default HeadCategory

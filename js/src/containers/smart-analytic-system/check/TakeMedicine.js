@@ -6,32 +6,47 @@ import React from 'react'
 import Select1 from '../../../components/core/Select1'
 import CheckItem from '../check/CheckItem'
 
-import {all, takeMedicineOption} from '../../../constants/smart-analytic-constant'
+import {all, takeMedicineOption, isMedicineNameDisabled} from '../../../constants/smart-analytic-constant'
 
 class TakeMedicine extends React.Component {
   constructor(props) {
     super()
     this.uid = 1
     this.state = {
-      takeMedicineList: props.medicineItems,
+      medicineNameList: props.medicineItems,
 
       rule: props.rule,
-      exception: props.exception,
     }
   }
 
+  getValue() {
+    return this.state
+  }
+
   addTakeMedicine = () => {
-    this.state.takeMedicineList.push('')
+    this.state.medicineNameList.push('')
     this.forceUpdate()
   }
 
   removeTakeMedicine = () => {
-    this.state.takeMedicineList.pop()
+    this.state.medicineNameList.pop()
+    this.forceUpdate()
+  }
+
+  handleMedicineNameChange = (e, index) => {
+    this.state.medicineNameList[index] = e.target.value
     this.forceUpdate()
   }
 
   onResetTakeMedicine = () => {
-    this.setState({takeMedicineList: ['']})
+    this.setState({medicineNameList: ['']})
+  }
+
+  onSelectChange = ({value}) => {
+    if (isMedicineNameDisabled(value)) {
+      this.setState({medicineNameList: ['']})
+    }
+    this.setState({rule: value})
   }
 
   render() {
@@ -41,32 +56,36 @@ class TakeMedicine extends React.Component {
       <CheckItem label="用药情况" btnName="添加用药情况条件" onReset={this.onResetTakeMedicine} empty={empty}>
         <div className="take-medicine-form">
           <div className="take-medicine-situation">
-            <Select1 selectItems={takeMedicineOption} value={this.state.rule}/>
+            <Select1 selectItems={takeMedicineOption} value={this.state.rule} onSelect={this.onSelectChange}/>
           </div>
           {
-            this.state.takeMedicineList.map((medicineName, index) => {
+            this.state.medicineNameList.map((medicineName, index) => {
               return (
-                <span key={index}>
+                <span key={index} className="inline-block">
                   {
                     index != 0 && (
                       <span className="unit-txt">或</span>
                     )
                   }
-                  <input placeholder="输入药名" className="input" value={medicineName}/>
+                  <input placeholder="输入药名"
+                         className="dynamic-input"
+                         value={medicineName}
+                         disabled={isMedicineNameDisabled(this.state.rule)}
+                         onChange={e => this.handleMedicineNameChange(e, index)}/>
                   </span>
               )
             })
           }
           <div className="inline-block">
             {
-              this.state.takeMedicineList.length > 1 && (
+              this.state.medicineNameList.length > 1 && (
                 <a className="icon-wrap">
                   <i className="minus-svg-icon" onClick={this.removeTakeMedicine}></i>
                 </a>
               )
             }
             {
-              this.state.takeMedicineList.length < 6 && (
+              !isMedicineNameDisabled(this.state.rule) && this.state.medicineNameList.length < 6 && (
                 <a className="icon-wrap">
                   <i className="plus-svg-icon" onClick={this.addTakeMedicine}></i>
                 </a>

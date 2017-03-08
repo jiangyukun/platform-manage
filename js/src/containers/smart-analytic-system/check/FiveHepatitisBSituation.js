@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react'
 
 import CheckItem from './CheckItem'
 import HepatitisBResult from './HepatitisBResult'
-import {all} from '../../../constants/smart-analytic-constant'
+import {checkAllEmpty, all} from '../../../constants/smart-analytic-constant'
 
 class FiveHepatitisBSituation extends Component {
   constructor(props) {
@@ -20,13 +20,7 @@ class FiveHepatitisBSituation extends Component {
   }
 
   reset = () => {
-    this.setState({
-      first: all,
-      second: all,
-      third: all,
-      four: all,
-      five: all
-    })
+    this.setState({first: '', second: '', third: '', four: '', five: ''})
   }
 
   getValue() {
@@ -36,9 +30,10 @@ class FiveHepatitisBSituation extends Component {
 
   render() {
     const {first, second, third, four, five} = this.state
-    let hasValue = first != all || second != all || third != all || four != all || five != all
+
+    let empty = checkAllEmpty(first, second, third, four, five)
     return (
-      <CheckItem label="乙肝五项" btnName="添加乙肝五项条件" onReset={this.reset} empty={!hasValue}>
+      <CheckItem label="乙肝五项" btnName="添加乙肝五项条件" onReset={this.reset} empty={empty}>
         <div className="hepatitis-b-items">
           <section className="hepatitis-b-item">
             <label>HBsAg</label>
