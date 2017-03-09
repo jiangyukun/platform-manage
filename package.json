@@ -6,7 +6,8 @@
     "dev": "node server.js",
     "inline": "webpack-dev-server --inline --hot --config webpack.inline.js",
     "ddl": "webpack --config webpack.ddl.js",
-    "prod": "webpack --config webpack.prod.js",
+    "prod-js": "webpack --config webpack.prod-js.js",
+    "prod-css": "webpack --config webpack.prod-css.js",
     "test": "webpack --config webpack.test.js"
   },
   "repository": {

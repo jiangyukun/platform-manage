@@ -18,16 +18,6 @@ const vendors = [
   "antd/lib/upload",
   "antd/lib/Radio",
 
-  'antd/lib/style/index.less',
-  'antd/lib/button/style/index.less',
-  'antd/lib/modal/style/index.less',
-  'antd/lib/notification/style/index.less',
-  'antd/lib/date-picker/style/index.less',
-  'antd/lib/menu/style/index.less',
-  'antd/lib/upload/style/index.less',
-  'antd/lib/tooltip/style/index.less',
-  'antd/lib/Radio/style/index.less',
-
   "babel-polyfill",
   "classnames",
   "dom-helpers",

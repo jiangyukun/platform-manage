@@ -169,7 +169,7 @@ class SmartAnalyticSystem extends Component {
               <Head.Item>用药情况</Head.Item>
             </Head.CategoryItem>
             <Head.CategoryItem categoryName="宝宝情况" weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
-              <Head.Item>是否早产</Head.Item>
+              <Head.Item>是否足月</Head.Item>
               <Head.Item>出生体重</Head.Item>
               <Head.Item>HBsAg</Head.Item>
               <Head.Item>HBsAb</Head.Item>

@@ -97,7 +97,7 @@ class AddAnalyticDialog extends Component {
         </Modal.Body>
         <Modal.Footer>
           <input type="button"
-                 className="btn btn-info btn-block"
+                 className="btn btn-info"
                  value="保存"
                  disabled={!this.state.visitType || !this.state.suggest}
                  onClick={this.add}/>
