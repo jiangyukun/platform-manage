@@ -144,7 +144,7 @@ class HospitalManage extends Component {
 
           <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
             <HeadContainer>
-              <ul className="flex-list header">
+              <ul className="flex-list-header">
                 <li className="item flex2">医院名称</li>
                 <li className="item flex1">省份</li>
                 <li className="item flex1">城市/地区</li>
@@ -161,7 +161,7 @@ class HospitalManage extends Component {
                 {
                   this.props.list.map((hospital, index) => {
                     return (
-                      <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                      <ul key={index} className={classnames('flex-list-row', {'selected': this.state.currentIndex == index})}
                           style={{height: '40px'}}
                           onClick={e => this.setState({currentIndex: index})}
                           onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}

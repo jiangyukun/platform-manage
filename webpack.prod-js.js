@@ -28,7 +28,7 @@ module.exports = {
 
   plugins: [
     // ignoreCssFiles,
-    new ExtractTextPlugin('style-' + moment().format('MMDD') + '.css'),
+    new ExtractTextPlugin('style-' + moment().format('MMDD') + '.min.css'),
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require('./manifest.json'),

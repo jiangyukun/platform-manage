@@ -88,7 +88,7 @@ class PaginateList extends Component {
     let pageIndexes = calculatePageIndex(this.pageTotal, this.state.currentPage)
 
     return (
-      <div className="paginate-list" style={this.props.style}>
+      <div className="paginate-list flex-list" style={this.props.style}>
         {this.props.children}
         <div className="list-info">
           <div className="list-count-info">

@@ -7,7 +7,8 @@ import {merge} from 'lodash'
 
 import Button from '../../components/element/Button'
 import Form from '../../components/element/Form'
-import FlexList from '../../components/list/FlexList'
+import {FlexList, FixHead, HeadCategory, RowCategory, FlexBodyWrap, FixRow} from '../../components/list/'
+import {HeadItem, RowItem} from '../../components/table-layout'
 import Head from '../../components/table-layout/Head'
 import Row from '../../components/table-layout/Row'
 
@@ -138,26 +139,26 @@ class SmartAnalyticSystem extends Component {
         </div>
 
         <FlexList loading={this.props.loading}
-                  minWidth={1450}
+                  minWidth="1450px"
                   weight={[1, 1, 2, 1, 1, 10, 8]}
         >
-          <Head>
-            <Head.Item className="flex">
+          <FixHead>
+            <HeadItem className="flex">
               <div className="flex-vertical-center">序号</div>
-            </Head.Item>
-            <Head.Item className="flex">
+            </HeadItem>
+            <HeadItem className="flex">
               <div className="flex-vertical-center">访视点</div>
-            </Head.Item>
-            <Head.Item className="flex">
+            </HeadItem>
+            <HeadItem className="flex">
               <div className="flex-vertical-center">诊疗建议</div>
-            </Head.Item>
-            <Head.Item className="flex">
+            </HeadItem>
+            <HeadItem className="flex">
               <div className="flex-vertical-center">备注</div>
-            </Head.Item>
-            <Head.Item className="flex">
+            </HeadItem>
+            <HeadItem className="flex">
               <div className="flex-vertical-center">创建时间</div>
-            </Head.Item>
-            <Head.CategoryItem categoryName="母亲情况" weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
+            </HeadItem>
+            <HeadCategory categoryName="母亲情况" weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
               <Head.Item>HBsAg</Head.Item>
               <Head.Item>HBsAb</Head.Item>
               <Head.Item>HBeAg</Head.Item>
@@ -167,8 +168,8 @@ class SmartAnalyticSystem extends Component {
               <Head.Item>ALT (U/L)</Head.Item>
               <Head.Item>肝脏B超</Head.Item>
               <Head.Item>用药情况</Head.Item>
-            </Head.CategoryItem>
-            <Head.CategoryItem categoryName="宝宝情况" weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
+            </HeadCategory>
+            <HeadCategory categoryName="宝宝情况" weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
               <Head.Item>是否足月</Head.Item>
               <Head.Item>出生体重</Head.Item>
               <Head.Item>HBsAg</Head.Item>
@@ -177,9 +178,9 @@ class SmartAnalyticSystem extends Component {
               <Head.Item>HBeAb</Head.Item>
               <Head.Item>HBcAb</Head.Item>
               <Head.Item>HBsAb滴度</Head.Item>
-            </Head.CategoryItem>
-          </Head>
-          <div style={{position: 'relative'}}>
+            </HeadCategory>
+          </FixHead>
+          <FlexBodyWrap style={{position: 'relative'}}>
             {
               this.props.list.map((item, index) => {
                 return (
@@ -187,46 +188,43 @@ class SmartAnalyticSystem extends Component {
                        onClick={e => this.setState({index})}
                        onDoubleClick={() => this.setState({index, edit: true})}
                        selected={this.state.index == index}
-                       onMouseDown={this.handleMouseDown}
-                       onMouseMove={this.handleMouseMove}
-                       onMouseUp={this.handleMouseUp}
                        style={{minHeight: '60px'}}
                   >
-                    <Row.Item>{item['serial_Number']}</Row.Item>
-                    <Row.Item>{item['visit_Type_Desc']}</Row.Item>
-                    <Row.Item>{item['suggest']}</Row.Item>
-                    <Row.Item>
+                    <RowItem>{item['serial_Number']}</RowItem>
+                    <RowItem>{item['visit_Type_Desc']}</RowItem>
+                    <RowItem>{item['suggest']}</RowItem>
+                    <RowItem>
                       {item['remark']}
                       <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, index})}/>
-                    </Row.Item>
-                    <Row.Item>{formatDateStr(item['create_Time'])}</Row.Item>
-                    <Row.CagetoryItem weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
-                      <Row.Item>{item['mother_HBsAg']}</Row.Item>
-                      <Row.Item>{item['mother_HBsAb']}</Row.Item>
-                      <Row.Item>{item['mother_HBeAg']}</Row.Item>
-                      <Row.Item>{item['mother_HBeAb']}</Row.Item>
-                      <Row.Item>{item['mother_HBcAb']}</Row.Item>
-                      <Row.Item>{item['mother_HBV_DNA_Desc']}</Row.Item>
-                      <Row.Item>{item['mother_ALT_Desc']}</Row.Item>
-                      <Row.Item>{item['mother_Liver_B_Desc']}</Row.Item>
-                      <Row.Item>{item['mother_Use_Drug_Desc']}</Row.Item>
-                    </Row.CagetoryItem>
+                    </RowItem>
+                    <RowItem>{formatDateStr(item['create_Time'])}</RowItem>
+                    <RowCategory weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
+                      <RowItem>{item['mother_HBsAg']}</RowItem>
+                      <RowItem>{item['mother_HBsAb']}</RowItem>
+                      <RowItem>{item['mother_HBeAg']}</RowItem>
+                      <RowItem>{item['mother_HBeAb']}</RowItem>
+                      <RowItem>{item['mother_HBcAb']}</RowItem>
+                      <RowItem>{item['mother_HBV_DNA_Desc']}</RowItem>
+                      <RowItem>{item['mother_ALT_Desc']}</RowItem>
+                      <RowItem>{item['mother_Liver_B_Desc']}</RowItem>
+                      <RowItem>{item['mother_Use_Drug_Desc']}</RowItem>
+                    </RowCategory>
 
-                    <Row.CagetoryItem weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
-                      <Row.Item>{item['baby_Premature_Children']}</Row.Item>
-                      <Row.Item>{item['baby_Birth_Weight_Desc']}</Row.Item>
-                      <Row.Item>{item['baby_HBeAg']}</Row.Item>
-                      <Row.Item>{item['baby_HBsAb']}</Row.Item>
-                      <Row.Item>{item['baby_HBeAg']}</Row.Item>
-                      <Row.Item>{item['baby_HBeAb']}</Row.Item>
-                      <Row.Item>{item['baby_HBcAb']}</Row.Item>
-                      <Row.Item>{item['baby_HBsAb_Desc']}</Row.Item>
-                    </Row.CagetoryItem>
+                    <RowCategory weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
+                      <RowItem>{item['baby_Premature_Children']}</RowItem>
+                      <RowItem>{item['baby_Birth_Weight_Desc']}</RowItem>
+                      <RowItem>{item['baby_HBeAg']}</RowItem>
+                      <RowItem>{item['baby_HBsAb']}</RowItem>
+                      <RowItem>{item['baby_HBeAg']}</RowItem>
+                      <RowItem>{item['baby_HBeAb']}</RowItem>
+                      <RowItem>{item['baby_HBcAb']}</RowItem>
+                      <RowItem>{item['baby_HBsAb_Desc']}</RowItem>
+                    </RowCategory>
                   </Row>
                 )
               })
             }
-          </div>
+          </FlexBodyWrap>
         </FlexList>
       </div>
     )

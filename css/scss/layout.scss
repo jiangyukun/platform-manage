@@ -1,7 +1,16 @@
 
 .flex-list {
     font-size: 12px;
-    &.header {
+    flex: 1;
+    overflow: hidden;
+
+    .flex-list-wrap {
+        overflow: hidden;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
+    .flex-list-header {
         display: flex;
         background-color: #b9def0;
         //align-items: center;
@@ -12,7 +21,13 @@
             }
         }
     }
-    &.body {
+
+    .flex-list-items {
+        flex: 1;
+        overflow: auto;
+    }
+
+    .flex-list-row {
         display: flex;
         .item {
             margin: 5px 10px;

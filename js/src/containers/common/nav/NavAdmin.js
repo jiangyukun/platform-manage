@@ -35,7 +35,8 @@ class NavAdmin extends Component {
     const todoWorkTrack = getPath('todo-work-track') // 医生门诊时间
     const hospitalManage = getPath('hospital-manage') // 医院管理
 
-    const appUpdate = getPath('app-update') // app更新
+    const smartAnalyticSystem = getPath('smart-analytic-system') // 智能分析系统
+    const appUpdate = getPath('app-update') // APP更新
 
     const patientSituationStatistics = getPath('patient-situation-statistics') //病人情况统计
     const hospitalAssayReport = getPath('hospital-assay-report') // 中心验单情况表
@@ -45,9 +46,9 @@ class NavAdmin extends Component {
     const historyMessage = getPath('history-message') // 历史记录报表
 
     const smsManage = getPath('sms-manage') // 短信
-    const chatSystem = getPath('chat-system') // 短信
-
-    const smartAnalyticSystem = getPath('smart-analytic-system') // 短信
+    const chatSystem = getPath('chat-system') // 聊天系统
+    const consoleAccountManage = getPath('console-account-manage') // 后台账号管理
+    const authorityRoleManage = getPath('authority-role-manage') // 权限分组管理
 
     const openMenu = []
     switch (this.state.current) {
@@ -76,6 +77,8 @@ class NavAdmin extends Component {
         openMenu.push('-STATISTICS-')
         break
       case smsManage:
+      case consoleAccountManage:
+      case authorityRoleManage:
         openMenu.push('-SYSTEM-')
         break
     }
@@ -213,11 +216,16 @@ class NavAdmin extends Component {
                 <span>短信系统</span>
               </Link>
             </Item>
-            {/*<Item key="7_3">
-             <a >
-             <span>后台账号管理</span>
-             </a>
-             </Item>*/}
+            <Item key={consoleAccountManage}>
+              <Link to={consoleAccountManage}>
+                <span>后台账号管理</span>
+              </Link>
+            </Item>
+            <Item key={authorityRoleManage}>
+              <Link to={authorityRoleManage}>
+                <span>权限分组管理</span>
+              </Link>
+            </Item>
 
           </SubMenu>
         </Menu>

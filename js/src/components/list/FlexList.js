@@ -5,6 +5,13 @@
 import React, {Component, PropTypes} from 'react'
 
 class FlexList extends Component {
+  onBodyScroll = (e) => {
+    this.head.onBodyScroll(e)
+  }
+
+  setHead = (head) => {
+    this.head = head
+  }
 
   render() {
     let style = {}
@@ -12,8 +19,8 @@ class FlexList extends Component {
       style.minWidth = this.props.minWidth
     }
     return (
-      <div style={{overflow: 'auto', height: '100%'}}>
-        <div style={style}>
+      <div className="flex-list">
+        <div className="flex-list-wrap">
           {this.props.children}
         </div>
       </div>
@@ -22,18 +29,24 @@ class FlexList extends Component {
 
   getChildContext() {
     return {
-      weight: this.props.weight
+      weight: this.props.weight,
+      onBodyScroll: this.onBodyScroll,
+      setHead: this.setHead,
+      minWidth: this.props.minWidth
     }
   }
 }
 
 FlexList.childContextTypes = {
-  weight: PropTypes.array
+  weight: PropTypes.array,
+  minWidth: PropTypes.string,
+  setHead: PropTypes.func,
+  onBodyScroll: PropTypes.func
 }
 
 FlexList.propTypes = {
   weight: PropTypes.array,
-  minWidth: PropTypes.number
+  minWidth: PropTypes.string
 }
 
 export default FlexList

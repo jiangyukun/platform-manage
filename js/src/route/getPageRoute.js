@@ -27,6 +27,8 @@ import HistoryMessageStatistics from '../containers/stats-history-message/Histor
 import SmartAnalyticSystem from '../containers/smart-analytic-system/SmartAnalyticSystem'
 
 import SmsManage from '../containers/sms-manage/SmsManage'
+import ConsoleAccountManage from '../containers/console-account-manage/ConsoleAccountManage'
+import AuthorityRoleManage from '../containers/authority-role-manage/AuthorityRoleManage'
 
 export default function getPageRoute(path) {
   return (
@@ -41,6 +43,7 @@ export default function getPageRoute(path) {
       <Route path="out-patient-time" component={OutPatientTime}/>
       <Route path="todo-work-track" component={TodoWorkTrack}/>
 
+      <Route path="smart-analytic-system" component={SmartAnalyticSystem}/>
       <Route path="app-update" component={AppUpdate}/>
 
       <Route path="hospital-assay-report" component={HospitalAssayReport}/>
@@ -51,8 +54,9 @@ export default function getPageRoute(path) {
       <Route path="history-message" component={HistoryMessageStatistics}/>
 
       <Route path="sms-manage" component={SmsManage}/>
+      <Route path="console-account-manage" component={ConsoleAccountManage}/>
+      <Route path="authority-role-manage" component={AuthorityRoleManage}/>
 
-      <Route path="smart-analytic-system" component={SmartAnalyticSystem}/>
     </Route>
   )
 }

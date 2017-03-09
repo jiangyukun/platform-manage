@@ -4,8 +4,6 @@
 import React, {Component, PropTypes, cloneElement, Children} from 'react'
 import classnames from 'classnames'
 
-import RowItem from './RowItem'
-
 class Row extends Component {
   render() {
     const weight = this.context.weight
@@ -31,7 +29,5 @@ class Row extends Component {
 Row.contextTypes = {
   weight: PropTypes.array
 }
-
-Row.Item = RowItem
 
 export default Row

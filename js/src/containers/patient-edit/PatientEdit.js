@@ -130,7 +130,7 @@ class PatientEdit extends Component {
         >
           <SmartList loading={this.state.loading} fixHead={true} style={{minWidth: '1000px'}} fixLeft={[0, 1]}>
             <HeadContainer>
-              <ul className="flex-list header">
+              <ul className="flex-list-header">
                 <li className="item" style={{width: '100px'}}>
                   <SortBy by="patient_Phone">患者账号</SortBy>
                 </li>
@@ -161,7 +161,7 @@ class PatientEdit extends Component {
                     return (
                       <ul key={patient['patient_Id']}
                           style={{minHeight: '50px'}}
-                          className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                          className={classnames('flex-list-row', {'selected': this.state.currentIndex == index})}
                           onClick={e => this.setState({currentIndex: index})}
                           onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
                       >

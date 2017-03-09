@@ -74,6 +74,7 @@ class ALT extends React.Component {
                        value={alt.number || ''}
                        disabled={alt.rule == all}
                        onChange={e => this.handleNumberChange(e, index)}/>
+                <span className="unit-txt">U/L</span>
                 <div className="inline-block">
                   {
                     this.state.altList.length == 2 && index == 1 && (

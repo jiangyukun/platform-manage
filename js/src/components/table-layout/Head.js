@@ -4,7 +4,6 @@
 import React, {Component, PropTypes, Children, cloneElement} from 'react'
 
 import HeadItem from './HeadItem'
-import HeadCategory from './HeadCategory'
 
 class Head extends Component {
   render() {
@@ -20,7 +19,7 @@ class Head extends Component {
     })
 
     return (
-      <ul className="flex-list header">
+      <ul className="flex-list-header">
         {headItems}
       </ul>
     )
@@ -32,6 +31,5 @@ Head.contextTypes = {
 }
 
 Head.Item = HeadItem
-Head.CategoryItem = HeadCategory
 
 export default Head

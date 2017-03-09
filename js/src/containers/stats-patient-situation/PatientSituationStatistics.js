@@ -66,7 +66,7 @@ class PatientSituationStatistics extends Component {
 
           <SmartList loading={this.props.loading} fixHead={true} fixLeft={[1, 2]}>
             <HeadContainer>
-              <ul className="flex-list header">
+              <ul className="flex-list-header">
                 <li className="item flex2">医院名称</li>
                 <li className="item flex1">医院编码</li>
                 <li className="item flex1">是否项目医院</li>
@@ -80,7 +80,7 @@ class PatientSituationStatistics extends Component {
                 {
                   this.props.list.map((statistics, index) => {
                     return (
-                      <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                      <ul key={index} className={classnames('flex-list-row', {'selected': this.state.currentIndex == index})}
                           style={{height: '40px'}}
                           onClick={e => this.setState({currentIndex: index})}
                       >
