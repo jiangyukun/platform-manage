@@ -9,8 +9,7 @@ import Button from '../../components/element/Button'
 import Form from '../../components/element/Form'
 import {FlexList, FixHead, HeadCategory, RowCategory, FlexBodyWrap, FixRow} from '../../components/list/'
 import {HeadItem, RowItem} from '../../components/table-layout'
-import Head from '../../components/table-layout/Head'
-import Row from '../../components/table-layout/Row'
+import {PopOverTxt} from '../../components/txt'
 
 import AddAnalyticDialog from './AddAnalyticDialog'
 import EditAnalyticDialog from './EditAnalyticDialog'
@@ -139,7 +138,7 @@ class SmartAnalyticSystem extends Component {
         </div>
 
         <FlexList loading={this.props.loading}
-                  minWidth="1450px"
+                  minWidth="1500px"
                   weight={[1, 1, 2, 1, 1, 10, 8]}
         >
           <FixHead>
@@ -159,42 +158,44 @@ class SmartAnalyticSystem extends Component {
               <div className="flex-vertical-center">创建时间</div>
             </HeadItem>
             <HeadCategory categoryName="母亲情况" weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
-              <Head.Item>HBsAg</Head.Item>
-              <Head.Item>HBsAb</Head.Item>
-              <Head.Item>HBeAg</Head.Item>
-              <Head.Item>HBeAb</Head.Item>
-              <Head.Item>HBcAb</Head.Item>
-              <Head.Item>HBV-DNA (IU/mL)</Head.Item>
-              <Head.Item>ALT (U/L)</Head.Item>
-              <Head.Item>肝脏B超</Head.Item>
-              <Head.Item>用药情况</Head.Item>
+              <HeadItem>HBsAg</HeadItem>
+              <HeadItem>HBsAb</HeadItem>
+              <HeadItem>HBeAg</HeadItem>
+              <HeadItem>HBeAb</HeadItem>
+              <HeadItem>HBcAb</HeadItem>
+              <HeadItem>HBV-DNA (IU/mL)</HeadItem>
+              <HeadItem>ALT (U/L)</HeadItem>
+              <HeadItem>肝脏B超</HeadItem>
+              <HeadItem>用药情况</HeadItem>
             </HeadCategory>
             <HeadCategory categoryName="宝宝情况" weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
-              <Head.Item>是否足月</Head.Item>
-              <Head.Item>出生体重</Head.Item>
-              <Head.Item>HBsAg</Head.Item>
-              <Head.Item>HBsAb</Head.Item>
-              <Head.Item>HBeAg</Head.Item>
-              <Head.Item>HBeAb</Head.Item>
-              <Head.Item>HBcAb</Head.Item>
-              <Head.Item>HBsAb滴度</Head.Item>
+              <HeadItem>是否足月</HeadItem>
+              <HeadItem>出生体重</HeadItem>
+              <HeadItem>HBsAg</HeadItem>
+              <HeadItem>HBsAb</HeadItem>
+              <HeadItem>HBeAg</HeadItem>
+              <HeadItem>HBeAb</HeadItem>
+              <HeadItem>HBcAb</HeadItem>
+              <HeadItem>HBsAb滴度</HeadItem>
             </HeadCategory>
           </FixHead>
           <FlexBodyWrap style={{position: 'relative'}}>
             {
               this.props.list.map((item, index) => {
                 return (
-                  <Row key={item['info_Id']}
-                       onClick={e => this.setState({index})}
-                       onDoubleClick={() => this.setState({index, edit: true})}
-                       selected={this.state.index == index}
-                       style={{minHeight: '60px'}}
+                  <FixRow key={item['info_Id']}
+                          onClick={e => this.setState({index})}
+                          onDoubleClick={() => this.setState({index, edit: true})}
+                          selected={this.state.index == index}
+                          style={{minHeight: '60px'}}
                   >
                     <RowItem>{item['serial_Number']}</RowItem>
                     <RowItem>{item['visit_Type_Desc']}</RowItem>
-                    <RowItem>{item['suggest']}</RowItem>
                     <RowItem>
-                      {item['remark']}
+                      <PopOverTxt str={item['suggest']}></PopOverTxt>
+                    </RowItem>
+                    <RowItem>
+                      <PopOverTxt str={item['remark']}></PopOverTxt>
                       <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, index})}/>
                     </RowItem>
                     <RowItem>{formatDateStr(item['create_Time'])}</RowItem>
@@ -220,7 +221,7 @@ class SmartAnalyticSystem extends Component {
                       <RowItem>{item['baby_HBcAb']}</RowItem>
                       <RowItem>{item['baby_HBsAb_Desc']}</RowItem>
                     </RowCategory>
-                  </Row>
+                  </FixRow>
                 )
               })
             }

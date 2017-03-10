@@ -13,7 +13,6 @@
     .flex-list-header {
         display: flex;
         background-color: #b9def0;
-        //align-items: center;
         .item {
             margin: 10px;
             &:first-child {
@@ -31,7 +30,6 @@
         display: flex;
         .item {
             margin: 5px 10px;
-            overflow: hidden;
             word-break: break-all;
             &:first-child {
                 margin-left: 15px;

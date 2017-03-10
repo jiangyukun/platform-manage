@@ -17,10 +17,12 @@ class EditAnalyticDialog extends Component {
     super()
     const {analyticItem} = props
     this.id = analyticItem['info_Id']
+    let suggest = analyticItem['suggest'] || ''
+    let remark = analyticItem['remark'] || ''
     this.state = {
       visitType: analyticItem['visit_Type'],
-      suggest: analyticItem['suggest'] || '',
-      remark: analyticItem['remark'] || '',
+      suggest: suggest,
+      remark: remark,
 
       show: true
     }
@@ -54,7 +56,6 @@ class EditAnalyticDialog extends Component {
   }
 
   render() {
-    // console.log(this.props.analyticItem)
     return (
       <Modal show={this.state.show}
              bsStyle="lg"
@@ -90,7 +91,7 @@ class EditAnalyticDialog extends Component {
               </section>
             </section>
             <div className="other-form">
-              <label>
+              <label className="w100">
                 诊疗建议：
                 <textarea className="form-control suggest"
                           rows="8"
@@ -100,7 +101,7 @@ class EditAnalyticDialog extends Component {
                 >
                 </textarea>
               </label>
-              <label>
+              <label className="w100">
                 备注：
                 <textarea
                   className="form-control remark"
