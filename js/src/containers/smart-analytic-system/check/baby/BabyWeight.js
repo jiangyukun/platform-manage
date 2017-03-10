@@ -34,7 +34,7 @@ class BabyWeight extends React.Component {
 
   render() {
     return (
-      <CheckItem label="宝宝出生体重" btnName="添加体重条件" empty={isEmpty(this.state.rule)}>
+      <CheckItem label="宝宝出生体重" btnName="添加体重条件" empty={isEmpty(this.state.rule)} onReset={this.onReset}>
         <div className="baby-weight">
           <Select1 selectItems={weightOptions} value={this.state.rule} onSelect={this.onSelectChange}/>
         </div>

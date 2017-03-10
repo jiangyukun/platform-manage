@@ -3,10 +3,10 @@
  */
 import React from 'react'
 
-import Select1 from '../../../components/core/Select1'
-import CheckItem from '../check/CheckItem'
+import Select1 from '../../../../components/core/Select1'
+import CheckItem from '../../check/CheckItem'
 
-import {all, altOptions} from '../../../constants/smart-analytic-constant'
+import {all, altOptions} from '../../../../constants/smart-analytic-constant'
 
 class ALT extends React.Component {
   constructor(props) {

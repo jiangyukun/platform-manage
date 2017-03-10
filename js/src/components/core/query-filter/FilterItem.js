@@ -29,10 +29,6 @@ class FilterItem extends Component {
     }
   }
 
-  getSelectInfo = () => {
-
-  }
-
   // QueryFilter 调用此方法合成所有过滤请求参数
   getParam = () => {
     let result = {}
@@ -200,8 +196,7 @@ FilterItem.defaultProps = {
   paramName: '',
   useText: false,
   size: 'middle',
-  onSelect: () => {
-  }
+  onSelect: () => {}
 }
 
 FilterItem.propTypes = {

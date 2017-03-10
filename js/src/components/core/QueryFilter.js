@@ -10,9 +10,6 @@ import FilterItem from './query-filter/FilterItem'
 class QueryFilter extends Component {
   constructor() {
     super()
-    this.addFilterItem = this.addFilterItem.bind(this)
-    this.removeFilterItem = this.removeFilterItem.bind(this)
-    this.updateFilterItem = this.updateFilterItem.bind(this)
     this.searchKey = ''
     this.filterItemList = []
     this.state = {more: false, filterConditions: []}
@@ -27,7 +24,7 @@ class QueryFilter extends Component {
     this.setState({more: !this.state.more})
   }
 
-  updateFilterItem(newFilterCondition) {
+  updateFilterItem = (newFilterCondition) => {
     let match = this.state.filterConditions.find(condition => condition.typeCode == newFilterCondition.typeCode)
     if (match) {
       let index = this.state.filterConditions.indexOf(match)
@@ -38,7 +35,7 @@ class QueryFilter extends Component {
     this.forceUpdate()
   }
 
-  removeFilterItem(typeCode) {
+  removeFilterItem = (typeCode) => {
     let newFilterCondition = this.state.filterConditions.filter(filterCondition => {
       if (filterCondition.typeCode == typeCode) {
         filterCondition.filterItem.reset()
@@ -57,12 +54,8 @@ class QueryFilter extends Component {
     this.props.beginFilter()
   }
 
-  addFilterItem(filterItem) {
-    if (this.filterItemList.indexOf(filterItem) == -1) {
-      this.filterItemList.push(filterItem)
-    } else {
-      console.log('重复添加的filterItem')
-    }
+  addFilterItem = (filterItem) => {
+    this.filterItemList.push(filterItem)
   }
 
   getSearchParam() {

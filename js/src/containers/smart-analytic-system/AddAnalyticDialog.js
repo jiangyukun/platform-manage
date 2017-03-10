@@ -83,15 +83,21 @@ class AddAnalyticDialog extends Component {
               <label className="w100">
                 诊疗建议：
                 <textarea className="form-control suggest" rows="8" placeholder="在此输入诊疗建议，不超过200字..."
-                          value={this.state.suggest} onChange={e => this.setState({suggest: e.target.value})}
+                          value={this.state.suggest} onChange={e => this.setState({suggest: e.target.value.substring(0, 200)})}
                 ></textarea>
               </label>
+              <div className="current-txt-count">
+                {this.state.suggest.length}/200
+              </div>
               <label className="w100">
                 备注：
                 <textarea className="form-control remark" rows="6" placeholder="输入对此条的备注"
-                          value={this.state.remark} onChange={e => this.setState({remark: e.target.value})}
+                          value={this.state.remark} onChange={e => this.setState({remark: e.target.value.substring(0, 200)})}
                 ></textarea>
               </label>
+              <div className="current-txt-count">
+                {this.state.remark.length}/200
+              </div>
             </div>
           </div>
         </Modal.Body>

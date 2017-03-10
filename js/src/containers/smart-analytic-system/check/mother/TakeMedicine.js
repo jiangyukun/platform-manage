@@ -3,18 +3,16 @@
  */
 import React from 'react'
 
-import Select1 from '../../../components/core/Select1'
-import CheckItem from '../check/CheckItem'
+import Select1 from '../../../../components/core/Select1'
+import CheckItem from '../../check/CheckItem'
 
-import {all, takeMedicineOption, isMedicineNameDisabled} from '../../../constants/smart-analytic-constant'
+import {all, takeMedicineOption, isMedicineNameDisabled} from '../../../../constants/smart-analytic-constant'
 
 class TakeMedicine extends React.Component {
   constructor(props) {
     super()
-    this.uid = 1
     this.state = {
       medicineNameList: props.medicineItems,
-
       rule: props.rule,
     }
   }
@@ -39,7 +37,7 @@ class TakeMedicine extends React.Component {
   }
 
   onResetTakeMedicine = () => {
-    this.setState({medicineNameList: ['']})
+    this.setState({rule: all, medicineNameList: ['']})
   }
 
   onSelectChange = ({value}) => {
@@ -85,7 +83,7 @@ class TakeMedicine extends React.Component {
               )
             }
             {
-              !isMedicineNameDisabled(this.state.rule) && this.state.medicineNameList.length < 6 && (
+              !isMedicineNameDisabled(this.state.rule) && this.state.medicineNameList.length < 7 && (
                 <a className="icon-wrap">
                   <i className="plus-svg-icon" onClick={this.addTakeMedicine}></i>
                 </a>

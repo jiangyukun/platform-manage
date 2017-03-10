@@ -4,10 +4,10 @@
 import React, {Component, PropTypes} from 'react'
 
 import FiveHepatitisBSituation from '../check/FiveHepatitisBSituation'
-import HBV_DNA from '../check/HBV_DNA'
-import ALT from '../check/ALT'
-import LiverB_Ultrasound from '../check/LiverB_Ultrasound'
-import TakeMedicine from '../check/TakeMedicine'
+import HBV_DNA from '../check/mother/HBV_DNA'
+import ALT from '../check/mother/ALT'
+import LiverB_Ultrasound from '../check/mother/LiverB_Ultrasound'
+import TakeMedicine from '../check/mother/TakeMedicine'
 
 import {all} from '../../../constants/smart-analytic-constant'
 

@@ -3,10 +3,10 @@
  */
 import React from 'react'
 
-import Select1 from '../../../components/core/Select1'
-import CheckItem from '../check/CheckItem'
+import Select1 from '../../../../components/core/Select1'
+import CheckItem from '../../check/CheckItem'
 
-import {all, hbvDNAOptions} from '../../../constants/smart-analytic-constant'
+import {all, hbvDNAOptions} from '../../../../constants/smart-analytic-constant'
 
 class HBV_DNA extends React.Component {
   constructor(props) {

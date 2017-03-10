@@ -11,9 +11,7 @@ import Root from '../containers/Root'
 import * as utils from '../core/utils'
 import * as types from '../constants/ActionTypes'
 
-if (process.env.NODE_ENV != 'production') {
-  require('./import-style')
-}
+import './import-style'
 
 let path
 switch (process.env.NODE_ENV) {

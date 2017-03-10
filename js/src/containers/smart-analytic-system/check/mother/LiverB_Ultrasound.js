@@ -3,10 +3,10 @@
  */
 import React from 'react'
 
-import Select1 from '../../../components/core/Select1'
-import CheckItem from '../check/CheckItem'
+import Select1 from '../../../../components/core/Select1'
+import CheckItem from '../../check/CheckItem'
 
-import {all, liverBOptions} from '../../../constants/smart-analytic-constant'
+import {all, liverBOptions} from '../../../../constants/smart-analytic-constant'
 
 class LiverB_Ultrasound extends React.Component {
   constructor(props) {
@@ -21,11 +21,15 @@ class LiverB_Ultrasound extends React.Component {
     return this.state
   }
 
+  onReset = () => {
+    this.setState({rule: all, exception: ''})
+  }
+
   render() {
     let empty = this.state.rule == all
 
     return (
-      <CheckItem label="肝脏B超" btnName="添加肝脏B超条件" empty={empty}>
+      <CheckItem label="肝脏B超" btnName="添加肝脏B超条件" empty={empty} onReset={this.onReset}>
         <div className="liver-b-ultrasound-select">
           <Select1 selectItems={liverBOptions} value={this.state.rule} onSelect={({value}) => this.setState({rule: value})}/>
         </div>

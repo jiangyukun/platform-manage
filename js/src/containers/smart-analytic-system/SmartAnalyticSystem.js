@@ -138,6 +138,7 @@ class SmartAnalyticSystem extends Component {
         </div>
 
         <FlexList loading={this.props.loading}
+                  total={this.props.total}
                   minWidth="1500px"
                   weight={[1, 1, 2, 1, 1, 10, 8]}
         >

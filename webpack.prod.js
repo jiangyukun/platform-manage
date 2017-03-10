@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const moment = require('moment')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const ignoreCssFiles = new webpack.IgnorePlugin(/.*.css/)
 process.env.NODE_ENV = 'production'
 
 module.exports = {
@@ -27,7 +26,6 @@ module.exports = {
   },
 
   plugins: [
-    ignoreCssFiles,
     new ExtractTextPlugin('style-' + moment().format('MMDD') + '.min.css'),
     new webpack.DllReferencePlugin({
       context: __dirname,

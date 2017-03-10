@@ -9,14 +9,7 @@ class ConsoleAccountManage extends React.Component {
   render() {
     return (
       <div className="app-function-page">
-        <div className="relative" style={{top: '30px'}}>
-          abc
-          <div className="popover bottom show">
-            <div className="popover-title">sdfsdf</div>
-            <div className="arrow"></div>
-            <div className="popover-content">asdgsgfsagcxvasdfsdfsadfgsadgsdd cccdfs</div>
-          </div>
-        </div>
+
       </div>
     )
   }

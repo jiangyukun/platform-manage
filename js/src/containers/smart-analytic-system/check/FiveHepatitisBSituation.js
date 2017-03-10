@@ -20,12 +20,11 @@ class FiveHepatitisBSituation extends Component {
   }
 
   reset = () => {
-    this.setState({first: '', second: '', third: '', four: '', five: ''})
+    this.setState({first: all, second: all, third: all, four: all, five: all})
   }
 
   getValue() {
-    const {first, second, third, four, five} = this.state
-    return {first, second, third, four, five}
+    return this.state
   }
 
   render() {

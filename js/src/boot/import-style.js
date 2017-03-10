@@ -15,4 +15,4 @@ import '../../../css/antd/menu/style/index.less'
 import '../../../css/antd/upload/style/index.less'
 import '../../../css/antd/tooltip/style/index.less'
 
-import '../../../css/scss/index.scss'
+import '../../../css/app/index.scss'

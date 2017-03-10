@@ -10,7 +10,7 @@ class LoadMoreAndHighLight extends ShowMoreText {
   getPartText() {
     return (
       <HighLight match={this.props.match}>
-        {this.props.children.substring(0, 199)}
+        {this.props.children.substring(0, 200)}
       </HighLight>
     )
   }

@@ -9,7 +9,7 @@ class ShowMoreText extends Component {
   }
 
   getPartText() {
-    return this.props.children.substring(0, this.props.limit - 1)
+    return this.props.children.substring(0, this.props.limit)
   }
 
   getAllText() {

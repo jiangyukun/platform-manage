@@ -35,7 +35,7 @@ class HBsAbQuantitativeResult extends React.Component {
     let empty = this.state.rule == all
 
     return (
-      <CheckItem label="HBsAb滴度" btnName="添加HBsAb滴度条件" empty={isEmpty(this.state.rule)}>
+      <CheckItem label="HBsAb滴度" btnName="添加HBsAb滴度条件" empty={isEmpty(this.state.rule)} onReset={this.onReset}>
         <div className="HBsAb">
           <Select1 selectItems={quantitativeResultOptions} value={this.state.rule} onSelect={this.onSelectChange}/>
         </div>

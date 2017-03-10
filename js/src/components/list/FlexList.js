@@ -3,6 +3,7 @@
  * Created by jiangyukun on 2017/3/6.
  */
 import React, {Component, PropTypes} from 'react'
+import Spinner from '../ui/Spinner'
 
 class FlexList extends Component {
   onBodyScroll = (e) => {
@@ -22,7 +23,22 @@ class FlexList extends Component {
       <div className="flex-list">
         <div className="flex-list-wrap">
           {this.props.children}
+          <div className="list-data-count">共{this.props.total}条数据</div>
         </div>
+        {
+          this.props.loading && (
+            <div className="spinner-layout">
+              <Spinner/>
+            </div>
+          )
+        }
+        {
+          this.props.total == 0 && (
+            <div className="no-list-data">
+              暂无数据
+            </div>
+          )
+        }
       </div>
     )
   }
@@ -46,7 +62,9 @@ FlexList.childContextTypes = {
 
 FlexList.propTypes = {
   weight: PropTypes.array,
-  minWidth: PropTypes.string
+  minWidth: PropTypes.string,
+  loading: PropTypes.bool,
+  total: PropTypes.number,
 }
 
 export default FlexList
