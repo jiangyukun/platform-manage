@@ -33,6 +33,7 @@ app.get('/dev/take-medicine-record', toIndex)
 app.get('/dev/out-patient-time', toIndex)
 app.get('/dev/app-update', toIndex)
 app.get('/dev/todo-work-track', toIndex)
+app.get('/dev/smart-analytic-system', toIndex)
 
 
 configController(app)

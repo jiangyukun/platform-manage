@@ -33,7 +33,7 @@ class FlexList extends Component {
           )
         }
         {
-          this.props.total == 0 && (
+          this.props.total == 0 && !this.props.loading && (
             <div className="no-list-data">
               暂无数据
             </div>

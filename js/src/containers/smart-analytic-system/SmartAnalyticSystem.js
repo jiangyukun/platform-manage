@@ -7,61 +7,60 @@ import {merge} from 'lodash'
 
 import Button from '../../components/element/Button'
 import Form from '../../components/element/Form'
-import {FlexList, FixHead, HeadCategory, RowCategory, FlexBodyWrap, FixRow} from '../../components/list/'
+import {FlexList, FixHead, HeadCategory, RowCategory, FlexBodyWrap, SwitchRow, FixRow} from '../../components/list/'
 import {HeadItem, RowItem} from '../../components/table-layout'
 import {PopOverTxt} from '../../components/txt'
 
 import AddAnalyticDialog from './AddAnalyticDialog'
 import EditAnalyticDialog from './EditAnalyticDialog'
+import RowMoveManage from './move/RowMoveManage'
 import EditRemark from '../common/EditRemark'
 
 import {formatDateStr} from '../../core/dateUtils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {
   fetchList, addAnalyticItem, updateAnalyticItem,
-  clearAddSuccess, clearUpdateSuccess, updateRemark,
-  deleteAnalyticItem, clearDeleteSuccess, clearUpdateRemarkSuccess
+  updateRemark, deleteAnalyticItem, clearDeleteSuccess,
+  clearUpdateRemarkSuccess, clearAddSuccess, clearUpdateSuccess,
 } from './smart-analytic-system'
 
 class SmartAnalyticSystem extends Component {
-  state = {
-    index: -1,
-    searchKey: '',
-    add: false,
-    edit: false,
-    showEditRemark: false
-  }
-
-  handleMouseDown = () => {
-    this.pressFlag = true
-  }
-
-  handleMouseMove = (e) => {
-    if (this.pressFlag) {
-      let row = e.target
-      while (row && row.getAttribute("class").indexOf('body') == -1) {
-        row = row.parentNode
-      }
-      if (row) {
-        // this._handleMove(row)
-      }
+  constructor(props) {
+    super()
+    this.state = {
+      index: -1,
+      queue: this.initPriority(props.list.length),
+      searchKey: '',
+      add: false,
+      edit: false,
+      showEditRemark: false
     }
   }
 
-  _handleMove(row) {
-    row.style.position = 'absolute'
-    row.style.left = '0px'
-    row.style.right = '0px'
-    let curTop = parseInt(row.style.top) || 0
-    row.style.top = (curTop + 1) + 'px'
+  initPriority(size) {
+    let list = []
+    for (let i = 0; i < size; i++) {
+      list.push(i)
+    }
+    return list
   }
 
-  handleMouseUp = () => {
-    this.pressFlag = false
+  checkSwitch = (index, offsetTop) => {
+
+  }
+
+  switchTo = (index1, index2) => {
+    if (index1 == index2) {
+      return
+    }
+    let t = this.state.queue[index1]
+    this.state.queue[index1] = this.state.queue[index2]
+    this.state.queue[index2] = t
+    this.forceUpdate()
   }
 
   _beginFetch() {
-    this.props.fetchList({start: 0, limit: 100, keyWords: this.state.searchKey.trim()})
+    this.props.fetchList({start: 0, limit: 500, keyWords: this.state.searchKey.trim()})
   }
 
   updateRemark = (newRemark) => {
@@ -70,6 +69,10 @@ class SmartAnalyticSystem extends Component {
 
   componentDidMount() {
     this._beginFetch()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({queue: this.initPriority(nextProps.list.length)})
   }
 
   componentDidUpdate() {
@@ -180,52 +183,57 @@ class SmartAnalyticSystem extends Component {
               <HeadItem>HBsAb滴度</HeadItem>
             </HeadCategory>
           </FixHead>
-          <FlexBodyWrap style={{position: 'relative'}}>
-            {
-              this.props.list.map((item, index) => {
-                return (
-                  <FixRow key={item['info_Id']}
-                          onClick={e => this.setState({index})}
-                          onDoubleClick={() => this.setState({index, edit: true})}
-                          selected={this.state.index == index}
-                          style={{minHeight: '60px'}}
-                  >
-                    <RowItem>{item['serial_Number']}</RowItem>
-                    <RowItem>{item['visit_Type_Desc']}</RowItem>
-                    <RowItem>
-                      <PopOverTxt str={item['suggest']}></PopOverTxt>
-                    </RowItem>
-                    <RowItem>
-                      <PopOverTxt str={item['remark']}></PopOverTxt>
-                      <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, index})}/>
-                    </RowItem>
-                    <RowItem>{formatDateStr(item['create_Time'])}</RowItem>
-                    <RowCategory weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
-                      <RowItem>{item['mother_HBsAg']}</RowItem>
-                      <RowItem>{item['mother_HBsAb']}</RowItem>
-                      <RowItem>{item['mother_HBeAg']}</RowItem>
-                      <RowItem>{item['mother_HBeAb']}</RowItem>
-                      <RowItem>{item['mother_HBcAb']}</RowItem>
-                      <RowItem>{item['mother_HBV_DNA_Desc']}</RowItem>
-                      <RowItem>{item['mother_ALT_Desc']}</RowItem>
-                      <RowItem>{item['mother_Liver_B_Desc']}</RowItem>
-                      <RowItem>{item['mother_Use_Drug_Desc']}</RowItem>
-                    </RowCategory>
+          <FlexBodyWrap className="relative">
+            <RowMoveManage>
+              {
+                this.state.queue.map((listIndex, index) => {
+                  const item = this.props.list[listIndex]
+                  return (
+                    <SwitchRow key={item['info_Id']} style={{minHeight: '60px'}} index={index} checkSwitch={this.checkSwitch}>
+                      <FixRow
+                        onClick={e => this.setState({index})}
+                        onDoubleClick={() => this.setState({index, edit: true})}
+                        selected={this.state.index == index}
+                        style={{minHeight: '60px'}}
+                      >
+                        <RowItem>{item['serial_Number']}</RowItem>
+                        <RowItem>{item['visit_Type_Desc']}</RowItem>
+                        <RowItem>
+                          <PopOverTxt str={item['suggest']}></PopOverTxt>
+                        </RowItem>
+                        <RowItem>
+                          <PopOverTxt str={item['remark']}></PopOverTxt>
+                          <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, index})}/>
+                        </RowItem>
+                        <RowItem>{formatDateStr(item['create_Time'])}</RowItem>
+                        <RowCategory weight={[1, 1, 1, 1, 1, 2, 2, 1, 2]}>
+                          <RowItem>{item['mother_HBsAg']}</RowItem>
+                          <RowItem>{item['mother_HBsAb']}</RowItem>
+                          <RowItem>{item['mother_HBeAg']}</RowItem>
+                          <RowItem>{item['mother_HBeAb']}</RowItem>
+                          <RowItem>{item['mother_HBcAb']}</RowItem>
+                          <RowItem>{item['mother_HBV_DNA_Desc']}</RowItem>
+                          <RowItem>{item['mother_ALT_Desc']}</RowItem>
+                          <RowItem>{item['mother_Liver_B_Desc']}</RowItem>
+                          <RowItem>{item['mother_Use_Drug_Desc']}</RowItem>
+                        </RowCategory>
 
-                    <RowCategory weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
-                      <RowItem>{item['baby_Premature_Children']}</RowItem>
-                      <RowItem>{item['baby_Birth_Weight_Desc']}</RowItem>
-                      <RowItem>{item['baby_HBeAg']}</RowItem>
-                      <RowItem>{item['baby_HBsAb']}</RowItem>
-                      <RowItem>{item['baby_HBeAg']}</RowItem>
-                      <RowItem>{item['baby_HBeAb']}</RowItem>
-                      <RowItem>{item['baby_HBcAb']}</RowItem>
-                      <RowItem>{item['baby_HBsAb_Desc']}</RowItem>
-                    </RowCategory>
-                  </FixRow>
-                )
-              })
-            }
+                        <RowCategory weight={[1, 2, 1, 1, 1, 1, 1, 2]}>
+                          <RowItem>{item['baby_Premature_Children']}</RowItem>
+                          <RowItem>{item['baby_Birth_Weight_Desc']}</RowItem>
+                          <RowItem>{item['baby_HBeAg']}</RowItem>
+                          <RowItem>{item['baby_HBsAb']}</RowItem>
+                          <RowItem>{item['baby_HBeAg']}</RowItem>
+                          <RowItem>{item['baby_HBeAb']}</RowItem>
+                          <RowItem>{item['baby_HBcAb']}</RowItem>
+                          <RowItem>{item['baby_HBsAb_Desc']}</RowItem>
+                        </RowCategory>
+                      </FixRow>
+                    </SwitchRow>
+                  )
+                })
+              }
+            </RowMoveManage>
           </FlexBodyWrap>
         </FlexList>
       </div>

@@ -60,11 +60,11 @@
         }
     }
 
-    .row-category-item {
-
-    }
-
     .sub-category-items, .sub-row-category-items {
         display: flex;
+    }
+
+    .row-place-holder {
+        border: 2px dashed #aaa;
     }
 }

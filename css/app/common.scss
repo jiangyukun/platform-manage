@@ -17,6 +17,11 @@ input, button, select {
     outline: none;
 }
 
+input[disabled] {
+    cursor: not-allowed;
+}
+
+
 button {
     cursor: pointer;
 }

@@ -12,7 +12,7 @@ class FlexBodyWrap extends React.Component {
 
     return (
       <div className="flex-list-items" onScroll={this.context.onBodyScroll}>
-        <div style={style}>
+        <div style={style} className={this.props.className}>
           {this.props.children}
         </div>
       </div>

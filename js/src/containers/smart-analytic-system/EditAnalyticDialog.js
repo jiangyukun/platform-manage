@@ -70,7 +70,8 @@ class EditAnalyticDialog extends Component {
             <section className="main-form">
               <div className="visit-point">
                 <label className="visit-point-label">访视点：</label>
-                <Radio.Group className="visit-point-items" value={this.state.visitType}>
+                <Radio.Group className="visit-point-items" value={this.state.visitType}
+                             onChange={e => this.setState({visitType: e.target.value})}>
                   <Radio value="1" className="visit-point-item">访视1-孕12~24周</Radio>
                   <Radio value="2" className="visit-point-item">访视2-孕24~32周</Radio>
                   <Radio value="3" className="visit-point-item">访视3-分娩</Radio>

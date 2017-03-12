@@ -1,0 +1,30 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "totalCount": 2,
+    "analysisSystemList": [
+      {
+        "info_Id": 1,
+        "serial_Number": "serial_Number1"
+      },
+      {
+        "info_Id": 2,
+        "serial_Number": "serial_Number2"
+      },
+      {
+        "info_Id": 3,
+        "serial_Number": "serial_Number3"
+      },
+      {
+        "info_Id": 4,
+        "serial_Number": "serial_Number4"
+      },
+      {
+        "info_Id": 5,
+        "serial_Number": "serial_Number5"
+      }
+    ]
+  }
+}

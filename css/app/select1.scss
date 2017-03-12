@@ -1,5 +1,9 @@
 
 .select1-container {
+    &[tabindex] {
+        outline: none;
+    }
+
     background: #fff;
     box-sizing: border-box;
     display: inline-block;

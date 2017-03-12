@@ -223,3 +223,12 @@ let uid = 1
 export function getUUID() {
   return uid++
 }
+
+/**
+ * 交换数组中2个元素的位置
+ */
+export function switchArrayPosition(list, index1, index2) {
+  list.splice(index1, 0)
+  list.splice(index2, 0)
+
+}
