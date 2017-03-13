@@ -1,0 +1,19 @@
+
+.console-account-manage {
+
+}
+
+.console-account-manage-add, .console-account-manage-edit {
+    .role-select-area {
+        display: flex;
+        margin-top: 15px;
+
+        > label {
+            width: 200px;
+        }
+        .role-check-box {
+            flex: 1;
+        }
+    }
+
+}

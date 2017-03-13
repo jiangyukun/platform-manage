@@ -1,5 +1,17 @@
-
 @import "smart-analytic-system";
+@import "console-account-manage";
+@import "authority-role-manage";
+
+.label-for-input {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.input-wrap {
+    display: inline-block;
+    width: 200px;
+}
 
 .edit-remark-icon {
     margin-left: 3px;
@@ -74,7 +86,6 @@
         width: 20px;
     }
 }
-
 
 .description {
     color: #98a6ad;

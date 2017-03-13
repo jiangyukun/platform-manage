@@ -31,6 +31,8 @@ import * as onlineDoctor from '../containers/stats-online-doctor/online_doctor'
 import * as historyMessageSingle from '../containers/stats-history-message/history_message_single'
 import * as historyMessageGroup from '../containers/stats-history-message/history_message_group'
 import * as smartAnalytic from '../containers/smart-analytic-system/smart_analytic_system'
+import * as consoleAccountManage from '../containers/console-account-manage/console_account_manage'
+import * as authorityRoleManage from '../containers/authority-role-manage/authority_role_manage'
 
 import {routerReducer as routing} from 'react-router-redux'
 
@@ -63,5 +65,7 @@ export default combineReducers({
   ...historyMessageSingle,
   ...historyMessageGroup,
   ...smartAnalytic,
+  ...consoleAccountManage,
+  ...authorityRoleManage,
   routing
 })

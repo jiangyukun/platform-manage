@@ -14,5 +14,6 @@ import '../../../css/antd/date-picker/style/index.less'
 import '../../../css/antd/menu/style/index.less'
 import '../../../css/antd/upload/style/index.less'
 import '../../../css/antd/tooltip/style/index.less'
+import '../../../css/antd/checkbox/style/index.less'
 
 import '../../../css/app/index.scss'

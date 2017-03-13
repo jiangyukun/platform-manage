@@ -68,3 +68,8 @@
     background-image: url(../../img/svg/minus.svg);
     @include svg-bg-icon();
 }
+
+.close-svg-icon {
+    background-image: url(../../img/svg/close.svg);
+    @include svg-bg-icon();
+}

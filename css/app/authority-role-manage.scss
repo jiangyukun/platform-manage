@@ -1,0 +1,38 @@
+
+.authority-role-manage {
+    .plus-container {
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .page-authority {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        width: 150px;
+        height: 50px;
+        margin: 7px 15px;
+        background: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
+
+    .page-name {
+        color: #bbb;
+        margin-left: 5px;
+    }
+
+    .permission {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .close-btn {
+        position: absolute;
+        right: 5px;
+        top: 30%;
+        cursor: pointer;
+    }
+}
