@@ -1,17 +1,23 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Router} from 'react-router'
 import {Provider} from 'react-redux'
-import routes from '../route/routes'
+import getRoutes from '../route/routes'
 
-export default class Root extends Component {
+class Root extends Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <Router routes={routes} history={this.props.history}/>
+        <Router routes={getRoutes(this.props.pageList)} history={this.props.history}/>
       </Provider>
     )
   }
 }
+
+Root.propTypes = {
+  pageList: PropTypes.array
+}
+
+export default Root

@@ -6,8 +6,10 @@ import {Route} from 'react-router'
 
 import getPageRoute from './getPageRoute'
 
-export default (
-  <Route path="platform">
-    {getPageRoute('inline')}
-  </Route>
-)
+export default function getRoute(pageList) {
+  return (
+    <Route path="platform">
+      {getPageRoute('inline', pageList)}
+    </Route>
+  )
+}

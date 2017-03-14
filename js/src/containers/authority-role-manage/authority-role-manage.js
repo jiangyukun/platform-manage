@@ -25,11 +25,11 @@ export function cancelPermission(id) {
   }
 }
 
-export function fetchPagePermissionList() {
+export function fetchPagePermissionList(groupId = '') {
   return {
     [THREE_PHASE]: {
       type: types.authorityRoleManage.FETCH_PAGE_LIST,
-      http: state => _get('/webBackend/getBackendPermissionPageList'),
+      http: state => _get(`/webBackend/getBackendPermissionPageList?group_Id=${groupId}`),
       handleResponse: response => ({
         pageList: response.map(roleItem => ({
           value: roleItem['page_Id'],
@@ -129,39 +129,15 @@ export function updateRemark(id, newRemark) {
   }
 }
 
-export function clearAddRoleSuccess() {
+export function clearOperationRoleState(operation) {
   return {
-    type: types.authorityRoleManage.CLEAR_ADD_ROLE_SUCCESS
+    type: types.authorityRoleManage.CLEAR_OPERATION_ROLE_STATE, operation
   }
 }
 
-export function clearUpdateRoleSuccess() {
+export function clearOperationPagePermissionState(operation) {
   return {
-    type: types.authorityRoleManage.CLEAR_UPDATE_ROLE_SUCCESS
-  }
-}
-
-export function clearDeleteRoleSuccess() {
-  return {
-    type: types.authorityRoleManage.CLEAR_DELETE_ROLE_SUCCESS
-  }
-}
-
-export function clearAddPagePermissionSuccess() {
-  return {
-    type: types.authorityRoleManage.CLEAR_ADD_PAGE_PERMISSION_SUCCESS
-  }
-}
-
-export function clearUpdatePagePermissionSuccess() {
-  return {
-    type: types.authorityRoleManage.CLEAR_UPDATE_PAGE_PERMISSION_SUCCESS
-  }
-}
-
-export function clearDeletePagePermissionSuccess() {
-  return {
-    type: types.authorityRoleManage.CLEAR_DELETE_PAGE_PERMISSION_SUCCESS
+    type: types.authorityRoleManage.CLEAR_OPERATION_PAGE_PERMISSION_STATE, operation
   }
 }
 

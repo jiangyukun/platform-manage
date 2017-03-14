@@ -46,7 +46,7 @@ class AddRole extends React.Component {
           </article>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-info" disabled={this.state.roleName == ''} onClick={this.add}>新增</button>
+          <button className="btn btn-info" disabled={this.state.roleName.trim() == ''} onClick={this.add}>新增</button>
         </Modal.Footer>
       </Modal>
     )

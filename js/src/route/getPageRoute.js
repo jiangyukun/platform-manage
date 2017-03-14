@@ -5,6 +5,8 @@ import React from 'react'
 import {Route} from 'react-router'
 
 import PlatformApp from '../containers/PlatformApp'
+import IndexPage from '../containers/IndexPage'
+import IllegalAuthority from '../containers/IllegalAuthority'
 
 import NodeAuditing from '../containers/node-auditing/NodeAuditing'
 import PatientEdit from '../containers/patient-edit/PatientEdit'
@@ -30,33 +32,45 @@ import SmsManage from '../containers/sms-manage/SmsManage'
 import ConsoleAccountManage from '../containers/console-account-manage/ConsoleAccountManage'
 import AuthorityRoleManage from '../containers/authority-role-manage/AuthorityRoleManage'
 
-export default function getPageRoute(path) {
+export default function getPageRoute(path, pageList) {
+  const mapper = {
+    "node-auditing": NodeAuditing,
+    "patient-edit": PatientEdit,
+    "laboratory-sheet": LaboratorySheet,
+    "take-medicine-record": TakeMedicineRecord,
+
+    "doctor-auditing": DoctorAuditing,
+    "hospital-manage": HospitalManage,
+    "out-patient-time": OutPatientTime,
+    "todo-work-track": TodoWorkTrack,
+
+    "smart-analytic-system": SmartAnalyticSystem,
+    "app-update": AppUpdate,
+
+    "hospital-assay-report": HospitalAssayReport,
+    "patient-situation-statistics": PatientSituationStatistics,
+    "doctor-comprehensive-score": DoctorComprehensiveScore,
+    "enrollment-situation": EnrollmentSituationStatistics,
+    "online-doctor": OnlineDoctorStatistics,
+    "history-message": HistoryMessageStatistics,
+
+    "sms-manage": SmsManage,
+    "console-account-manage": ConsoleAccountManage,
+    "authority-role-manage": AuthorityRoleManage,
+  }
+
   return (
     <Route path={path} component={PlatformApp}>
-      <Route path="node-auditing" component={NodeAuditing}/>
-      <Route path="patient-edit" component={PatientEdit}/>
-      <Route path="laboratory-sheet" component={LaboratorySheet}/>
-      <Route path="take-medicine-record" component={TakeMedicineRecord}/>
-
-      <Route path="doctor-auditing" component={DoctorAuditing}/>
-      <Route path="hospital-manage" component={HospitalManage}/>
-      <Route path="out-patient-time" component={OutPatientTime}/>
-      <Route path="todo-work-track" component={TodoWorkTrack}/>
-
-      <Route path="smart-analytic-system" component={SmartAnalyticSystem}/>
-      <Route path="app-update" component={AppUpdate}/>
-
-      <Route path="hospital-assay-report" component={HospitalAssayReport}/>
-      <Route path="patient-situation-statistics" component={PatientSituationStatistics}/>
-      <Route path="doctor-comprehensive-score" component={DoctorComprehensiveScore}/>
-      <Route path="enrollment-situation" component={EnrollmentSituationStatistics}/>
-      <Route path="online-doctor" component={OnlineDoctorStatistics}/>
-      <Route path="history-message" component={HistoryMessageStatistics}/>
-
-      <Route path="sms-manage" component={SmsManage}/>
-      <Route path="console-account-manage" component={ConsoleAccountManage}/>
-      <Route path="authority-role-manage" component={AuthorityRoleManage}/>
-
+      <Route path="index" component={IndexPage}/>
+      {
+        pageList.map(page => {
+          const pageName = page['page_Name']
+          return (
+            <Route key={pageName} path={pageName} component={mapper[pageName]}/>
+          )
+        })
+      }
+      <Route path=":pathname" component={IllegalAuthority}/>
     </Route>
   )
 }

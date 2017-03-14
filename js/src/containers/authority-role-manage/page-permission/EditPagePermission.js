@@ -31,6 +31,10 @@ class EditPagePermission extends Component {
     this.props.deletePagePermission(this.permissionId)
   }
 
+  componentDidMount() {
+    this.props.fetchPagePermissionList()
+  }
+
   componentDidUpdate() {
     if (this.props.updatePagePermissionSuccess || this.props.deletePagePermissionSuccess) {
       this.close()
@@ -105,6 +109,7 @@ class EditPagePermission extends Component {
 EditPagePermission.propTypes = {
   roleName: PropTypes.string,
   permissionInfo: PropTypes.object,
+  fetchPagePermissionList: PropTypes.func,
   pageList: PropTypes.array,
   updatePagePermission: PropTypes.func,
   deletePagePermission: PropTypes.func,

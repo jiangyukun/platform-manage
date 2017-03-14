@@ -14,7 +14,8 @@ import {deleteErr} from '../actions/app'
 class PlatformApp extends Component {
   getChildContext() {
     return {
-      role: this.props.role
+      role: this.props.role,
+      pageList: this.props.pageList
     }
   }
 
@@ -45,7 +46,8 @@ class PlatformApp extends Component {
 }
 
 PlatformApp.childContextTypes = {
-  role: PropTypes.string
+  role: PropTypes.string,
+  pageList: PropTypes.array
 }
 
 function mapStateToProps(state) {
@@ -56,6 +58,7 @@ function mapStateToProps(state) {
 
   return {
     app: state.app,
+    pageList: state.app.pageList,
     role
   }
 }

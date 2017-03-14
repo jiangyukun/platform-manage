@@ -16,17 +16,16 @@ import EditPagePermission from './page-permission/EditPagePermission'
 
 import * as antdUtil from '../../core/utils/antdUtil'
 import {
-  fetchList, addRole, clearAddRoleSuccess, cancelPermission,
-  deleteRole, updateRole, clearUpdateRoleSuccess,
-  clearDeleteRoleSuccess, fetchPagePermissionList, addPagePermission,
-  clearAddPagePermissionSuccess, updatePagePermission, clearUpdatePagePermissionSuccess,
-  deletePagePermission, clearDeletePagePermissionSuccess,
+  fetchList, fetchPagePermissionList,
+  addRole, deleteRole, updateRole, clearOperationRoleState,
+  addPagePermission, updatePagePermission, deletePagePermission, clearOperationPagePermissionState,
   updateRemark, clearUpdateRemarkSuccess
 } from './authority-role-manage'
 
 class AuthorityRoleManage extends React.Component {
   state = {
     index: -1,
+    permissionId: '',
     add: false,
     edit: false,
     addPage: false,
@@ -49,44 +48,47 @@ class AuthorityRoleManage extends React.Component {
 
   componentDidMount() {
     this.beginFetch()
-    this.props.fetchPagePermissionList()
   }
 
   componentDidUpdate() {
     if (this.props.addRoleSuccess) {
-      this.props.clearAddRoleSuccess()
+      this.props.clearOperationRoleState('add')
+      this.setState({index: -1})
+      this.beginFetch(1)
       antdUtil.tipSuccess('新增分组成功！')
-      this.beginFetch(1)
-    }
-    if (this.props.deleteRoleSuccess) {
-      this.props.clearDeleteRoleSuccess()
-      antdUtil.tipSuccess('删除分组成功！')
-      this.beginFetch(1)
     }
     if (this.props.updateRoleSuccess) {
-      this.props.clearUpdateRoleSuccess()
-      antdUtil.tipSuccess('更新分组名称成功！')
+      this.props.clearOperationRoleState('update')
       this.beginFetch()
+      antdUtil.tipSuccess('更新分组名称成功！')
+    }
+    if (this.props.deleteRoleSuccess) {
+      this.props.clearOperationRoleState('delete')
+      this.setState({index: -1})
+      this.beginFetch(1)
+      antdUtil.tipSuccess('删除分组成功！')
     }
     if (this.props.addPagePermissionSuccess) {
-      this.props.clearAddPagePermissionSuccess()
-      antdUtil.tipSuccess('添加成功！')
+      this.props.clearOperationPagePermissionState('add')
+      this.setState({permissionId: ''})
       this.beginFetch()
+      antdUtil.tipSuccess('添加成功！')
     }
     if (this.props.updatePagePermissionSuccess) {
-      this.props.clearUpdatePagePermissionSuccess()
+      this.props.clearOperationPagePermissionState('update')
       antdUtil.tipSuccess('更新成功！')
       this.beginFetch()
     }
     if (this.props.deletePagePermissionSuccess) {
-      this.props.clearDeletePagePermissionSuccess()
-      antdUtil.tipSuccess('删除成功！')
+      this.props.clearOperationPagePermissionState('delete')
+      this.setState({permissionId: ''})
       this.beginFetch()
+      antdUtil.tipSuccess('删除成功！')
     }
     if (this.props.updateRemarkSuccess) {
       this.props.clearUpdateRemarkSuccess()
-      antdUtil.tipSuccess('修改备注成功！')
       this.beginFetch()
+      antdUtil.tipSuccess('修改备注成功！')
     }
   }
 
@@ -132,8 +134,9 @@ class AuthorityRoleManage extends React.Component {
         {
           this.state.addPage && this.state.index != -1 && (
             <AddPagePermission
-              id={this.props.list[this.state.index]['group_Id']}
-              name={this.props.list[this.state.index]['group_Name']}
+              roleId={this.props.list[this.state.index]['group_Id']}
+              roleName={this.props.list[this.state.index]['group_Name']}
+              fetchPagePermissionList={this.props.fetchPagePermissionList}
               pageList={this.props.pageList}
               addPagePermission={this.props.addPagePermission}
               addPagePermissionSuccess={this.props.addPagePermissionSuccess}
@@ -142,10 +145,11 @@ class AuthorityRoleManage extends React.Component {
         }
 
         {
-          this.state.editPage && this.state.index && this.state.permissionId && (
+          this.state.editPage && this.state.index != -1 && this.state.permissionId != '' && (
             <EditPagePermission
               roleName={this.props.list[this.state.index]['group_Name']}
               permissionInfo={getPagePermissionInfo()}
+              fetchPagePermissionList={this.props.fetchPagePermissionList}
               pageList={this.props.pageList}
               updatePagePermission={this.props.updatePagePermission}
               deletePagePermission={this.props.deletePagePermission}
@@ -157,7 +161,7 @@ class AuthorityRoleManage extends React.Component {
 
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
-                     searchKeyName="backend_User_Name"
+                     searchKeyName="group_Name"
                      placeholder="输入分组名称"
         >
 
@@ -175,7 +179,6 @@ class AuthorityRoleManage extends React.Component {
           <Layout loading={this.props.loading}
                   minWidth={1200}
                   fixHead={true}
-                  fixLeft={[0, 2]}
                   weight={['100px', '200px', 1]}
           >
             <Head>
@@ -237,12 +240,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  fetchList, addRole,
-  deleteRole, updateRole, cancelPermission,
-  clearAddRoleSuccess, clearUpdateRoleSuccess,
-  clearDeleteRoleSuccess, fetchPagePermissionList,
-  addPagePermission, clearAddPagePermissionSuccess,
-  updatePagePermission, clearUpdatePagePermissionSuccess,
-  deletePagePermission, clearDeletePagePermissionSuccess,
+  fetchList, fetchPagePermissionList,
+  addRole, deleteRole, updateRole, clearOperationRoleState,
+  addPagePermission, updatePagePermission, deletePagePermission, clearOperationPagePermissionState,
   updateRemark, clearUpdateRemarkSuccess
 })(AuthorityRoleManage)

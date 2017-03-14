@@ -25,7 +25,7 @@ class AddConsoleUser extends React.Component {
   add = () => {
     const allowedRoles = []
     for (let role in this.state.allowRoleInfo) {
-      if (role) {
+      if (this.state.allowRoleInfo[role]) {
         allowedRoles.push(role)
       }
     }

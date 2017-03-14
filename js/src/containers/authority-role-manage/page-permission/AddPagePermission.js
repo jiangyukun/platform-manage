@@ -9,8 +9,8 @@ import Select1 from '../../../components/core/Select1'
 class AddPagePermission extends Component {
   state = {
     pageId: '',
-    basicAuthority: '2',
-    export: '1',
+    basicAuthority: '',
+    export: '',
     show: true,
   }
 
@@ -19,7 +19,11 @@ class AddPagePermission extends Component {
   }
 
   add = () => {
-    this.props.addPagePermission(this.props.id, this.state.pageId, this.state.basicAuthority, this.state.export)
+    this.props.addPagePermission(this.props.roleId, this.state.pageId, this.state.basicAuthority, this.state.export)
+  }
+
+  componentDidMount() {
+    this.props.fetchPagePermissionList(this.props.roleId)
   }
 
   componentDidUpdate() {
@@ -44,7 +48,7 @@ class AddPagePermission extends Component {
             <label>
               <span className="label-for-input">分组名称：</span>
               <div className="input-wrap">
-                {this.props.name}
+                {this.props.roleName}
               </div>
             </label>
           </section>
@@ -93,8 +97,9 @@ class AddPagePermission extends Component {
 }
 
 AddPagePermission.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
+  roleId: PropTypes.string,
+  roleName: PropTypes.string,
+  fetchPagePermissionList: PropTypes.func,
   pageList: PropTypes.array,
   addPagePermission: PropTypes.func,
   addPagePermissionSuccess: PropTypes.bool,

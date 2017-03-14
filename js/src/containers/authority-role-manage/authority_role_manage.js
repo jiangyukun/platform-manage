@@ -68,28 +68,12 @@ export function authorityRoleManage(state = defaultValue, action) {
         nextIState = updateRemarkSuccess()
         break
 
-      case types.authorityRoleManage.CLEAR_ADD_ROLE_SUCCESS:
-        nextIState = iState.set('addRoleSuccess', false)
+      case types.authorityRoleManage.CLEAR_OPERATION_ROLE_STATE:
+        nextIState = iState.set(action.operation + 'RoleSuccess', false)
         break
 
-      case types.authorityRoleManage.CLEAR_UPDATE_ROLE_SUCCESS:
-        nextIState = iState.set('updateRoleSuccess', false)
-        break
-
-      case types.authorityRoleManage.CLEAR_DELETE_ROLE_SUCCESS:
-        nextIState = iState.set('deleteRoleSuccess', false)
-        break
-
-      case types.authorityRoleManage.CLEAR_ADD_PAGE_PERMISSION_SUCCESS:
-        nextIState = iState.set('addPagePermissionSuccess', false)
-        break
-
-      case types.authorityRoleManage.CLEAR_UPDATE_PAGE_PERMISSION_SUCCESS:
-        nextIState = iState.set('updatePagePermissionSuccess', false)
-        break
-
-      case types.authorityRoleManage.CLEAR_DELETE_PAGE_PERMISSION_SUCCESS:
-        nextIState = iState.set('deletePagePermissionSuccess', false)
+      case types.authorityRoleManage.CLEAR_OPERATION_PAGE_PERMISSION_STATE:
+        nextIState = iState.set(action.operation + 'PagePermissionSuccess', false)
         break
 
       case types.authorityRoleManage.CLEAR_UPDATE_REMARK_SUCCESS:

@@ -17,6 +17,9 @@ class EditConsoleUser extends React.Component {
   }
 
   onChange = (roleCode, e) => {
+    if (this.name == 'admin') {
+      return
+    }
     this.state.allowRoleInfo[roleCode] = e.target.checked
     this.forceUpdate()
   }
@@ -32,7 +35,7 @@ class EditConsoleUser extends React.Component {
   updateAccount = () => {
     const allowedRoles = []
     for (let role in this.state.allowRoleInfo) {
-      if (role) {
+      if (role && this.state.allowRoleInfo[role]) {
         allowedRoles.push(role)
       }
     }
@@ -54,14 +57,14 @@ class EditConsoleUser extends React.Component {
     })
   }
 
-  componentWillReceiveProps(props) {
-    if (props.updateConsoleUserSuccess || props.deleteConsoleUserSuccess || props.resetPasswordSuccess) {
+  componentDidUpdate() {
+    if (this.props.updateConsoleUserSuccess || this.props.deleteConsoleUserSuccess || this.props.resetPasswordSuccess) {
       this.close()
     }
   }
 
   render() {
-    const {accountInfo} = this.props || {}
+    const {accountInfo} = this.props
     return (
       <Modal show={this.state.show}
              backdrop="static"
@@ -72,7 +75,7 @@ class EditConsoleUser extends React.Component {
         <Modal.Header closeButton={true}>
           <Modal.Title>修改</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="">
+        <Modal.Body>
           <article>
             <section className="mt-10">
               <label>
@@ -110,8 +113,10 @@ class EditConsoleUser extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-info" onClick={this.deleteAccount} disabled={this.name == 'admin'}>删除</button>
-          <button className="btn btn-info" onClick={this.resetPassword}>重置密码</button>
-          <button className="btn btn-info" disabled={this.state.username == ''} onClick={this.updateAccount}>确定修改</button>
+          <button className="btn btn-info" onClick={this.resetPassword} disabled={this.name == 'admin'}>重置密码</button>
+          <button className="btn btn-info" disabled={this.state.username == '' || this.name == 'admin'}
+                  onClick={this.updateAccount}>确定修改
+          </button>
         </Modal.Footer>
       </Modal>
     )

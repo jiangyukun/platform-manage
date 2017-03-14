@@ -9,8 +9,8 @@ let errId = 1
 
 const initValue = {
   username: '',
+  pageList: [],
   settings: {
-    asideFolded: false,
     asideMessage: true
   },
   errQueue: []
@@ -27,9 +27,6 @@ export function app(state = initValue, action) {
         nextIState = initUsername()
         break
 
-      case 'TOGGLE_ASIDE':
-        nextIState = toggleAside()
-        break
       case 'TOGGLE_MESSAGE_PANEL':
         nextIState = toggleMessagePanel()
         break
@@ -38,6 +35,10 @@ export function app(state = initValue, action) {
         break
       case types.DELETE_ERROR:
         nextIState = deleteError()
+        break
+
+      case types.INIT_ROLE_LIST:
+        nextIState = iState.set('pageList', action.pageList)
         break
     }
 
@@ -52,10 +53,6 @@ export function app(state = initValue, action) {
 
   function initUsername() {
     return iState.set('username', action.username)
-  }
-
-  function toggleAside() {
-    return _updateSettings(iState, settings => settings.set('asideFolded', !settings.get('asideFolded')))
   }
 
   function toggleMessagePanel() {

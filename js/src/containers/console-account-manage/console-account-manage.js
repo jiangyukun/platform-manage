@@ -32,7 +32,7 @@ export function fetchRoleList() {
 
 export function addConsoleUser(username, name, roleList) {
   let roleStr = roleList.reduce((total, current) => total + ',' + current, '')
-  if (roleList.length > 0) {
+  if (roleStr.length > 0) {
     roleStr = roleStr.substring(1)
   }
   return {
@@ -52,7 +52,7 @@ export function addConsoleUser(username, name, roleList) {
 
 export function updateConsoleUser(id, name, roleList) {
   let roleStr = roleList.reduce((total, current) => total + ',' + current, '')
-  if (roleList.length > 0) {
+  if (roleStr.length > 0) {
     roleStr = roleStr.substring(1)
   }
   return {

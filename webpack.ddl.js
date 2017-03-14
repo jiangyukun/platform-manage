@@ -17,6 +17,7 @@ const vendors = [
   "antd/lib/tooltip",
   "antd/lib/upload",
   "antd/lib/Radio",
+  "antd/lib/Checkbox",
 
   "babel-polyfill",
   "classnames",

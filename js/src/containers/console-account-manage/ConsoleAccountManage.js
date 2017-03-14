@@ -52,8 +52,9 @@ class ConsoleAccountManage extends React.Component {
   componentDidUpdate() {
     if (this.props.addConsoleUserSuccess) {
       this.props.clearAddConsoleUserSuccess()
-      antdUtil.tipSuccess('新增后台用户成功！')
+      this.setState({index: -1})
       this.beginFetch(1)
+      antdUtil.tipSuccess('新增后台用户成功！')
     }
     if (this.props.updateConsoleUserSuccess) {
       this.props.clearUpdateSuccess()
@@ -61,9 +62,10 @@ class ConsoleAccountManage extends React.Component {
       this.beginFetch(1)
     }
     if (this.props.deleteConsoleUserSuccess) {
+      this.setState({index: -1})
+      this.beginFetch(1)
       this.props.clearDeleteConsoleUserSuccess()
       antdUtil.tipSuccess('删除成功！')
-      this.beginFetch(1)
     }
     if (this.props.resetPasswordSuccess) {
       this.props.clearResetPasswordSuccess()
@@ -134,7 +136,6 @@ class ConsoleAccountManage extends React.Component {
           <Layout loading={this.props.loading}
                   minWidth={1200}
                   fixHead={true}
-                  fixLeft={[0, 2]}
                   weight={[1, 1, 1, 1, 1]}
           >
             <Head>

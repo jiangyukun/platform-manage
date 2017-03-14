@@ -4,7 +4,6 @@
 import React from 'react'
 
 class PageAuthority extends React.Component {
-
   render() {
     return (
       <div className="page-authority" onClick={this.props.editPagePermission}>
@@ -26,7 +25,6 @@ class PageAuthority extends React.Component {
             )
           }
         </div>
-        <i className="close-btn edit-remark-icon" onClick={this.props.editPagePermission}></i>
       </div>
     )
   }

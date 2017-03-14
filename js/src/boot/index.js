@@ -7,6 +7,7 @@ import {syncHistoryWithStore} from 'react-router-redux'
 
 import configureStore from '../store/configureStore'
 import Root from '../containers/Root'
+import {_get} from '../services/http'
 
 import * as utils from '../core/utils'
 import * as types from '../constants/ActionTypes'
@@ -35,7 +36,21 @@ store.dispatch({
   username: utils.getSession('userId')
 })
 
-render(
-  <Root store={store} history={browserHistory}/>,
-  document.getElementById('root')
-)
+_get('/webBackend/getBackendUserPermissionPage').then(roleList => {
+  const pageList = []
+  roleList.forEach(role => {
+    role.pageList.map(page => {
+      let pageName = page['page_Name']
+      if (pageList.find(page => page['page_Name'] == pageName) == null) {
+        pageList.push(page)
+      }
+    })
+  })
+
+  store.dispatch({
+    type: types.INIT_ROLE_LIST, pageList
+  })
+  render(
+    <Root pageList={pageList} store={store} history={browserHistory}/>,
+    document.getElementById('root'))
+})

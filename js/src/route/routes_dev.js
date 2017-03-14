@@ -6,8 +6,10 @@ import {Route} from 'react-router'
 
 import getPageRoute from './getPageRoute'
 
-export default (
-  <Route>
-    {getPageRoute('dev')}
-  </Route>
-)
+export default function getRoute(pageList) {
+  return (
+    <Route>
+      {getPageRoute('dev', pageList)}
+    </Route>
+  )
+}
