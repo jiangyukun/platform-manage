@@ -120,17 +120,17 @@ class EditLaboratorySheet extends Component {
 
         <div className="ngdialog-buttons">
           {
-            this.state.current != -1 && this.sheetType != 6 && (
+            this.props.isCanEdit && this.state.current != -1 && this.sheetType != 6 && (
               <input type="button" className="ngdialog-button ngdialog-button-primary" onClick={e => this.markRecorded()} value="标为已录入"/>
             )
           }
           {
-            this.state.current != -1 && this.sheetType != 6 && (
+            this.props.isCanEdit && this.state.current != -1 && this.sheetType != 6 && (
               <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markUnPass()} value="标为未录入"/>
             )
           }
           {
-            this.state.current != -1 && this.sheetType != 6 && (
+            this.props.isCanEdit && this.state.current != -1 && this.sheetType != 6 && (
               <input type="button" className="ngdialog-button ngdialog-button-secondary" onClick={e => this.markInvalid()} value="标为无效"/>
             )
           }
@@ -150,6 +150,7 @@ EditLaboratorySheet.propTypes = {
   fetchPictureUrlList: PropTypes.func,
   markSheetItem: PropTypes.func,
   sheetStateUpdated: PropTypes.func,
+  isCanEdit: PropTypes.bool,
   onExited: PropTypes.func
 }
 

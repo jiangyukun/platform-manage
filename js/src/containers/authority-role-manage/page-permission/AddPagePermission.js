@@ -9,8 +9,8 @@ import Select1 from '../../../components/core/Select1'
 class AddPagePermission extends Component {
   state = {
     pageId: '',
-    basicAuthority: '',
-    export: '',
+    basicAuthority: '2',
+    export: '0',
     show: true,
   }
 
@@ -55,7 +55,7 @@ class AddPagePermission extends Component {
 
           <section className="mt-15">
             <label>
-              <span className="label-for-input">页面：</span>
+              <span className="label-for-input">页面：<span className="red">*</span></span>
               <div className="input-wrap">
                 <Select1 value={this.state.pageId}
                          selectItems={this.props.pageList}
@@ -66,11 +66,11 @@ class AddPagePermission extends Component {
 
           <section className="mt-15">
             <label>
-              <span className="label-for-input">基本权限：</span>
+              <span className="label-for-input">基本权限：<span className="red">*</span></span>
               <div className="input-wrap">
                 <Select1
                   value={this.state.basicAuthority}
-                  selectItems={[{value: '1', text: '修改'}, {value: '2', text: '查看'}]}
+                  selectItems={[{value: '1', text: '编辑'}, {value: '2', text: '查看'}]}
                   onSelect={({value}) => this.setState({basicAuthority: value})}/>
               </div>
             </label>
@@ -78,7 +78,7 @@ class AddPagePermission extends Component {
 
           <section className="mt-15">
             <label>
-              <span className="label-for-input">是否导出：</span>
+              <span className="label-for-input">是否导出：<span className="red">*</span></span>
               <div className="input-wrap">
                 <Select1
                   value={this.state.export}

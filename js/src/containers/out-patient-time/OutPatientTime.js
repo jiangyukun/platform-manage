@@ -14,6 +14,8 @@ import Layout from "../../components/table-layout/Layout"
 import DoctorDateDetailDialog from './dialog/DoctorDateDetailDialog'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {fetchHospitalList1} from '../../actions/hospital'
 import {fetchDepartmentList1} from '../../actions/common'
@@ -61,6 +63,9 @@ class OutPatientTime extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.outPatientTime)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.outPatientTime)
+
     const {Head, Row} = Layout
     const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
 
@@ -96,7 +101,11 @@ class OutPatientTime extends Component {
                      searchKeyName="search_key"
         >
 
-          <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
+            )
+          }
 
           <FilterItem item={this.props.temporaryNotifyFilter} paramName="doctor_short_notice_statusString"/>
 
@@ -163,8 +172,12 @@ class OutPatientTime extends Component {
                       <Row.Item>{outPatient['operation_manager']}</Row.Item>
                       <Row.Item>
                         {outPatient['remark']}
-                        <i className="edit-remark-svg"
-                           onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg"
+                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>
                         <div className="time-forenoon">上午</div>
@@ -233,6 +246,10 @@ function mapStateToProps(state) {
       typeItemList: state.departmentList
     }
   }
+}
+
+OutPatientTime.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

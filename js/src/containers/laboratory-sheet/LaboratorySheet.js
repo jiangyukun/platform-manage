@@ -17,6 +17,8 @@ import HighLight from '../../components/txt/HighLight'
 import EditLaboratorySheet from './EditLaboratorySheet'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList1} from '../../actions/hospital'
@@ -64,6 +66,9 @@ class LaboratorySheet extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.laboratorySheet)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.laboratorySheet)
+
     const {Head, Row} = Layout
     const getSheetNumber = (sheet, name, index) => {
       if (sheet[name] == 0) {
@@ -83,6 +88,7 @@ class LaboratorySheet extends Component {
                                  fetchPictureUrlList={this.props.fetchPictureUrlList}
                                  markSheetItem={this.props.markSheetItem}
                                  sheetStateUpdated={() => this.beginFetch()}
+                                 isCanEdit={isCanEdit}
                                  onExited={() => this.setState({showEdit: false})}/>
           )
         }
@@ -190,7 +196,11 @@ class LaboratorySheet extends Component {
                       <Row.Item>{sheet['pediatrics_Doctor']}</Row.Item>
                       <Row.Item>
                         <ShowMoreText limit={50}>{sheet['patient_Assay_Remark']}</ShowMoreText>
-                        <i className="edit-remark-svg" onClick={() => this.setState({editRemark: true, index})}></i>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg" onClick={() => this.setState({editRemark: true, index})}></i>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{getSheetNumber(sheet, 'visit_Doctor_Upload_Count', 1)}</Row.Item>
                       <Row.Item>{getSheetNumber(sheet, 'patient_Count', 2)}</Row.Item>
@@ -236,6 +246,10 @@ function mapActionToProps(dispatch) {
     fetchPictureUrlList: actions.fetchPictureUrlList(dispatch),
     markSheetItem: actions.markSheetItem(dispatch)
   })
+}
+
+LaboratorySheet.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(LaboratorySheet)

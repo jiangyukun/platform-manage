@@ -79,10 +79,19 @@ class TabSingleChat extends Component {
                       onSearchKey1Change={searchKey1 => this.setState({searchKey1})}
                       onSearchKey2Change={searchKey2 => this.setState({searchKey2})}
         >
-          <button className="btn btn-info mr-20" onClick={this.exportExcel}>导出本月单聊Excel</button>
-          <button className="btn btn-default mr-20" onClick={this.historyExcelList}
-                  disabled={this.props.total == 0}>下载单聊历史
-          </button>
+          {
+            this.props.isCanExport && (
+              <button className="btn btn-info mr-20" onClick={this.exportExcel}>导出本月单聊Excel</button>
+            )
+          }
+          {
+            this.props.isCanExport && (
+              <button className="btn btn-default mr-20" onClick={this.historyExcelList}
+                      disabled={this.props.total == 0}>下载单聊历史
+              </button>
+            )
+          }
+
           <FilterItem size="small" item={this.props.filters.sendDate}>
             <CustomDateRange startName="chat_Send_Begin_Time" endName="chat_Send_End_Time"/>
           </FilterItem>
@@ -154,6 +163,8 @@ TabSingleChat.propTypes = {
   loading: PropTypes.bool,
   total: PropTypes.number,
   fetchSingleHistoryMessageList: PropTypes.func,
+  isCanEdit: PropTypes.bool,
+  isCanExport: PropTypes.bool,
   previewImage: PropTypes.func
 }
 
@@ -163,8 +174,10 @@ const users = [
   {value: '3', text: '贝壳客服'}
 ]
 
-export default connect(state => ({
+export default connect((state, ownProps) => ({
   ...state['historyMessageSingle'],
+  isCanEdit: ownProps.isCanEdit,
+  isCanExport: ownProps.isCanExport,
   filters: {
     sendDate: utils.getFilterItem('sendDate', '消息发送时间', []),
     user: utils.getFilterItem('user', '消息对象', users)

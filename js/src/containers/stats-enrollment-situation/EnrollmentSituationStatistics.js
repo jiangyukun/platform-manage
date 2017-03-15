@@ -11,6 +11,8 @@ import CustomDateRange from '../../components/core/query-filter/custom/CustomDat
 import PaginateList from '../../components/core/PaginateList'
 import Layout from "../../components/table-layout/Layout"
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {fetchHospitalList1} from '../../actions/hospital'
 import * as actions from './enrolement-situation'
@@ -41,6 +43,9 @@ class EnrollmentSituationStatistics extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.enrollmentSituation)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.enrollmentSituation)
+
     const {Head, Row} = Layout
 
     return (
@@ -52,10 +57,13 @@ class EnrollmentSituationStatistics extends Component {
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="doctor_Name"
         >
-          <button className="btn btn-primary mr-20" onClick={this.exportExcel}
-                  disabled={this.props.total == 0}>导出excel
-          </button>
-
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={this.exportExcel}
+                      disabled={this.props.total == 0}>导出excel
+              </button>
+            )
+          }
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
           <FilterItem size="small" item={this.props.registerFilterList}>
@@ -116,6 +124,10 @@ function mapStateToProps(state) {
     hospitalFilterList: utils.getFilterItem('hospital', '医院', state.hospitalList),
     registerFilterList: utils.getFilterItem('register', '注册日期', [])
   }
+}
+
+EnrollmentSituationStatistics.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

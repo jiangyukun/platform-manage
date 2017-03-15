@@ -19,6 +19,9 @@ import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import AddHospitalDialog from './dialog/AddHospitalDialog'
 import EditHospitalDialog from './dialog/EditHospitalDialog'
+
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {getFilterItem} from '../../core/utils'
 import {getYesOrNoText} from '../../core/formatBusData'
 import {fetchHospitalList1} from '../../actions/hospital'
@@ -64,6 +67,9 @@ class HospitalManage extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.hospitalManage)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.hospitalManage)
+
     let cityFilterList = []
     if (this.provinceId) {
       cityFilterList = this.props.cityMapper[this.provinceId]
@@ -84,23 +90,30 @@ class HospitalManage extends Component {
         }
 
         {
-          this.state.showEdit && <EditHospitalDialog
-            hospitalId={this.props.list[this.state.currentIndex]['id']}
-            provinceList={this.props.provinceList}
-            cityMapper={this.props.cityMapper}
-            fetchCityList={this.props.fetchCityList}
-            fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
-            fetchHospitalInfo={this.props.fetchHospitalInfo}
-            updateHospitalInfo={this.props.updateHospitalInfo}
-            onExited={() => this.setState({showEdit: false})}
-          />
+          this.state.showEdit && (
+            <EditHospitalDialog
+              hospitalId={this.props.list[this.state.currentIndex]['id']}
+              provinceList={this.props.provinceList}
+              cityMapper={this.props.cityMapper}
+              fetchCityList={this.props.fetchCityList}
+              fetchCityMaxSerialNumber={this.props.fetchCityMaxSerialNumber}
+              fetchHospitalInfo={this.props.fetchHospitalInfo}
+              updateHospitalInfo={this.props.updateHospitalInfo}
+              isCanEdit={isCanEdit}
+              onExited={() => this.setState({showEdit: false})}
+            />
+          )
         }
 
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="key_Words"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>新增</button>
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>新增</button>
+            )
+          }
 
           <button className="btn btn-primary mr-20"
                   onClick={() => this.setState({showEdit: true})}
@@ -224,6 +237,10 @@ function mapActionToProps(dispatch) {
     fetchHospitalInfo: actions.fetchHospitalInfo(dispatch),
     updateHospitalInfo: actions.updateHospitalInfo(dispatch)
   })
+}
+
+HospitalManage.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(HospitalManage)

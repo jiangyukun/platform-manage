@@ -3,6 +3,33 @@
  */
 import {getPath} from '../core/utils'
 
+export const appPageNames = {
+  nodeAuditing: 'node-auditing',
+  patientEdit: 'patient-edit',
+  laboratorySheet: 'laboratory-sheet',
+  takeMedicineRecord: 'take-medicine-record',
+
+  doctorAuditing: 'doctor-auditing',
+  outPatientTime: 'out-patient-time',
+  todoWorkTrack: 'todo-work-track',
+  hospitalManage: 'hospital-manage',
+
+  smartAnalyticSystem: 'smart-analytic-system',
+  appUpdate: 'app-update',
+
+  patientSituationStatistics: 'patient-situation-statistics',
+  hospitalAssayReport: 'hospital-assay-report',
+  doctorComprehensiveScore: 'doctor-comprehensive-score',
+  enrollmentSituation: 'enrollment-situation',
+  onlineDoctor: 'online-doctor',
+  historyMessage: 'history-message',
+
+  smsManage: 'sms-manage',
+  chatSystem: 'chat-system',
+  consoleAccountManage: 'console-account-manage',
+  authorityRoleManage: 'authority-role-manage',
+}
+
 const nodeAuditing = getPath('node-auditing') // 节点审核
 const patientEdit = getPath('patient-edit') // 病人编辑
 const laboratorySheet = getPath('laboratory-sheet') // 化验单查看
@@ -61,6 +88,36 @@ export const pageCategoryMapper = {
   'chat-system': SYSTEM_CATEGORY,
   'console-account-manage': SYSTEM_CATEGORY,
   'authority-role-manage': SYSTEM_CATEGORY
+}
+
+//用于计算2级菜单页面上下顺序, 1最靠前
+export const pagePriority = {
+  'node-auditing': 1,
+  'patient-edit': 2,
+  'laboratory-sheet': 3,
+  'take-medicine-record': 4,
+
+  'doctor-auditing': 5,
+  'hospital-manage': 6,
+  'out-patient-time': 7,
+  'todo-work-track': 8,
+
+  'smart-analytic-system': 9,
+  'app-update': 10,
+  'slider-manage': 11,
+  'knowledge-base-manage': 12,
+
+  'history-message': 13,
+  'hospital-assay-report': 14,
+  'patient-situation-statistics': 15,
+  'doctor-comprehensive-score': 16,
+  'enrollment-situation': 17,
+  'online-doctor': 18,
+
+  'chat-system': 19,
+  'sms-manage': 20,
+  'console-account-manage': 21,
+  'authority-role-manage': 22
 }
 
 export const pageInfo = {

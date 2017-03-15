@@ -2,11 +2,18 @@
  * Created by jiangyukun on 2017/3/13.
  */
 import React from 'react'
+import classnames from 'classnames'
 
 class PageAuthority extends React.Component {
+  editPagePermission = () => {
+    if (this.props.isCanEdit) {
+      this.props.editPagePermission()
+    }
+  }
+
   render() {
     return (
-      <div className="page-authority" onClick={this.props.editPagePermission}>
+      <div className={classnames('page-authority', {'cursor-pointer': this.props.isCanEdit})} onClick={this.editPagePermission}>
         <p className="page-name">{this.props.pageName}</p>
         <div className="permission">
           {
@@ -31,6 +38,7 @@ class PageAuthority extends React.Component {
 }
 
 PageAuthority.propTypes = {
+  isCanEdit: React.PropTypes.bool,
   permission: React.PropTypes.string,
   pageCode: React.PropTypes.string,
   pageName: React.PropTypes.string,

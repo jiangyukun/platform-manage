@@ -49,7 +49,7 @@ class AddConsoleUser extends React.Component {
         <Modal.Header closeButton={true}>
           <Modal.Title>新增</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="">
+        <Modal.Body>
           <article>
             <section className="mt-10">
               <label>
@@ -86,7 +86,7 @@ class AddConsoleUser extends React.Component {
           </article>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-info" disabled={this.state.username == ''} onClick={this.add}>新增</button>
+          <button className="btn btn-info" disabled={this.state.username.trim() == ''} onClick={this.add}>新增</button>
         </Modal.Footer>
       </Modal>
     )

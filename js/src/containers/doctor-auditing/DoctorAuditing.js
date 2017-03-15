@@ -16,6 +16,8 @@ import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import constants from '../../core/constants'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
@@ -79,6 +81,9 @@ class DoctorAuditing extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.doctorAuditing)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.consoleAccountManage)
+
     const {Head, Row} = Layout
 
     return (
@@ -105,6 +110,7 @@ class DoctorAuditing extends Component {
                               updateDoctorAuditingState={this.props.updateDoctorAuditingState}
                               updateDoctorInfo={this.props.updateDoctorInfo}
                               updateDoctorInfoSuccess={() => this.beginFetch()}
+                              isCanEdit={isCanEdit}
                               onExited={() => this.setState({showEdit: false})}/>
           )
         }
@@ -127,12 +133,20 @@ class DoctorAuditing extends Component {
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="key_Words"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>注册</button>
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>注册</button>
+            )
+          }
           <button className="btn btn-primary mr-20"
                   onClick={() => this.setState({showEdit: true})}
                   disabled={this.state.currentIndex == -1}>查看
           </button>
-          <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()}>导出到excel</button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()}>导出到excel</button>
+            )
+          }
 
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
@@ -227,10 +241,14 @@ class DoctorAuditing extends Component {
                       <Row.Item>{getAuditStatus(doctor['doctor_Is_Checked'])}</Row.Item>
                       <Row.Item>
                         <ShowMoreText limit={50}>{doctor['doctor_Info_Remark']}</ShowMoreText>
-                        <span className="edit-remark-icon">
-                          <i className="edit-remark-svg"
-                             onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
-                        </span>
+                        {
+                          isCanEdit && (
+                            <span className="edit-remark-icon">
+                              <i className="edit-remark-svg"
+                                 onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
+                            </span>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{doctor['backend_Manager']}</Row.Item>
                       <Row.Item>{doctor['operation_Manager']}</Row.Item>
@@ -291,6 +309,10 @@ function mapActionToProps(dispatch) {
     updateDoctorRemark: commonActions.updateRemark(dispatch),
     addNewDoctor: actions.addNewDoctor(dispatch)
   }
+}
+
+DoctorAuditing.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(DoctorAuditing)

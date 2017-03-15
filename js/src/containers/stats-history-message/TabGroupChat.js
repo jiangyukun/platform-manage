@@ -66,10 +66,19 @@ class TabGroupChat extends Component {
                       onSearchKey1Change={searchKey1 => this.setState({searchKey1})}
                       onSearchKey2Change={searchKey2 => this.setState({searchKey2})}
         >
-          <button className="btn btn-primary mr-20" onClick={this.exportExcel} disabled={this.props.total == 0}>导出本月群聊Excel</button>
-          <button className="btn btn-default mr-20" onClick={this.historyExcelList}
-                  disabled={this.props.total == 0}>下载群聊历史
-          </button>
+          {
+            this.props.isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={this.exportExcel} disabled={this.props.total == 0}>导出本月群聊Excel</button>
+            )
+          }
+          {
+            this.props.isCanExport && (
+              <button className="btn btn-default mr-20" onClick={this.historyExcelList}
+                      disabled={this.props.total == 0}>下载群聊历史
+              </button>
+            )
+          }
+
           <FilterItem size="small" item={this.props.filters.sendDate}>
             <CustomDateRange startName="chat_Send_Begin_Time" endName="chat_Send_End_Time"/>
           </FilterItem>
@@ -135,6 +144,9 @@ TabGroupChat.propTypes = {
   filters: PropTypes.object,
   loading: PropTypes.bool,
   total: PropTypes.number,
+  isCanEdit: PropTypes.bool,
+  isCanExport: PropTypes.bool,
+  previewImage: PropTypes.func,
   fetchGroupHistoryMessageList: PropTypes.func
 }
 
@@ -144,10 +156,12 @@ const users = [
   {value: '3', text: '贝壳客服'}
 ]
 
-export default connect(state => {
+export default connect((state, ownProps) => {
   const {historyMessageGroup: {total, list, loading, groupList}} = state
   return {
     total, list, loading,
+    isCanEdit: ownProps.isCanEdit,
+    isCanExport: ownProps.isCanExport,
     filters: {
       sendDate: utils.getFilterItem('sendDate', '消息发送时间', []),
       user: utils.getFilterItem('user', '群组', groupList)

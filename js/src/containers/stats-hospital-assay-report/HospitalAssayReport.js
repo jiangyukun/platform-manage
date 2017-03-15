@@ -9,8 +9,10 @@ import PaginateList from '../../components/core/PaginateList'
 import SmartList from '../../components/list/SmartList'
 import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
-
 import DownloadExcelDialog from './DownloadExcelDialog'
+
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as actions from './hospital-assay-report'
 
 class HospitalAssayReport extends Component {
@@ -37,6 +39,9 @@ class HospitalAssayReport extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.hospitalAssayReport)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.hospitalAssayReport)
+
     return (
       <div className="app-function-page">
         {
@@ -49,11 +54,16 @@ class HospitalAssayReport extends Component {
           )
         }
 
-        <div>
-          <button className="btn btn-primary"
-                  style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                  onClick={e => this.setState({showDialog: true})}>导出每周记录
-          </button>
+        <div className="mt-20">
+          {
+            isCanExport && (
+              <button className="btn btn-primary"
+                      style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
+                      onClick={e => this.setState({showDialog: true})}>导出每周记录
+              </button>
+            )
+          }
+
         </div>
         <PaginateList ref={c => this._paginateList = c}
                       doFetch={() => this.doFetch()}
@@ -122,6 +132,10 @@ function mapActionToProps(dispatch) {
     fetchHospitalAssayPaginateList: actions.fetchHospitalAssayPaginateList(dispatch),
     fetchHistoryAssayReportList: actions.fetchHistoryAssayReportList(dispatch)
   }
+}
+
+HospitalAssayReport.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(HospitalAssayReport)

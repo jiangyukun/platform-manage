@@ -7,7 +7,7 @@ class IllegalAuthority extends Component {
 
   render() {
     return (
-      <div className="center-block w-300 mt-20 font-20">您暂时无法查看该页面</div>
+      <div className="center-block w-300 mt-20 font-20">Permission Denied</div>
     )
   }
 }

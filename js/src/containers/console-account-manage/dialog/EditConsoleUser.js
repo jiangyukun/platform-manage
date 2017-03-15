@@ -112,9 +112,13 @@ class EditConsoleUser extends React.Component {
           </article>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-info" onClick={this.deleteAccount} disabled={this.name == 'admin'}>删除</button>
-          <button className="btn btn-info" onClick={this.resetPassword} disabled={this.name == 'admin'}>重置密码</button>
-          <button className="btn btn-info" disabled={this.state.username == '' || this.name == 'admin'}
+          <button className="btn btn-info" onClick={this.deleteAccount} disabled={!this.props.isCanEdit || this.name == 'admin'}>
+            删除
+          </button>
+          <button className="btn btn-info" onClick={this.resetPassword} disabled={!this.props.isCanEdit || this.name == 'admin'}>
+            重置密码
+          </button>
+          <button className="btn btn-info" disabled={!this.props.isCanEdit || this.state.username == '' || this.name == 'admin'}
                   onClick={this.updateAccount}>确定修改
           </button>
         </Modal.Footer>
@@ -132,6 +136,7 @@ EditConsoleUser.propTypes = {
   updateConsoleUserSuccess: React.PropTypes.bool,
   deleteConsoleUserSuccess: React.PropTypes.bool,
   resetPasswordSuccess: React.PropTypes.bool,
+  isCanEdit: React.PropTypes.bool,
   onExited: React.PropTypes.func
 }
 

@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/12/29.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
@@ -16,6 +16,8 @@ import BodyContainer from '../../components/list/BodyContainer'
 import constants from '../../core/constants'
 import {getFilterItem} from '../../core/utils'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as actions from './app-update'
 
 class AppUpdate extends Component {
@@ -44,6 +46,9 @@ class AppUpdate extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.appUpdate)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.appUpdate)
+
     return (
       <div className="app-function-page">
         <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
@@ -69,7 +74,7 @@ class AppUpdate extends Component {
 
           <SmartList loading={this.state.loading} fixHead={true} fixLeft={[1, 2]}>
             <HeadContainer>
-              <ul className="flex-list header">
+              <ul className="flex-list-header">
                 <li className="item flex2">更新日志</li>
                 <li className="item flex1">系统类型</li>
                 <li className="item flex1">客户端类型</li>
@@ -87,7 +92,7 @@ class AppUpdate extends Component {
                 {
                   this.props.list.map((update, index) => {
                     return (
-                      <ul key={index} className={classnames('flex-list body', {'selected': this.state.currentIndex == index})}
+                      <ul key={index} className={classnames('flex-list-row', {'selected': this.state.currentIndex == index})}
                           style={{height: '40px'}}
                           onClick={e => this.setState({currentIndex: index})}
                           onDoubleClick={e => this.setState({currentIndex: index, showEdit: true})}
@@ -124,6 +129,10 @@ function mapActionToProps(dispatch) {
   return {
     fetchAppUpdatePaginateList: actions.fetchAppUpdatePaginateList(dispatch)
   }
+}
+
+AppUpdate.contextTypes = {
+  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(AppUpdate)

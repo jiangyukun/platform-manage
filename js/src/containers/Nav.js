@@ -55,6 +55,7 @@ class Nav extends Component {
       }
     ]
 
+    // 构建1, 2 级菜单
     this.context.pageList.forEach(page => {
       const pageName = page['page_Name']
       const menu = menus.find(menu => menu.categoryName == pageCategoryMapper[pageName])
@@ -71,12 +72,12 @@ class Nav extends Component {
       })
     })
 
+    // index 跳转到第一个有权限的页面
     this.menus = menus
     if (this.state.current == getPath('index')) {
       for (let i = 0; i < menus.length; i++) {
         let menu = menus[i]
         if (menu.subMenus.length > 0) {
-          console.log(menu)
           let toPage = menu.subMenus[0].to
           if (this.state.current != toPage) {
             this.context.router.replace(toPage)
@@ -92,6 +93,18 @@ class Nav extends Component {
     const SubMenu = Menu.SubMenu
     const Item = Menu.Item
 
+    // 页面个数少于5个，展开所有1级菜单
+    let openCategoryList = []
+    if (this.context.pageList.length <= 10) {
+      this.menus.map(menu => {
+        if (menu.subMenus.length > 0) {
+          openCategoryList.push(menu.categoryName)
+        }
+      })
+    } else {
+      openCategoryList = getOpenMenu(this.state.current)
+    }
+
     return (
       <nav>
         <div className="navigate-text">
@@ -100,7 +113,7 @@ class Nav extends Component {
 
         <Menu theme="dark"
               onClick={e => this.handleClick(e)}
-              defaultOpenKeys={getOpenMenu(this.state.current)}
+              defaultOpenKeys={openCategoryList}
               selectedKeys={[this.state.current]}
               mode="inline"
         >

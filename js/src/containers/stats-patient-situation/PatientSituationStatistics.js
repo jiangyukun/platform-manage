@@ -12,7 +12,8 @@ import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import DownloadFileDialog from '../common/DownloadFileDialog'
 
-import * as utils from '../../core/utils'
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {fetchPatientSituationList, fetchExcelHistory} from './patient-situation'
 
 class PatientSituationStatistics extends Component {
@@ -44,6 +45,9 @@ class PatientSituationStatistics extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.patientSituationStatistics)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.patientSituationStatistics)
+
     return (
       <div className="app-function-page">
         {
@@ -53,10 +57,14 @@ class PatientSituationStatistics extends Component {
             />
           )
         }
-        <div>
-          <button className="btn btn-primary" style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
-                  onClick={this.exportExcel}>下载历史记录
-          </button>
+        <div className="mt-20">
+          {
+            isCanExport && (
+              <button className="btn btn-primary" style={{marginTop: '20px', marginBottom: '20px', marginLeft: '15px'}}
+                      onClick={this.exportExcel}>下载历史记录
+              </button>
+            )
+          }
         </div>
         <PaginateList ref={c => this._paginateList = c}
                       doFetch={() => this.doFetch()}
@@ -107,6 +115,10 @@ function mapStateToProps(state) {
   return {
     ...state.patientSituationList
   }
+}
+
+PatientSituationStatistics.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

@@ -15,6 +15,8 @@ import Layout from '../../components/table-layout/Layout'
 import AppFunctionPage from '../common/AppFunctionPage'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -65,6 +67,9 @@ class TodoWorkTrack extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.todoWorkTrack)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.todoWorkTrack)
+
     const {Head, Row} = Layout
 
     return (
@@ -82,8 +87,11 @@ class TodoWorkTrack extends Component {
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName="doctor_Phone"
         >
-
-          <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出Excel</button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出Excel</button>
+            )
+          }
 
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
           <FilterItem item={this.props.departmentFilterList} paramName="department_Id"/>
@@ -141,8 +149,12 @@ class TodoWorkTrack extends Component {
                       <Row.Item>{todo['operation_Manager']}</Row.Item>
                       <Row.Item>
                         {todo['doctor_Need_Remark']}
-                        <i className="edit-remark-svg"
-                           onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg"
+                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{todo['visit_Type_One_Need_Count']}</Row.Item>
                       <Row.Item>{todo['visit_Type_Two_Need_Count']}</Row.Item>
@@ -190,6 +202,10 @@ function mapActionToProps(dispatch) {
     fetchHospitalList: fetchHospitalList(dispatch),
     fetchDepartmentList: commonActions.fetchDepartmentList(dispatch),
   })
+}
+
+TodoWorkTrack.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(TodoWorkTrack)

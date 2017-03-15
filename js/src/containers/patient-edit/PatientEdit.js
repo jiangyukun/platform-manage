@@ -19,6 +19,8 @@ import EditPatientInfo from './EditPatientInfo'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import constants from '../../core/constants'
 import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
@@ -71,6 +73,9 @@ class PatientEdit extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.patientEdit)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.patientEdit)
+
     return (
       <div className="app-function-page">
         {
@@ -80,6 +85,7 @@ class PatientEdit extends Component {
                              updateAuditingState={this.props.updateAuditingState}
                              updatePatientInfo={this.props.updatePatientInfo}
                              patientInfoUpdated={() => this.beginFetch()}
+                             isCanEdit={isCanEdit}
                              onExited={() => this.setState({showEdit: false})}/>
           )
         }
@@ -190,10 +196,14 @@ class PatientEdit extends Component {
                         <li className="item flex1">{getAuditStatus(patient['checked'])}</li>
                         <li className="item flex1">
                           {patient['remark']}
-                          <div>
-                            <i className="edit-remark-svg"
-                               onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
-                          </div>
+                          {
+                            isCanEdit && (
+                              <div>
+                                <i className="edit-remark-svg"
+                                   onClick={() => this.editRemark(patient['patient_Id'], patient['info_Id'], patient['remark'])}></i>
+                              </div>
+                            )
+                          }
                         </li>
                         <li className="item" style={{width: '120px'}}>{formatDateStr(patient['creatTime'])}</li>
                       </ul>
@@ -236,6 +246,10 @@ function mapActionToProps(dispatch) {
     updatePatientInfo: editActions.updatePatientInfo(dispatch),
     updatePatientRemark: commonActions.updateRemark(dispatch)
   }
+}
+
+PatientEdit.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(PatientEdit)

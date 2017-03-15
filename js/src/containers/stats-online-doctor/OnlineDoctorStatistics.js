@@ -16,6 +16,8 @@ import Layout from "../../components/table-layout/Layout"
 import EditRemark from '../common/EditRemark'
 import YesOrNoDialog from '../common/YesOrNoDialog'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {formatDateStr} from '../../core/dateUtils'
 import {getYesOrNoText} from '../../core/formatBusData'
@@ -83,6 +85,9 @@ class OnlineDoctorStatistics extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.onlineDoctor)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.onlineDoctor)
+
     const {Head, Row} = Layout
     let {statisticsInfo} = this.props
 
@@ -227,14 +232,18 @@ class OnlineDoctorStatistics extends Component {
                       <Row.Item>
                         {getYesOrNoText(onlineDoctor['is_Statistics'])}
                         {
-                          this.state.hoverIndex == index && (
+                          isCanEdit && this.state.hoverIndex == index && (
                             <i className="edit-remark-svg" onClick={e => this.setState({showEditIsStatistics: true, currentIndex: index})}/>
                           )
                         }
                       </Row.Item>
                       <Row.Item>
                         {onlineDoctor['score_Log_Remark']}
-                        <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{formatDateStr(onlineDoctor['score_Log_Time'])}</Row.Item>
                     </Row>
@@ -247,6 +256,10 @@ class OnlineDoctorStatistics extends Component {
       </div>
     )
   }
+}
+
+OnlineDoctorStatistics.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(state => ({

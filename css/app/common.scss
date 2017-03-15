@@ -25,6 +25,10 @@ button {
     cursor: pointer;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 .list-data-count {
     text-align: left;
     margin: 2px 15px;
@@ -43,6 +47,10 @@ button {
 
 .editable-number {
     text-decoration: underline;
+    cursor: pointer;
+}
+
+.cursor-pointer {
     cursor: pointer;
 }
 

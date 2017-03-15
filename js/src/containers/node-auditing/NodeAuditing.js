@@ -1,7 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {merge} from 'lodash'
@@ -9,14 +9,9 @@ import notification from 'antd/lib/notification'
 
 import NodeAuditingQueryFilter from './NodeAuditingQueryFilter'
 import FilterItem from '../../components/core/query-filter/FilterItem'
-import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
-import CustomTextInput from '../../components/core/query-filter/custom/CustomTextInput'
-import SubDateSelect from '../../components/core/query-filter/custom/SubDateSelect'
-import SubOptions from '../../components/core/query-filter/custom/SubOptions'
+import {CustomDateRange, CustomTextInput, SubDateSelect, SubOptions} from '../../components/core/query-filter/custom/'
 import PaginateList from '../../components/core/PaginateList'
-import SmartList from '../../components/list/SmartList'
-import HeadContainer from '../../components/list/HeadContainer'
-import BodyContainer from '../../components/list/BodyContainer'
+import {SmartList, HeadContainer, BodyContainer} from '../../components/list/'
 import Head from './table/Head'
 import Body from './table/Body'
 import EditPatientInfo from '../patient-edit/EditPatientInfo'
@@ -24,6 +19,8 @@ import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import mapStateToProps from './data/mapStateToProps'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -84,6 +81,9 @@ class NodeAuditing extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.nodeAuditing)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.nodeAuditing)
+
     let {total, list} = this.props
     let listWidth = 7040
     if (this.state.open1) {
@@ -102,7 +102,8 @@ class NodeAuditing extends Component {
               updateAuditingState={this.props.updateAuditingState}
               updatePatientInfo={this.props.updatePatientInfo}
               patientInfoUpdated={() => this.beginFetch()}
-              onExited={() => this.setState({showEdit: false})}/>
+              onExited={() => this.setState({showEdit: false})}
+              isCanEdit={isCanEdit}/>
           )
         }
         <EditVisitCard ref={c => this._editVisitCard = c} editVisitCard={(...arg) => this.editVisitCard(...arg)}/>
@@ -119,7 +120,11 @@ class NodeAuditing extends Component {
                   onClick={e => this.setState({showEdit: true})}
                   disabled={this.state.currentIndex == -1}>查看
           </button>
-          <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={e => this.exportExcel()}>导出excel</button>
+            )
+          }
 
           <FilterItem item={this.props.hospitalFilterList} paramName="hsp_Name" useText={true}/>
 
@@ -175,7 +180,8 @@ class NodeAuditing extends Component {
                     selectItem={index => this.setState({currentIndex: index})}
                     openVisitCardDialog={(...arg) => this._editVisitCard.open(...arg)}
                     openEditRemarkDialog={(...arg) => this._editRemark.open(...arg)}
-                    openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}/>
+                    openIsCompleteVisitDialog={(...arg) => this._editIsCompleteVisit.open(...arg)}
+                    isCanEdit={isCanEdit}/>
             </BodyContainer>
           </SmartList>
         </PaginateList>
@@ -196,6 +202,10 @@ function mapActionToProps(dispatch) {
     updateAuditingState: actions.updateAuditingState(dispatch),
     updatePatientInfo: actions.updatePatientInfo(dispatch)
   })
+}
+
+NodeAuditing.contextTypes = {
+  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(NodeAuditing)

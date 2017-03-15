@@ -86,13 +86,13 @@ class QueryFilter extends Component {
 
   render() {
     let buttons = this.props.children.map(child => {
-      if (child.type == 'button') {
+      if (child && child.type != FilterItem) {
         return child
       }
     })
 
     let filterItems = this.props.children.map((child, index) => {
-      if (child.type == FilterItem) {
+      if (child && child.type == FilterItem) {
         return child
       }
     })

@@ -59,7 +59,7 @@ class EditDoctorDialog extends Component {
     if (this.state.headPictureUrl != doctor_Photo) edited = true
     if (this.state.holdCardPictureUrl != doctor_Practicing_Photo) edited = true
 
-    if (!force && edited) {
+    if (this.props.isCanEdit && !force && edited) {
       if (this.showCancelEditTip) return
       this.showCancelEditTip = true
       antdUtil.confirm('您修改了医生信息，确定放弃此次操作吗？', () => this.setState({show: false}), () => this.showCancelEditTip = false)
@@ -255,26 +255,30 @@ class EditDoctorDialog extends Component {
           </section>
         </Modal.Body>
         <Modal.Footer>
-          <div className="row mt-10">
-            <div className="col-xs-3">
-              <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
-                     disabled={this.state.auditingState == 1} value="撤销审核"/>
-            </div>
-            <div className="col-xs-3">
-              <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
-                     disabled={this.state.auditingState == 3} value="标为不通过"/>
-            </div>
-            <div className="col-xs-3">
-              <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
-                     disabled={this.state.auditingState == 2} value="标为已审核"/>
-            </div>
-            <div className="col-xs-3">
-              <input type="button" className="btn btn-success btn-block"
-                     onClick={e => this.updateDoctorInfo()}
-                     disabled={!this.state.valid}
-                     value="保存修改"/>
-            </div>
-          </div>
+          {
+            this.props.isCanEdit && (
+              <div className="row mt-10">
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
+                         disabled={this.state.auditingState == 1} value="撤销审核"/>
+                </div>
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
+                         disabled={this.state.auditingState == 3} value="标为不通过"/>
+                </div>
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
+                         disabled={this.state.auditingState == 2} value="标为已审核"/>
+                </div>
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-success btn-block"
+                         onClick={e => this.updateDoctorInfo()}
+                         disabled={!this.state.valid}
+                         value="保存修改"/>
+                </div>
+              </div>
+            )
+          }
         </Modal.Footer>
       </Modal>
     )
@@ -294,6 +298,7 @@ EditDoctorDialog.propTypes = {
   updateDoctorInfo: PropTypes.func,
   updateDoctorAuditingState: PropTypes.func,
   updateDoctorInfoSuccess: PropTypes.func,
+  isCanEdit: PropTypes.bool,
   onExited: PropTypes.func
 }
 

@@ -12,6 +12,8 @@ import  AddConsoleUser from './dialog/AddConsoleUser'
 import  EditConsoleUser from './dialog/EditConsoleUser'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 
@@ -78,6 +80,9 @@ class ConsoleAccountManage extends React.Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.consoleAccountManage)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.consoleAccountManage)
+
     return (
       <div className="app-function-page console-account-manage">
         {
@@ -101,6 +106,7 @@ class ConsoleAccountManage extends React.Component {
               updateConsoleUserSuccess={this.props.updateConsoleUserSuccess}
               deleteConsoleUserSuccess={this.props.deleteConsoleUserSuccess}
               resetPasswordSuccess={this.props.resetPasswordSuccess}
+              isCanEdit={isCanEdit}
               onExited={() => this.setState({edit: false})}/>
           )
         }
@@ -119,10 +125,20 @@ class ConsoleAccountManage extends React.Component {
                      searchKeyName="backend_User_Name"
                      placeholder="输入后台账号"
         >
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({add: true})}>新增账号</button>
+            )
+          }
 
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({add: true})}>新增账号</button>
-          <button className="btn btn-info mr-20" onClick={() => this.setState({edit: true})} disabled={this.state.index == -1}>修改</button>
-
+          <button className="btn btn-info mr-20" onClick={() => this.setState({edit: true})} disabled={this.state.index == -1}>
+            查看
+            {
+              isCanEdit && (
+                <span>/修改</span>
+              )
+            }
+          </button>
           <FilterItem item={this.props.roleFilterList} paramName="group_Id"></FilterItem>
         </QueryFilter>
 
@@ -182,6 +198,10 @@ function mapStateToProps(state) {
     ...consoleAccountManage,
     roleFilterList: utils.getFilterItem('role', '权限包含', consoleAccountManage.roleList)
   }
+}
+
+ConsoleAccountManage.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

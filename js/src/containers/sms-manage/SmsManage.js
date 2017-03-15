@@ -12,6 +12,9 @@ import Layout from "../../components/table-layout/Layout"
 
 import SendMessageDialog from "./dialog/SendMessageDialog"
 import SmsTemplateManage from "./dialog/SmsTemplateManage"
+
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from "../../core/utils"
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchBackendMemberList} from "../../actions/backend-member"
@@ -58,6 +61,9 @@ class SmsManage extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.smsManage)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.smsManage)
+
     const {Head, Row} = Layout
 
     return (
@@ -92,13 +98,25 @@ class SmsManage extends Component {
                      searchKeyName="searchKey"
                      placeholder="短信内容"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>发送短信</button>
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({showAdd: true})}>发送短信</button>
+            )
+          }
 
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showSmsManage: true})}>短信模板管理</button>
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({showSmsManage: true})}>短信模板管理</button>
+            )
+          }
 
-          <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>
-            导出excel
-          </button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>
+                导出excel
+              </button>
+            )
+          }
 
           <FilterItem item={this.props.senderFilterList} paramName="sender"/>
 
@@ -177,6 +195,10 @@ function mapStateToProps(state) {
     },
     sendDate: utils.getFilterItem('sendDate', '发送时间', [])
   }
+}
+
+SmsManage.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

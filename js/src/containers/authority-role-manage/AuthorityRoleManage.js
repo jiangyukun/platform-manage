@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2017/3/13.
  */
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 
@@ -14,6 +14,8 @@ import EditRole from './dialog/EditRole'
 import AddPagePermission from './page-permission/AddPagePermission'
 import EditPagePermission from './page-permission/EditPagePermission'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {
   fetchList, fetchPagePermissionList,
@@ -22,7 +24,7 @@ import {
   updateRemark, clearUpdateRemarkSuccess
 } from './authority-role-manage'
 
-class AuthorityRoleManage extends React.Component {
+class AuthorityRoleManage extends Component {
   state = {
     index: -1,
     permissionId: '',
@@ -93,6 +95,9 @@ class AuthorityRoleManage extends React.Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.authorityRoleManage)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.authorityRoleManage)
+
     const getPagePermissionInfo = () => {
       let permissionId = this.state.permissionId
       const role = this.props.list[this.state.index]
@@ -164,9 +169,18 @@ class AuthorityRoleManage extends React.Component {
                      searchKeyName="group_Name"
                      placeholder="输入分组名称"
         >
-
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({add: true})}>新增分组</button>
-          <button className="btn btn-info mr-20" onClick={() => this.setState({edit: true})} disabled={this.state.index == -1}>修改</button>
+          {
+            isCanEdit && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({add: true})}>新增分组</button>
+            )
+          }
+          {
+            isCanEdit && (
+              <button className="btn btn-info mr-20" onClick={() => this.setState({edit: true})} disabled={this.state.index == -1}>
+                修改
+              </button>
+            )
+          }
         </QueryFilter>
 
         <PaginateList ref={c => this._paginateList = c}
@@ -199,8 +213,11 @@ class AuthorityRoleManage extends React.Component {
                       <RowItem>{role['group_Name']}</RowItem>
                       <RowItem>
                         {role['group_Remark']}
-                        <i className="edit-remark-svg"
-                           onClick={e => this.setState({showEditRemark: true, index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, index})}/>
+                          )
+                        }
                       </RowItem>
                       <RowItem>
                         {
@@ -208,6 +225,7 @@ class AuthorityRoleManage extends React.Component {
                             const permissionId = page['permission_Id']
                             return (
                               <PageAuthority key={permissionId}
+                                             isCanEdit={isCanEdit}
                                              permission={page['permission']}
                                              pageCode={page['page_Name']}
                                              pageName={page['page_Name_Remark']}
@@ -217,9 +235,13 @@ class AuthorityRoleManage extends React.Component {
                             )
                           })
                         }
-                        <div className="plus-container" onClick={() => this.setState({index, addPage: true})}>
-                          <i className="plus-svg-icon"></i>
-                        </div>
+                        {
+                          isCanEdit && (
+                            <div className="plus-container" onClick={() => this.setState({index, addPage: true})}>
+                              <i className="plus-svg-icon"></i>
+                            </div>
+                          )
+                        }
                       </RowItem>
                     </Row>
                   )
@@ -237,6 +259,10 @@ function mapStateToProps(state) {
   return {
     ...state['authorityRoleManage']
   }
+}
+
+AuthorityRoleManage.contextTypes = {
+  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, {

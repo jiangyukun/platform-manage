@@ -232,9 +232,14 @@ class EditHospitalDialog extends Component {
         </Modal.Body>
         <Modal.Footer>
           <div className="col-xs-6">
-            <input type="button" className="btn btn-success btn-block" value="保存"
-                   disabled={this.state.invalid}
-                   onClick={e => this.updateHospitalInfo()}/>
+            {
+              this.props.isCanEdit && (
+
+                <input type="button" className="btn btn-success btn-block" value="保存"
+                       disabled={this.state.invalid}
+                       onClick={e => this.updateHospitalInfo()}/>
+              )
+            }
           </div>
           <div className="col-xs-6">
             <input type="button" className="btn btn-default btn-block" onClick={() => this.setState({show: false})} value="取消"/>
@@ -252,6 +257,7 @@ EditHospitalDialog.propTypes = {
   fetchCityList: PropTypes.func,
   fetchCityMaxSerialNumber: PropTypes.func,
   updateHospitalInfo: PropTypes.func,
+  isCanEdit: PropTypes.bool,
   onExited: PropTypes.func
 }
 

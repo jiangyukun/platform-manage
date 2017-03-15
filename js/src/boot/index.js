@@ -9,7 +9,7 @@ import configureStore from '../store/configureStore'
 import Root from '../containers/Root'
 import {_get} from '../services/http'
 
-import * as utils from '../core/utils'
+import {pagePriority} from '../constants/nav'
 import * as types from '../constants/ActionTypes'
 
 import './import-style'
@@ -31,12 +31,10 @@ switch (process.env.NODE_ENV) {
 }
 let store = configureStore()
 let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
-store.dispatch({
-  type: types.INIT_USERNAME,
-  username: utils.getSession('userId')
-})
 
-_get('/webBackend/getBackendUserPermissionPage').then(roleList => {
+_get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
+  const roleList = authorityInfo['list']
+  const userName = authorityInfo['userName']
   const pageList = []
   roleList.forEach(role => {
     role.pageList.map(page => {
@@ -45,6 +43,22 @@ _get('/webBackend/getBackendUserPermissionPage').then(roleList => {
         pageList.push(page)
       }
     })
+  })
+
+  //排序
+  pageList.sort((page1, page2) => {
+    if (!page1 || !page1['page_Name'] || !pagePriority[page1['page_Name']]) {
+      return -1
+    }
+    if (!page2 || !page2['page_Name'] || !pagePriority[page2['page_Name']]) {
+      return 1
+    }
+    return pagePriority[page1['page_Name']] - pagePriority[page2['page_Name']]
+  })
+
+  store.dispatch({
+    type: types.INIT_USERNAME,
+    username: userName
   })
 
   store.dispatch({

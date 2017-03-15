@@ -14,6 +14,8 @@ import Layout from "../../components/table-layout/Layout"
 import AppFunctionPage from '../common/AppFunctionPage'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -64,6 +66,9 @@ class TakeMedicineRecord extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.takeMedicineRecord)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.takeMedicineRecord)
+
     const {Head, Row} = Layout
 
     return (
@@ -81,7 +86,11 @@ class TakeMedicineRecord extends Component {
                      searchKeyName="patient_Phone_Or_Patient_Code"
         >
 
-          <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.exportExcel()} disabled={this.props.total == 0}>导出excel</button>
+            )
+          }
 
           <FilterItem item={this.props.takeMedicineStatus} paramName="takeMedicine_Status" useText={true}/>
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
@@ -142,8 +151,12 @@ class TakeMedicineRecord extends Component {
                       <Row.Item>{record['operation_manager']}</Row.Item>
                       <Row.Item>
                         {record['takeMedicine_Remark']}
-                        <i className="edit-remark-svg"
-                           onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg"
+                               onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{record['takeMedicine_Status']}</Row.Item>
                       <Row.Item>{record['give_Up_Reason_Content']}</Row.Item>
@@ -180,6 +193,10 @@ function mapActionToProps(dispatch) {
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch)
   })
+}
+
+TakeMedicineRecord.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(TakeMedicineRecord)

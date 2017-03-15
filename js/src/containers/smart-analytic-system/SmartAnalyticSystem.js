@@ -16,6 +16,8 @@ import EditAnalyticDialog from './EditAnalyticDialog'
 import RowMoveManage from './move/RowMoveManage'
 import EditRemark from '../common/EditRemark'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {formatDateStr} from '../../core/dateUtils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {
@@ -98,6 +100,9 @@ class SmartAnalyticSystem extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.smartAnalyticSystem)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.smartAnalyticSystem)
+
     return (
       <div className="app-function-page smart-analytic-system">
         {
@@ -245,6 +250,10 @@ function mapStateToProps(state) {
   return {
     ...state['smartAnalytic']
   }
+}
+
+SmartAnalyticSystem.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

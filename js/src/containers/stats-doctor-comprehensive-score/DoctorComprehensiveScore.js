@@ -15,6 +15,8 @@ import EditRemark from '../common/EditRemark'
 import ExportExcelDialog from './ExportExcelDialog'
 import DoctorStatisticsDialog from './DoctorStatisticsDialog'
 
+import {appPageNames} from '../../constants/nav'
+import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -59,6 +61,9 @@ class DoctorComprehensiveScore extends Component {
   }
 
   render() {
+    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.doctorComprehensiveScore)
+    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.doctorComprehensiveScore)
+
     const {Head, Row} = Layout
 
     return (
@@ -96,8 +101,11 @@ class DoctorComprehensiveScore extends Component {
                      searchKeyName="doctor_Phone"
                      placeholder="医生手机号"
         >
-          <button className="btn btn-primary mr-20" onClick={() => this.setState({showExport: true})}>选择开始结束时间，导出Excel</button>
-
+          {
+            isCanExport && (
+              <button className="btn btn-primary mr-20" onClick={() => this.setState({showExport: true})}>选择开始结束时间，导出Excel</button>
+            )
+          }
           <FilterItem item={this.props.hospitalFilterList} paramName="hospital_Name" useText={true}/>
 
           <FilterItem item={this.props.backendMangerList}>
@@ -151,8 +159,11 @@ class DoctorComprehensiveScore extends Component {
                       <Row.Item>{comprehensiveScore['operation_Manager']}</Row.Item>
                       <Row.Item>
                         {comprehensiveScore['doctor_Score_Remark']}
-                        <i className="edit-remark-svg"
-                           onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg" onClick={e => this.setState({showEditRemark: true, currentIndex: index})}/>
+                          )
+                        }
                       </Row.Item>
                       <Row.Item>{comprehensiveScore['doctor_Last_Week_Score']}</Row.Item>
                       <Row.Item>{comprehensiveScore['doctor_Last_Week_Ranking']}</Row.Item>
@@ -194,6 +205,10 @@ function mapActionToProps(dispatch) {
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch)
   })
+}
+
+DoctorComprehensiveScore.contextTypes = {
+  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(DoctorComprehensiveScore)

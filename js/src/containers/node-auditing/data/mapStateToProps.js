@@ -8,6 +8,7 @@ export default function mapStateToProps(state) {
   let {auditingState} = constants
   return {
     ...state['patientListInfo'],
+    pageList: state.pageList,
     hospitalList: state.hospitalList,
     hospitalFilterList: {
       typeCode: 'hospital',
