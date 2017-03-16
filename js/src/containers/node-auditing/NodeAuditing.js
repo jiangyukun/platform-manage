@@ -19,8 +19,6 @@ import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import mapStateToProps from './data/mapStateToProps'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -81,8 +79,7 @@ class NodeAuditing extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.nodeAuditing)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.nodeAuditing)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     let {total, list} = this.props
     let listWidth = 7040
@@ -202,10 +199,6 @@ function mapActionToProps(dispatch) {
     updateAuditingState: actions.updateAuditingState(dispatch),
     updatePatientInfo: actions.updatePatientInfo(dispatch)
   })
-}
-
-NodeAuditing.contextTypes = {
-  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(NodeAuditing)

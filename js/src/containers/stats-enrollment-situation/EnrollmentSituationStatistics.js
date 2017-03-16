@@ -11,8 +11,6 @@ import CustomDateRange from '../../components/core/query-filter/custom/CustomDat
 import PaginateList from '../../components/core/PaginateList'
 import Layout from "../../components/table-layout/Layout"
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {fetchHospitalList1} from '../../actions/hospital'
 import * as actions from './enrolement-situation'
@@ -43,8 +41,7 @@ class EnrollmentSituationStatistics extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.enrollmentSituation)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.enrollmentSituation)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
 
@@ -124,10 +121,6 @@ function mapStateToProps(state) {
     hospitalFilterList: utils.getFilterItem('hospital', '医院', state.hospitalList),
     registerFilterList: utils.getFilterItem('register', '注册日期', [])
   }
-}
-
-EnrollmentSituationStatistics.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

@@ -1,0 +1,33 @@
+{
+  "status": 0,
+  "rspMsg": "操作成功",
+  "errCode": null,
+  "data": {
+    "userName": "admin",
+    "list": [
+      {
+        "group_Id": "111111111111111111",
+        "group_Name": "admin",
+        "group_Remark": "管理员",
+        "pageList": [
+          {
+            "permission_Id": "30",
+            "permission": "1",
+            "export": true,
+            "permission_Page": "19",
+            "page_Name": "console-account-manage",
+            "page_Name_Remark": "后台账号管理"
+          },
+          {
+            "permission_Id": "31",
+            "permission": "1",
+            "export": true,
+            "permission_Page": "20",
+            "page_Name": "authority-role-manage",
+            "page_Name_Remark": "权限分组管理"
+          }
+        ]
+      }
+    ]
+  }
+}

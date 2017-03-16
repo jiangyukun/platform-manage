@@ -16,8 +16,6 @@ import BodyContainer from '../../components/list/BodyContainer'
 import constants from '../../core/constants'
 import {getFilterItem} from '../../core/utils'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as actions from './app-update'
 
 class AppUpdate extends Component {
@@ -46,8 +44,7 @@ class AppUpdate extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.appUpdate)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.appUpdate)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page">
@@ -129,10 +126,6 @@ function mapActionToProps(dispatch) {
   return {
     fetchAppUpdatePaginateList: actions.fetchAppUpdatePaginateList(dispatch)
   }
-}
-
-AppUpdate.contextTypes = {
-  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(AppUpdate)

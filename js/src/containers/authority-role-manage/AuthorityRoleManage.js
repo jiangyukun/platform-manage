@@ -5,7 +5,8 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 
-import {QueryFilter, PaginateList} from '../../components/core/'
+import {PaginateList} from '../../components/core/'
+import Form from '../../components/element/Form'
 import {Layout, Head, HeadItem, Row, RowItem} from '../../components/table-layout'
 import PageAuthority from './PageAuthority'
 import EditRemark from '../common/EditRemark'
@@ -14,8 +15,6 @@ import EditRole from './dialog/EditRole'
 import AddPagePermission from './page-permission/AddPagePermission'
 import EditPagePermission from './page-permission/EditPagePermission'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {
   fetchList, fetchPagePermissionList,
@@ -27,6 +26,7 @@ import {
 class AuthorityRoleManage extends Component {
   state = {
     index: -1,
+    searchRoleName: '',
     permissionId: '',
     add: false,
     edit: false,
@@ -41,7 +41,11 @@ class AuthorityRoleManage extends Component {
 
   doFetch() {
     this.setState({currentIndex: -1})
-    this.props.fetchList(merge({}, this._queryFilter.getParams(), this._paginateList.getParams()))
+    let searchParam = {}
+    if (this.state.searchRoleName.trim()) {
+      searchParam['group_Name'] = this.state.searchRoleName.trim()
+    }
+    this.props.fetchList(merge({}, searchParam, this._paginateList.getParams()))
   }
 
   updateRemark = (newRemark) => {
@@ -95,8 +99,7 @@ class AuthorityRoleManage extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.authorityRoleManage)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.authorityRoleManage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const getPagePermissionInfo = () => {
       let permissionId = this.state.permissionId
@@ -123,6 +126,7 @@ class AuthorityRoleManage extends Component {
               deleteRole={this.props.deleteRole}
               updateRoleSuccess={this.props.updateRoleSuccess}
               deleteRoleSuccess={this.props.deleteRoleSuccess}
+              isCanEdit={isCanEdit}
               onExited={() => this.setState({edit: false})}/>
           )
         }
@@ -164,11 +168,8 @@ class AuthorityRoleManage extends Component {
           )
         }
 
-        <QueryFilter ref={c => this._queryFilter = c} className="ex-big-label"
-                     beginFilter={() => this.beginFetch(1)}
-                     searchKeyName="group_Name"
-                     placeholder="输入分组名称"
-        >
+
+        <div className="toolbar">
           {
             isCanEdit && (
               <button className="btn btn-primary mr-20" onClick={() => this.setState({add: true})}>新增分组</button>
@@ -181,7 +182,14 @@ class AuthorityRoleManage extends Component {
               </button>
             )
           }
-        </QueryFilter>
+
+          <div className="search-container">
+            <Form className="inline-block" onSubmit={() => this.beginFetch(1)}>
+              <input placeholder="输入分组名称" onChange={e => this.setState({searchRoleName: e.target.value})}/>
+            </Form>
+            <button onClick={() => this.beginFetch(1)}>搜索</button>
+          </div>
+        </div>
 
         <PaginateList ref={c => this._paginateList = c}
                       doFetch={() => this.doFetch()}
@@ -259,10 +267,6 @@ function mapStateToProps(state) {
   return {
     ...state['authorityRoleManage']
   }
-}
-
-AuthorityRoleManage.contextTypes = {
-  pageList: PropTypes.array
 }
 
 export default connect(mapStateToProps, {

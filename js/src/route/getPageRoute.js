@@ -4,6 +4,9 @@
 import React from 'react'
 import {Route} from 'react-router'
 
+import getAuthority from './getAuthority'
+import {appPageNames} from '../constants/nav'
+
 import PlatformApp from '../containers/PlatformApp'
 import IndexPage from '../containers/IndexPage'
 import IllegalAuthority from '../containers/IllegalAuthority'
@@ -33,30 +36,37 @@ import ConsoleAccountManage from '../containers/console-account-manage/ConsoleAc
 import AuthorityRoleManage from '../containers/authority-role-manage/AuthorityRoleManage'
 
 export default function getPageRoute(path, pageList) {
+  const {
+    nodeAuditing, patientEdit, laboratorySheet, takeMedicineRecord,
+    doctorAuditing, hospitalManage, outPatientTime, todoWorkTrack,
+    smartAnalyticSystem, appUpdate,
+    historyMessage, hospitalAssayReport, patientSituationStatistics, doctorComprehensiveScore, enrollmentSituation, onlineDoctor,
+    smsManage, consoleAccountManage, authorityRoleManage,
+  } = appPageNames
   const mapper = {
-    "node-auditing": NodeAuditing,
-    "patient-edit": PatientEdit,
-    "laboratory-sheet": LaboratorySheet,
-    "take-medicine-record": TakeMedicineRecord,
+    [nodeAuditing]: getAuthority(pageList, nodeAuditing, NodeAuditing),
+    [patientEdit]: getAuthority(pageList, patientEdit, PatientEdit),
+    [laboratorySheet]: getAuthority(pageList, laboratorySheet, LaboratorySheet),
+    [takeMedicineRecord]: getAuthority(pageList, takeMedicineRecord, TakeMedicineRecord),
 
-    "doctor-auditing": DoctorAuditing,
-    "hospital-manage": HospitalManage,
-    "out-patient-time": OutPatientTime,
-    "todo-work-track": TodoWorkTrack,
+    [doctorAuditing]: getAuthority(pageList, doctorAuditing, DoctorAuditing),
+    [hospitalManage]: getAuthority(pageList, hospitalManage, HospitalManage),
+    [outPatientTime]: getAuthority(pageList, outPatientTime, OutPatientTime),
+    [todoWorkTrack]: getAuthority(pageList, todoWorkTrack, TodoWorkTrack),
 
-    "smart-analytic-system": SmartAnalyticSystem,
-    "app-update": AppUpdate,
+    [smartAnalyticSystem]: getAuthority(pageList, smartAnalyticSystem, SmartAnalyticSystem),
+    [appUpdate]: getAuthority(pageList, appUpdate, AppUpdate),
 
-    "hospital-assay-report": HospitalAssayReport,
-    "patient-situation-statistics": PatientSituationStatistics,
-    "doctor-comprehensive-score": DoctorComprehensiveScore,
-    "enrollment-situation": EnrollmentSituationStatistics,
-    "online-doctor": OnlineDoctorStatistics,
-    "history-message": HistoryMessageStatistics,
+    [historyMessage]: getAuthority(pageList, historyMessage, HistoryMessageStatistics),
+    [hospitalAssayReport]: getAuthority(pageList, hospitalAssayReport, HospitalAssayReport),
+    [patientSituationStatistics]: getAuthority(pageList, patientSituationStatistics, PatientSituationStatistics),
+    [doctorComprehensiveScore]: getAuthority(pageList, doctorComprehensiveScore, DoctorComprehensiveScore),
+    [enrollmentSituation]: getAuthority(pageList, enrollmentSituation, EnrollmentSituationStatistics),
+    [onlineDoctor]: getAuthority(pageList, onlineDoctor, OnlineDoctorStatistics),
 
-    "sms-manage": SmsManage,
-    "console-account-manage": ConsoleAccountManage,
-    "authority-role-manage": AuthorityRoleManage,
+    [smsManage]: getAuthority(pageList, smsManage, SmsManage),
+    [consoleAccountManage]: getAuthority(pageList, consoleAccountManage, ConsoleAccountManage),
+    [authorityRoleManage]: getAuthority(pageList, authorityRoleManage, AuthorityRoleManage),
   }
 
   return (

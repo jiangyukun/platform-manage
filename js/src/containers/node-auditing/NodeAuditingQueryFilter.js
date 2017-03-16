@@ -48,7 +48,7 @@ class NodeAuditingQueryFilter extends QueryFilter {
         <div className="group-input">
           <label className="search-label">患者:</label>
           <Form className="input-form">
-            <input type="text" placeholder="输入手机号码，编号查询" onChange={e => this.searchKey2Change(e)}/>
+            <input type="text" style={{width: '140px'}} placeholder="输入手机号码，编号查询" onChange={e => this.searchKey2Change(e)}/>
             <button className="icon-search-btn" onClick={e => this.filter()}></button>
           </Form>
         </div>

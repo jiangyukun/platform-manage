@@ -43,6 +43,10 @@ class Header extends Component {
     } else if (dayHour < 24) {
       dayPhase = '晚上'
     }
+    let loginUrl = 'platform/access/login.html'
+    if (location.href.indexOf('inline') != -1) {
+      loginUrl = 'platform/inline/login'
+    }
 
     return (
       <div className="app-header navbar">
@@ -68,7 +72,7 @@ class Header extends Component {
                 <span className="hidden-sm hidden-md">{this.props.app.username + `，${dayPhase}好`}</span>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu animated fadeInRight w">
-                <MenuItem href="platform/access/login.html">
+                <MenuItem href={loginUrl}>
                   重新登录
                 </MenuItem>
               </Dropdown.Menu>

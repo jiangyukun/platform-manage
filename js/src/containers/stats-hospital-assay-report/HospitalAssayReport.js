@@ -11,8 +11,6 @@ import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import DownloadExcelDialog from './DownloadExcelDialog'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as actions from './hospital-assay-report'
 
 class HospitalAssayReport extends Component {
@@ -39,8 +37,7 @@ class HospitalAssayReport extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.hospitalAssayReport)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.hospitalAssayReport)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page">
@@ -132,10 +129,6 @@ function mapActionToProps(dispatch) {
     fetchHospitalAssayPaginateList: actions.fetchHospitalAssayPaginateList(dispatch),
     fetchHistoryAssayReportList: actions.fetchHistoryAssayReportList(dispatch)
   }
-}
-
-HospitalAssayReport.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(HospitalAssayReport)

@@ -33,19 +33,21 @@ let store = configureStore()
 let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
 
 _get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
-  const roleList = authorityInfo['list']
+  const roleList = authorityInfo['list'] || []
   const userName = authorityInfo['userName']
   const pageList = []
   roleList.forEach(role => {
-    role.pageList.map(page => {
-      let pageName = page['page_Name']
-      if (pageList.find(page => page['page_Name'] == pageName) == null) {
-        pageList.push(page)
-      }
-    })
+    if (role.pageList) {
+      role.pageList.map(page => {
+        let pageName = page['page_Name']
+        if (pageList.find(page => page['page_Name'] == pageName) == null) {
+          pageList.push(page)
+        }
+      })
+    }
   })
 
-  //排序
+  // 页面优先级排序
   pageList.sort((page1, page2) => {
     if (!page1 || !page1['page_Name'] || !pagePriority[page1['page_Name']]) {
       return -1

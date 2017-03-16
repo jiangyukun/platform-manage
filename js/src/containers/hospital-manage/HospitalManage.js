@@ -20,23 +20,17 @@ import BodyContainer from '../../components/list/BodyContainer'
 import AddHospitalDialog from './dialog/AddHospitalDialog'
 import EditHospitalDialog from './dialog/EditHospitalDialog'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {getFilterItem} from '../../core/utils'
 import {getYesOrNoText} from '../../core/formatBusData'
 import {fetchHospitalList1} from '../../actions/hospital'
 import * as actions from './hospital-manage'
 
 class HospitalManage extends Component {
-  constructor() {
-    super()
-    this.onSelectProvince = this.onSelectProvince.bind(this)
-    this.state = {
-      currentIndex: -1,
-      loading: false,
-      showAdd: false,
-      showEdit: false
-    }
+  state = {
+    currentIndex: -1,
+    loading: false,
+    showAdd: false,
+    showEdit: false
   }
 
   beginFetch(newPageIndex) {
@@ -49,7 +43,7 @@ class HospitalManage extends Component {
       .then(() => this.setState({loading: false}))
   }
 
-  onSelectProvince(selectedItem) {
+  onSelectProvince = (selectedItem) => {
     this.provinceId = selectedItem.value
     if (!this.props.cityMapper[this.provinceId]) {
       this.props.fetchCityList(selectedItem.value)
@@ -67,8 +61,7 @@ class HospitalManage extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.hospitalManage)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.hospitalManage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     let cityFilterList = []
     if (this.provinceId) {
@@ -237,10 +230,6 @@ function mapActionToProps(dispatch) {
     fetchHospitalInfo: actions.fetchHospitalInfo(dispatch),
     updateHospitalInfo: actions.updateHospitalInfo(dispatch)
   })
-}
-
-HospitalManage.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(HospitalManage)

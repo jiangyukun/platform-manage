@@ -19,8 +19,6 @@ import EditPatientInfo from './EditPatientInfo'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import constants from '../../core/constants'
 import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
@@ -73,8 +71,7 @@ class PatientEdit extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.patientEdit)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.patientEdit)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page">
@@ -246,10 +243,6 @@ function mapActionToProps(dispatch) {
     updatePatientInfo: editActions.updatePatientInfo(dispatch),
     updatePatientRemark: commonActions.updateRemark(dispatch)
   }
-}
-
-PatientEdit.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(PatientEdit)
