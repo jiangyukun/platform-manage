@@ -8,12 +8,15 @@ import * as phase from '../constants/PhaseConstant'
 let errId = 1
 
 const initValue = {
+  name: '小贝壳控制台',
+  version: '1.0',
   username: '',
   pageList: [],
   settings: {
     asideMessage: true
   },
-  errQueue: []
+  errQueue: [],
+  laboratorySheetNeedRefresh: false
 }
 
 export function app(state = initValue, action) {
@@ -39,6 +42,14 @@ export function app(state = initValue, action) {
 
       case types.INIT_ROLE_LIST:
         nextIState = iState.set('pageList', action.pageList)
+        break
+
+      case types.REFRESH_LABORATORY_SHEET:
+        nextIState = iState.set('laboratorySheetNeedRefresh', true)
+        break
+
+      case types.CLEAR_REFRESH_LABORATORY_SHEET:
+        nextIState = iState.set('laboratorySheetNeedRefresh', false)
         break
     }
 

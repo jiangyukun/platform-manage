@@ -8,6 +8,9 @@ import Header from './Header'
 import Aside from './Aside'
 import AppContent from './AppContent'
 import Message from './Message'
+
+import {getIsCanEdit} from '../constants/authority'
+import {appPageNames} from '../constants/nav'
 import * as antdUtil from '../core/utils/antdUtil'
 import {deleteErr} from '../actions/app'
 
@@ -31,15 +34,20 @@ class PlatformApp extends Component {
 
   render() {
     let app = this.props.app
+    let isCanEdit = getIsCanEdit(this.props.pageList, appPageNames.laboratorySheet)
 
     return (
       <div className="app">
-        <Header/>
+        <Header isCanEdit={isCanEdit}/>
         <Aside route={this.props.route}/>
         <AppContent>
           {this.props.children}
         </AppContent>
-        <Message/>
+        {
+          isCanEdit && (
+            <Message/>
+          )
+        }
       </div>
     )
   }

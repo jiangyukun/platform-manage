@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
-import classnames from 'classnames'
 import moment from 'moment'
 
 import {toggleAside, toggleMessagePanel} from '../actions/header'
@@ -60,13 +59,17 @@ class Header extends Component {
 
         <div className="collapse pos-rlt navbar-collapse box-shadow bg-white-only">
           <ul className="nav navbar-nav navbar-right">
-            <li>
-              <a onClick={e => this.toggleMessagePanel()}>
-                <span className="">消息通知</span>
-                <i className="icon-bell fa-fw"></i>
-                <span className="message-count">{this.props.message.unreadTotal || ''}</span>
-              </a>
-            </li>
+            {
+              this.props.isCanEdit && (
+                <li>
+                  <a onClick={e => this.toggleMessagePanel()}>
+                    <span className="">消息通知</span>
+                    <i className="icon-bell fa-fw"></i>
+                    <span className="message-count">{this.props.message.unreadTotal || ''}</span>
+                  </a>
+                </li>
+              )
+            }
             <Dropdown id="dropdown-system-menu" componentClass={CustomWrap}>
               <Dropdown.Toggle useAnchor={true}>
                 <span className="hidden-sm hidden-md">{this.props.app.username + `，${dayPhase}好`}</span>
@@ -84,10 +87,11 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     app: state.app,
-    message: state.message
+    message: state.message,
+    isCanEdit: ownProps.isCanEdit
   }
 }
 

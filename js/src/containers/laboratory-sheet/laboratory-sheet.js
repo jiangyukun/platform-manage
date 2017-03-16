@@ -32,11 +32,11 @@ export let fetchPictureUrlList = dispatch => (mobile, sheetType) => {
   })
 }
 
-export let markSheetItem = dispatch => (sheetId, type) => {
+export let markSheetItem = dispatch => (sheetId, newState) => {
   return new Promise((resolve, reject) => {
-    PUT(`/archives/assay/updateAssayPicture/${sheetId}/${type}`).then(result => {
+    PUT(`/archives/assay/updateAssayPicture/${sheetId}/${newState}`).then(result => {
       dispatch({
-        type: types.MARK_SHEET_ITEM + phase.SUCCESS
+        type: types.MARK_SHEET_ITEM + phase.SUCCESS, sheetId, newState
       })
       resolve()
     }, err => {

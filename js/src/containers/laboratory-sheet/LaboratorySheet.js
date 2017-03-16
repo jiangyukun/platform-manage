@@ -20,6 +20,7 @@ import EditRemark from '../common/EditRemark'
 import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList1} from '../../actions/hospital'
+import {clearLaboratorySheetNeedRefresh} from '../../actions/app'
 import * as actions from './laboratory-sheet'
 
 class LaboratorySheet extends Component {
@@ -50,6 +51,9 @@ class LaboratorySheet extends Component {
   }
 
   componentDidMount() {
+    if (this.props.laboratorySheetNeedRefresh) {
+      this.props.clearLaboratorySheetNeedRefresh()
+    }
     this.beginFetch()
     if (this.props.hospitalList.length == 0) {
       this.props.fetchHospitalList()
@@ -57,6 +61,10 @@ class LaboratorySheet extends Component {
   }
 
   componentDidUpdate() {
+    if (this.props.laboratorySheetNeedRefresh) {
+      this.props.clearLaboratorySheetNeedRefresh()
+      this.beginFetch()
+    }
     if (this.props.remarkUpdated) {
       this.props.clearRemark()
       antdUtil.tipSuccess('更新备注成功！')
@@ -220,6 +228,7 @@ class LaboratorySheet extends Component {
 function mapStateToProps(state) {
   return {
     ...state['laboratorySheet'],
+    laboratorySheetNeedRefresh: state.app.laboratorySheetNeedRefresh,
     hospitalList: state.hospitalList,
     hospitalFilterList: {
       typeCode: 'hospital',
@@ -238,7 +247,8 @@ function mapActionToProps(dispatch) {
     fetchLaboratorySheetList: actions.fetchLaboratorySheetList,
     fetchHospitalList: fetchHospitalList1,
     updateRemark: actions.updateRemark,
-    clearRemark: actions.clearRemark
+    clearRemark: actions.clearRemark,
+    clearLaboratorySheetNeedRefresh
   }, dispatch), {
     fetchPictureUrlList: actions.fetchPictureUrlList(dispatch),
     markSheetItem: actions.markSheetItem(dispatch)

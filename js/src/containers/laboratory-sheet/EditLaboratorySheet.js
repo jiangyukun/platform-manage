@@ -105,7 +105,7 @@ class EditLaboratorySheet extends Component {
             <div className="center-position-table">
               <div className="center-position">
                 {
-                  this.state.previousIndex === this.state.current && (
+                  this.state.current != -1 && this.state.previousIndex === this.state.current && (
                     <Image ref={c => this._image = c}
                            src={this.state.list[this.state.current].url}/>
                   )

@@ -8,3 +8,15 @@ export function deleteErr(errId) {
     type: types.DELETE_ERROR, errId
   }
 }
+
+export function setLaboratorySheetNeedRefresh() {
+  return {
+    type: types.REFRESH_LABORATORY_SHEET
+  }
+}
+
+export function clearLaboratorySheetNeedRefresh() {
+  return {
+    type: types.CLEAR_REFRESH_LABORATORY_SHEET
+  }
+}

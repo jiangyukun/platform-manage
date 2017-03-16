@@ -2,6 +2,8 @@
  * Created by jiangyukun on 2016/10/20.
  */
 import {GET, PUT} from '../services/http'
+import * as types from '../constants/ActionTypes'
+import * as phase from '../constants/PhaseConstant'
 import {THREE_PHASE} from '../middleware/request_3_phase'
 
 export const fetchMessageInfo = dispatch => option => {
@@ -12,6 +14,7 @@ export const fetchMessageInfo = dispatch => option => {
     let messageList = result.list.map(message => {
       return {
         id: message['assay_Note_Id'],
+        assayId: message['assay_Id'],
         name: message['patient_Name'],
         url: message['url'],
         mobile: message['patient_Phone'],
@@ -29,8 +32,13 @@ export const fetchMessageInfo = dispatch => option => {
   })
 }
 
-export const markMessageState = dispatch => (id, state) => {
+export const markMessageState = dispatch => (sheetId, newState) => {
   return new Promise((resolve, reject) => {
-    PUT(`/archives/assay/updateAssayNote/${id}/${state}`).then(() => resolve(), () => reject())
+    PUT(`/archives/assay/updateAssayNote/${sheetId}/${newState}`).then(() => {
+      resolve()
+      dispatch({
+        type: types.MARK_MESSAGE_STATE + phase.SUCCESS, sheetId, newState
+      })
+    }, () => reject())
   })
 }

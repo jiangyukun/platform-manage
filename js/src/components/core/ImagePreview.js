@@ -77,7 +77,7 @@ export default class ImagePreview extends Component {
               <img ref={ c => this._img = c} src={this.props.url} style={imageStyle}/>
             )
           }
-          {contents}
+          {contents && contents}
         </div>
         <div className="ngdialog-buttons">
           {this.props.url && <input type="button" className="btn toolbar-btn" onClick={e => this.zoomIn(e)} value="放大"/>}
