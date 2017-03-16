@@ -17,8 +17,6 @@ import HighLight from '../../components/txt/HighLight'
 import EditLaboratorySheet from './EditLaboratorySheet'
 import EditRemark from '../common/EditRemark'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList1} from '../../actions/hospital'
@@ -66,8 +64,7 @@ class LaboratorySheet extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.laboratorySheet)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.laboratorySheet)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
     const getSheetNumber = (sheet, name, index) => {
@@ -246,10 +243,6 @@ function mapActionToProps(dispatch) {
     fetchPictureUrlList: actions.fetchPictureUrlList(dispatch),
     markSheetItem: actions.markSheetItem(dispatch)
   })
-}
-
-LaboratorySheet.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(LaboratorySheet)

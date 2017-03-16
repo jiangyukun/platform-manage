@@ -13,8 +13,6 @@ import Layout from "../../components/table-layout/Layout"
 import SendMessageDialog from "./dialog/SendMessageDialog"
 import SmsTemplateManage from "./dialog/SmsTemplateManage"
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from "../../core/utils"
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchBackendMemberList} from "../../actions/backend-member"
@@ -61,8 +59,7 @@ class SmsManage extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.smsManage)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.smsManage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
 
@@ -195,10 +192,6 @@ function mapStateToProps(state) {
     },
     sendDate: utils.getFilterItem('sendDate', '发送时间', [])
   }
-}
-
-SmsManage.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

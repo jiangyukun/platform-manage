@@ -16,8 +16,6 @@ import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import constants from '../../core/constants'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
@@ -81,8 +79,7 @@ class DoctorAuditing extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.doctorAuditing)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.consoleAccountManage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
 
@@ -309,10 +306,6 @@ function mapActionToProps(dispatch) {
     updateDoctorRemark: commonActions.updateRemark(dispatch),
     addNewDoctor: actions.addNewDoctor(dispatch)
   }
-}
-
-DoctorAuditing.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(DoctorAuditing)

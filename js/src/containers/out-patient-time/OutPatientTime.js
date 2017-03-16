@@ -14,8 +14,6 @@ import Layout from "../../components/table-layout/Layout"
 import DoctorDateDetailDialog from './dialog/DoctorDateDetailDialog'
 import EditRemark from '../common/EditRemark'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {fetchHospitalList1} from '../../actions/hospital'
 import {fetchDepartmentList1} from '../../actions/common'
@@ -63,8 +61,7 @@ class OutPatientTime extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.outPatientTime)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.outPatientTime)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
     const weight = [2, 1, 2, 1, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2]
@@ -246,10 +243,6 @@ function mapStateToProps(state) {
       typeItemList: state.departmentList
     }
   }
-}
-
-OutPatientTime.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

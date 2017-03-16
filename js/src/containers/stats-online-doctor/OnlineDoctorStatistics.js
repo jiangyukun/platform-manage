@@ -16,8 +16,6 @@ import Layout from "../../components/table-layout/Layout"
 import EditRemark from '../common/EditRemark'
 import YesOrNoDialog from '../common/YesOrNoDialog'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import {formatDateStr} from '../../core/dateUtils'
 import {getYesOrNoText} from '../../core/formatBusData'
@@ -85,8 +83,7 @@ class OnlineDoctorStatistics extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.onlineDoctor)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.onlineDoctor)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
     let {statisticsInfo} = this.props
@@ -256,10 +253,6 @@ class OnlineDoctorStatistics extends Component {
       </div>
     )
   }
-}
-
-OnlineDoctorStatistics.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(state => ({

@@ -12,8 +12,6 @@ import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import DownloadFileDialog from '../common/DownloadFileDialog'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import {fetchPatientSituationList, fetchExcelHistory} from './patient-situation'
 
 class PatientSituationStatistics extends Component {
@@ -45,8 +43,7 @@ class PatientSituationStatistics extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.patientSituationStatistics)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.patientSituationStatistics)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page">
@@ -115,10 +112,6 @@ function mapStateToProps(state) {
   return {
     ...state.patientSituationList
   }
-}
-
-PatientSituationStatistics.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

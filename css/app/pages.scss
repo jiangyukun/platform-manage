@@ -2,6 +2,31 @@
 @import "console-account-manage";
 @import "authority-role-manage";
 
+.app-function-page {
+    .toolbar {
+        margin: 15px;
+        button {
+            margin-left: 10px;
+        }
+    }
+
+    .search-container {
+        float: right;
+        font-size: 12px;
+        input {
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            padding: 5px 10px;
+            width: 180px;
+        }
+        button {
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+    }
+}
+
 .label-for-input {
     display: inline-block;
     vertical-align: middle;

@@ -9,9 +9,6 @@ import ImagePreview from '../../components/core/ImagePreview'
 import TabSingleChat from './TabSingleChat'
 import TabGroupChat from './TabGroupChat'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
-
 class HistoryMessageStatistics extends Component {
   state = {
     key: 1,
@@ -28,8 +25,7 @@ class HistoryMessageStatistics extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.historyMessage)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.historyMessage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page history-message-statistics">
@@ -50,10 +46,6 @@ class HistoryMessageStatistics extends Component {
       </div>
     )
   }
-}
-
-HistoryMessageStatistics.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default HistoryMessageStatistics

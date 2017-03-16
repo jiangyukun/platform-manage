@@ -15,8 +15,6 @@ import EditRemark from '../common/EditRemark'
 import ExportExcelDialog from './ExportExcelDialog'
 import DoctorStatisticsDialog from './DoctorStatisticsDialog'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {fetchHospitalList} from '../../actions/hospital'
@@ -61,8 +59,7 @@ class DoctorComprehensiveScore extends Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.doctorComprehensiveScore)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.doctorComprehensiveScore)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     const {Head, Row} = Layout
 
@@ -205,10 +202,6 @@ function mapActionToProps(dispatch) {
   }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch)
   })
-}
-
-DoctorComprehensiveScore.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, mapActionToProps)(DoctorComprehensiveScore)

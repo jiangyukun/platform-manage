@@ -14,15 +14,13 @@ import * as uploadUtil from '../../core/utils/uploadUtil'
 class EditableImagePreview extends Component {
   constructor(props) {
     super()
-    this.beforeUpload = this.beforeUpload.bind(this)
-    this.customRequest = this.customRequest.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.cancel = this.cancel.bind(this)
-    this.confirm = this.confirm.bind(this)
-    this.state = {imageUrl: props.url, isEdited: false}
+    this.state = {
+      imageUrl: props.url,
+      isEdited: false
+    }
   }
 
-  beforeUpload(file) {
+  beforeUpload = (file) => {
     const {status, message} = utils.beforeUpload(file)
     if (status != 0) {
       antdUtil.tipErr(message)
@@ -30,11 +28,11 @@ class EditableImagePreview extends Component {
     return status == 0
   }
 
-  customRequest(fileInfo) {
+  customRequest = (fileInfo) => {
     uploadUtil.upload(fileInfo.file).then(url => fileInfo.onSuccess(url), err => fileInfo.onError(err))
   }
 
-  handleChange(info) {
+  handleChange = (info) => {
     if (info.file.status === 'done') {
       const file = info.file.originFileObj
       this.httpUrl = info.file.response
@@ -42,11 +40,11 @@ class EditableImagePreview extends Component {
     }
   }
 
-  cancel() {
+  cancel = () => {
     this._imagePreview.close()
   }
 
-  confirm() {
+  confirm = () => {
     this._imagePreview.close()
     this.props.imageUrlUpdated(this.httpUrl)
   }

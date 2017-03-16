@@ -16,6 +16,8 @@ export const appPageNames = {
 
   smartAnalyticSystem: 'smart-analytic-system',
   appUpdate: 'app-update',
+  sliderManage: 'slider-manage',
+  knowledgeBaseManage: 'knowledge-base-manage',
 
   patientSituationStatistics: 'patient-situation-statistics',
   hospitalAssayReport: 'hospital-assay-report',

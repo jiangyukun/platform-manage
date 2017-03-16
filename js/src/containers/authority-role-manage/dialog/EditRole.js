@@ -44,7 +44,7 @@ class EditRole extends React.Component {
         <Modal.Header closeButton={true}>
           <Modal.Title>修改</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="">
+        <Modal.Body>
           <label>
             <span className="label-for-input">分组名称：</span>
             <div className="input-wrap">
@@ -53,8 +53,10 @@ class EditRole extends React.Component {
           </label>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-default" onClick={this.deleteRole}>删除</button>
-          <button className="btn btn-info" disabled={this.state.username == ''} onClick={this.update}>修改</button>
+          <button className="btn btn-default" disabled={!this.props.isCanEdit} onClick={this.deleteRole}>删除</button>
+          <button className="btn btn-info" disabled={!this.props.isCanEdit || this.state.roleName.trim() == ''} onClick={this.update}>
+            修改
+          </button>
         </Modal.Footer>
       </Modal>
     )
@@ -67,6 +69,7 @@ EditRole.propTypes = {
   deleteRole: React.PropTypes.func,
   updateRoleSuccess: React.PropTypes.bool,
   deleteRoleSuccess: React.PropTypes.bool,
+  isCanEdit: React.PropTypes.bool,
   onExited: React.PropTypes.func
 }
 

@@ -13,15 +13,6 @@ import constants from '../../../core/constants'
 class EditDoctorDialog extends Component {
   constructor(props) {
     super(props)
-    this.handleNameChange = this.handleNameChange.bind(this)
-    this.handleHospitalChange = this.handleHospitalChange.bind(this)
-    this.handleDepartmentChange = this.handleDepartmentChange.bind(this)
-    this.handlePositionChange = this.handlePositionChange.bind(this)
-    this.handleSpecialChange = this.handleSpecialChange.bind(this)
-    this.handleIsVisitDoctorChange = this.handleIsVisitDoctorChange.bind(this)
-    this.checkFormValid = this.checkFormValid.bind(this)
-    this.handleHeadPictureChange = this.handleHeadPictureChange.bind(this)
-    this.handleHoldCardPictureChange = this.handleHoldCardPictureChange.bind(this)
     const {doctorInfo} = props
     this.hospitalName = doctorInfo['hospital_Id']
     this.departmentName = doctorInfo['department_Id']
@@ -37,7 +28,7 @@ class EditDoctorDialog extends Component {
       hospital: doctorInfo['hid'],
       department: doctorInfo['did'],
       position: doctorInfo['tid'],
-      isVisitDoctor: doctorInfo['is_Doctor_Purview'],
+      isVisitDoctor: doctorInfo['is_Doctor_Purview'] || '',
       special: doctorInfo['doctor_Major'],
       headPictureUrl: doctorInfo['doctor_Photo'],
       holdCardPictureUrl: doctorInfo['doctor_Practicing_Photo'],
@@ -47,9 +38,10 @@ class EditDoctorDialog extends Component {
 
   close(force) {
     let edited = false
-    const {
+    let {
       doctor_Name, hid, did, tid, is_Doctor_Purview, doctor_Major, doctor_Photo, doctor_Practicing_Photo
     } = this.props.doctorInfo
+    is_Doctor_Purview = is_Doctor_Purview || ''
     if (this.state.name != doctor_Name) edited = true
     if (this.state.hospital != hid) edited = true
     if (this.state.department != did) edited = true
@@ -87,42 +79,42 @@ class EditDoctorDialog extends Component {
     )
   }
 
-  handleNameChange(event) {
+  handleNameChange = (event) => {
     this.setState({name: event.target.value}, this.checkFormValid)
   }
 
-  handleHospitalChange({value, text}) {
+  handleHospitalChange = ({value, text}) => {
     this.hospitalName = text
     this.setState({hospital: value}, this.checkFormValid)
   }
 
-  handleDepartmentChange({value, text}) {
+  handleDepartmentChange = ({value, text}) => {
     this.departmentName = text
     this.setState({department: value}, this.checkFormValid)
   }
 
-  handlePositionChange({value, text}) {
+  handlePositionChange = ({value, text}) => {
     this.positionName = text
     this.setState({position: value}, this.checkFormValid)
   }
 
-  handleSpecialChange(event) {
+  handleSpecialChange = (event) => {
     this.setState({special: event.target.value}, this.checkFormValid)
   }
 
-  handleIsVisitDoctorChange(event) {
+  handleIsVisitDoctorChange = (event) => {
     this.setState({isVisitDoctor: event.target.value}, this.checkFormValid)
   }
 
-  handleHeadPictureChange(url) {
+  handleHeadPictureChange = (url) => {
     this.setState({headPictureUrl: url}, this.checkFormValid)
   }
 
-  handleHoldCardPictureChange(url) {
+  handleHoldCardPictureChange = (url) => {
     this.setState({holdCardPictureUrl: url}, this.checkFormValid)
   }
 
-  checkFormValid() {
+  checkFormValid = () => {
     let valid = true
     if (!this.state.name) valid = false
     if (!this.state.hospital) valid = false
@@ -133,7 +125,7 @@ class EditDoctorDialog extends Component {
     }
   }
 
-  updateDoctorInfo() {
+  updateDoctorInfo = () => {
     this.props.updateDoctorInfo({
       doctor_Id: this.props.doctorInfo['doctor_Id'],
       doctor_Name: this.state.name,
@@ -249,7 +241,7 @@ class EditDoctorDialog extends Component {
                 <button className="btn btn-default" onClick={e => this.setState({showHeadPicture: true})}>查看用户头像</button>
               </div>
               <div className="col-xs-6">
-                <button className="btn btn-default" onClick={e => this.setState({showHeadPicture: true})}>查看持证照片</button>
+                <button className="btn btn-default" onClick={e => this.setState({showHoldCardPicture: true})}>查看持证照片</button>
               </div>
             </div>
           </section>
@@ -259,20 +251,20 @@ class EditDoctorDialog extends Component {
             this.props.isCanEdit && (
               <div className="row mt-10">
                 <div className="col-xs-3">
-                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
+                  <input type="button" className="btn btn-danger btn-block" onClick={this.cancelAuditing}
                          disabled={this.state.auditingState == 1} value="撤销审核"/>
                 </div>
                 <div className="col-xs-3">
-                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
+                  <input type="button" className="btn btn-danger btn-block" onClick={this.markUnPass}
                          disabled={this.state.auditingState == 3} value="标为不通过"/>
                 </div>
                 <div className="col-xs-3">
-                  <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
+                  <input type="button" className="btn btn-success btn-block" onClick={this.markPass}
                          disabled={this.state.auditingState == 2} value="标为已审核"/>
                 </div>
                 <div className="col-xs-3">
                   <input type="button" className="btn btn-success btn-block"
-                         onClick={e => this.updateDoctorInfo()}
+                         onClick={this.updateDoctorInfo}
                          disabled={!this.state.valid}
                          value="保存修改"/>
                 </div>

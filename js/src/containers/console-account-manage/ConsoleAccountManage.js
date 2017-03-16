@@ -12,8 +12,6 @@ import  AddConsoleUser from './dialog/AddConsoleUser'
 import  EditConsoleUser from './dialog/EditConsoleUser'
 import EditRemark from '../common/EditRemark'
 
-import {appPageNames} from '../../constants/nav'
-import {getIsCanEdit, getIsCanExport} from '../../constants/authority'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 
@@ -80,8 +78,7 @@ class ConsoleAccountManage extends React.Component {
   }
 
   render() {
-    const isCanEdit = getIsCanEdit(this.context.pageList, appPageNames.consoleAccountManage)
-    const isCanExport = getIsCanExport(this.context.pageList, appPageNames.consoleAccountManage)
+    const {isCanEdit, isCanExport} = this.props.authority
 
     return (
       <div className="app-function-page console-account-manage">
@@ -198,10 +195,6 @@ function mapStateToProps(state) {
     ...consoleAccountManage,
     roleFilterList: utils.getFilterItem('role', '权限包含', consoleAccountManage.roleList)
   }
-}
-
-ConsoleAccountManage.contextTypes = {
-  pageList: React.PropTypes.array
 }
 
 export default connect(mapStateToProps, {

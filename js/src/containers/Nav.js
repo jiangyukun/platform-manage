@@ -9,7 +9,7 @@ import {getPath} from '../core/utils'
 
 import {
   PATIENT_CATEGORY, DOCTOR_CATEGORY, APP_CATEGORY, STATISTICS_CATEGORY, SYSTEM_CATEGORY,
-  pageCategoryMapper, pageInfo, getOpenMenu
+  pageCategoryMapper, pageInfo, getOpenMenu, appPageNames
 } from '../constants/nav'
 
 class Nav extends Component {
@@ -20,7 +20,7 @@ class Nav extends Component {
 
   handleClick(e) {
     const key = e.key
-    if (key == 'chat-system' || key == 'slider-manage' || key == 'knowledge-base-manage') {
+    if (key == appPageNames.chatSystem || key == appPageNames.sliderManage || key == appPageNames.knowledgeBaseManage) {
       return
     }
     this.setState({current: e.key})
@@ -124,7 +124,7 @@ class Nav extends Component {
                   <SubMenu key={menu.categoryName} title={menu.title}>
                     {
                       menu.subMenus.map(subMenu => {
-                        if (subMenu.pageName == 'slider-manage') {
+                        if (subMenu.pageName == appPageNames.sliderManage) {
                           return (
                             <Item key="slider-manage">
                               <a href="platform/home.html#/app/slider-config">
@@ -132,7 +132,7 @@ class Nav extends Component {
                               </a>
                             </Item>
                           )
-                        } else if (subMenu.pageName == 'knowledge-base-manage') {
+                        } else if (subMenu.pageName == appPageNames.knowledgeBaseManage) {
                           return (
                             <Item key="knowledge-base-manage">
                               <a href="platform/home.html#/app/knowledge-base">
