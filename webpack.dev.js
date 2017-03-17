@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   // devtool: 'cheap-module-eval-source-map',
@@ -16,7 +16,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: 'http://localhost:3000/static/'
+    publicPath: 'http://localhost:3000/static/',
+    chunkFilename: '[name].[chunkhash:5].chunk.js'
   },
   plugins: [
     new webpack.DefinePlugin({

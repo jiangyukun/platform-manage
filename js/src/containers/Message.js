@@ -12,10 +12,11 @@ import notification from 'antd/lib/notification'
 import ImagePreview from '../components/core/ImagePreview'
 
 import constants from '../core/constants'
+import * as antdUtil from '../core/utils/antdUtil'
+import {formatDateStr} from '../core/dateUtils'
 import {fetchMessageInfo, markMessageState} from '../actions/message'
 import {setLaboratorySheetNeedRefresh} from '../actions/app'
 import {closeMessagePanel} from '../actions/header'
-import * as antdUtil from '../core/utils/antdUtil'
 import {markSheetItem}  from './laboratory-sheet/laboratory-sheet'
 
 class Message extends Component {
@@ -144,7 +145,7 @@ class Message extends Component {
                             <div>患者名称： {msg.name}</div>
                             <div>手机号： {msg.mobile}</div>
                             <div>上传人： {msg.uploader}</div>
-                            <div>上传时间： {msg.uploadDate}</div>
+                            <div>上传时间： {formatDateStr(msg.uploadDate)}</div>
                             <div className="message-look-btn">
                               <button className="msg-btn full" onClick={e => this.setState({showPhoto: true, photoUrl: msg.url, index})}>
                                 查看

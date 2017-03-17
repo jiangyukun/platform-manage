@@ -4,36 +4,35 @@
 import React from 'react'
 import {Route} from 'react-router'
 
-import getAuthority from './getAuthority'
 import {appPageNames} from '../constants/nav'
 
 import PlatformApp from '../containers/PlatformApp'
 import IndexPage from '../containers/IndexPage'
 import IllegalAuthority from '../containers/IllegalAuthority'
 
-import NodeAuditing from '../containers/node-auditing/NodeAuditing'
-import PatientEdit from '../containers/patient-edit/PatientEdit'
-import LaboratorySheet from '../containers/laboratory-sheet/LaboratorySheet'
-import TakeMedicineRecord from '../containers/take-medicine-record/TakeMedicineRecord'
+import node__auditing from './lazy-pages/node__auditing'
+import patient__edit from './lazy-pages/patient__edit'
+import laboratory__sheet from './lazy-pages/laboratory__sheet'
+import take__medicine__record from './lazy-pages/take__medicine__record'
 
-import DoctorAuditing from '../containers/doctor-auditing/DoctorAuditing'
-import HospitalManage from '../containers/hospital-manage/HospitalManage'
-import OutPatientTime from '../containers/out-patient-time/OutPatientTime'
-import TodoWorkTrack from '../containers/todo-work-track/TodoWorkTrack'
+import doctor__auditing from './lazy-pages/doctor__auditing'
+import hospital__manage from './lazy-pages/hospital__manage'
+import out__patient__time from './lazy-pages/out__patient__time'
+import todo__work__track from './lazy-pages/todo__work__track'
 
-import AppUpdate from '../containers/app-update/AppUpdate'
+import smart__analytic__system from './lazy-pages/smart__analytic__system'
+import app__update from './lazy-pages/app__update'
 
-import PatientSituationStatistics from '../containers/stats-patient-situation/PatientSituationStatistics'
-import HospitalAssayReport from '../containers/stats-hospital-assay-report/HospitalAssayReport'
-import DoctorComprehensiveScore from '../containers/stats-doctor-comprehensive-score/DoctorComprehensiveScore'
-import EnrollmentSituationStatistics from '../containers/stats-enrollment-situation/EnrollmentSituationStatistics'
-import OnlineDoctorStatistics from '../containers/stats-online-doctor/OnlineDoctorStatistics'
-import HistoryMessageStatistics from '../containers/stats-history-message/HistoryMessageStatistics'
-import SmartAnalyticSystem from '../containers/smart-analytic-system/SmartAnalyticSystem'
+import history__message from './lazy-pages/history__message'
+import hospital__assay__report from './lazy-pages/hospital__assay__report'
+import patient__situation__statistics from './lazy-pages/patient__situation__statistics'
+import doctor__comprehensive__score from './lazy-pages/doctor__comprehensive__score'
+import enrollment__situation from './lazy-pages/enrollment__situation'
+import online__doctor from './lazy-pages/online__doctor'
 
-import SmsManage from '../containers/sms-manage/SmsManage'
-import ConsoleAccountManage from '../containers/console-account-manage/ConsoleAccountManage'
-import AuthorityRoleManage from '../containers/authority-role-manage/AuthorityRoleManage'
+import sms_manage from './lazy-pages/sms_manage'
+import console__account__manage from './lazy-pages/console__account__manage'
+import authority__role__manage from './lazy-pages/authority__role__manage'
 
 export default function getPageRoute(path, pageList) {
   const {
@@ -44,29 +43,29 @@ export default function getPageRoute(path, pageList) {
     smsManage, consoleAccountManage, authorityRoleManage,
   } = appPageNames
   const mapper = {
-    [nodeAuditing]: getAuthority(pageList, nodeAuditing, NodeAuditing),
-    [patientEdit]: getAuthority(pageList, patientEdit, PatientEdit),
-    [laboratorySheet]: getAuthority(pageList, laboratorySheet, LaboratorySheet),
-    [takeMedicineRecord]: getAuthority(pageList, takeMedicineRecord, TakeMedicineRecord),
+    [nodeAuditing]: node__auditing(pageList, nodeAuditing),
+    [patientEdit]: patient__edit(pageList, patientEdit),
+    [laboratorySheet]: laboratory__sheet(pageList, laboratorySheet),
+    [takeMedicineRecord]: take__medicine__record(pageList, takeMedicineRecord),
 
-    [doctorAuditing]: getAuthority(pageList, doctorAuditing, DoctorAuditing),
-    [hospitalManage]: getAuthority(pageList, hospitalManage, HospitalManage),
-    [outPatientTime]: getAuthority(pageList, outPatientTime, OutPatientTime),
-    [todoWorkTrack]: getAuthority(pageList, todoWorkTrack, TodoWorkTrack),
+    [doctorAuditing]: doctor__auditing(pageList, doctorAuditing),
+    [hospitalManage]: hospital__manage(pageList, hospitalManage),
+    [outPatientTime]: out__patient__time(pageList, outPatientTime),
+    [todoWorkTrack]: todo__work__track(pageList, todoWorkTrack),
 
-    [smartAnalyticSystem]: getAuthority(pageList, smartAnalyticSystem, SmartAnalyticSystem),
-    [appUpdate]: getAuthority(pageList, appUpdate, AppUpdate),
+    [smartAnalyticSystem]: smart__analytic__system(pageList, smartAnalyticSystem),
+    [appUpdate]: app__update(pageList, appUpdate),
 
-    [historyMessage]: getAuthority(pageList, historyMessage, HistoryMessageStatistics),
-    [hospitalAssayReport]: getAuthority(pageList, hospitalAssayReport, HospitalAssayReport),
-    [patientSituationStatistics]: getAuthority(pageList, patientSituationStatistics, PatientSituationStatistics),
-    [doctorComprehensiveScore]: getAuthority(pageList, doctorComprehensiveScore, DoctorComprehensiveScore),
-    [enrollmentSituation]: getAuthority(pageList, enrollmentSituation, EnrollmentSituationStatistics),
-    [onlineDoctor]: getAuthority(pageList, onlineDoctor, OnlineDoctorStatistics),
+    [historyMessage]: history__message(pageList, historyMessage),
+    [hospitalAssayReport]: hospital__assay__report(pageList, hospitalAssayReport),
+    [patientSituationStatistics]: patient__situation__statistics(pageList, patientSituationStatistics),
+    [doctorComprehensiveScore]: doctor__comprehensive__score(pageList, doctorComprehensiveScore),
+    [enrollmentSituation]: enrollment__situation(pageList, enrollmentSituation),
+    [onlineDoctor]: online__doctor(pageList, onlineDoctor),
 
-    [smsManage]: getAuthority(pageList, smsManage, SmsManage),
-    [consoleAccountManage]: getAuthority(pageList, consoleAccountManage, ConsoleAccountManage),
-    [authorityRoleManage]: getAuthority(pageList, authorityRoleManage, AuthorityRoleManage),
+    [smsManage]: sms_manage(pageList, smsManage),
+    [consoleAccountManage]: console__account__manage(pageList, consoleAccountManage),
+    [authorityRoleManage]: authority__role__manage(pageList, authorityRoleManage),
   }
 
   return (
@@ -76,7 +75,7 @@ export default function getPageRoute(path, pageList) {
         pageList.map(page => {
           const pageName = page['page_Name']
           return (
-            <Route key={pageName} path={pageName} component={mapper[pageName]}/>
+            <Route key={pageName} path={pageName} getComponent={mapper[pageName]}/>
           )
         })
       }

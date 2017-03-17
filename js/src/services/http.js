@@ -91,7 +91,6 @@ export let _delete = DELETE
 export let _head = HEAD
 
 export default function http(url, option) {
-  //http://admin.vongihealth.com:85
   let handleArg = preHandle(url, option)
 
   return fetch(handleArg.url, handleArg.option)

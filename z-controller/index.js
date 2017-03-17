@@ -1,3 +1,4 @@
+const authority = require('./authority')
 const fetchDoctorList = require('./fetchDoctorList')
 const fetchPatientList = require('./fetchPatientList')
 const message = require('./message')
@@ -15,6 +16,7 @@ module.exports = function configController(app) {
     res.sendFile(__dirname + '/index.html')
   })
 
+  authority(app)
   fetchDoctorList(app)
   fetchPatientList(app)
   message(app)

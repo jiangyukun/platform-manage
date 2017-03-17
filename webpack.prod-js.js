@@ -13,7 +13,8 @@ module.exports = {
     // path: 'D:/2017/company/app-parent/backed-web/src/main/webapp/platform-new/build/',
     path: 'C:/Users/jiangyukun/WebstormProjects/platform-manage/build/prod/',
     filename: 'bundle-' + moment().format('MMDD') + '.min.js',
-    publicPath: ''
+    publicPath: '',
+    chunkFilename: '[name].[chunkhash:5].chunk.js'
   },
 
   module: {

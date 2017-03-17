@@ -10,9 +10,10 @@ module.exports = {
 
   output: {
     // path: 'D:/2017/company/app-parent/backed-web/src/main/webapp/platform-new/build/',
-    path: 'C:/Users/jiangyukun/WebstormProjects/platform-manage/build/prod/',
+    path: __dirname + '/build/prod/',
     filename: 'bundle-' + moment().format('MMDD') + '.min.js',
-    publicPath: ''
+    publicPath: '/backend/platform-new/build/',
+    chunkFilename: '[name].[chunkhash:5].chunk.js'
   },
 
   module: {
