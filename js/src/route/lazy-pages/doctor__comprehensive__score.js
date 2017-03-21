@@ -6,7 +6,7 @@ import getAuthority from '../getAuthority'
 export default function getRoute(pageList, pageName) {
   return function node__auditing(nextState, cb) {
     require.ensure([], (require) => {
-      const Component = require('../../containers/stats-enrollment-situation/EnrollmentSituationStatistics').default
+      const Component = require('../../containers/stats-doctor-comprehensive-score/DoctorComprehensiveScore').default
       cb(null, getAuthority(pageList, pageName, Component))
     })
   }

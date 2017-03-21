@@ -1,8 +1,8 @@
 /**
  * Created by jiangyukun on 2017/3/15.
  */
-const EDIT_AUTHORITY = '1'
-const LOOK_AUTHORITY = '2'
+export const EDIT_AUTHORITY = '1'
+export const LOOK_AUTHORITY = '2'
 
 export function getIsCanEdit(pageList, currentPageName) {
   if (!pageList || pageList.length == 0) {

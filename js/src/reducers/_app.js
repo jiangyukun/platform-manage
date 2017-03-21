@@ -10,13 +10,15 @@ let errId = 1
 const initValue = {
   name: '小贝壳控制台',
   version: '1.0',
+  userId: '',
   username: '',
   pageList: [],
   settings: {
     asideMessage: true
   },
   errQueue: [],
-  laboratorySheetNeedRefresh: false
+  laboratorySheetNeedRefresh: false,
+  passwordUpdateSuccess: false
 }
 
 export function app(state = initValue, action) {
@@ -26,10 +28,6 @@ export function app(state = initValue, action) {
   function nextState() {
     let nextIState = iState
     switch (action.type) {
-      case types.INIT_USERNAME:
-        nextIState = initUsername()
-        break
-
       case 'TOGGLE_MESSAGE_PANEL':
         nextIState = toggleMessagePanel()
         break
@@ -41,7 +39,15 @@ export function app(state = initValue, action) {
         break
 
       case types.INIT_ROLE_LIST:
-        nextIState = iState.set('pageList', action.pageList)
+        nextIState = iState.set('pageList', action.pageList).set('userId', action.userId).set('username', action.username)
+        break
+
+      case types.CHANGE_PASSWORD + phase.SUCCESS:
+        nextIState = iState.set('passwordUpdateSuccess', true)
+        break
+
+      case types.CLEAR_PASSWORD_UPDATE_SUCCESS:
+        nextIState = iState.set('passwordUpdateSuccess', false)
         break
 
       case types.REFRESH_LABORATORY_SHEET:
@@ -60,10 +66,6 @@ export function app(state = initValue, action) {
       return state
     }
     return nextIState.toJS()
-  }
-
-  function initUsername() {
-    return iState.set('username', action.username)
   }
 
   function toggleMessagePanel() {

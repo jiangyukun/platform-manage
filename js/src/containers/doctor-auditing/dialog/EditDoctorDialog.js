@@ -60,15 +60,15 @@ class EditDoctorDialog extends Component {
     }
   }
 
-  cancelAuditing() {
+  cancelAuditing = () => {
     this._updateAuditingState('撤销审核', constants.auditingState.auditing)
   }
 
-  markUnPass() {
+  markUnPass = () => {
     this._updateAuditingState('标为不通过', constants.auditingState.auditingUnPass)
   }
 
-  markPass() {
+  markPass = () => {
     this._updateAuditingState('标为已审核', constants.auditingState.auditingPass)
   }
 

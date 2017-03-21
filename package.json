@@ -55,7 +55,6 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.2",
     "babel-plugin-check-es2015-constants": "^6.22.0",
-    "babel-plugin-import": "^1.1.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-es2015-block-scoped-functions": "^6.22.0",

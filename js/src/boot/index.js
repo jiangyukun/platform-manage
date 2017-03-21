@@ -1,3 +1,6 @@
+/**
+ * Web App 启动代码
+ */
 import 'babel-polyfill'
 import React from 'react'
 import {render} from 'react-dom'
@@ -9,6 +12,7 @@ import configureStore from '../store/configureStore'
 import Root from '../containers/Root'
 import {_get} from '../services/http'
 
+import {EDIT_AUTHORITY} from '../constants/authority'
 import {pagePriority} from '../constants/nav'
 import * as types from '../constants/ActionTypes'
 
@@ -32,16 +36,27 @@ switch (process.env.NODE_ENV) {
 let store = configureStore()
 let browserHistory = syncHistoryWithStore(useRouterHistory(createBrowserHistory)({basename: path}), store)
 
+// 获取账号权限后开始渲染页面
 _get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
   const roleList = authorityInfo['list'] || []
-  const userName = authorityInfo['userName']
+  const userId = authorityInfo['userName']
+  const username = authorityInfo['backendUserRealName']
   const pageList = []
   roleList.forEach(role => {
     if (role.pageList) {
-      role.pageList.map(page => {
-        let pageName = page['page_Name']
-        if (pageList.find(page => page['page_Name'] == pageName) == null) {
-          pageList.push(page)
+      role.pageList.map(newPageAuthority => {
+        let pageName = newPageAuthority['page_Name']
+        let matchPage = pageList.find(page => page['page_Name'] == pageName)
+        if (matchPage == null) {
+          pageList.push(newPageAuthority)
+        } else {
+          // 如果不同分组有同一个页面不同的权限配置，合并同一个页面的权限配置，高权限覆盖低权限
+          if (newPageAuthority['permission'] == EDIT_AUTHORITY) {
+            matchPage['permission'] = EDIT_AUTHORITY
+          }
+          if (newPageAuthority['export'] == true) {
+            matchPage['export'] = true
+          }
         }
       })
     }
@@ -59,13 +74,9 @@ _get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
   })
 
   store.dispatch({
-    type: types.INIT_USERNAME,
-    username: userName
+    type: types.INIT_ROLE_LIST, pageList, userId, username
   })
 
-  store.dispatch({
-    type: types.INIT_ROLE_LIST, pageList
-  })
   render(
     <Root pageList={pageList} store={store} history={browserHistory}/>,
     document.getElementById('root'))

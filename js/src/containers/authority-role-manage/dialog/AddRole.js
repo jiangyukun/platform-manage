@@ -35,7 +35,7 @@ class AddRole extends React.Component {
         <Modal.Header closeButton={true}>
           <Modal.Title>新增</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="">
+        <Modal.Body>
           <article>
             <label>
               <span className="label-for-input">分组名称：</span>
