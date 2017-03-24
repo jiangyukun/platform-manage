@@ -12,7 +12,7 @@ class EditRemark extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({value: event.target.value.trim()})
+    this.setState({value: event.target.value})
   }
 
   close = () => {
