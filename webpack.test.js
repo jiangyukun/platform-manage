@@ -19,8 +19,7 @@ module.exports = {
       {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/, include: __dirname},
       {test: /\.less$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'less-loader']})},
       {test: /\.scss$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})},
-      {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"},
-      {test: /\.svg$/, loader: "file-loader"}
+      {test: /\.(jpg|png|svg$)$/, loader: "url-loader?limit=8192"}
     ]
   },
 

@@ -30,8 +30,8 @@ module.exports = {
       {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/, include: __dirname},
       {test: /\.less$/, loaders: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']},
       {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']},
-      {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"},
-      {test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader"}
+      {test: /\.(jpg|png|svg)$/, loader: "url-loader?limit=8192"},
+      {test: /\.(eot|woff|woff2|ttf)([\?]?.*)$/, loader: "file-loader"}
     ]
   }
 }

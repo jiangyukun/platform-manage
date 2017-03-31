@@ -33,6 +33,7 @@ import * as historyMessageGroup from '../containers/stats-history-message/histor
 import * as smartAnalytic from '../containers/smart-analytic-system/smart_analytic_system'
 import * as consoleAccountManage from '../containers/console-account-manage/console_account_manage'
 import * as authorityRoleManage from '../containers/authority-role-manage/authority_role_manage'
+import * as patient_record_info from '../containers/patient-record-info/patient_record_info'
 
 import {routerReducer as routing} from 'react-router-redux'
 
@@ -45,7 +46,6 @@ export default combineReducers({
   ...laboratorySheet,
   ...doctorAuditing,
   ...nodeAuditing,
-  ...app,
   ...appUpdate,
   ...provinceList,
   ...cityMapper,
@@ -67,5 +67,6 @@ export default combineReducers({
   ...smartAnalytic,
   ...consoleAccountManage,
   ...authorityRoleManage,
+  ...patient_record_info,
   routing
 })

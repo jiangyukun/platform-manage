@@ -30,6 +30,7 @@ export const appPageNames = {
   chatSystem: 'chat-system',
   consoleAccountManage: 'console-account-manage',
   authorityRoleManage: 'authority-role-manage',
+  patientRecordInfo: 'patient-record-info',
 }
 
 const nodeAuditing = getPath('node-auditing') // 节点审核
@@ -56,6 +57,7 @@ const smsManage = getPath('sms-manage') // 短信
 const chatSystem = getPath('chat-system') // 聊天系统
 const consoleAccountManage = getPath('console-account-manage') // 后台账号管理
 const authorityRoleManage = getPath('authority-role-manage') // 权限分组管理
+const patientRecordInfo = getPath('patient-record-info') // 患者录入信息
 
 export const PATIENT_CATEGORY = '-PATIENT-'
 export const DOCTOR_CATEGORY = '-DOCTOR-'
@@ -89,7 +91,8 @@ export const pageCategoryMapper = {
   'sms-manage': SYSTEM_CATEGORY,
   'chat-system': SYSTEM_CATEGORY,
   'console-account-manage': SYSTEM_CATEGORY,
-  'authority-role-manage': SYSTEM_CATEGORY
+  'authority-role-manage': SYSTEM_CATEGORY,
+  'patient-record-info': SYSTEM_CATEGORY
 }
 
 //用于计算2级菜单页面上下顺序, 1最靠前
@@ -119,7 +122,8 @@ export const pagePriority = {
   'chat-system': 19,
   'sms-manage': 20,
   'console-account-manage': 21,
-  'authority-role-manage': 22
+  'authority-role-manage': 22,
+  'patient-record-info': 23
 }
 
 export const pageInfo = {
@@ -205,6 +209,10 @@ export const pageInfo = {
   'authority-role-manage': {
     to: authorityRoleManage,
     text: '权限分组管理'
+  },
+  'patient-record-info': {
+    to: patientRecordInfo,
+    text: '患者录入信息'
   }
 }
 
@@ -238,6 +246,7 @@ export function getOpenMenu(currentPageName) {
     case smsManage:
     case consoleAccountManage:
     case authorityRoleManage:
+    case patientRecordInfo:
       openMenu.push(SYSTEM_CATEGORY)
       break
   }

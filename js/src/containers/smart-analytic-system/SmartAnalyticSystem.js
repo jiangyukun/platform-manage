@@ -1,9 +1,8 @@
 /**
  * Created by jiangyukun on 2017/3/2.
  */
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {merge} from 'lodash'
 
 import Button from '../../components/element/Button'
 import Form from '../../components/element/Form'
@@ -237,6 +236,7 @@ class SmartAnalyticSystem extends Component {
               }
             </RowMoveManage>
           </FlexBodyWrap>
+          <div className="list-data-count">共{this.props.total}条数据</div>
         </FlexList>
       </div>
     )

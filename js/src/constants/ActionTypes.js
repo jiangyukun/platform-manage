@@ -8,12 +8,6 @@ function getActionTypeFn(prefix) {
   }
 }
 
-function getClearActionTypeFn(prefix, type) {
-  return function (type) {
-    return prefix + '_CLEAR_' + '__' + type
-  }
-}
-
 function generatorKeyValue(prefix, obj) {
   let newObj = {}
   let typeFn = getActionTypeFn(prefix)
@@ -190,4 +184,13 @@ export const authorityRoleManage = generatorKeyValue('AUTHORITY_ROLE_MANAGE', {
   CLEAR_OPERATION_ROLE_STATE: null,
   CLEAR_OPERATION_PAGE_PERMISSION_STATE: null,
   CLEAR_UPDATE_REMARK_SUCCESS: null,
+})
+
+// PATIENT_RECORD_INFO
+// 患者录入信息
+export const patientRecordInfo = generatorKeyValue('PATIENT_RECORD_INFO', {
+  FETCH_LIST: null,
+  FETCH_RECORD_TYPE_INFO: null,
+  UPDATE_REMARK: null,
+
 })

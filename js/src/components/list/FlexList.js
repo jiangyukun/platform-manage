@@ -23,7 +23,6 @@ class FlexList extends Component {
       <div className="flex-list">
         <div className="flex-list-wrap">
           {this.props.children}
-          <div className="list-data-count">共{this.props.total}条数据</div>
         </div>
         {
           this.props.loading && (

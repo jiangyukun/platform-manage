@@ -1,8 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-import React, {Component, PropTypes, cloneElement} from 'react'
-import {findDOMNode} from 'react-dom'
+import React, {Component, PropTypes} from 'react'
 import classnames from 'classnames'
 
 import {pageSize} from '../../common/constants'

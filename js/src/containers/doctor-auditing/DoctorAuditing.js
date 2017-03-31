@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 
@@ -173,10 +173,10 @@ class DoctorAuditing extends Component {
                       byName="order_By"
         >
           <Layout loading={this.props.loading}
-                  minWidth={1450}
+                  minWidth={1770}
                   fixHead={true}
                   fixLeft={[0, 1]}
-                  weight={[100, 100, 120, 90, 110, 100, 80, 80, 100, 80, 80, 140, 100, 80, 90]}
+                  weight={[100, 100, 120, 90, 110, 100, 80, 80, 110, 80, 80, 140, 100, 80, '120px', 90, '120px']}
           >
             <Head>
               <Head.Item>
@@ -197,9 +197,11 @@ class DoctorAuditing extends Component {
               <Head.Item>备注</Head.Item>
               <Head.Item>后台管理人员</Head.Item>
               <Head.Item>运营人员</Head.Item>
+              <Head.Item>是否完成随访</Head.Item>
               <Head.Item>
                 <SortBy by="doctor_info_creat_time" activeWidth={90}>创建日期</SortBy>
               </Head.Item>
+              <Head.Item>医生完善信息时间</Head.Item>
             </Head>
             <div>
               {
@@ -249,7 +251,9 @@ class DoctorAuditing extends Component {
                       </Row.Item>
                       <Row.Item>{doctor['backend_Manager']}</Row.Item>
                       <Row.Item>{doctor['operation_Manager']}</Row.Item>
+                      <Row.Item>{doctor['is_Complete_Visit'] || '未知'}</Row.Item>
                       <Row.Item>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</Row.Item>
+                      <Row.Item>{formatDateStr(doctor['doctor_Complete_Info_Time'])}</Row.Item>
                     </Row>
                   )
                 })

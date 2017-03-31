@@ -33,6 +33,7 @@ import online__doctor from './lazy-pages/online__doctor'
 import sms_manage from './lazy-pages/sms_manage'
 import console__account__manage from './lazy-pages/console__account__manage'
 import authority__role__manage from './lazy-pages/authority__role__manage'
+import patient__record__info from './lazy-pages/patient__record__info'
 
 export default function getPageRoute(path, pageList) {
   const {
@@ -40,7 +41,7 @@ export default function getPageRoute(path, pageList) {
     doctorAuditing, hospitalManage, outPatientTime, todoWorkTrack,
     smartAnalyticSystem, appUpdate,
     historyMessage, hospitalAssayReport, patientSituationStatistics, doctorComprehensiveScore, enrollmentSituation, onlineDoctor,
-    smsManage, consoleAccountManage, authorityRoleManage,
+    smsManage, consoleAccountManage, authorityRoleManage, patientRecordInfo
   } = appPageNames
   const mapper = {
     [nodeAuditing]: node__auditing(pageList, nodeAuditing),
@@ -66,6 +67,13 @@ export default function getPageRoute(path, pageList) {
     [smsManage]: sms_manage(pageList, smsManage),
     [consoleAccountManage]: console__account__manage(pageList, consoleAccountManage),
     [authorityRoleManage]: authority__role__manage(pageList, authorityRoleManage),
+    [patientRecordInfo]: patient__record__info(pageList, patientRecordInfo),
+  }
+
+  if (process.env.NODE_ENV != 'production') {
+    pageList.push({
+      'page_Name': 'patient-record-info'
+    })
   }
 
   return (

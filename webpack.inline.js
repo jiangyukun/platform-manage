@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   // devtool: 'cheap-module-eval-source-map',
@@ -28,8 +28,8 @@ module.exports = {
       {test: /\.js$/, loaders: ['react-hot-loader', 'babel-loader'], exclude: /node_modules/, include: __dirname},
       {test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader']},
       {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
-      {test: /\.(jpg|png)$/, loader: "url-loader?limit=8192"},
-      {test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader"}
+      {test: /\.(jpg|png|svg)$/, loader: "url-loader?limit=8192"},
+      {test: /\.(eot|woff|woff2|ttf)([\?]?.*)$/, loader: "file-loader"}
     ]
   }
 }

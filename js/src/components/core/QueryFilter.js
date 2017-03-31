@@ -1,7 +1,7 @@
 /**
  * Created by jiangyu2016 on 16/10/15.
  */
-import React, {Component, cloneElement, PropTypes} from 'react'
+import React, {Component, PropTypes, Children} from 'react'
 import classnames from 'classnames'
 import {merge} from 'lodash'
 import Form from '../element/Form'
@@ -85,13 +85,13 @@ class QueryFilter extends Component {
   }
 
   render() {
-    let buttons = this.props.children.map(child => {
+    let buttons = Children.map(this.props.children, child => {
       if (child && child.type != FilterItem) {
         return child
       }
     })
 
-    let filterItems = this.props.children.map((child, index) => {
+    let filterItems = Children.map(this.props.children, (child, index) => {
       if (child && child.type == FilterItem) {
         return child
       }
