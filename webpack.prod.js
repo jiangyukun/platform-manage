@@ -5,7 +5,7 @@ process.env.NODE_ENV = 'production'
 
 module.exports = {
   entry: [
-    './js/src/boot/index.js'
+    './src/boot/index.js'
   ],
 
   output: {

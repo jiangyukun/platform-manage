@@ -73,3 +73,13 @@
     background-image: url(../../img/svg/close.svg);
     @include svg-bg-icon();
 }
+
+.edit-remark-svg {
+    display: inline-block;
+    margin-left: 3px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    background: url(../../img/svg/edit.svg);
+    background-size: cover;
+}

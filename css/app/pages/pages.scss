@@ -2,6 +2,7 @@
 @import "console-account-manage";
 @import "authority-role-manage";
 @import "patient-record-info";
+@import "laboratory-sheet.scss";
 
 .app-function-page {
     .toolbar {
@@ -41,16 +42,6 @@
 
 .edit-remark-icon {
     margin-left: 3px;
-}
-
-.edit-remark-svg {
-    display: inline-block;
-    margin-left: 3px;
-    cursor: pointer;
-    width: 12px;
-    height: 12px;
-    background: url(../../img/svg/edit.svg);
-    background-size: cover;
 }
 
 .load-more-text {
