@@ -10,7 +10,6 @@ class FixHead extends Component {
   }
 
   onBodyScroll = (e) => {
-    // console.log(e.target.scrollLeft)
     this._fixHeadContainer.scrollLeft = e.target.scrollLeft
   }
 
@@ -32,7 +31,7 @@ class FixHead extends Component {
     }
 
     return (
-      <div ref={c => this._fixHeadContainer = c} style={{overflowX: 'hidden', overflowY: 'scroll'}}>
+      <div ref={c => this._fixHeadContainer = c} style={{overflowX: 'hidden', overflowY: this.context.isBodyScroll ? 'scroll' : 'hidden'}}>
         <div style={style}>
           <ul className="flex-list-header">
             {headItems}
@@ -44,6 +43,7 @@ class FixHead extends Component {
 }
 
 FixHead.contextTypes = {
+  isBodyScroll: PropTypes.bool,
   weight: PropTypes.array,
   minWidth: PropTypes.string,
   setHead: PropTypes.func

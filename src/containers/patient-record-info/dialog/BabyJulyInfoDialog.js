@@ -19,7 +19,6 @@ class BabyBirthInfoDialog extends React.Component {
     return (
       <Modal show={this.state.show}
              backdrop="static"
-             className="console-account-manage-add"
              onHide={this.close}
              onExited={this.props.onExited}
       >

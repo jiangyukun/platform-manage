@@ -1,12 +1,19 @@
 
-.inoculation-info {
+.record-type-detail-info {
     display: flex;
     margin-top: 15px;
     border-top: 1px solid #e5e5e5;
     padding-top: 15px;
-    //border-bottom: 1px solid #aaa;
 }
 
 .record-info-check-area {
-    width: 200px;
+    width: 150px;
+    text-align: center;
+    border-left: 1px solid #e5e5d5;
+}
+
+.record-info-header {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }

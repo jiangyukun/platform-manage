@@ -20,7 +20,6 @@ class InoculationDialog extends React.Component {
     return (
       <Modal show={this.state.show}
              backdrop="static"
-             className="console-account-manage-add"
              onHide={this.close}
              onExited={this.props.onExited}
       >
@@ -30,8 +29,13 @@ class InoculationDialog extends React.Component {
         <Modal.Body>
           <_PatientBasicInfo basicInfo={this.props.basicInfo}/>
 
-          <div className="inoculation-info">
-            <div className="flex1"></div>
+          <div className="record-type-detail-info">
+            <div className="flex1">
+              <h4 className="record-info-header">接种宝宝：宝宝1</h4>
+              <div>接种针数：第1针</div>
+              <div className="mt-5">乙肝疫苗接种日期：2017-03-10</div>
+              <div className="mt-5">免疫球蛋白接种日期：2017-03-10</div>
+            </div>
             <_AuditingButtons/>
           </div>
         </Modal.Body>

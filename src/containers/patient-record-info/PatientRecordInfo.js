@@ -128,7 +128,11 @@ class PatientRecordInfo extends React.Component {
               {
                 this.props.list.map((item, index) => {
                   return (
-                    <FixRow key={item['extend_Id']} selected={this.state.index == index} onClick={() => this.setState({index})}>
+                    <FixRow key={item['extend_Id']}
+                            selected={this.state.index == index}
+                            onClick={() => this.setState({index})}
+                            style={{minHeight: '50px'}}
+                    >
                       <RowItem>{item['patient_Code']}</RowItem>
                       <RowItem>{item['patient_Phone']}</RowItem>
                       <RowItem>{item['patient_Name']}</RowItem>
