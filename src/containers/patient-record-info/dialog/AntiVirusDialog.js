@@ -17,7 +17,15 @@ class AntiVirusDialog extends React.Component {
     this.setState({show: false})
   }
 
+  componentWillUpdate() {
+    if (this.props.auditingStatusUpdated) {
+      this.close()
+    }
+  }
+
   render() {
+    const recordTypeInfo = this.props.recordTypeInfo
+
     return (
       <Modal show={this.state.show}
              backdrop="static"
@@ -32,11 +40,11 @@ class AntiVirusDialog extends React.Component {
 
           <div className="record-type-detail-info">
             <div className="flex1">
-              <div>药品名称： 替诺福韦</div>
-              <div className="mt-5">每日剂量： 600mg</div>
-              <div className="mt-5">用药时间： 2016-07-20 ~ 2017-02-10</div>
+              <div>药品名称：{recordTypeInfo['name'] || '未知'}</div>
+              <div className="mt-5">每日剂量：{recordTypeInfo['dose'] || '未知'}</div>
+              <div className="mt-5">用药时间： {recordTypeInfo['start_Time']} ~ {recordTypeInfo['end_Time'] || '至今'}</div>
             </div>
-            <_AuditingButtons/>
+            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -49,6 +57,8 @@ class AntiVirusDialog extends React.Component {
 
 AntiVirusDialog.propTypes = {
   basicInfo: PropTypes.object,
+  recordTypeInfo: PropTypes.object,
+  auditingRecordInfo: PropTypes.func,
   onExited: PropTypes.func
 }
 

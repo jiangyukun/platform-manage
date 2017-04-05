@@ -14,7 +14,7 @@ import PaginateList from '../../components/core/PaginateList'
 import {SmartList, HeadContainer, BodyContainer} from '../../components/list/'
 import Head from './table/Head'
 import Body from './table/Body'
-import EditPatientInfo from '../patient-edit/EditPatientInfo'
+import EditPatientInfoWrap from '../patient-edit/EditPatientInfoWrap'
 import EditVisitCard from './edit/EditVisitCard'
 import EditRemark from './edit/EditRemark'
 import EditIsCompleteVisit from './edit/EditIsCompleteVisit'
@@ -78,6 +78,12 @@ class NodeAuditing extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.deleteAccountSuccess) {
+      this.beginFetch(1)
+    }
+  }
+
   render() {
     const {isCanEdit, isCanExport} = this.props.authority
 
@@ -93,12 +99,9 @@ class NodeAuditing extends Component {
       <div className="app-function-page">
         {
           this.state.showEdit && (
-            <EditPatientInfo
+            <EditPatientInfoWrap
               patientId={list[this.state.currentIndex]['patient_Id']}
-              fetchPatientInfo={this.props.fetchPatientInfo}
-              updateAuditingState={this.props.updateAuditingState}
-              updatePatientInfo={this.props.updatePatientInfo}
-              patientInfoUpdated={() => this.beginFetch()}
+              updateSuccessCallback={() => this.beginFetch()}
               onExited={() => this.setState({showEdit: false})}
               isCanEdit={isCanEdit}/>
           )
@@ -195,9 +198,6 @@ function mapActionToProps(dispatch) {
     editVisitCardState: actions.editVisitCardState(dispatch),
     editRemark: actions.editRemark(dispatch),
     editIsCompleteVisit: actions.editIsCompleteVisit(dispatch),
-    fetchPatientInfo: actions.fetchPatientInfo(dispatch),
-    updateAuditingState: actions.updateAuditingState(dispatch),
-    updatePatientInfo: actions.updatePatientInfo(dispatch)
   })
 }
 

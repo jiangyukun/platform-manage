@@ -16,7 +16,15 @@ class InoculationDialog extends React.Component {
     this.setState({show: false})
   }
 
+  componentWillUpdate() {
+    if (this.props.auditingStatusUpdated) {
+      this.close()
+    }
+  }
+
   render() {
+    const recordTypeInfo = this.props.recordTypeInfo
+
     return (
       <Modal show={this.state.show}
              backdrop="static"
@@ -31,12 +39,12 @@ class InoculationDialog extends React.Component {
 
           <div className="record-type-detail-info">
             <div className="flex1">
-              <h4 className="record-info-header">接种宝宝：宝宝1</h4>
-              <div>接种针数：第1针</div>
-              <div className="mt-5">乙肝疫苗接种日期：2017-03-10</div>
-              <div className="mt-5">免疫球蛋白接种日期：2017-03-10</div>
+              <h4 className="record-info-header">接种宝宝：{recordTypeInfo['baby_No']}</h4>
+              <div>接种针数：{recordTypeInfo['inoculated_Number'] ? `第${recordTypeInfo['inoculated_Number']}针` : '未知'}</div>
+              <div className="mt-5">乙肝疫苗接种日期：{recordTypeInfo['inoculated_HBIG_Day'] || '未知'}</div>
+              <div className="mt-5">免疫球蛋白接种日期：{recordTypeInfo['inoculated_HBV_Day'] || '未知'}</div>
             </div>
-            <_AuditingButtons/>
+            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -49,6 +57,8 @@ class InoculationDialog extends React.Component {
 
 InoculationDialog.propTypes = {
   basicInfo: PropTypes.object,
+  recordTypeInfo: PropTypes.object,
+  auditingRecordInfo: PropTypes.func,
   onExited: PropTypes.func
 }
 

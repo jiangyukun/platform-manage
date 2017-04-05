@@ -2,13 +2,18 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import {fromJS} from 'immutable'
-import * as types from '../../constants/ActionTypes'
+import {patientEdit} from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
-import constants from '../../core/constants'
 
-const defaultValue = {total: 0, list: []}
+const defaultValue = {
+  total: 0,
+  list: [],
+  loading: false,
+  deleteAccountSuccess: false,
+  updateRemarkSuccess: false
+}
 
-export function patientEditPaginateList(state = defaultValue, action) {
+export function patient_edit(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()
@@ -17,12 +22,28 @@ export function patientEditPaginateList(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
-      case types.FETCH_PATIENT_PAGINATE_LIST + phase.SUCCESS:
+      case patientEdit.FETCH_LIST + phase.START:
+        nextIState = iState.set('loading', true)
+        break
+
+      case patientEdit.FETCH_LIST + phase.SUCCESS:
         nextIState = fetchPatientPaginateListSuccess()
         break
 
-      case types.UPDATE_REMARK + phase.SUCCESS:
+      case patientEdit.UPDATE_REMARK + phase.SUCCESS:
         nextIState = updateRemarkSuccess()
+        break
+
+      case patientEdit.CLEAR_REMARK_UPDATED:
+        nextIState = iState.set('updateRemarkSuccess', false)
+        break
+
+      case patientEdit.DELETE_ACCOUNT + phase.SUCCESS:
+        nextIState = iState.set('deleteAccountSuccess', true)
+        break
+
+      case patientEdit.CLEAR_DELETE_ACCOUNT_SUCCESS:
+        nextIState = iState.set('deleteAccountSuccess', false)
         break
 
       default:
@@ -38,15 +59,12 @@ export function patientEditPaginateList(state = defaultValue, action) {
 
   function fetchPatientPaginateListSuccess() {
     let {total, list} = action
-    return iState.set('total', total).set('list', list)
+    return iState.set('total', total).set('list', list).set('loading', false)
   }
 
   function updateRemarkSuccess() {
-    let {id, remarkType, remark} = action
-    if (remarkType != constants.remarkFlag.PATIENT_EDIT) {
-      return iState
-    }
-    return _updateList(iState, id, patient => patient.set('remark', remark))
+    let {id, remark} = action
+    return _updateList(iState, id, patient => patient.set('remark', remark)).set('updateRemarkSuccess', true)
   }
 
   // -------------------------------------

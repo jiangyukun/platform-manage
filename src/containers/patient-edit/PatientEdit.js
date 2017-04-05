@@ -1,7 +1,8 @@
 /**
  * Created by jiangyukun on 16/10/15.
  */
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import {merge} from 'lodash'
@@ -15,7 +16,7 @@ import SmartList from '../../components/list/SmartList'
 import HeadContainer from '../../components/list/HeadContainer'
 import BodyContainer from '../../components/list/BodyContainer'
 import HighLight from '../../components/txt/HighLight'
-import EditPatientInfo from './EditPatientInfo'
+import EditPatientInfoWrap from './EditPatientInfoWrap'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
 
@@ -24,14 +25,11 @@ import {getFilterItem} from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {formatDateStr} from '../../core/dateUtils'
 import {getAuditStatus, getYesOrNoText} from '../../core/formatBusData'
-import * as commonActions from '../../actions/common'
-import * as editActions from '../node-auditing/node-auditing'
 import * as actions from './patient-edit'
 
 class PatientEdit extends Component {
   state = {
     currentIndex: -1,
-    loading: false,
     searchKey: '',
     showEdit: false,
     showImage: false,
@@ -45,7 +43,6 @@ class PatientEdit extends Component {
   doFetch() {
     this.setState({currentIndex: -1, loading: true})
     this.props.fetchPatientPaginateList(merge(this._queryFilter.getParams(), this._paginateList.getParams()))
-      .then(() => this.setState({loading: false}))
   }
 
   imagePreview(imageUrl) {
@@ -60,14 +57,22 @@ class PatientEdit extends Component {
     this.setState({showEditMark: true})
   }
 
-  updatePatientRemark(newRemark) {
-    this.props.updatePatientRemark(this.patientId, this.infoId, constants.remarkFlag.PATIENT_EDIT, newRemark)
-      .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err))
-      .then(() => this.setState({showEditMark: false}))
+  updateRemark(newRemark) {
+    this.props.updateRemark(this.patientId, this.infoId, constants.remarkFlag.PATIENT_EDIT, newRemark)
   }
 
   componentDidMount() {
     this.beginFetch()
+  }
+
+  componentDidUpdate() {
+    if (this.props.updateRemarkSuccess) {
+      this.props.clearRemarkUpdated()
+      antdUtil.tipSuccess('修改备注成功！')
+    }
+    if (this.props.deleteAccountSuccess) {
+      this.beginFetch(1)
+    }
   }
 
   render() {
@@ -77,20 +82,18 @@ class PatientEdit extends Component {
       <div className="app-function-page">
         {
           this.state.showEdit && this.state.currentIndex != -1 && (
-            <EditPatientInfo patientId={this.props.list[this.state.currentIndex]['patient_Id']}
-                             fetchPatientInfo={this.props.fetchPatientInfo}
-                             updateAuditingState={this.props.updateAuditingState}
-                             updatePatientInfo={this.props.updatePatientInfo}
-                             patientInfoUpdated={() => this.beginFetch()}
-                             isCanEdit={isCanEdit}
-                             onExited={() => this.setState({showEdit: false})}/>
+            <EditPatientInfoWrap patientId={this.props.list[this.state.currentIndex]['patient_Id']}
+                                 updateSuccessCallback={() => this.beginFetch()}
+                                 isCanEdit={isCanEdit}
+                                 onExited={() => this.setState({showEdit: false})}/>
           )
         }
 
         {
           this.state.showEditMark && (
             <EditRemark value={this.remark}
-                        updateRemark={newRemark => this.updatePatientRemark(newRemark)}
+                        updateRemark={newRemark => this.updateRemark(newRemark)}
+                        remarkUpdated={this.props.updateRemarkSuccess}
                         onExited={() => this.setState({showEditMark: false})}/>
           )
         }
@@ -131,7 +134,7 @@ class PatientEdit extends Component {
                       lengthName="limit"
                       byName="order_By"
         >
-          <SmartList loading={this.state.loading} fixHead={true} style={{minWidth: '1000px'}} fixLeft={[0, 1]}>
+          <SmartList loading={this.props.loading} fixHead={true} style={{minWidth: '1000px'}} fixLeft={[0, 1]}>
             <HeadContainer>
               <ul className="flex-list-header">
                 <li className="item" style={{width: '100px'}}>
@@ -218,7 +221,7 @@ class PatientEdit extends Component {
 
 function mapStateToProps(state) {
   return {
-    ...state['patientEditPaginateList'],
+    ...state['patient_edit'],
     isHepatitisBFilter: getFilterItem('isHepatitisB', '是否乙肝'),
     isPregnantWomenFilter: getFilterItem('isPregnantWomen', '是否孕妇'),
     minorityFilter: getFilterItem('minority', '民族', [
@@ -234,15 +237,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapActionToProps(dispatch) {
-  return {
-    fetchPatientPaginateList: actions.fetchPatientPaginateList(dispatch),
-
-    fetchPatientInfo: editActions.fetchPatientInfo(dispatch),
-    updateAuditingState: editActions.updateAuditingState(dispatch),
-    updatePatientInfo: editActions.updatePatientInfo(dispatch),
-    updatePatientRemark: commonActions.updateRemark(dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapActionToProps)(PatientEdit)
+export default connect(mapStateToProps, actions)(PatientEdit)

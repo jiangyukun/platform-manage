@@ -18,7 +18,8 @@ import InoculationInfoDialog from './dialog/InoculationInfoDialog'
 import BabyJulyInfoDialog from './dialog/BabyJulyInfoDialog'
 
 import {getFilterItem} from '../../core/utils'
-import {RECORD_TYPE, getRecordTypeText} from '../../constants/patient-record-info'
+import * as antdUtils from '../../core/utils/antdUtil'
+import {RECORD_TYPE, getRecordTypeText, getAuditingStatus} from '../../constants/patient-record-info'
 import * as actions from './patient-record-info'
 
 class PatientRecordInfo extends React.Component {
@@ -47,8 +48,27 @@ class PatientRecordInfo extends React.Component {
     this.props.updateRemark(item['extend_Id'], item['info_Type'], newRemark)
   }
 
+  auditingRecordInfo = (newStatus) => {
+    antdUtils.confirm(`确定修改审核状态为${getAuditingStatus(newStatus)}吗？`, () => {
+      const item = this.props.list[this.state.index]
+      this.props.auditingRecordInfo(item['extend_Id'], item['info_Type'], newStatus)
+    })
+  }
+
   componentDidMount() {
     this.beginFetch()
+  }
+
+  componentDidUpdate() {
+    if (this.props.updateRemarkSuccess) {
+      this.props.clearUpdateRemarkSuccess()
+      antdUtils.tipSuccess('更新备注成功！')
+    }
+    if (this.props.auditingStatus) {
+      this.props.clearAuditingStatus()
+      this.beginFetch()
+      antdUtils.tipSuccess('更新状态成功！')
+    }
   }
 
   render() {
@@ -60,6 +80,9 @@ class PatientRecordInfo extends React.Component {
           this.state.index != -1 && this.state.recordType == RECORD_TYPE.antiVirus && (
             <AntiVirusDialog
               basicInfo={item}
+              recordTypeInfo={this.props.recordTypeInfo}
+              auditingRecordInfo={this.auditingRecordInfo}
+              auditingStatusUpdated={this.props.auditingStatus != ''}
               onExited={() => this.setState({recordType: ''})}/>
           )
         }
@@ -67,6 +90,9 @@ class PatientRecordInfo extends React.Component {
           this.state.index != -1 && this.state.recordType == RECORD_TYPE.babyBirthInfo && (
             <BabyBirthInfoDialog
               basicInfo={item}
+              recordTypeInfo={this.props.recordTypeInfo}
+              auditingRecordInfo={this.auditingRecordInfo}
+              auditingStatusUpdated={this.props.auditingStatus != ''}
               onExited={() => this.setState({recordType: ''})}/>
           )
         }
@@ -74,6 +100,9 @@ class PatientRecordInfo extends React.Component {
           this.state.index != -1 && this.state.recordType == RECORD_TYPE.inoculationInfo && (
             <InoculationInfoDialog
               basicInfo={item}
+              recordTypeInfo={this.props.recordTypeInfo}
+              auditingRecordInfo={this.auditingRecordInfo}
+              auditingStatusUpdated={this.props.auditingStatus != ''}
               onExited={() => this.setState({recordType: ''})}/>
           )
         }
@@ -81,12 +110,18 @@ class PatientRecordInfo extends React.Component {
           this.state.index != -1 && this.state.recordType == RECORD_TYPE.babyJulyInfo && (
             <BabyJulyInfoDialog
               basicInfo={item}
+              recordTypeInfo={this.props.recordTypeInfo}
+              auditingRecordInfo={this.auditingRecordInfo}
+              auditingStatusUpdated={this.props.auditingStatus != ''}
               onExited={() => this.setState({recordType: ''})}/>
           )
         }
         {
           this.state.showEditRemark && (
-            <EditRemark value={''} updateRemark={this.updateRemark} onExited={() => this.setState({showEditRemark: false})}/>
+            <EditRemark value={item['remark']}
+                        remarkUpdated={this.props.updateRemarkSuccess}
+                        updateRemark={this.updateRemark}
+                        onExited={() => this.setState({showEditRemark: false})}/>
           )
         }
 
@@ -142,7 +177,7 @@ class PatientRecordInfo extends React.Component {
                       <RowItem>{item['obstetrics_Doctor']}</RowItem>
                       <RowItem>{getRecordTypeText(item['info_Type'])}</RowItem>
                       <RowItem>{item['created_Time']}</RowItem>
-                      <RowItem>{item['info_Status']}</RowItem>
+                      <RowItem>{getAuditingStatus(item['info_Status'])}</RowItem>
                       <RowItem>
                         <div className="click-to-look"
                              onClick={e => this.fetchRecordTypeInfo(index)}>点击查看

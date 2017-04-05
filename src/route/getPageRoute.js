@@ -70,12 +70,6 @@ export default function getPageRoute(path, pageList) {
     [patientRecordInfo]: patient__record__info(pageList, patientRecordInfo),
   }
 
-  if (process.env.NODE_ENV != 'production') {
-    pageList.push({
-      'page_Name': 'patient-record-info'
-    })
-  }
-
   return (
     <Route path={path} component={PlatformApp}>
       <Route path="index" component={IndexPage}/>

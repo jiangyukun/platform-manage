@@ -42,6 +42,17 @@ _get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
   const userId = authorityInfo['userName']
   const username = authorityInfo['backendUserRealName']
   const pageList = []
+
+
+  if (process.env.NODE_ENV != 'production') {
+    pageList.push({
+      'page_Name': 'patient-edit',
+      'permission': 1,
+      'export': true
+    })
+  }
+
+
   roleList.forEach(role => {
     if (role.pageList) {
       role.pageList.map(newPageAuthority => {

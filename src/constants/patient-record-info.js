@@ -27,3 +27,25 @@ export function getRecordTypeText(type) {
       return type
   }
 }
+
+export const AUDIT_STATUS = {
+  NO_RECORD: 1,
+  RECORDED: 2,
+  INVALID: 3
+}
+
+export function getAuditingStatus(type) {
+  switch (type) {
+    case AUDIT_STATUS.NO_RECORD:
+      return '未录入'
+
+    case AUDIT_STATUS.RECORDED:
+      return '已录入'
+
+    case AUDIT_STATUS.INVALID:
+      return '无效'
+
+    default:
+      return type
+  }
+}

@@ -4,11 +4,10 @@
 import React, {Component, PropTypes} from 'react'
 import CommonDialog from '../../components/core/CommonDialog'
 
-class EditRemark extends Component {
-  constructor(props) {
-    super(props)
-    this.originalValue = props.value
-    this.state = {show: true, value: props.value || ''}
+class DeleteAccountReason extends Component {
+  state = {
+    show: true,
+    value: ''
   }
 
   handleChange = (event) => {
@@ -20,19 +19,13 @@ class EditRemark extends Component {
   }
 
   confirm = () => {
-    this.props.updateRemark(this.state.value)
-  }
-
-  componentWillUpdate() {
-    if (this.props.remarkUpdated) {
-      this.close()
-    }
+    this.props.onConfirm(this.state.value)
   }
 
   render() {
     return (
       <CommonDialog show={this.state.show} onHide={this.close} onExited={this.props.onExited} width="30%" className="ngdialog ngdialog-theme-default">
-        <h4>修改备注</h4>
+        <h4>删除账号原因</h4>
 
         <p style={{marginTop: '15px', marginBottom: '15px'}}>
           <textarea className="form-control" rows="4" value={this.state.value} onChange={this.handleChange}></textarea>
@@ -41,7 +34,7 @@ class EditRemark extends Component {
           <button type="button" className="ngdialog-button ngdialog-button-secondary" onClick={this.close}>取消</button>
           <button type="button" className="ngdialog-button ngdialog-button-primary"
                   onClick={this.confirm}
-                  disabled={this.state.value == this.originalValue}>确定
+                  disabled={this.state.value == ''}>确定
           </button>
         </div>
       </CommonDialog>
@@ -49,15 +42,14 @@ class EditRemark extends Component {
   }
 }
 
-EditRemark.defaultProps = {
+DeleteAccountReason.defaultProps = {
   value: ''
 }
 
-EditRemark.propTypes = {
+DeleteAccountReason.propTypes = {
   value: PropTypes.string,
   onExited: PropTypes.func.isRequired,
-  updateRemark: PropTypes.func.isRequired,
-  remarkUpdated: PropTypes.bool
+  onConfirm: PropTypes.func.isRequired,
 }
 
-export default EditRemark
+export default DeleteAccountReason

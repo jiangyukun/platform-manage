@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react'
-import elementType from 'react-prop-types/lib/elementType'
 import Modal from 'react-bootstrap/lib/Modal'
 import moment from 'moment'
 import DatePicker from 'antd/lib/date-picker'
 
 import Select1 from '../../components/core/Select1'
 import EditableImagePreview from '../../components/core/EditableImagePreview'
+import DeleteAccountReason from './DeleteAccountReason'
+
 import constants from '../../core/constants'
 import * as antdUtil from '../../core/utils/antdUtil'
 
-class EditPatient extends Component {
+class EditPatientInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -29,6 +30,7 @@ class EditPatient extends Component {
       doctor3: '',
 
       show: true,
+      showFillDeleteReason: false,
       showPhoto: false,
       valid: false
     }
@@ -46,7 +48,13 @@ class EditPatient extends Component {
     this.setState({doctor3: value})
   }
 
-  cancelAuditing() {
+  deleteAccount = (reason) => {
+    antdUtil.confirm('确定删除账号吗？', () => {
+      this.props.deleteAccount(this.props.patientId, reason)
+    })
+  }
+
+  cancelAuditing = () => {
     antdUtil.confirm('确定撤销审核吗？', () => {
       this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditing)
         .then(() => antdUtil.tipSuccess('撤销审核成功!'), err => antdUtil.tipErr('撤销审核失败！'))
@@ -54,7 +62,7 @@ class EditPatient extends Component {
     })
   }
 
-  markUnPass() {
+  markUnPass = () => {
     antdUtil.confirm('确定标为不通过吗？', () => {
       this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingUnPass)
         .then(() => antdUtil.tipSuccess('标为不通过成功!'), err => antdUtil.tipErr('标为不通过失败！'))
@@ -62,7 +70,7 @@ class EditPatient extends Component {
     })
   }
 
-  markPass() {
+  markPass = () => {
     antdUtil.confirm('确定标为已审核吗？', () => {
       this.props.updateAuditingState(this.infoId, this.props.patientId, constants.auditingState.auditingPass)
         .then(() => antdUtil.tipSuccess('标为已审核成功!'), err => antdUtil.tipErr('标为已审核失败！'))
@@ -70,7 +78,7 @@ class EditPatient extends Component {
     })
   }
 
-  updatePatientInfo() {
+  updatePatientInfo = () => {
     antdUtil.confirm('确定保存修改吗？', () => {
       this.props.updatePatientInfo({
         "patient_Id": this.props.patientId,
@@ -88,7 +96,7 @@ class EditPatient extends Component {
       }).then(() => {
         antdUtil.tipSuccess('更新病人信息成功！')
         this.setState({show: false})
-        this.props.patientInfoUpdated()
+        this.props.updateSuccessCallback()
       }, err => antdUtil.tipErr(err))
     })
   }
@@ -132,19 +140,34 @@ class EditPatient extends Component {
     })
   }
 
-  render() {
-    const NoEditAuthority = this.props.noEditAuthorityComponent
+  close = () => {
+    this.setState({show: false})
+  }
 
+  componentWillUpdate() {
+    if (this.props.deleteAccountSuccess) {
+      this.close()
+    }
+  }
+
+  render() {
     return (
       <Modal show={this.state.show}
              bsSize="lg"
-             onHide={() => this.setState({show: false})}
+             onHide={this.close}
              onExited={this.props.onExited}
              backdrop="static">
         <Modal.Header closeButton={true}>
           <Modal.Title>编辑患者</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {
+            this.state.showFillDeleteReason && (
+              <DeleteAccountReason onExited={() => this.setState({showFillDeleteReason: false})}
+                                   onConfirm={reason => this.deleteAccount(reason)}/>
+            )
+          }
+
           {
             this.state.showPhoto && (
               <EditableImagePreview url={this.state.photo}
@@ -301,7 +324,7 @@ class EditPatient extends Component {
             {
               this.props.isCanEdit && (
                 <div className="col-xs-offset-4 col-xs-4">
-                  <input type="button" className="btn btn-default btn-block" onClick={e => this.updatePatientInfo()} value="保存修改"/>
+                  <input type="button" className="btn btn-default btn-block" onClick={this.updatePatientInfo} value="保存修改"/>
                 </div>
               )
             }
@@ -310,16 +333,21 @@ class EditPatient extends Component {
           {
             this.props.isCanEdit && (
               <div className="row mt-10">
-                <div className="col-xs-4">
-                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.cancelAuditing()}
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-warning btn-block"
+                         onClick={() => this.setState({showFillDeleteReason: true})}
+                         value="删除账号"/>
+                </div>
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-danger btn-block" onClick={this.cancelAuditing}
                          disabled={this.state.auditingState == 1} value="撤销审核"/>
                 </div>
-                <div className="col-xs-4">
-                  <input type="button" className="btn btn-danger btn-block" onClick={e => this.markUnPass()}
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-danger btn-block" onClick={this.markUnPass}
                          disabled={this.state.auditingState == 3} value="标为不通过"/>
                 </div>
-                <div className="col-xs-4">
-                  <input type="button" className="btn btn-success btn-block" onClick={e => this.markPass()}
+                <div className="col-xs-3">
+                  <input type="button" className="btn btn-success btn-block" onClick={this.markPass}
                          disabled={this.state.auditingState == 2} value="标为已审核"/>
                 </div>
               </div>
@@ -331,14 +359,16 @@ class EditPatient extends Component {
   }
 }
 
-EditPatient.propTypes = {
+EditPatientInfo.propTypes = {
   patientId: PropTypes.string,
   fetchPatientInfo: PropTypes.func,
   updateAuditingState: PropTypes.func,
   updatePatientInfo: PropTypes.func,
-  patientInfoUpdated: PropTypes.func,
+  deleteAccount: PropTypes.func,
+  updateSuccessCallback: PropTypes.func,
+  deleteAccountSuccess: PropTypes.bool,
   isCanEdit: PropTypes.bool,
   onExited: PropTypes.func
 }
 
-export default EditPatient
+export default EditPatientInfo

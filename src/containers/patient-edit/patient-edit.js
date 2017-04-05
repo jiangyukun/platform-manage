@@ -1,24 +1,47 @@
 /**
  * Created by jiangyukun on 2016/11/30.
  */
-import {GET, POST} from '../../services/http'
-import * as types from '../../constants/ActionTypes'
-import * as phase from '../../constants/PhaseConstant'
+import {_post} from '../../services/http'
+import {patientEdit} from '../../constants/ActionTypes'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
 
-//获取分页列表
-export let fetchPatientPaginateList = dispatch => option => {
-  dispatch({
-    type: types.FETCH_PATIENT_PAGINATE_LIST + phase.START
-  })
-  return new Promise((resolve, reject) => {
-    POST('/web/getPatientInfos', {body: option}).then((patientListInfo) => {
-      const total = patientListInfo['totalCount'] || 0
-      const list = patientListInfo['list'] || []
-      dispatch({
-        type: types.FETCH_PATIENT_PAGINATE_LIST + phase.SUCCESS, total, list
-      })
-      resolve()
-    }, err => reject(err))
-  })
+export function fetchPatientPaginateList(option) {
+  return {
+    [THREE_PHASE]: {
+      type: patientEdit.FETCH_LIST,
+      http: () => _post('/web/getPatientInfos', {body: option}),
+      handleResponse: response => ({total: response['totalCount'] || 0, list: response['list'] || []})
+    }
+  }
+}
+
+export function updateRemark(id, updateRemarkId, remarkType, remark) {
+  return {
+    [THREE_PHASE]: {
+      type: patientEdit.UPDATE_REMARK,
+      http: () => _post(`/web/updateRemark/${updateRemarkId}/${remarkType}?remark=${remark}`),
+      handleResponse: response => ({id, remark})
+    }
+  }
+}
+
+export function clearRemarkUpdated() {
+  return {
+    type: patientEdit.CLEAR_REMARK_UPDATED
+  }
+}
+
+export function deleteAccount(userId, reason) {
+  return {
+    [THREE_PHASE]: {
+      type: patientEdit.DELETE_ACCOUNT,
+      http: () => _post(`/web/deletePatientUser/${userId}`, {type: 'text', body: {'delete_Remark': reason}}),
+    }
+  }
+}
+
+export function clearDeleteAccountSuccess() {
+  return {
+    type: patientEdit.CLEAR_DELETE_ACCOUNT_SUCCESS
+  }
 }

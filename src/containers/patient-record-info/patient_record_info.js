@@ -9,7 +9,10 @@ import constants from '../../core/constants'
 const defaultValue = {
   total: 0,
   list: [],
-  loading: false
+  loading: false,
+  recordTypeInfo: {},
+  updateRemarkSuccess: false,
+  auditingStatus: ''
 }
 
 export function patient_record_info(state = defaultValue, action) {
@@ -28,6 +31,27 @@ export function patient_record_info(state = defaultValue, action) {
       case patientRecordInfo.FETCH_LIST + phase.SUCCESS:
         const {total, list} = action
         nextIState = iState.set('total', total).set('list', list).set('loading', false)
+        break
+
+      case patientRecordInfo.FETCH_RECORD_TYPE_INFO + phase.SUCCESS:
+        nextIState = iState.set('recordTypeInfo', action.recordTypeInfo)
+        break
+
+      case patientRecordInfo.AUDITING_RECORD_INFO + phase.SUCCESS:
+        nextIState = iState.set('auditingStatus', action.newStatus)
+        break
+
+      case patientRecordInfo.CLEAR_AUDITING_STATUS:
+        nextIState = iState.set('auditingStatus', '')
+        break
+
+      case patientRecordInfo.UPDATE_REMARK + phase.SUCCESS:
+        const {extendId, newRemark} = action
+        nextIState = _updateList(iState, extendId, item => item.set('remark', newRemark)).set('updateRemarkSuccess', true)
+        break
+
+      case patientRecordInfo.CLEAR_REMARK_UPDATE_SUCCESS:
+        nextIState = iState.set('updateRemarkSuccess', false)
         break
 
       default:
@@ -53,7 +77,7 @@ export function patient_record_info(state = defaultValue, action) {
 
   function _updateList(curIState, id, callback) {
     const list = curIState.get('list')
-    const match = list.find(patient => patient.get('patient_Id') == id)
+    const match = list.find(patient => patient.get('extend_Id') == id)
     if (!match) {
       console.warn('no match')
       return curIState

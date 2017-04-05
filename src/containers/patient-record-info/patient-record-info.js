@@ -20,7 +20,7 @@ export function fetchRecordTypeInfo(userId, extendId, recordType) {
     [THREE_PHASE]: {
       type: patientRecordInfo.FETCH_RECORD_TYPE_INFO,
       http: () => _post(`/archives/v3/patient/input/info/detail/${userId}/${extendId}/${recordType}`),
-      handleResponse: response => ({total: response['totalCount'], list: response['patientInputInfoList']})
+      handleResponse: response => ({recordTypeInfo: response})
     }
   }
 }
@@ -30,7 +30,29 @@ export function updateRemark(extendId, recordType, newRemark) {
     [THREE_PHASE]: {
       type: patientRecordInfo.UPDATE_REMARK,
       http: state => _post(`/archives/v3/patient/input/remark/edit/${extendId}/${recordType}`, {type: 'text', body: {"remark": newRemark}}),
-      handleResponse: response => ({id, newRemark})
+      handleResponse: response => ({extendId, newRemark})
     }
+  }
+}
+
+export function clearUpdateRemarkSuccess() {
+  return {
+    type: patientRecordInfo.CLEAR_REMARK_UPDATE_SUCCESS
+  }
+}
+
+export function auditingRecordInfo(extendId, recordType, newStatus) {
+  return {
+    [THREE_PHASE]: {
+      type: patientRecordInfo.AUDITING_RECORD_INFO,
+      http: () => _post(`/archives/v3/patient/input/status/edit/${extendId}/${recordType}/${newStatus}`),
+      handleResponse: () => ({newStatus})
+    }
+  }
+}
+
+export function clearAuditingStatus() {
+  return {
+    type: patientRecordInfo.CLEAR_AUDITING_STATUS
   }
 }
