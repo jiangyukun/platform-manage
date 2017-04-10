@@ -2,13 +2,19 @@
  * Created by jiangyukun on 2016/12/1.
  */
 import {fromJS} from 'immutable'
-import * as types from '../../constants/ActionTypes'
+import {doctorAuditing} from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
-import constants from '../../core/constants'
+import {updateList} from '../../core/reduxUtils'
 
-const defaultValue = {total: 0, list: [], loading: false}
+const defaultValue = {
+  total: 0,
+  list: [],
+  loading: false,
+  visitStatusUpdateSuccess: false,
+  remarkUpdateSuccess: false
+}
 
-export function doctorAuditing(state = defaultValue, action) {
+export function doctor_auditing(state = defaultValue, action) {
   const iState = fromJS(state)
 
   return nextState()
@@ -17,24 +23,38 @@ export function doctorAuditing(state = defaultValue, action) {
     let nextIState = iState
 
     switch (action.type) {
-      case types.FETCH_DOCTOR_PAGINATE_LIST + phase.START:
+      case doctorAuditing.FETCH_LIST + phase.START:
         nextIState = iState.set('loading', true)
         break
 
-      case types.FETCH_DOCTOR_PAGINATE_LIST + phase.SUCCESS:
+      case doctorAuditing.FETCH_LIST + phase.SUCCESS:
         nextIState = fetchDoctorPaginateListSuccess()
         break
 
-      case types.UPDATE_REMARK + phase.SUCCESS:
+      case doctorAuditing.UPDATE_REMARK + phase.SUCCESS:
         nextIState = updateRemarkSuccess()
         break
 
-      case types.UPDATE_DOCTOR_INFO + phase.SUCCESS:
+      case doctorAuditing.CLEAR_UPDATE_REMARK:
+        nextIState = iState.set('remarkUpdateSuccess', false)
+        break
+
+      case doctorAuditing.UPDATE_DOCTOR_INFO + phase.SUCCESS:
         nextIState = updateDoctorInfoSuccess()
         break
 
-      case types.UPDATE_DOCTOR_AUDITING_STATE + phase.SUCCESS:
+      case doctorAuditing.UPDATE_AUDITING_STATUS + phase.SUCCESS:
         nextIState = updateDoctorAuditingStateSuccess()
+        break
+
+      case doctorAuditing.UPDATE_VISIT_STATUS + phase.SUCCESS:
+        const {mobile, newStatus} = action
+        nextIState = updateList(iState, 'phone', mobile, doctor => doctor.set('is_Complete_Visit', newStatus))
+          .set('visitStatusUpdateSuccess', true)
+        break
+
+      case doctorAuditing.CLEAR_VISIT_STATUS:
+        nextIState = iState.set('visitStatusUpdateSuccess', false)
         break
 
       default:
@@ -54,11 +74,8 @@ export function doctorAuditing(state = defaultValue, action) {
   }
 
   function updateRemarkSuccess() {
-    let {id, remarkType, remark} = action
-    if (remarkType != constants.remarkFlag.DOCTOR_AUDITING) {
-      return iState
-    }
-    return _updateList(iState, id, doctor => doctor.set('doctor_Info_Remark', remark))
+    let {doctorId, remark} = action
+    return updateList(iState, 'doctor_Id', doctorId, doctor => doctor.set('doctor_Info_Remark', remark)).set('remarkUpdateSuccess', true)
   }
 
   function updateDoctorInfoSuccess() {
@@ -76,7 +93,7 @@ export function doctorAuditing(state = defaultValue, action) {
     const {
       hospitalName, positionName, departmentName
     } = action.option1
-    return _updateList(iState, doctor_Id, doctor => doctor
+    return updateList(iState, 'doctor_Id', doctor_Id, doctor => doctor
       .set('doctor_Name', doctor_Name)
       .set('hid', hospital_Id)
       .set('hospital_Id', hospitalName)
@@ -93,18 +110,7 @@ export function doctorAuditing(state = defaultValue, action) {
 
   function updateDoctorAuditingStateSuccess() {
     const {doctorId, newAuditingState} = action
-    return _updateList(iState, doctorId, doctor => doctor.set('doctor_Is_Checked', newAuditingState))
+    return updateList(iState, 'doctor_Id', doctorId, doctor => doctor.set('doctor_Is_Checked', newAuditingState))
   }
 
-  // -------------------------------------
-
-  function _updateList(curIState, id, callback) {
-    const list = curIState.get('list')
-    const match = list.find(doctor => doctor.get('doctor_Id') == id)
-    if (!match) {
-      console.warn('no match')
-      return curIState
-    }
-    return curIState.update('list', list => list.update(list.indexOf(match), doctor => callback(doctor)))
-  }
 }

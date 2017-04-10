@@ -165,7 +165,8 @@ class DoctorComprehensiveScore extends Component {
                       <Row.Item>{comprehensiveScore['doctor_Last_Week_Score']}</Row.Item>
                       <Row.Item>{comprehensiveScore['doctor_Last_Week_Ranking']}</Row.Item>
                       <Row.Item>
-                        <div className="click-to-look" onClick={e => this.setState({showStatistics: true, currentIndex: index})}>点击查看</div>
+                        <span className="click-to-look"
+                              onClick={e => this.setState({showStatistics: true, currentIndex: index})}>点击查看</span>
                       </Row.Item>
                     </Row>
                   )

@@ -23,13 +23,13 @@ class _AuditingButtons extends React.Component {
     return (
       <div className="record-info-check-area">
         <div>
-          <button className="btn" onClick={this.auditNoRecord}>未录入</button>
+          <button className="btn" disabled={this.props.currentStatus == AUDIT_STATUS.NO_RECORD} onClick={this.auditNoRecord}>未录入</button>
         </div>
         <div className="mt-5">
-          <button className="btn" onClick={this.auditRecorded}>已录入</button>
+          <button className="btn" disabled={this.props.currentStatus == AUDIT_STATUS.RECORDED} onClick={this.auditRecorded}>已录入</button>
         </div>
         <div className="mt-5">
-          <button className="btn" onClick={this.auditInvalid}>无效</button>
+          <button className="btn" disabled={this.props.currentStatus == AUDIT_STATUS.INVALID} onClick={this.auditInvalid}>无效</button>
         </div>
       </div>
     )
@@ -37,6 +37,7 @@ class _AuditingButtons extends React.Component {
 }
 
 _AuditingButtons.propTypes = {
+  currentStatus: PropTypes.string,
   auditingRecordInfo: PropTypes.func
 }
 

@@ -25,6 +25,7 @@ class AntiVirusDialog extends React.Component {
 
   render() {
     const recordTypeInfo = this.props.recordTypeInfo
+    const basicInfo = this.props.basicInfo
 
     return (
       <Modal show={this.state.show}
@@ -44,7 +45,7 @@ class AntiVirusDialog extends React.Component {
               <div className="mt-5">每日剂量：{recordTypeInfo['dose'] || '未知'}</div>
               <div className="mt-5">用药时间： {recordTypeInfo['start_Time']} ~ {recordTypeInfo['end_Time'] || '至今'}</div>
             </div>
-            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
+            <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>

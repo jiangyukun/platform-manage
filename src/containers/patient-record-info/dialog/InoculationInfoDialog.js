@@ -44,7 +44,7 @@ class InoculationDialog extends React.Component {
               <div className="mt-5">乙肝疫苗接种日期：{recordTypeInfo['inoculated_HBIG_Day'] || '未知'}</div>
               <div className="mt-5">免疫球蛋白接种日期：{recordTypeInfo['inoculated_HBV_Day'] || '未知'}</div>
             </div>
-            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
+            <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>

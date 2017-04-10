@@ -210,7 +210,7 @@ class OutPatientTime extends Component {
                       </Row.Item>
                       <Row.Item>{outPatient['doctor_short_notice_statusString']}</Row.Item>
                       <Row.Item>
-                        <div className="click-to-look" onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</div>
+                        <span className="click-to-look" onClick={e => this.setState({showDetail: true, currentIndex: index})}>点击查看</span>
                       </Row.Item>
                     </Row>
                   )

@@ -173,15 +173,15 @@ class PatientRecordInfo extends React.Component {
                       <RowItem>{item['patient_Name']}</RowItem>
                       <RowItem>{item['hospital_Name']}</RowItem>
                       <RowItem>{item['infection_Doctor']}</RowItem>
-                      <RowItem>{item['pediatrics_Doctor']}</RowItem>
                       <RowItem>{item['obstetrics_Doctor']}</RowItem>
+                      <RowItem>{item['pediatrics_Doctor']}</RowItem>
                       <RowItem>{getRecordTypeText(item['info_Type'])}</RowItem>
                       <RowItem>{item['created_Time']}</RowItem>
                       <RowItem>{getAuditingStatus(item['info_Status'])}</RowItem>
                       <RowItem>
-                        <div className="click-to-look"
-                             onClick={e => this.fetchRecordTypeInfo(index)}>点击查看
-                        </div>
+                        <span className="click-to-look"
+                              onClick={e => this.fetchRecordTypeInfo(index)}>点击查看
+                        </span>
                       </RowItem>
                       <RowItem>
                         {item['remark']}

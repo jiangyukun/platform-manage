@@ -53,6 +53,18 @@ export function getAuditStatus(value) {
   return _unKnowData(value)
 }
 
+export function getVisitStatus(value) {
+  if (!value) return '未联系'
+  if (constants.visitState.UN_COMPLETE == value) {
+    return '未完成'
+  } else if (constants.visitState.COMPLETE == value) {
+    return '已完成'
+  } else if (constants.visitState.UN_CONTACT == value) {
+    return '未联系'
+  }
+  return _unKnowData(value)
+}
+
 export function isVisitDoctor(value) {
   if (!value) {
     return '否'

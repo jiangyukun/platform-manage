@@ -43,15 +43,14 @@ _get('/webBackend/getBackendUserPermissionPage').then(authorityInfo => {
   const username = authorityInfo['backendUserRealName']
   const pageList = []
 
-
+  // 加入当前调试页面
   if (process.env.NODE_ENV != 'production') {
     pageList.push({
-      'page_Name': 'patient-edit',
+      'page_Name': 'patient-record-info',
       'permission': 1,
       'export': true
     })
   }
-
 
   roleList.forEach(role => {
     if (role.pageList) {

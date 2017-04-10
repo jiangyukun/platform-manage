@@ -45,7 +45,7 @@ class BabyBirthInfoDialog extends React.Component {
                 <div className="flex1">缺陷名称：{recordTypeInfo['first_Baby_Physiological_Defect']}</div>
               </div>
             </div>
-            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
+            <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -69,7 +69,7 @@ class BabyBirthInfoDialog extends React.Component {
                 )
               }
             </div>
-            <_AuditingButtons auditingRecordInfo={this.props.auditingRecordInfo}/>
+            <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -98,7 +98,7 @@ class NodeAuditing extends Component {
     return (
       <div className="app-function-page">
         {
-          this.state.showEdit && (
+          this.state.showEdit && this.state.currentIndex != -1 && (
             <EditPatientInfoWrap
               patientId={list[this.state.currentIndex]['patient_Id']}
               updateSuccessCallback={() => this.beginFetch()}

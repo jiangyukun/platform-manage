@@ -1,22 +1,22 @@
 /**
  * Created by jiangyukun on 2016/11/30.
  */
-import {GET, POST, PUT, PATCH} from '../../services/http'
-import * as types from '../../constants/ActionTypes'
+import {_post, _put, _patch} from '../../services/http'
+import {doctorAuditing} from '../../constants/ActionTypes'
 import * as phase from '../../constants/PhaseConstant'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
+import constants from '../../core/constants'
 
-//获取分页列表
 export let fetchDoctorPaginateList = dispatch => option => {
   dispatch({
-    type: types.FETCH_DOCTOR_PAGINATE_LIST + phase.START
+    type: doctorAuditing.FETCH_LIST + phase.START
   })
   return new Promise((resolve, reject) => {
-    POST('/web/getDoctorInfos', {body: option}).then((doctorListInfo) => {
+    _post('/web/getDoctorInfos', {body: option}).then((doctorListInfo) => {
       const total = doctorListInfo['totalCount'] || 0
       const list = doctorListInfo['list'] || []
       dispatch({
-        type: types.FETCH_DOCTOR_PAGINATE_LIST + phase.SUCCESS, total, list
+        type: doctorAuditing.FETCH_LIST + phase.SUCCESS, total, list
       })
       resolve()
     }, err => reject(err))
@@ -25,12 +25,12 @@ export let fetchDoctorPaginateList = dispatch => option => {
 
 export let updateDoctorAuditingState = dispatch => (doctorId, newAuditingState) => {
   dispatch({
-    type: types.UPDATE_DOCTOR_AUDITING_STATE + phase.START
+    type: doctorAuditing.UPDATE_AUDITING_STATUS + phase.START
   })
   return new Promise((resolve, reject) => {
-    PUT(`/web/checkedDoctorInfo/${doctorId}/${newAuditingState}`).then(() => {
+    _put(`/web/checkedDoctorInfo/${doctorId}/${newAuditingState}`).then(() => {
       dispatch({
-        type: types.UPDATE_DOCTOR_AUDITING_STATE + phase.SUCCESS, doctorId, newAuditingState
+        type: doctorAuditing.UPDATE_AUDITING_STATUS + phase.SUCCESS, doctorId, newAuditingState
       })
       resolve()
     }, err => reject(err))
@@ -39,9 +39,9 @@ export let updateDoctorAuditingState = dispatch => (doctorId, newAuditingState) 
 
 export let updateDoctorInfo = dispatch => (option, option1) => {
   return new Promise((resolve, reject) => {
-    PATCH(`/web/updateDoctorInfo`, {body: option}).then(() => {
+    _patch(`/web/updateDoctorInfo`, {body: option}).then(() => {
       dispatch({
-        type: types.UPDATE_DOCTOR_INFO + phase.SUCCESS, option, option1
+        type: doctorAuditing.UPDATE_DOCTOR_INFO + phase.SUCCESS, option, option1
       })
       resolve()
     }, err => reject(err))
@@ -50,11 +50,44 @@ export let updateDoctorInfo = dispatch => (option, option1) => {
 
 export let addNewDoctor = dispatch => option => {
   return new Promise((resolve, reject) => {
-    POST(`/web/addDoctorInfo`, {body: option}).then(() => {
+    _post(`/web/addDoctorInfo`, {body: option}).then(() => {
       dispatch({
-        type: types.ADD_NEW_DOCTOR + phase.SUCCESS, option
+        type: doctorAuditing.ADD_DOCTOR + phase.SUCCESS, option
       })
       resolve()
     }, err => reject(err))
   })
+}
+
+export function updateDoctorAuditingStatus(mobile, newStatus) {
+  return {
+    [THREE_PHASE]: {
+      type: doctorAuditing.UPDATE_VISIT_STATUS,
+      http: () => _patch(`/web/updateDoctorVisitInfo/${mobile}/${newStatus}`),
+      handleResponse: () => ({mobile, newStatus})
+    }
+  }
+}
+
+export function clearVisitStatusUpdateSuccess() {
+  return {
+    type: doctorAuditing.CLEAR_VISIT_STATUS
+  }
+}
+
+export function updateRemark(doctorId, remark) {
+  const remarkType = constants.remarkFlag.DOCTOR_AUDITING
+  return {
+    [THREE_PHASE]: {
+      type: doctorAuditing.UPDATE_REMARK,
+      http: () => _post(`/web/updateRemark/${doctorId}/${remarkType}?remark=${remark}`),
+      handleResponse: () => ({doctorId, remark})
+    }
+  }
+}
+
+export function clearRemarkUpdated() {
+  return {
+    type: doctorAuditing.CLEAR_UPDATE_REMARK
+  }
 }

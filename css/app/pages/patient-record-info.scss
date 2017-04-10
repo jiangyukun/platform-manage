@@ -8,8 +8,12 @@
 
 .record-info-check-area {
     width: 150px;
-    text-align: center;
+    padding-left: 30px;
     border-left: 1px solid #e5e5d5;
+
+    .btn {
+        width: 100px;
+    }
 }
 
 .record-info-header {

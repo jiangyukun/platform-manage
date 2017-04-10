@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {merge} from 'lodash'
 
-import QueryFilter from '../../components/core/QueryFilter'
+import {QueryFilter, PaginateList} from '../../components/core/'
 import FilterItem from '../../components/core/query-filter/FilterItem'
-import CustomTextInput from '../../components/core/query-filter/custom/CustomTextInput'
-import CustomDateRange from '../../components/core/query-filter/custom/CustomDateRange'
-import PaginateList from '../../components/core/PaginateList'
+import {CustomTextInput, CustomDateRange} from '../../components/core/query-filter/custom/'
 import SortBy from '../../components/core/paginate-list/SortBy'
 import Layout from '../../components/table-layout/Layout'
 import ShowMoreText from '../../components/txt/ShowMoreText'
@@ -15,15 +14,22 @@ import AddDoctorDialog from './dialog/AddDoctorDialog'
 import EditDoctorDialog from './dialog/EditDoctorDialog'
 import EditRemark from '../common/EditRemark'
 import ImagePreview from '../../components/core/ImagePreview'
+import CommonSelectDialog from "../common/CommonSelectDialog"
 
 import constants from '../../core/constants'
 import * as utils from '../../core/utils'
 import * as antdUtil from '../../core/utils/antdUtil'
 import {formatDateStr} from '../../core/dateUtils'
-import {getAuditStatus, isVisitDoctor} from '../../core/formatBusData'
+import {getAuditStatus, isVisitDoctor, getVisitStatus} from '../../core/formatBusData'
 import * as commonActions from '../../actions/common'
 import {fetchHospitalList} from '../../actions/hospital'
 import * as actions from './doctor-auditing'
+
+const visitStatusList = [
+  {value: '0', text: '未完成'},
+  {value: '1', text: '已完成'},
+  {value: '2', text: '未联系'},
+]
 
 class DoctorAuditing extends Component {
   state = {
@@ -31,7 +37,8 @@ class DoctorAuditing extends Component {
     showAdd: false,
     showEdit: false,
     showImage: false,
-    showEditMark: false
+    showEditMark: false,
+    showUpdateVisitDialog: false
   }
 
   beginFetch(newPageIndex) {
@@ -55,10 +62,13 @@ class DoctorAuditing extends Component {
     this.setState({showEditMark: true})
   }
 
-  updateDoctorRemark(newRemark) {
-    this.props.updateDoctorRemark(this.doctorId, this.doctorId, constants.remarkFlag.DOCTOR_AUDITING, newRemark)
-      .then(() => antdUtil.tipSuccess('修改备注成功！'), err => antdUtil.tipErr(err))
-      .then(() => this.setState({showEditMark: false}))
+  updateRemark = (newRemark) => {
+    this.props.updateRemark(this.doctorId, newRemark)
+  }
+
+  updateVisit = (newStatus) => {
+    const item = this.props.list[this.state.currentIndex]
+    this.props.updateDoctorAuditingStatus(item['phone'], newStatus)
   }
 
   exportExcel() {
@@ -78,9 +88,20 @@ class DoctorAuditing extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.visitStatusUpdateSuccess) {
+      this.props.clearVisitStatusUpdateSuccess()
+      antdUtil.tipSuccess('更新随访状态成功！')
+    }
+    if (this.props.remarkUpdateSuccess) {
+      this.props.clearRemarkUpdated()
+      antdUtil.tipSuccess('修改备注成功！')
+    }
+  }
+
   render() {
     const {isCanEdit, isCanExport} = this.props.authority
-
+    const item = this.props.list[this.state.currentIndex]
     const {Head, Row} = Layout
 
     return (
@@ -99,8 +120,8 @@ class DoctorAuditing extends Component {
 
         {
           this.state.showEdit && this.state.currentIndex != -1 && (
-            <EditDoctorDialog doctorId={this.props.list[this.state.currentIndex]['doctor_Id']}
-                              doctorInfo={this.props.list[this.state.currentIndex]}
+            <EditDoctorDialog doctorId={item['doctor_Id']}
+                              doctorInfo={item}
                               hospitalList={this.props.hospitalList}
                               positionList={this.props.positionList}
                               departmentList={this.props.departmentList}
@@ -115,7 +136,8 @@ class DoctorAuditing extends Component {
         {
           this.state.showEditMark && (
             <EditRemark value={this.remark}
-                        updateRemark={newRemark => this.updateDoctorRemark(newRemark)}
+                        updateRemark={this.updateRemark}
+                        remarkUpdated={this.props.remarkUpdateSuccess}
                         onExited={() => this.setState({showEditMark: false})}/>
           )
         }
@@ -123,6 +145,17 @@ class DoctorAuditing extends Component {
         {
           this.state.showImage && (
             <ImagePreview url={this.imageUrl} onExited={() => this.setState({showImage: false})}/>
+          )
+        }
+
+        {
+          this.state.showUpdateVisitDialog && this.state.currentIndex != -1 && (
+            <CommonSelectDialog title='更新随访状态'
+                                value={item['is_Complete_Visit'] || constants.visitState.UN_CONTACT}
+                                options={visitStatusList}
+                                onConfirm={this.updateVisit}
+                                closeSignal={this.props.visitStatusUpdateSuccess}
+                                onExited={() => this.setState({showUpdateVisitDialog: false})}/>
           )
         }
 
@@ -251,7 +284,17 @@ class DoctorAuditing extends Component {
                       </Row.Item>
                       <Row.Item>{doctor['backend_Manager']}</Row.Item>
                       <Row.Item>{doctor['operation_Manager']}</Row.Item>
-                      <Row.Item>{doctor['is_Complete_Visit'] || '未知'}</Row.Item>
+                      <Row.Item>
+                        {
+                          getVisitStatus(doctor['is_Complete_Visit']) || '未知'
+                        }
+                        {
+                          isCanEdit && (
+                            <i className="edit-remark-svg"
+                               onClick={e => this.setState({showUpdateVisitDialog: true, currentIndex: index})}/>
+                          )
+                        }
+                      </Row.Item>
                       <Row.Item>{formatDateStr(doctor['doctor_Info_Creat_Time'])}</Row.Item>
                       <Row.Item>{formatDateStr(doctor['doctor_Complete_Info_Time'])}</Row.Item>
                     </Row>
@@ -268,7 +311,7 @@ class DoctorAuditing extends Component {
 
 function mapStateToProps(state) {
   return {
-    ...state['doctorAuditing'],
+    ...state['doctor_auditing'],
     hospitalList: state.hospitalList,
     positionList: state.positionList,
     departmentList: state.departmentList,
@@ -299,7 +342,12 @@ function mapStateToProps(state) {
 }
 
 function mapActionToProps(dispatch) {
-  return {
+  return merge(bindActionCreators({
+    updateDoctorAuditingStatus: actions.updateDoctorAuditingStatus,
+    clearVisitStatusUpdateSuccess: actions.clearVisitStatusUpdateSuccess,
+    updateRemark: actions.updateRemark,
+    clearRemarkUpdated: actions.clearRemarkUpdated,
+  }, dispatch), {
     fetchHospitalList: fetchHospitalList(dispatch),
     fetchDoctorPaginateList: actions.fetchDoctorPaginateList(dispatch),
     fetchPositionList: commonActions.fetchPositionList(dispatch),
@@ -307,9 +355,8 @@ function mapActionToProps(dispatch) {
 
     updateDoctorAuditingState: actions.updateDoctorAuditingState(dispatch),
     updateDoctorInfo: actions.updateDoctorInfo(dispatch),
-    updateDoctorRemark: commonActions.updateRemark(dispatch),
     addNewDoctor: actions.addNewDoctor(dispatch)
-  }
+  })
 }
 
 export default connect(mapStateToProps, mapActionToProps)(DoctorAuditing)

@@ -1,17 +1,17 @@
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.dev')
-var bodyParser = require('body-parser')
+const webpack = require('webpack')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const config = require('./webpack.dev')
+const bodyParser = require('body-parser')
 
-var express = require('express')
+const express = require('express')
 
-var configController = require('./z-controller')
+const configController = require('./z-controller')
 
-var app = new express()
-var port = 3000
+const app = new express()
+const port = 3000
 
-var compiler = webpack(config)
+const compiler = webpack(config)
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}))

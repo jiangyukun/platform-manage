@@ -11,6 +11,11 @@ export default {
     auditingPass: 2,
     auditingUnPass: 3
   },
+  visitState: {
+    UN_COMPLETE: 0, //未完成
+    COMPLETE: 1, //已完成
+    UN_CONTACT: 2 //未联系
+  },
   messageState: {
     read: 1,
     unread: 2
