@@ -24,6 +24,8 @@ class BabyBirthInfoDialog extends React.Component {
 
   render() {
     const recordTypeInfo = this.props.recordTypeInfo
+    const basicInfo = this.props.basicInfo
+
     return (
       <Modal show={this.state.show}
              backdrop="static"
@@ -37,13 +39,45 @@ class BabyBirthInfoDialog extends React.Component {
           <_PatientBasicInfo basicInfo={this.props.basicInfo}/>
           <div className="record-type-detail-info">
             <div className="flex1">
-              <h4 className="record-info-header">宝宝{recordTypeInfo['baby_Number']}：</h4>
-              <div className="mt-5">宝宝身高：{recordTypeInfo['first_Baby_Height']}</div>
-              <div className="mt-5">宝宝体重：{recordTypeInfo['first_Baby_Weight']}</div>
-              <div className="flex">
-                <div className="flex1">是否有出生缺陷：{recordTypeInfo['first_Baby_Have_Physiological_Defect']}</div>
-                <div className="flex1">缺陷名称：{recordTypeInfo['first_Baby_Physiological_Defect']}</div>
-              </div>
+              {
+                'first_Baby_Height' in recordTypeInfo && (
+                  <div>
+                    <h4 className="record-info-header">宝宝1：</h4>
+                    <div className="mt-5">宝宝身高：{recordTypeInfo['first_Baby_Height']}</div>
+                    <div className="mt-5">宝宝体重：{recordTypeInfo['first_Baby_Weight']}</div>
+                    <div className="flex">
+                      <div className="flex1">是否有出生缺陷：{recordTypeInfo['first_Baby_Have_Physiological_Defect']}</div>
+                      <div className="flex1">缺陷名称：{recordTypeInfo['first_Baby_Physiological_Defect']}</div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                'second_Baby_Height' in recordTypeInfo && (
+                  <div className="mt-15">
+                    <h4 className="record-info-header">宝宝2：</h4>
+                    <div className="mt-5">宝宝身高：{recordTypeInfo['second_Baby_Height']}</div>
+                    <div className="mt-5">宝宝体重：{recordTypeInfo['second_Baby_Weight']}</div>
+                    <div className="flex">
+                      <div className="flex1">是否有出生缺陷：{recordTypeInfo['second_Baby_Have_Physiological_Defect']}</div>
+                      <div className="flex1">缺陷名称：{recordTypeInfo['second_Baby_Physiological_Defect']}</div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                'third_Baby_Height' in recordTypeInfo && (
+                  <div className="mt-15">
+                    <h4 className="record-info-header">宝宝3：</h4>
+                    <div className="mt-5">宝宝身高：{recordTypeInfo['third_Baby_Height']}</div>
+                    <div className="mt-5">宝宝体重：{recordTypeInfo['third_Baby_Weight']}</div>
+                    <div className="flex">
+                      <div className="flex1">是否有出生缺陷：{recordTypeInfo['third_Baby_Have_Physiological_Defect']}</div>
+                      <div className="flex1">缺陷名称：{recordTypeInfo['third_Baby_Physiological_Defect']}</div>
+                    </div>
+                  </div>
+                )
+              }
             </div>
             <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>

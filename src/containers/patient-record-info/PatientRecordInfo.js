@@ -125,7 +125,7 @@ class PatientRecordInfo extends React.Component {
           )
         }
 
-        <QueryFilter ref={c => this._queryFilter = c} className='ex-big-label'
+        <QueryFilter ref={c => this._queryFilter = c} className='big'
                      beginFilter={() => this.beginFetch(1)}
                      searchKeyName='key_Words'
                      placeholder='输入手机号码，患者编号'>
@@ -144,7 +144,11 @@ class PatientRecordInfo extends React.Component {
                       doFetch={this.doFetch}
                       lengthName='limit'
         >
-          <FlexList minWidth='1200px' weight={['110px', '80px', '60px', 1, '90px', 1, 1, 1, '80px', 1, 1, 2]}>
+          <FlexList minWidth='1200px'
+                    weight={['110px', '80px', '60px', 1, '90px', 1, 1, 1, '80px', 1, 1, 2]}
+                    total={this.props.total}
+                    loading={this.props.loading}
+          >
             <FixHead>
               <HeadItem>患者编号</HeadItem>
               <HeadItem>账号</HeadItem>

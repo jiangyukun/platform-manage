@@ -15,13 +15,6 @@ import * as antdUtil from '../core/utils/antdUtil'
 import {deleteErr} from '../actions/app'
 
 class PlatformApp extends Component {
-  getChildContext() {
-    return {
-      role: this.props.role,
-      pageList: this.props.pageList
-    }
-  }
-
   componentDidUpdate() {
     const {errQueue} = this.props.app
     if (errQueue.length != 0) {
@@ -39,7 +32,7 @@ class PlatformApp extends Component {
     return (
       <div className="app">
         <Header isCanEdit={isCanEdit}/>
-        <Aside route={this.props.route}/>
+        <Aside pageList={this.props.pageList}/>
         <AppContent>
           {this.props.children}
         </AppContent>
@@ -53,21 +46,10 @@ class PlatformApp extends Component {
   }
 }
 
-PlatformApp.childContextTypes = {
-  role: PropTypes.string,
-  pageList: PropTypes.array
-}
-
 function mapStateToProps(state) {
-  let role = 'admin'
-  if (state.app.username == 'crc001') {
-    role = 'crc'
-  }
-
   return {
     app: state.app,
     pageList: state.app.pageList,
-    role
   }
 }
 

@@ -13,20 +13,8 @@ import {
 } from '../constants/nav'
 
 class Nav extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {current: context.router.getCurrentLocation().pathname}
-  }
-
-  handleClick(e) {
-    const key = e.key
-    if (key == appPageNames.chatSystem || key == appPageNames.sliderManage || key == appPageNames.knowledgeBaseManage) {
-      return
-    }
-    this.setState({current: e.key})
-  }
-
   componentWillMount() {
+    const pathname = this.context.router.getCurrentLocation().pathname
     const menus = [
       {
         categoryName: PATIENT_CATEGORY,
@@ -56,7 +44,7 @@ class Nav extends Component {
     ]
 
     // 构建1, 2 级菜单
-    this.context.pageList.forEach(page => {
+    this.props.pageList.forEach(page => {
       const pageName = page['page_Name']
       const menu = menus.find(menu => menu.categoryName == pageCategoryMapper[pageName])
       if (!menu) {
@@ -74,12 +62,12 @@ class Nav extends Component {
 
     // index 跳转到第一个有权限的页面
     this.menus = menus
-    if (this.state.current == getPath('index')) {
+    if (pathname == getPath('index')) {
       for (let i = 0; i < menus.length; i++) {
         let menu = menus[i]
         if (menu.subMenus.length > 0) {
           let toPage = menu.subMenus[0].to
-          if (this.state.current != toPage) {
+          if (pathname != toPage) {
             this.context.router.replace(toPage)
             this.setState({current: toPage})
           }
@@ -90,19 +78,21 @@ class Nav extends Component {
   }
 
   render() {
+    const currentPath = this.context.router.getCurrentLocation().pathname
+
     const SubMenu = Menu.SubMenu
     const Item = Menu.Item
 
-    // 页面个数少于5个，展开所有1级菜单
+    // 页面个数不大于10个，展开所有1级菜单
     let openCategoryList = []
-    if (this.context.pageList.length <= 10) {
+    if (this.props.pageList.length <= 10) {
       this.menus.map(menu => {
         if (menu.subMenus.length > 0) {
           openCategoryList.push(menu.categoryName)
         }
       })
     } else {
-      openCategoryList = getOpenMenu(this.state.current)
+      openCategoryList = getOpenMenu(currentPath)
     }
 
     return (
@@ -112,9 +102,8 @@ class Nav extends Component {
         </div>
 
         <Menu theme="dark"
-              onClick={e => this.handleClick(e)}
               defaultOpenKeys={openCategoryList}
-              selectedKeys={[this.state.current]}
+              selectedKeys={[currentPath]}
               mode="inline"
         >
           {
@@ -171,8 +160,11 @@ class Nav extends Component {
 }
 
 Nav.contextTypes = {
-  router: routerShape,
-  pageList: PropTypes.array
+  router: routerShape
+}
+
+Nav.propTypes = {
+  pageList: PropTypes.array,
 }
 
 export default Nav

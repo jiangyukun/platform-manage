@@ -9,14 +9,18 @@ import {merge} from 'lodash'
 import EditPatientInfo from './EditPatientInfo'
 
 import {fetchPatientInfo, updateAuditingState, updatePatientInfo} from '../node-auditing/node-auditing'
-import {deleteAccount, clearDeleteAccountSuccess} from './patient-edit'
+import {deleteAccount, clearDeleteAccount, undoDeleteAccount, clearUndoDeleteAccount} from './patient-edit'
 import * as antdUtil from '../../core/utils/antdUtil'
 
 class EditPatientInfoWrap extends React.Component {
   componentDidUpdate() {
     if (this.props.deleteAccountSuccess) {
-      this.props.clearDeleteAccountSuccess()
+      this.props.clearDeleteAccount()
       antdUtil.tipSuccess('删除账号成功！')
+    }
+    if (this.props.undoDeleteAccountSuccess) {
+      this.props.clearUndoDeleteAccount()
+      antdUtil.tipSuccess('撤销删除成功！')
     }
   }
 
@@ -30,11 +34,17 @@ class EditPatientInfoWrap extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     deleteAccountSuccess: state['patient_edit']['deleteAccountSuccess'],
+    undoDeleteAccountSuccess: state['patient_edit']['undoDeleteAccountSuccess'],
     ...ownProps
   }
 }
 
-export default connect(mapStateToProps, (dispatch) => merge({}, bindActionCreators({deleteAccount, clearDeleteAccountSuccess}, dispatch), {
+export default connect(mapStateToProps, (dispatch) => merge({}, bindActionCreators({
+  deleteAccount,
+  clearDeleteAccount,
+  undoDeleteAccount,
+  clearUndoDeleteAccount,
+}, dispatch), {
   fetchPatientInfo: fetchPatientInfo(dispatch),
   updateAuditingState: updateAuditingState(dispatch),
   updatePatientInfo: updatePatientInfo(dispatch)

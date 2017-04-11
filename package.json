@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/jiangyukun/platform-manage/issues"
   },
-  "homepage": "http://jiangyu.me",
+  "homepage": "",
   "dependencies": {
     "antd": "^2.7.4",
     "babel-polyfill": "^6.23.0",
@@ -41,7 +41,6 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
     "react-overlays": "^0.6.11",
-    "react-prop-types": "^0.4.0",
     "react-redux": "^4.2.1",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
@@ -85,7 +84,7 @@
     "chai": "^3.5.0",
     "css-loader": "^0.26.1",
     "express": "^4.13.3",
-    "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.9.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",

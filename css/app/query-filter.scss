@@ -6,6 +6,15 @@
         visibility: hidden;
     }
 
+    &.big {
+        .group-input {
+            input {
+                width: 150px;
+            }
+
+        }
+    }
+
     .group-tools:after {
         clear: both;
         display: block;

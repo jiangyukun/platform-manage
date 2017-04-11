@@ -24,6 +24,7 @@ class InoculationDialog extends React.Component {
 
   render() {
     const recordTypeInfo = this.props.recordTypeInfo
+    const basicInfo = this.props.basicInfo
 
     return (
       <Modal show={this.state.show}

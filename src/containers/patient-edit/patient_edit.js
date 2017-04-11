@@ -10,6 +10,7 @@ const defaultValue = {
   list: [],
   loading: false,
   deleteAccountSuccess: false,
+  undoDeleteAccountSuccess: false,
   updateRemarkSuccess: false
 }
 
@@ -44,6 +45,14 @@ export function patient_edit(state = defaultValue, action) {
 
       case patientEdit.CLEAR_DELETE_ACCOUNT_SUCCESS:
         nextIState = iState.set('deleteAccountSuccess', false)
+        break
+
+      case patientEdit.UNDO_DELETE_ACCOUNT + phase.SUCCESS:
+        nextIState = iState.set('undoDeleteAccountSuccess', true)
+        break
+
+      case patientEdit.CLEAR_UNDO_DELETE_ACCOUNT:
+        nextIState = iState.set('undoDeleteAccountSuccess', false)
         break
 
       default:

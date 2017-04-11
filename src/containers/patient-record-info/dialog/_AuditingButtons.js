@@ -37,7 +37,7 @@ class _AuditingButtons extends React.Component {
 }
 
 _AuditingButtons.propTypes = {
-  currentStatus: PropTypes.string,
+  currentStatus: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   auditingRecordInfo: PropTypes.func
 }
 

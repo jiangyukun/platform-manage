@@ -53,6 +53,8 @@ export const patientEdit = generatorKeyValue('PATIENT_EDIT', {
   CLEAR_REMARK_UPDATED: null,
   DELETE_ACCOUNT: null,
   CLEAR_DELETE_ACCOUNT_SUCCESS: null,
+  UNDO_DELETE_ACCOUNT: null,
+  CLEAR_UNDO_DELETE_ACCOUNT: null,
 })
 
 //医生审核

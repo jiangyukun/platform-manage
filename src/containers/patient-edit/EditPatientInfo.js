@@ -101,10 +101,17 @@ class EditPatientInfo extends Component {
     })
   }
 
+  undoDeleteAccount = () => {
+    antdUtil.confirm('确定撤销删除吗?', () => {
+      this.props.undoDeleteAccount(this.props.patientId)
+    })
+  }
+
   componentDidMount() {
     this.props.fetchPatientInfo(this.props.patientId).then(patientInfo => {
       this.infoId = patientInfo['info_Id']
       this.hospitalId = patientInfo['hospital_Id']
+      this.isPrepareToDelete = patientInfo['delete_Status'] == '0'
       this.doctorList1 = this.doctorList2 = this.doctorList3 = []
       if (patientInfo['infection_doctor_list']) {
         this.doctorList1 = patientInfo['infection_doctor_list'].map(doctor => {
@@ -145,7 +152,7 @@ class EditPatientInfo extends Component {
   }
 
   componentWillUpdate() {
-    if (this.props.deleteAccountSuccess) {
+    if (this.props.deleteAccountSuccess || this.props.undoDeleteAccountSuccess) {
       this.close()
     }
   }
@@ -334,16 +341,27 @@ class EditPatientInfo extends Component {
             this.props.isCanEdit && (
               <div className="row mt-10">
                 <div className="col-xs-3">
-                  <input type="button" className="btn btn-warning btn-block"
-                         onClick={() => this.setState({showFillDeleteReason: true})}
-                         value="删除账号"/>
+                  {
+                    !this.isPrepareToDelete && (
+                      <input type="button" className="btn btn-danger btn-block"
+                             onClick={() => this.setState({showFillDeleteReason: true})}
+                             value="删除账号"/>
+                    )
+                  }
+                  {
+                    this.isPrepareToDelete && (
+                      <input type="button" className="btn btn-success btn-block"
+                             onClick={this.undoDeleteAccount}
+                             value="撤销删除"/>
+                    )
+                  }
                 </div>
                 <div className="col-xs-3">
                   <input type="button" className="btn btn-danger btn-block" onClick={this.cancelAuditing}
                          disabled={this.state.auditingState == 1} value="撤销审核"/>
                 </div>
                 <div className="col-xs-3">
-                  <input type="button" className="btn btn-danger btn-block" onClick={this.markUnPass}
+                  <input type="button" className="btn btn-warning btn-block" onClick={this.markUnPass}
                          disabled={this.state.auditingState == 3} value="标为不通过"/>
                 </div>
                 <div className="col-xs-3">

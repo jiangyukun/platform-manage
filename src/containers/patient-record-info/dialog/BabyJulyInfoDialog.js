@@ -24,6 +24,7 @@ class BabyBirthInfoDialog extends React.Component {
 
   render() {
     const recordTypeInfo = this.props.recordTypeInfo
+    const basicInfo = this.props.basicInfo
 
     return (
       <Modal show={this.state.show}
@@ -40,7 +41,7 @@ class BabyBirthInfoDialog extends React.Component {
           <div className="record-type-detail-info">
             <div className="flex1">
               {
-                recordTypeInfo['first_Baby_Height'] && (
+                'first_Baby_Height' in recordTypeInfo && (
                   <div>
                     <h4 className="record-info-header">宝宝1：</h4>
                     <div>宝宝身高：{recordTypeInfo['first_Baby_Height']}</div>
@@ -50,7 +51,7 @@ class BabyBirthInfoDialog extends React.Component {
               }
 
               {
-                recordTypeInfo['second_Baby_Height'] && (
+                'second_Baby_Height' in recordTypeInfo && (
                   <div className="mt-15">
                     <h4 className="record-info-header">宝宝2：</h4>
                     <div>宝宝身高：{recordTypeInfo['second_Baby_Height']}</div>
@@ -60,7 +61,7 @@ class BabyBirthInfoDialog extends React.Component {
               }
 
               {
-                recordTypeInfo['third_Baby_Height'] && (
+                'third_Baby_Height' in recordTypeInfo && (
                   <div className="mt-15">
                     <h4 className="record-info-header">宝宝3：</h4>
                     <div>宝宝身高：{recordTypeInfo['third_Baby_Height']}</div>

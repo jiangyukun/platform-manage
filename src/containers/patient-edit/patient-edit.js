@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/11/30.
  */
-import {_post} from '../../services/http'
+import {_post, _patch} from '../../services/http'
 import {patientEdit} from '../../constants/ActionTypes'
 import {THREE_PHASE} from '../../middleware/request_3_phase'
 
@@ -40,8 +40,24 @@ export function deleteAccount(userId, reason) {
   }
 }
 
-export function clearDeleteAccountSuccess() {
+export function clearDeleteAccount() {
   return {
     type: patientEdit.CLEAR_DELETE_ACCOUNT_SUCCESS
+  }
+}
+
+
+export function undoDeleteAccount(userId) {
+  return {
+    [THREE_PHASE]: {
+      type: patientEdit.UNDO_DELETE_ACCOUNT,
+      http: () => _patch(`/web/updateDeleteRecordStatus/${userId}`),
+    }
+  }
+}
+
+export function clearUndoDeleteAccount() {
+  return {
+    type: patientEdit.CLEAR_UNDO_DELETE_ACCOUNT
   }
 }
