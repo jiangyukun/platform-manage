@@ -56,14 +56,9 @@ class DoctorAuditing extends Component {
     this.setState({showImage: true})
   }
 
-  editRemark(doctorId, remark) {
-    this.doctorId = doctorId
-    this.remark = remark
-    this.setState({showEditMark: true})
-  }
-
   updateRemark = (newRemark) => {
-    this.props.updateRemark(this.doctorId, newRemark)
+    const item = this.props.list[this.state.currentIndex]
+    this.props.updateRemark(item['user_Id'], newRemark)
   }
 
   updateVisit = (newStatus) => {
@@ -135,7 +130,7 @@ class DoctorAuditing extends Component {
 
         {
           this.state.showEditMark && (
-            <EditRemark value={this.remark}
+            <EditRemark value={item['doctor_Info_Remark']}
                         updateRemark={this.updateRemark}
                         remarkUpdated={this.props.remarkUpdateSuccess}
                         onExited={() => this.setState({showEditMark: false})}/>
@@ -240,7 +235,7 @@ class DoctorAuditing extends Component {
               {
                 this.props.list.map((doctor, index) => {
                   return (
-                    <Row key={doctor['doctor_Id'] || index}
+                    <Row key={doctor['user_Id'] || index}
                          onClick={e => this.setState({currentIndex: index})}
                          selected={this.state.currentIndex == index}
                          style={{minHeight: '50px'}}
@@ -277,7 +272,7 @@ class DoctorAuditing extends Component {
                           isCanEdit && (
                             <span className="edit-remark-icon">
                               <i className="edit-remark-svg"
-                                 onClick={() => this.editRemark(doctor['doctor_Id'], doctor['doctor_Info_Remark'])}></i>
+                                 onClick={() => this.setState({showEditMark: true})}></i>
                             </span>
                           )
                         }

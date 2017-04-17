@@ -8,6 +8,7 @@ export const appPageNames = {
   patientEdit: 'patient-edit',
   laboratorySheet: 'laboratory-sheet',
   takeMedicineRecord: 'take-medicine-record',
+  patientRecordInfo: 'patient-record-info',
 
   doctorAuditing: 'doctor-auditing',
   outPatientTime: 'out-patient-time',
@@ -30,13 +31,14 @@ export const appPageNames = {
   chatSystem: 'chat-system',
   consoleAccountManage: 'console-account-manage',
   authorityRoleManage: 'authority-role-manage',
-  patientRecordInfo: 'patient-record-info',
+
 }
 
 const nodeAuditing = getPath('node-auditing') // 节点审核
 const patientEdit = getPath('patient-edit') // 病人编辑
 const laboratorySheet = getPath('laboratory-sheet') // 化验单查看
 const takeMedicineRecord = getPath('take-medicine-record') // 服药记录
+const patientRecordInfo = getPath('patient-record-info') // 患者录入信息
 
 const doctorAuditing = getPath('doctor-auditing') // 医生审核
 const outPatientTime = getPath('out-patient-time') // 医生门诊时间
@@ -57,7 +59,6 @@ const smsManage = getPath('sms-manage') // 短信
 const chatSystem = getPath('chat-system') // 聊天系统
 const consoleAccountManage = getPath('console-account-manage') // 后台账号管理
 const authorityRoleManage = getPath('authority-role-manage') // 权限分组管理
-const patientRecordInfo = getPath('patient-record-info') // 患者录入信息
 
 export const PATIENT_CATEGORY = '-PATIENT-'
 export const DOCTOR_CATEGORY = '-DOCTOR-'
@@ -70,6 +71,7 @@ export const pageCategoryMapper = {
   'patient-edit': PATIENT_CATEGORY,
   'laboratory-sheet': PATIENT_CATEGORY,
   'take-medicine-record': PATIENT_CATEGORY,
+  'patient-record-info': PATIENT_CATEGORY,
 
   'doctor-auditing': DOCTOR_CATEGORY,
   'out-patient-time': DOCTOR_CATEGORY,
@@ -92,38 +94,40 @@ export const pageCategoryMapper = {
   'chat-system': SYSTEM_CATEGORY,
   'console-account-manage': SYSTEM_CATEGORY,
   'authority-role-manage': SYSTEM_CATEGORY,
-  'patient-record-info': SYSTEM_CATEGORY
+
 }
 
 //用于计算2级菜单页面上下顺序, 1最靠前
+let priority = 1
 export const pagePriority = {
-  'node-auditing': 1,
-  'patient-edit': 2,
-  'laboratory-sheet': 3,
-  'take-medicine-record': 4,
+  'node-auditing': priority++,
+  'patient-edit': priority++,
+  'laboratory-sheet': priority++,
+  'take-medicine-record': priority++,
+  'patient-record-info': priority++,
 
-  'doctor-auditing': 5,
-  'hospital-manage': 6,
-  'out-patient-time': 7,
-  'todo-work-track': 8,
+  'doctor-auditing': priority++,
+  'hospital-manage': priority++,
+  'out-patient-time': priority++,
+  'todo-work-track': priority++,
 
-  'smart-analytic-system': 9,
-  'app-update': 10,
-  'slider-manage': 11,
-  'knowledge-base-manage': 12,
+  'smart-analytic-system': priority++,
+  'app-update': priority++,
+  'slider-manage': priority++,
+  'knowledge-base-manage': priority++,
 
-  'history-message': 13,
-  'hospital-assay-report': 14,
-  'patient-situation-statistics': 15,
-  'doctor-comprehensive-score': 16,
-  'enrollment-situation': 17,
-  'online-doctor': 18,
+  'history-message': priority++,
+  'hospital-assay-report': priority++,
+  'patient-situation-statistics': priority++,
+  'doctor-comprehensive-score': priority++,
+  'enrollment-situation': priority++,
+  'online-doctor': priority++,
 
-  'chat-system': 19,
-  'sms-manage': 20,
-  'console-account-manage': 21,
-  'authority-role-manage': 22,
-  'patient-record-info': 23
+  'chat-system': priority++,
+  'sms-manage': priority++,
+  'console-account-manage': priority++,
+  'authority-role-manage': priority++,
+
 }
 
 export const pageInfo = {
@@ -142,6 +146,10 @@ export const pageInfo = {
   'take-medicine-record': {
     to: takeMedicineRecord,
     text: '服药确认记录'
+  },
+  'patient-record-info': {
+    to: patientRecordInfo,
+    text: '患者录入信息'
   },
 
   'doctor-auditing': {
@@ -210,10 +218,7 @@ export const pageInfo = {
     to: authorityRoleManage,
     text: '权限分组管理'
   },
-  'patient-record-info': {
-    to: patientRecordInfo,
-    text: '患者录入信息'
-  }
+
 }
 
 export function getOpenMenu(currentPageName) {
@@ -223,6 +228,7 @@ export function getOpenMenu(currentPageName) {
     case patientEdit:
     case laboratorySheet:
     case takeMedicineRecord:
+    case patientRecordInfo:
       openMenu.push(PATIENT_CATEGORY)
       break
     case doctorAuditing:
@@ -246,7 +252,6 @@ export function getOpenMenu(currentPageName) {
     case smsManage:
     case consoleAccountManage:
     case authorityRoleManage:
-    case patientRecordInfo:
       openMenu.push(SYSTEM_CATEGORY)
       break
   }

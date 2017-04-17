@@ -42,8 +42,8 @@ class InoculationDialog extends React.Component {
             <div className="flex1">
               <h4 className="record-info-header">接种宝宝：{recordTypeInfo['baby_No']}</h4>
               <div>接种针数：{recordTypeInfo['inoculated_Number'] ? `第${recordTypeInfo['inoculated_Number']}针` : '未知'}</div>
-              <div className="mt-5">乙肝疫苗接种日期：{recordTypeInfo['inoculated_HBIG_Day'] || '未知'}</div>
-              <div className="mt-5">免疫球蛋白接种日期：{recordTypeInfo['inoculated_HBV_Day'] || '未知'}</div>
+              <div className="mt-5">乙肝疫苗接种日期：{recordTypeInfo['inoculated_HBV_Day'] || '未知'}</div>
+              <div className="mt-5">免疫球蛋白接种日期：{recordTypeInfo['inoculated_HBIG_Day'] || '未知'}</div>
             </div>
             <_AuditingButtons currentStatus={basicInfo['info_Status']} auditingRecordInfo={this.props.auditingRecordInfo}/>
           </div>

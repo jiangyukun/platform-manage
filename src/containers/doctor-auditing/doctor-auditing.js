@@ -75,13 +75,13 @@ export function clearVisitStatusUpdateSuccess() {
   }
 }
 
-export function updateRemark(doctorId, remark) {
+export function updateRemark(userId, remark) {
   const remarkType = constants.remarkFlag.DOCTOR_AUDITING
   return {
     [THREE_PHASE]: {
       type: doctorAuditing.UPDATE_REMARK,
-      http: () => _post(`/web/updateRemark/${doctorId}/${remarkType}?remark=${remark}`),
-      handleResponse: () => ({doctorId, remark})
+      http: () => _post(`/web/updateRemark/${userId}/${remarkType}?remark=${remark}`),
+      handleResponse: () => ({userId, remark})
     }
   }
 }

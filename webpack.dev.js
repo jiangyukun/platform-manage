@@ -8,7 +8,6 @@ module.exports = {
     './src/boot/index.js'
   ],
   devServer: {
-    historyApiFallback: true,
     hot: true,
     inline: true,
     port: 3000

@@ -69,7 +69,6 @@ class Nav extends Component {
           let toPage = menu.subMenus[0].to
           if (pathname != toPage) {
             this.context.router.replace(toPage)
-            this.setState({current: toPage})
           }
           break
         }

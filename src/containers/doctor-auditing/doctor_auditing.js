@@ -74,8 +74,8 @@ export function doctor_auditing(state = defaultValue, action) {
   }
 
   function updateRemarkSuccess() {
-    let {doctorId, remark} = action
-    return updateList(iState, 'doctor_Id', doctorId, doctor => doctor.set('doctor_Info_Remark', remark)).set('remarkUpdateSuccess', true)
+    let {userId, remark} = action
+    return updateList(iState, 'user_Id', userId, doctor => doctor.set('doctor_Info_Remark', remark)).set('remarkUpdateSuccess', true)
   }
 
   function updateDoctorInfoSuccess() {

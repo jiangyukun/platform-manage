@@ -28,7 +28,7 @@ export function checkAllEmpty(...arg) {
 }
 
 export function isMedicineNameDisabled(rule) {
-  const allowRule = ['服用过', '没有服用过', '孕20周之前开始服用', '怀孕后、孕20周之前无服药记录，孕20周开始服用']
+  const allowRule = ['正在服用', '服用过', '没有服用过', '孕20周之前开始服用', '怀孕后、孕20周之前无服药记录，孕20周开始服用']
   return allowRule.indexOf(rule) == -1
 }
 
@@ -78,6 +78,7 @@ export const liverBOptions = [
 
 export const takeMedicineOption = [
   {value: '任意', text: '任意'},
+  {value: '正在服用', text: '正在服用'},
   {value: '服用过', text: '服用过'},
   {value: '没有服用过', text: '没有服用过'},
   {value: '未用药', text: '未用药'},
