@@ -2,59 +2,60 @@
  * Created by jiangyukun on 2017/3/7.
  */
 import React from 'react'
+import {fromJS, List} from 'immutable'
 
 import Select1 from '../../../../components/core/Select1'
 import CheckItem from '../../check/CheckItem'
 
 import {all, altOptions} from '../../../../constants/smart-analytic-constant'
 
+const initValue = [{rule: all, number: ''}]
+
 class ALT extends React.Component {
   constructor(props) {
     super()
-    this.uid = 1
     this.state = {
-      altList: props.altList
+      altList: fromJS(props.altList)
     }
   }
 
   getValue() {
-    return this.state.altList
+    return this.state.altList.toJS()
   }
 
   addAlt = () => {
-    this.state.altList.splice(this.state.altList.length, 0, {
-      id: this.uid++
-    })
-    this.forceUpdate()
+    const altList = this.state.altList.concat(List({rule: all, number: ''}))
+    this.setState({altList})
   }
 
   removeAlt = (index) => {
-    this.state.altList.splice(index, 1)
-    this.forceUpdate()
+    const altList = this.state.altList.delete(index)
+    this.setState({altList})
   }
 
   onResetAlt = () => {
-    this.setState({
-      altList: [{rule: all, number: ''}]
-    })
+    this.setState({altList: fromJS(initValue)})
   }
 
   handleNumberChange = (e, index) => {
-    this.state.altList[index].number = e.target.value
-    this.forceUpdate()
+    const altList = this.state.altList.update(index, alt => alt.set('number', e.target.value))
+    this.setState({altList})
   }
 
   handleRuleChange = (value, index) => {
-    if (value == all) {
-      this.state.altList[index].number = ''
-    }
-    this.state.altList[index].rule = value
-    this.forceUpdate()
+    const altList = this.state.altList.update(index, alt => {
+      if (value == all) {
+        alt = alt.set('number', '')
+      }
+      return alt.set('rule', value)
+    })
+    this.setState({altList})
   }
 
   render() {
     let empty = true
-    this.state.altList.forEach(alt => {
+    const altList = this.state.altList.toJS()
+    altList.forEach(alt => {
       if (alt.rule != all) {
         empty = false
       }
@@ -63,7 +64,7 @@ class ALT extends React.Component {
     return (
       <CheckItem label="ALT" btnName="添加ALT条件" onReset={this.onResetAlt} empty={empty}>
         {
-          this.state.altList.map((alt, index) => {
+          altList.map((alt, index) => {
             return (
               <div key={index} className="alt-form">
                 <div className="select-alt-condition">
@@ -77,14 +78,14 @@ class ALT extends React.Component {
                 <span className="unit-txt">U/L</span>
                 <div className="inline-block">
                   {
-                    this.state.altList.length == 2 && index == 1 && (
+                    altList.length == 2 && index == 1 && (
                       <a className="icon-wrap">
                         <i className="minus-svg-icon" onClick={() => this.removeAlt(index)}></i>
                       </a>
                     )
                   }
                   {
-                    this.state.altList.length == 1 && (
+                    altList.length == 1 && (
                       <a className="icon-wrap">
                         <i className="plus-svg-icon" onClick={this.addAlt}></i>
                       </a>
@@ -101,7 +102,7 @@ class ALT extends React.Component {
 }
 
 ALT.defaultProps = {
-  altList: [{rule: all, number: ''}]
+  altList: initValue
 }
 
 ALT.propTypes = {

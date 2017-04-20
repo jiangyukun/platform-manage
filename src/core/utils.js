@@ -1,6 +1,8 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
+import {fromJS} from 'immutable'
+
 import constants from './constants'
 
 /**
@@ -231,4 +233,13 @@ export function switchArrayPosition(list, index1, index2) {
   list.splice(index1, 0)
   list.splice(index2, 0)
 
+}
+
+/**
+ * 复制对象，object或者list
+ * @param obj
+ * @return {object}
+ */
+export function copyList(obj) {
+  return fromJS(obj).toJS()
 }

@@ -1,7 +1,7 @@
 /**
  * Created by jiangyukun on 2016/11/26.
  */
-
+import 'isomorphic-fetch'
 import {bodyParam} from '../core/utils'
 
 function preHandle(url, option) {

@@ -6,13 +6,14 @@ import React from 'react'
 import Select1 from '../../../../components/core/Select1'
 import CheckItem from '../../check/CheckItem'
 
+import {copyList} from '../../../../core/utils'
 import {all, takeMedicineOption, isMedicineNameDisabled} from '../../../../constants/smart-analytic-constant'
 
 class TakeMedicine extends React.Component {
   constructor(props) {
     super()
     this.state = {
-      medicineNameList: props.medicineItems,
+      medicineNameList: copyList(props.medicineItems),
       rule: props.rule,
     }
   }
