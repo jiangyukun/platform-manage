@@ -93,3 +93,16 @@ export function getDisplayName(id) {
   }
   return id.replace('zxys', '在线医生').replace('bkkf', '贝壳客服').replace('bkzs', '贝壳助手').replace('test', '测试')
 }
+
+export function getPregnantType(value) {
+    if (!value) {
+        return '未知'
+    } else if (value == 0) {
+        return '备孕'
+    } else if (value ==1) {
+        return '怀孕中'
+    }else if (value ==2) {
+        return '已分娩'
+    }
+    return _unKnowData()
+}

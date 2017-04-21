@@ -9,6 +9,7 @@ import DeleteAccountReason from './DeleteAccountReason'
 
 import constants from '../../core/constants'
 import * as antdUtil from '../../core/utils/antdUtil'
+import {getPregnantType} from '../../core/formatBusData'
 
 class EditPatientInfo extends Component {
   constructor(props) {
@@ -134,7 +135,7 @@ class EditPatientInfo extends Component {
         birthday: patientInfo['birth_date'] ? moment(patientInfo['birth_date']) : null,
         minority: patientInfo['nation'] || '',
         isHepatitisB: patientInfo['is_Hepatitis'] != null ? patientInfo['is_Hepatitis'] : '',
-        isPregnantWomen: patientInfo['is_Pregnant'] != null ? patientInfo['is_Pregnant'] : '',
+        isPregnantWomen: patientInfo['pregnant_Status'] != null ? patientInfo['pregnant_Status'] : '',
         auditingState: patientInfo['is_Checked'] || '',
         lastUpdateDate: patientInfo['updateTime'] || '',
         createDate: patientInfo['creatTime'] || '',
@@ -247,11 +248,7 @@ class EditPatientInfo extends Component {
                   <label className="mt-5">是否孕妇：</label>
                 </div>
                 <div className="col-xs-9">
-                  <select value={this.state.isPregnantWomen} className="form-control" onChange={e => this.setState({isPregnantWomen: e.target.value})}>
-                    <option value="">请选择</option>
-                    <option value="1">是</option>
-                    <option value="0">否</option>
-                  </select>
+                  <div className="mt-5">{getPregnantType(this.state.isPregnantWomen)}</div>
                 </div>
               </div>
 
